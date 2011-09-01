@@ -3,7 +3,7 @@
   "description": "phpcloud.com sniffer integrates into the PHP runtime environment and watches for various events such as errors, failing functions, slow scripts, database errors, etc. This information can then be used to perform root cause analysis.",
   "version": "0.0.2",
   "icons": { "16": "images/16.png", "48" : "images/48.png" },	
-  "permissions": ["tabs", "experimental", "http://*/*", "https://*/*"],
+  "permissions": ["tabs", "notifications", "experimental", "http://*/*", "https://*/*"],
   "content_scripts": [
     {
       "matches": ["http://*/*", "https://*/*"],

@@ -10,12 +10,13 @@ chrome.experimental.webRequest.onResponseStarted.addListener(function(details) {
 						resp = JSON.parse(xhr.responseText);
 						chrome.tabs.getSelected(null, function(tab) {
 							if (resp.events.length != 0) {
-								chrome.experimental.infobars.show({
-									"tabId" : tab.id,
-									"path" : "infobar.html"
-								}, function() {
-									chrome.tabs.sendRequest(tab.id, resp);
-								});
+								// Or create an HTML notification:
+								var notification = webkitNotifications.createHTMLNotification(
+								  'infobar.html'  
+								);
+								// Then show the notification.
+								notification.show();
+								chrome.tabs.sendRequest(tab.id, resp);
 							} else {
 								chrome.extension.getBackgroundPage().console.log(xhr.responseText);
 								// show a "clean" icon
@@ -32,3 +33,16 @@ chrome.experimental.webRequest.onResponseStarted.addListener(function(details) {
 		}
 	}
 }, null, [ "responseHeaders" ]);
+
+function openEvents() {
+	chrome.tabs.insertCSS(null, { file: "style/style.css" }, function() {
+		chrome.tabs.executeScript(null, { file: "scripts/jquery.js" }, function() {
+			chrome.tabs.executeScript(null, { file: "scripts/tinyfader.js" }, function() {
+		    	chrome.tabs.getSelected(null, function(tab) {
+		    		chrome.tabs.sendRequest(tab.id, {details: "now"});
+		    	});
+			});
+		});
+	});
+}
+ 
