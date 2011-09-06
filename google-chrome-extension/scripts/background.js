@@ -1,3 +1,30 @@
+var org = org || {};
+org.zend = org.zend || {};
+org.zend.googlechrome = {
+	
+	isNotificationVisible : false,
+		
+	showNotification : function() {
+		if (org.zend.googlechrome.isNotificationVisible) {
+			return;
+		}
+		
+		// Create an HTML notification:
+		var notification = webkitNotifications.createHTMLNotification(
+		  'infobar.html'  
+		);
+		notification.ondisplay = function() {
+			org.zend.googlechrome.isNotificationVisible = true;
+		};
+		notification.onclose = function() {
+			org.zend.googlechrome.isNotificationVisible = false;
+		};
+		// Then show the notification.
+		notification.show();
+		
+	}
+};
+
 chrome.experimental.webRequest.onResponseStarted.addListener(function(details) {
 	var res_headers = details.responseHeaders;
 	if (res_headers != undefined) {
@@ -10,12 +37,7 @@ chrome.experimental.webRequest.onResponseStarted.addListener(function(details) {
 						resp = JSON.parse(xhr.responseText);
 						chrome.tabs.getSelected(null, function(tab) {
 							if (resp.events.length != 0) {
-								// Or create an HTML notification:
-								var notification = webkitNotifications.createHTMLNotification(
-								  'infobar.html'  
-								);
-								// Then show the notification.
-								notification.show();
+								org.zend.googlechrome.showNotification();
 								chrome.tabs.sendRequest(tab.id, resp);
 							} else {
 								chrome.extension.getBackgroundPage().console.log(xhr.responseText);
