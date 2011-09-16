@@ -1,24 +1,62 @@
-var result;
+var events = [];
 var slideshow;
-
+	
 chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
-	if (request.details == "now") {
-		addFader();
+	if (request.details == "openEvents") {
+		if (!hasFader()) {
+			createFader();
+		}
+		
 	} else {
-		result = request;
+		for (var ev in request.events) {
+			events.push(request.events[ev]);
+		}
+	}
+
+	if (hasFader()) {
+		addSlides();
+		events = [];
 	}
 });
 
-function addFader() {
+function addSlides() {
+	var slidesUl = $("#slides");
+	for ( var i = 0; i < events.length; i++) {
+		// todo: prettify
+		var slideLi = $("<li>").html('<h1>' + events[i].type +  '</h1><p>' + events[i].description +  '</p>' + '<a href=' + events[i]['debug-url'] + '>Debug Event</a><br/>' + '<a href=' + events['code-tracing'] + '>Open Code Tracing Snapshot</a>' + '<p>' + events[i].severity + '</p>');
+		slideLi.attr("id", "content");
+		slidesUl.append(slideLi);
+		
+		slideshow.l++;
+	}
+	
+	var paginationUl = $("#pagination");
+	for ( var i = 0; i < events.length; i++) {
+		j = i + 1;
+		var paginationLi = $("<li>").html(j);
+		var aff = (function(n) {
+			return function() {
+				slideshow.pos(n); 
+				};
+		})(j);
+		paginationLi.click(aff);
+		paginationUl.append(paginationLi);
+	}
+}
 
+function hasFader() {
+	return document.getElementById("wrapper") != undefined;
+}
+
+function createFader() {
 	// slides
-	divSlides = getSlidesDiv();
+	var divSlides = getSlidesDiv();
 	
 	// pagination
-	divPagination = getPaginationDiv();
+	var divPagination = getPaginationDiv();
 	
 	// wrapper
-	div = $(document.createElement('div'));
+	var div = $(document.createElement('div'));
 	div.attr("id", "wrapper");
 	div.append(divSlides);
 	div.append(divPagination);
@@ -40,36 +78,34 @@ function addFader() {
 }
 
 function getSlidesDiv() {
-	// slides div
 	
-	divLeft = $(document.createElement('div'));
+	var divLeft = $(document.createElement('div'));
 	divLeft.attr("class", "sliderbutton");
-	divLeft.html('<img src="' + chrome.extension.getURL("images/left.gif") + '" width="32" height="38" alt="Previous" onclick="slideshow.move(-1)" />');
+	divLeft.html('<img src="' + chrome.extension.getURL("images/left.gif") + '" width="32" height="38" alt="Previous" />');
+	$("img", divLeft).click(function() {
+		slideshow.move(-1);
+	});
 
-	divRight = $(document.createElement('div'));
+	var divRight = $(document.createElement('div'));
 	divRight.attr("class", "sliderbutton");
-	divRight.html('<img src="' + chrome.extension.getURL("images/right.gif") + '" width="32" height="38" alt="Next" onclick="slideshow.move(1)" />');
+	divRight.html('<img src="' + chrome.extension.getURL("images/right.gif") + '" width="32" height="38" alt="Next" />');
+	$("img", divRight).click(function() {
+		slideshow.move(1);
+	});
 	
-	divCenter = $(document.createElement('div'));
+	var divCenter = $(document.createElement('div'));
 	divCenter.attr("id", "slideshow");
 	
-	slidesUl = $(document.createElement('ul'));
+	var slidesUl = $(document.createElement('ul'));
 	slidesUl.attr("id", "slides");
 
 	// build summary page
-	slideLi = $("<li>").html('<h1>Summary</h1>');
+	var slideLi = $("<li>").html('<h1>Summary</h1>');
 	slideLi.attr("id", "content");
 	slidesUl.append(slideLi);
-	
-	for ( var i = 0; i < result.events.length; i++) {
-		// todo: prettify
-		slideLi = $("<li>").html('<h1>' + result.events[i].type +  '</h1><p>' + result.events[i].description +  '</p>' + '<a href=' + result.events[i]['debug-url'] + '>Debug Event</a><br/>' + '<a href=' + result.events['code-tracing'] + '>Open Code Tracing Snapshot</a>' + '<p>' + result.events[i].severity + '</p>');
-		slideLi.attr("id", "content");
-		slidesUl.append(slideLi);
-	}
 	divCenter.append(slidesUl);
 	
-	divSlides = $(document.createElement('div'));
+	var divSlides = $(document.createElement('div'));
 	divSlides.append(divLeft);
 	divSlides.append(divCenter);
 	divSlides.append(divRight);
@@ -78,21 +114,17 @@ function getSlidesDiv() {
 
 function getPaginationDiv() {
 	
-	paginationUl = $(document.createElement('ul'));
+	var paginationUl = $(document.createElement('ul'));
 	paginationUl.attr("id", "pagination");
 	paginationUl.attr("class", "pagination");
 
 	// build summary page
-	paginationLi = $("<li>");
-	paginationLi.attr("onclick", "slideshow.pos(0)");
+	var paginationLi = $("<li>");
+	paginationLi.click(function() {
+		slideshow.pos(0);
+	});
 	paginationLi.html("Summary");
 	paginationUl.append(paginationLi);
 	
-	for ( var i = 0; i < result.events.length; i++) {
-		j = i + 1;
-		paginationLi = $("<li>").html(j);
-		paginationLi.attr("onclick", "slideshow.pos(" + j + ")");
-		paginationUl.append(paginationLi);
-	}
 	return paginationUl;
 }

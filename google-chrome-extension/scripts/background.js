@@ -8,14 +8,12 @@ org.zend.googlechrome = {
 		if (org.zend.googlechrome.isNotificationVisible) {
 			return;
 		}
+		org.zend.googlechrome.isNotificationVisible = true;
 		
 		// Create an HTML notification:
 		var notification = webkitNotifications.createHTMLNotification(
 		  'infobar.html'  
 		);
-		notification.ondisplay = function() {
-			org.zend.googlechrome.isNotificationVisible = true;
-		};
 		notification.onclose = function() {
 			org.zend.googlechrome.isNotificationVisible = false;
 		};
@@ -34,11 +32,16 @@ chrome.experimental.webRequest.onResponseStarted.addListener(function(details) {
 				xhr.open("GET", res_headers[h].value, true);
 				xhr.onreadystatechange = function() {
 					if (xhr.readyState == 4) {
-						resp = JSON.parse(xhr.responseText);
+						try {
+							resp = JSON.parse(xhr.responseText);							
+						} catch (ex) {
+							// didn't get the response - host might be unreachable. TODO maybe show an error?
+							return; 
+						};
 						chrome.tabs.getSelected(null, function(tab) {
 							if (resp.events.length != 0) {
-								org.zend.googlechrome.showNotification();
 								chrome.tabs.sendRequest(tab.id, resp);
+								org.zend.googlechrome.showNotification();
 							} else {
 								chrome.extension.getBackgroundPage().console.log(xhr.responseText);
 								// show a "clean" icon
@@ -58,11 +61,11 @@ chrome.experimental.webRequest.onResponseStarted.addListener(function(details) {
 
 function openEvents() {
 	chrome.tabs.insertCSS(null, { file: "style/style.css" }, function() {
-		chrome.tabs.executeScript(null, { file: "scripts/jquery.js" }, function() {
-			chrome.tabs.executeScript(null, { file: "scripts/tinyfader.js" }, function() {
-		    	chrome.tabs.getSelected(null, function(tab) {
-		    		chrome.tabs.sendRequest(tab.id, {details: "now"});
-		    	});
+		chrome.tabs.executeScript(null, { file: "scripts/tinyfader.js" }, function() {
+			chrome.tabs.executeScript(null, { file: "scripts/jquery.js" }, function() {
+				chrome.tabs.getSelected(null, function(tab) {
+					chrome.tabs.sendRequest(tab.id, {details: "openEvents"});
+				});
 			});
 		});
 	});
