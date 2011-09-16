@@ -1,4 +1,5 @@
 var events = [];
+var all_events = [];
 var slideshow;
 	
 chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
@@ -15,16 +16,22 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 
 	if (hasFader()) {
 		addSlides();
+		all_events = all_events.concat(events);
 		events = [];
+		updateSummary(all_events);
 	}
 });
+
+function updateSummary(events) {
+	$("#zend_ex_summary").html("total "+events.length+" events.");
+}
 
 function addSlides() {
 	var slidesUl = $("#slides");
 	for ( var i = 0; i < events.length; i++) {
 		// todo: prettify
 		var slideLi = $("<li>").html('<h1>' + events[i].type +  '</h1><p>' + events[i].description +  '</p>' + '<a href=' + events[i]['debug-url'] + '>Debug Event</a><br/>' + '<a href=' + events['code-tracing'] + '>Open Code Tracing Snapshot</a>' + '<p>' + events[i].severity + '</p>');
-		slideLi.attr("id", "content");
+		slideLi.addClass("zend_content");
 		slidesUl.append(slideLi);
 		
 		slideshow.l++;
@@ -78,6 +85,7 @@ function createFader() {
 }
 
 function getSlidesDiv() {
+	// slides div
 	
 	var divLeft = $(document.createElement('div'));
 	divLeft.attr("class", "sliderbutton");
@@ -100,8 +108,8 @@ function getSlidesDiv() {
 	slidesUl.attr("id", "slides");
 
 	// build summary page
-	var slideLi = $("<li>").html('<h1>Summary</h1>');
-	slideLi.attr("id", "content");
+	var slideLi = $("<li>").html('<h1>Summary</h1><div id="zend_ex_summary"></div>');
+	slideLi.addClass("zend_content");
 	slidesUl.append(slideLi);
 	divCenter.append(slidesUl);
 	
