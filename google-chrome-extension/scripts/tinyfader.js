@@ -79,6 +79,9 @@ TINY.fader = function() {
 		clearInterval(this.u.ai);
 		this.u.ai = 0;
 		this.c = i;
+		if (! p.o) {
+			p.o = 100;
+		}
 		if (p.o >= 100 && !v) {
 			p.o = 0;
 			p.style.opacity = 0;
