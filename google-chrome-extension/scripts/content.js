@@ -69,13 +69,18 @@ function createFader() {
 	div.append(divPagination);
 	
 	// add wrapper
-	$("body").attr('style', 'font:12px Verdana,Arial; color:#555; background:#222 url(' + chrome.extension.getURL("images/bg.jpg")  + ') 50% 0 no-repeat');
 	$("body").prepend(div);
 	
+	// <div id="fade" class="black_overlay"></div>
+	var fadeDiv = $(document.createElement('div'));
+	fadeDiv.attr("id", "fade");
+	fadeDiv.attr("class", "black_overlay");
+	$("body").prepend(fadeDiv);
+		
 	// init slideshow
 	slideshow = new TINY.fader.fade('slideshow', {
 		id : 'slides',
-		auto : 1,
+		auto : 0,
 		resume : false,
 		navid : 'pagination',
 		activeclass : 'current',

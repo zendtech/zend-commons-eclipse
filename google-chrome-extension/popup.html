@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<script src="scripts/devcloud.js"></script>
+<script src="scripts/popup.js"></script>
+<script src="scripts/jquery.js"></script>
+</head>
+<body onload="checkWelcome()">
+
+	<div id="welcome" style="display: none"></div>
+
+	<form id="loginform" enctype="application/x-www-form-urlencoded"
+		action="http://devpaas.zend.com" onsubmit="return login(this);">
+
+		phpcloud.com<br /> (please log-in with your zend.com account
+		credentials) <br />
+		<dl>
+			<dt id="username-label">
+				<label for="username" class="required">Username or Email:</label>
+			</dt>
+			<dd id="username-element">
+				<input type="text" name="username" id="username" value=""
+					style="width: 160px;" />
+			</dd>
+			<dt id="password-label">
+				<label for="password" class="required">Password:</label>
+			</dt>
+			<dd id="password-element">
+				<input type="password" name="password" id="password" value=""
+					style="width: 160px;" />
+			</dd>
+			<dt id="submit-label">&#160;</dt>
+			<dd id="submit-element">
+				<input type="submit" name="submit" id="submit" value="Log in" />
+			</dd>
+		</dl>
+		<div id="form-message"
+			style="background-color: red; font-style: italic; display: none;">
+			Sorry, you need a valid user name and password to log in to
+			phpcloud.com <br />
+		</div>
+		<a href="http://www.zend.com/en/user/lost">forgot your password?</a><br />
+		<a href="http://www.zend.com/en/user/login-problems">Login
+			Problems?</a>
+	</form>
+</body>
+</html>

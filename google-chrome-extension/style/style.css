@@ -3,22 +3,43 @@ p {
 	margin-bottom: 12px
 }
 
+.black_overlay {
+	display: block;
+	position: absolute;
+	top: 0%;
+	left: 0%;
+	width: 100%;
+	height: 100%;
+	background-color: black;
+	z-index: 1001;
+	-moz-opacity: 0.8;
+	opacity: .80;
+	filter: alpha(opacity =   80);
+}
+
 #wrapper {
-	width: 578px;
-	margin: 75px auto
+	position: absolute;
+	z-index: 1002;
+	top: 15%;
+	left: 30%;
+	width: 50%;
+	height: 50%;
+	margin: 75px auto;
 }
 
 .sliderbutton {
 	float: left;
 	width: 32px;
-	padding-top: 134px
+	padding-top: 134px;
+	z-index: 1002;
 }
 
 .sliderbutton img {
-	cursor: pointer
+	cursor: pointer;
 }
 
 .sliderbutton img:hover {
+	z-index: 1002;
 	background: #666
 }
 
@@ -29,6 +50,7 @@ p {
 	width: 500px;
 	height: 300px;
 	border: 2px solid #fff;
+	z-index: 1002;
 	background: #fff
 }
 
@@ -39,6 +61,7 @@ p {
 	width: 500px;
 	height: 300px;
 	list-style: none;
+	z-index: 1002;
 	overflow: auto
 }
 
@@ -48,6 +71,7 @@ p {
 }
 
 .pagination {
+	z-index: 1002;
 	float: left;
 	list-style: none;
 	height: 25px;
@@ -55,6 +79,7 @@ p {
 }
 
 .pagination li {
+	z-index: 1002;
 	float: left;
 	cursor: pointer;
 	padding: 5px 8px;
@@ -66,17 +91,20 @@ p {
 }
 
 .pagination li:hover {
+	z-index: 1002;
 	background: #777;
 	border: 1px solid #bbb;
 	color: #000
 }
 
 li.current {
+	z-index: 1002;
 	border: 1px solid #ccc;
 	background: #888
 }
 
 li.zend_content {
+	z-index: 1002;
 	width: 464px;
 	height: 270px;
 	padding: 15px 18px 15px 18px;
@@ -86,6 +114,7 @@ li.zend_content {
 }
 
 .zend_content h1 {
+	z-index: 1002;
 	font: 22px Georgia, Verdana;
 	margin-bottom: 15px;
 	color: #036

@@ -2,11 +2,16 @@
   "name": "phpcloud.com Sniffer",
   "description": "phpcloud.com sniffer integrates into the PHP runtime environment and watches for various events such as errors, failing functions, slow scripts, database errors, etc. This information can then be used to perform root cause analysis.",
   "version": "0.0.2",
-  "icons": { "16": "images/16.png", "48" : "images/48.png" },	
-  "permissions": ["tabs", "notifications", "experimental", "http://*/*", "https://*/*"],
+  "icons": { "16": "images/phpcloud.png", "48" : "images/cloud.gif" },	
+  "permissions": ["tabs", "notifications", "experimental", "http://*.devpaas.zend.com/*", "https://*.devpaas.zend.com/*", "http://*.projectx.zend.com/*", "https://*.projectx.zend.com/*", "http://*.phpcloud.com/*", "https://*.phpcloud.com/*"],
+  "browser_action": {
+    "default_icon": "images/phpcloud.png", 
+    "default_title": "phpcloud.com Sniffer",      
+    "default_popup": "popup.html"        
+  },
   "content_scripts": [
     {
-      "matches": ["http://*/*", "https://*/*"],
+      "matches": ["http://*.devpaas.zend.com/*", "https://*.devpaas.zend.com/*", "http://*.projectx.zend.com/*", "https://*.projectx.zend.com/*", "http://*.phpcloud.com/*", "https://*.phpcloud.com/*"],
       "js": ["scripts/content.js"]
     }
   ],
