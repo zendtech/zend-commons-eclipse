@@ -1,5 +1,4 @@
 function login(f) {
-
 	// prepare args
 	var u = f.username.value;
 	var p = f.password.value;
@@ -27,9 +26,11 @@ function authenticate_error(status) {
 	signout();
 }
 
-function list_success(container) {
-	localStorage['container'] = container;
-	
+function list_success(containers) {
+	localStorage['containers_length'] = containers.length;
+	for ( var i = 0; i < containers.length; i++) {
+		localStorage['containers' + i] = containers[0].name;
+	}
 	refreshPopupContent();
 	window.close();
 }
@@ -52,6 +53,7 @@ function refreshPopupContent() {
 function signout() {
 	delete localStorage["username"];
 	delete localStorage['projectxsess'];
+	delete localStorage['containers'];
 	setSessionId(null);
 	refreshPopupContent();
 	return false;

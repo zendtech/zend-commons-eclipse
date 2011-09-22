@@ -55,7 +55,7 @@ function list(_success, _error) {
 				_error('error parsing json');
 				return;
 			}
-			_success(resp.containers[0].name);
+			_success(resp.containers);
 		},
 		error : function(jqxhr, textStatus, errorThrown) {
 			_error(textStatus);
@@ -87,10 +87,10 @@ function requestSummary(containerName, requestUid, _success, _error) {
 				_error('error parsing json');
 				return;
 			}
-			if (response.status == 'Success') {
-				_success(response.response);
+			if (resp.status == 'Success') {
+				_success(resp.response);
 			} else {
-				_error(response.response.message);
+				_error(resp.response.message);
 			}
 		},
 		error : function(jqxhr, textStatus, errorThrown) {
