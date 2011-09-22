@@ -1,14 +1,14 @@
 /**
- * @param u -
- *            username
- * @param p -
- *            password
- * @param success -
- *            callback for the case of success
- * @param fail -
- *            callback for the case of failure
+ * Authenticate to the Zend Developer Cloud service given the username and
+ * password. Once authentication is validated, a session id is retrieved and
+ * assigned as cookie
+ * 
+ * @param u
+ * @param p
+ * @param _success
+ * @param _error
  */
-function authenticate(u, p, _success, _fail) {
+function authenticate(u, p, _success, _error) {
 
 	var params = 'username=' + encodeURIComponent(u) + '&password='
 			+ encodeURIComponent(p);
@@ -22,24 +22,25 @@ function authenticate(u, p, _success, _fail) {
 			try {
 				resp = JSON.parse(data);
 			} catch (ex) {
+				_error('error parsing json');
 				return;
 			}
 			setSessionId(resp.session.projectxsess);
 			_success(resp.session.projectxsess);
 		},
 		error : function(jqxhr, textStatus, errorThrown) {
-			_fail();
+			_error(jqxhr.response);
 		}
 	});
 }
 
 /**
- * Lists all containers in the
+ * Lists all containers for a given user TODO *all*
  * 
- * @param success
- * @param fail
+ * @param _success
+ * @param _error
  */
-function list(_success, _fail) {
+function list(_success, _error) {
 	var params = '/container/list?format=json';
 
 	$.ajax({
@@ -51,13 +52,117 @@ function list(_success, _fail) {
 			try {
 				resp = JSON.parse(data);
 			} catch (ex) {
-				_fail();
+				_error('error parsing json');
 				return;
 			}
 			_success(resp.containers[0].name);
 		},
 		error : function(jqxhr, textStatus, errorThrown) {
-			_fail();
+			_error(textStatus);
+		}
+	});
+}
+
+/**
+ * Retrieve information about a particular request's events and code tracing.
+ * The requestUid identifier is provided in a cookie that is set in the response
+ * to the particular request.
+ * 
+ * @param containerName
+ * @param requestUid
+ * @param _success
+ * @param _error
+ */
+function requestSummary(containerName, requestUid, _success, _error) {
+	var params = 'containerName/' + containerName + '/requestUid/' + requestUid
+			+ '?format=json';
+
+	$.ajax({
+		type : "GET",
+		url : "https://devpaas.zend.com/monitor/get-request-summary/" + params,
+		success : function(data, textStatus) {
+			try {
+				resp = JSON.parse(data);
+			} catch (ex) {
+				_error('error parsing json');
+				return;
+			}
+			if (response.status == 'Success') {
+				_success(response.response);
+			} else {
+				_error(response.response.message);
+			}
+		},
+		error : function(jqxhr, textStatus, errorThrown) {
+			_error(textStatus);
+		}
+	});
+}
+
+/**
+ * Download the amf file specified by codetracing identifier
+ * 
+ * @param containerName
+ * @param amf
+ * @param _success
+ * @param _error
+ */
+function downloadAmf(containerName, amf, _success, _error) {
+	var params = 'containerName/' + containerName + '/amf/' + amf
+			+ '?format=json';
+
+	$.ajax({
+		type : "GET",
+		url : "https://devpaas.zend.com/monitor/download-amf/" + params,
+		success : function(data, textStatus) {
+			try {
+				resp = JSON.parse(data);
+			} catch (ex) {
+				_error('error parsing json');
+				return;
+			}
+			if (response.status == 'Success') {
+				_success(response.response);
+			} else {
+				_error(response.response.message);
+			}
+		},
+		error : function(jqxhr, textStatus, errorThrown) {
+			_error(textStatus);
+		}
+	});
+}
+
+/**
+ * Start a debug session for specific issue
+ * 
+ * @param containerName
+ * @param amf
+ * @param _success
+ * @param _error
+ */
+function startDebug(containerName, amf, _success, _error) {
+	var params = 'containerName/' + containerName + '/issueId/' + issueId
+			+ '/eventGroupId/' + eventGroupId + '?format=json';
+
+	$.ajax({
+		type : "GET",
+		url : "https://devpaas.zend.com/monitor/start-debug/" + params,
+		success : function(data, textStatus) {
+			try {
+				resp = JSON.parse(data);
+			} catch (ex) {
+				_error('error parsing json');
+				return;
+			}
+			if (response.status == 'Success') {
+				_success(response.response);
+			} else {
+				_error(response.response.message);
+			}
+		},
+		error : function(jqxhr, textStatus, errorThrown) {
+			_error(textStatus);
 		}
 	});
 }
