@@ -1,3 +1,61 @@
+var org = org || {};
+org.zend = org.zend = {
+	
+	isValidDomain : function(domain) {
+		return domain == "devpaas.zend.com" || domain == "projectx.zend.com" || domain == "phpcloud.com";
+	}, 
+	
+	getMonitorRequestId : function (name) {
+		prefix = "ZENDMONITORURL";
+		length = prefix.length;
+
+		// is valid request id
+		var arrcookies=document.cookie.split(";");
+		for (var i=0;i<arrcookies.length;i++) 	{
+			name = arrcookies[i].substr(0,arrcookies[i].indexOf("="));
+			if (name.length > length && name.substr(0, length) == prefix) {
+				return name.substr(length);
+			}
+		}
+		return null;
+	}, 
+	
+	summary_success : function (response) {
+		if (response.requestSummary["events-count"] != '0') {
+			for (var ev in response.requestSummary.events) {
+				events.push(response.requestSummary.events[ev]);
+			}
+			if (hasFader()) {
+				addSlides();
+				all_events = all_events.concat(events);
+				events = [];
+				updateSummary(all_events);
+			}		
+			chrome.extension.sendRequest({method: "showNotifications"}, function(response) { });
+		} 
+	}, 
+
+	summary_error : function (message) {
+		// do nothing...
+	}
+};
+
+//search for the magic cookie....
+domain = window.location.hostname;
+dot = domain.indexOf('.');
+if (dot != -1 &&  org.zend.isValidDomain(domain.substr(dot+1))) {
+	// is container name included in the list of containers
+	containerName = domain.substr(0, dot);
+	chrome.extension.sendRequest({method: "isValidContainer", key: containerName}, function(response) {
+		  if (response.data != -1) {
+			  requestId = org.zend.getMonitorRequestId(document.cookie);
+			  if (requestId != null) {
+				  requestSummary(containerName, requestId, org.zend.summary_success, org.zend.summary_error);
+			  }
+		  }
+	});
+}
+
 var events = [];
 var all_events = [];
 var slideshow;
@@ -8,12 +66,7 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 			createFader();
 		}
 		
-	} else {
-		for (var ev in request.events) {
-			events.push(request.events[ev]);
-		}
-	}
-
+	} 
 	if (hasFader()) {
 		addSlides();
 		all_events = all_events.concat(events);

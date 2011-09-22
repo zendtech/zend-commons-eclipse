@@ -4,7 +4,9 @@ function showDetails() {
 	return nope();
 }
 function nope() {
-    window.close();
+	var bg = chrome.extension.getBackgroundPage();
+	bg.windowClosed();
+	window.close();
 	return false;
 }
 function never() {
