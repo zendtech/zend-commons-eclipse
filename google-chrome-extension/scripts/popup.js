@@ -1,3 +1,11 @@
+chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
+	if (request.method == "refreshPopupContent") {
+		refreshPopupContent();
+	} else {
+		sendResponse({}); // snub them.
+	}
+});
+
 function login(f) {
 	// prepare args
 	var u = f.username.value;
@@ -44,17 +52,18 @@ function refreshPopupContent() {
 		$('#welcome')[0].style.display = 'none';
 		$('#loginform')[0].style.display = 'inline';
 	} else {
-		$('#welcome')[0].innerHTML = "Welcome, " + localStorage["username"] + "!<br/><a href='javascript:signout();'>sign out</a>";
+		$('#welcome')[0].innerHTML = "Welcome, " + localStorage["username"]
+				+ "!<br/><a href='javascript:signout();'>sign out</a>";
 		$('#welcome')[0].style.display = 'inline';
 		$('#loginform')[0].style.display = 'none';
 	}
 }
 
 function signout() {
-	delete localStorage["username"];
-	delete localStorage['projectxsess'];
-	delete localStorage['containers'];
-	setSessionId(null);
-	refreshPopupContent();
+	chrome.extension.sendRequest({
+		method : "signout"
+	}, function(response) {
+		refreshPopupContent();
+	});
 	return false;
 }

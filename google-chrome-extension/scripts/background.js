@@ -1,3 +1,19 @@
+// API message to check if a given container is the user container
+chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
+    if (request.method == "isValidContainer") {
+    	sendResponse({data: searchConatiner(request.key)});
+    } else if (request.method == "showNotifications") {
+    	org.zend.showNotification();
+    	sendResponse({ status: 'done' }); 
+    } else if (request.method == "signout") {
+    	org.zend.signout();
+    	sendResponse({ status: 'done' }); 
+    } else {
+    	sendResponse({ }); 
+    }
+});
+
+
 var org = org || {};
 org.zend = org.zend = {
 
@@ -14,19 +30,15 @@ org.zend = org.zend = {
 		// Then show the notification.
 		notification.show();
 
+	},
+	
+	signout : function() {
+    	delete localStorage["username"];
+    	delete localStorage['projectxsess'];
+    	delete localStorage['containers_length'];
+    	setSessionId(null);
 	}
 };
-
-// API message to check if a given container is the user container
-chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
-    if (request.method == "isValidContainer") {
-    	sendResponse({data: searchConatiner(request.key)});
-    } else if (request.method == "showNotifications") {
-    	org.zend.showNotification();
-    } else {
-    	sendResponse({}); // snub them.
-    }
-});
 
 function searchConatiner (container) {
 	length = parseInt(localStorage['containers_length']);
