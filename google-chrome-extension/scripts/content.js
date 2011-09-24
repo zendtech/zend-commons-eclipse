@@ -23,8 +23,9 @@ org.zend = org.zend = {
 
 	summary_success : function(response) {
 		if (response.requestSummary["events-count"] != '0') {
-			for ( var ev in response.requestSummary.events) {
-				events.push(response.requestSummary.events[ev]);
+			for ( var i = 0; i < response.requestSummary.events.event.length; i++) {
+				var e = response.requestSummary.events.event[i];
+				events.push(e);
 			}
 			if (hasFader()) {
 				addSlides();
