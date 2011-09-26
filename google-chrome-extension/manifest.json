@@ -11,7 +11,7 @@
   },
   "content_scripts": [
     {
-      "matches": ["*://*.devpaas.zend.com/*", "*://*.projectx.zend.com/*", "*://*.phpcloud.com/*"],
+      "matches": ["http://*.devpaas.zend.com/*", "http://*.projectx.zend.com/*", "http://*.phpcloud.com/*"],
       "css": ["style/style.css"],
       "js": ["scripts/content.js", "scripts/jquery.js", "scripts/devcloud.js", "scripts/tinyfader.js"]
     }
