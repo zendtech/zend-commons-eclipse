@@ -23,7 +23,7 @@ org.zend = org.zend = {
 
 	summary_success : function(response) {
 		var c = response.requestSummary["events-count"];
-		if (c == null && c.trim() != '0') {
+		if (c != null && c.trim() != '0') {
 			for ( var i = 0; i < response.requestSummary.events.event.length; i++) {
 				var e = response.requestSummary.events.event[i];
 				events.push(e);

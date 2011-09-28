@@ -15,7 +15,7 @@ function authenticate(u, p, _success, _error) {
 
 	$.ajax({
 		type : "POST",
-		url : "https://devpaas.zend.com/user/login?format=json",
+		url : "https://projectx.zend.com/user/login?format=json",
 		data : params,
 		contentType : "application/x-www-form-urlencoded",
 		success : function(data, textStatus) {
@@ -45,7 +45,7 @@ function list(_success, _error) {
 
 	$.ajax({
 		type : "POST",
-		url : "https://devpaas.zend.com/container/list?format=json",
+		url : "https://projectx.zend.com/container/list?format=json",
 		data : params,
 		contentType : "application/x-www-form-urlencoded",
 		success : function(data, textStatus) {
@@ -79,7 +79,7 @@ function requestSummary(containerName, requestUid, _success, _error) {
 
 	$.ajax({
 		type : "GET",
-		url : "https://devpaas.zend.com/monitor/get-request-summary/" + params,
+		url : "https://projectx.zend.com/monitor/get-request-summary/" + params,
 		success : function(data, textStatus) {
 			try {
 				resp = JSON.parse(data);
@@ -113,7 +113,7 @@ function downloadAmf(containerName, amf, _success, _error) {
 
 	$.ajax({
 		type : "GET",
-		url : "https://devpaas.zend.com/monitor/download-amf/" + params,
+		url : "https://projectx.zend.com/monitor/download-amf/" + params,
 		success : function(data, textStatus) {
 			try {
 				resp = JSON.parse(data);
@@ -147,7 +147,7 @@ function startDebug(containerName, amf, _success, _error) {
 
 	$.ajax({
 		type : "GET",
-		url : "https://devpaas.zend.com/monitor/start-debug/" + params,
+		url : "https://projectx.zend.com/monitor/start-debug/" + params,
 		success : function(data, textStatus) {
 			try {
 				resp = JSON.parse(data);
