@@ -1,3 +1,5 @@
+var ZDE_DetectPort = 20080; 
+
 var org = org || {};
 org.zend = org.zend = {
 
@@ -100,13 +102,15 @@ function addSlides() {
 	var slidesUl = $("#slides");
 	for ( var i = 0; i < events.length; i++) {
 		// todo: prettify
-		var slideLi = $("<li>").html(
-				'<h1>' + events[i].type + '</h1><p>' + events[i].description
-						+ '</p>' + '<a href=' + events[i]['debug-url']
-						+ '>Debug Event</a><br/>' + '<a href='
-						+ events['code-tracing']
-						+ '>Open Code Tracing Snapshot</a>' + '<p>'
-						+ events[i].severity + '</p>');
+		var slideLi = $("<li>").html('<h1>' + events[i].type +  '</h1><p>' 
+				+ events[i].description +  '</p>' + '<a id="debugEvent" href="#">Debug Event</a><br/>'
+				+ '<a href=' + events['code-tracing'] + '>Open Code Tracing Snapshot</a>'
+				+ '<p>' + events[i].severity + '</p>');
+		$('#debugEvent', slideLi).click((function(url) {
+			return function() {
+				debugEvent(url);
+			};
+		})(events[i]['debug-url']));
 		slideLi.addClass("zend_content");
 		slidesUl.append(slideLi);
 
@@ -219,4 +223,26 @@ function getPaginationDiv() {
 	paginationUl.append(paginationLi);
 
 	return paginationUl;
+}
+
+function debugEvent(url) {
+	var settings = getZdeSettingString(ZDE_DetectPort);
+	if (!settings) {
+		alert("Can't connect to Zend Studio. Make sure that it's running.");
+	}
+	console.log('debug '+url);
+}
+function getZdeSettingString(ZDE_DetectPort){
+	try {
+		var url = "http://127.0.0.1:"+ZDE_DetectPort;
+		var rf = new XMLHttpRequest();
+		rf.open("GET", url, false);
+		// to prevent leaks see Mozilla bug #206947
+		rf.overrideMimeType("text/xml");
+		rf.send(null);
+		if (rf.status!=200)
+			return false;
+		return rf.responseText;
+
+	} catch(e) { return false; }
 }
