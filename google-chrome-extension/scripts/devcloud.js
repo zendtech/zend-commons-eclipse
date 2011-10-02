@@ -141,7 +141,7 @@ function downloadAmf(containerName, amf, _success, _error) {
  * @param _success
  * @param _error
  */
-function startDebug(containerName, amf, _success, _error) {
+function startDebug(containerName, issueId, eventGroupId, _success, _error) {
 	var params = 'containerName/' + containerName + '/issueId/' + issueId
 			+ '/eventGroupId/' + eventGroupId + '?format=json';
 
@@ -155,10 +155,10 @@ function startDebug(containerName, amf, _success, _error) {
 				_error('error parsing json');
 				return;
 			}
-			if (response.status == 'Success') {
-				_success(response.response);
+			if (resp.status == 'Success') {
+				_success(resp.response);
 			} else {
-				_error(response.response.message);
+				_error(resp.response.message);
 			}
 		},
 		error : function(jqxhr, textStatus, errorThrown) {

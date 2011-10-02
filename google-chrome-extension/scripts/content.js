@@ -26,7 +26,7 @@ org.zend = org.zend = {
 	summary_success : function(response) {
 		var c = response.requestSummary["events-count"];
 		if (c != null && c.trim() != '0') {
-			for ( var i = 0; i < response.requestSummary.events.event.length; i++) {
+			for ( var i = 0; i < parseInt(c); i++) {
 				var e = response.requestSummary.events.event[i];
 				events.push(e);
 			}
@@ -83,10 +83,7 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 	if (request.details == "openEvents") {
 		if (!hasFader()) {
 			createFader();
-		}
-
-	}
-	if (hasFader()) {
+		} 
 		addSlides();
 		all_events = all_events.concat(events);
 		events = [];
@@ -231,6 +228,10 @@ function debugEvent(url) {
 		alert("Can't connect to Zend Studio. Make sure that it's running.");
 	}
 	console.log('debug '+url);
+	var params=url.split("/")[5].split("&");
+	var issueId = params[0].split("=")[1];;
+	var groupId = params[1].split("=")[1];
+	startDebug(containerName, issueId, groupId, function() { }, function() { });
 }
 function getZdeSettingString(ZDE_DetectPort){
 	try {
