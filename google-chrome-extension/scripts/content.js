@@ -101,13 +101,20 @@ function addSlides() {
 		// todo: prettify
 		var slideLi = $("<li>").html('<h1>' + events[i].type +  '</h1><p>' 
 				+ events[i].description +  '</p>' + '<a id="debugEvent" href="#">Debug Event</a><br/>'
-				+ '<a href=' + events['code-tracing'] + '>Open Code Tracing Snapshot</a>'
+				+ '<a href="#" id="traceEvent">Open Code Tracing Snapshot</a>'
 				+ '<p>' + events[i].severity + '</p>');
 		$('#debugEvent', slideLi).click((function(url) {
 			return function() {
 				debugEvent(url);
 			};
 		})(events[i]['debug-url']));
+		
+		$('#traceEvent', slideLi).click((function(url) {
+			return function() {
+				openCodeTracingSnapshot(url);
+			};
+		})(events[i]['code-tracing']));
+		
 		slideLi.addClass("zend_content");
 		slidesUl.append(slideLi);
 
@@ -237,6 +244,27 @@ function debugEvent(url) {
 	var groupId = params[1].split("=")[1];
 	startDebug(containerName, issueId, groupId, function() { }, function() { });
 }
+
+function openCodeTracingSnapshot(url) {
+	try {
+		// TODO call downloadAmf and then set amfPath properly
+		
+		var amfPath = '';
+		var url = "http://127.0.0.1:28029/org.zend.php.zendserver.deployment.ui.OpenCodeTracingSnapshot?amfPath="+amfPath;
+		var rf = new XMLHttpRequest();
+		rf.open("GET", url, false);
+		rf.send(null);
+		if (rf.status!=200)
+			return false;
+		return rf.responseText;
+
+	} catch(e) { 
+		console.log(e);
+		return false; 
+	}
+	
+}
+
 function getZdeSettingString(ZDE_DetectPort){
 	try {
 		var url = "http://127.0.0.1:"+ZDE_DetectPort;
