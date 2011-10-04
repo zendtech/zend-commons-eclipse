@@ -226,7 +226,11 @@ function debugEvent(url) {
 	var settings = getZdeSettingString(ZDE_DetectPort);
 	if (!settings) {
 		alert("Can't connect to Zend Studio. Make sure that it's running.");
+		return;
 	}
+	
+	enableSshTunnel();
+	
 	console.log('debug '+url);
 	var params=url.split("/")[5].split("&");
 	var issueId = params[0].split("=")[1];;
@@ -245,5 +249,24 @@ function getZdeSettingString(ZDE_DetectPort){
 			return false;
 		return rf.responseText;
 
-	} catch(e) { return false; }
+	} catch(e) {
+		console.log(e);
+		return false; 
+	}
+}
+
+function enableSshTunnel(){
+	try {
+		var url = "http://127.0.0.1:28029/org.zend.php.zendserver.deployment.debug.openSshTunnel?container="+containerName;
+		var rf = new XMLHttpRequest();
+		rf.open("GET", url, false);
+		rf.send(null);
+		if (rf.status!=200)
+			return false;
+		return rf.responseText;
+
+	} catch(e) { 
+		console.log(e);
+		return false; 
+	}
 }
