@@ -97,16 +97,19 @@ if (dot != -1 && org.zend.isValidDomain(domain.substr(dot + 1))) {
 						return;
 					}
 
+					// copy code-tracing id
 					var id = response.requestSummary['code-tracing'];
 					if (id) {
 						var matches = /amf=(.*)[&]?/.exec(id);
 						org.zend.codeTraceId = matches[1]; // match[0] is "amfid=.....", match[1] is "....." 
 					}
 					
+					// copy events
 					for ( var i = 0; i < c; i++) {
 						var e = response.requestSummary.events.event[i];
 						events.push(e);
 					}
+					
 					if (hasFader()) {
 						addSlides();
 						all_events = all_events.concat(events);
@@ -155,7 +158,31 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 });
 
 function updateSummary(events) {
-	$("#zend_ex_summary").html("total " + events.length + " events.");
+	var summaryDom = $("#zend_ex_summary").html("<div id='totalEvents'>&nbsp;</div>" +
+			"<div id='superglobalcookie'></div>" +
+			"<div id='superglobalget'></div>" +
+			"<div id='superglobalpost'></div>" +
+			"<div id='superglobalserver'></div>" +
+			"<div id='superglobalsession'></div>");
+	$("#totalEvents", summaryDom).html("total " + events.length + " events.");
+	
+	// take super-globals from first event, but they should be equal for all events.
+	var superGlobals = events[0]['super-globals'];
+	
+	var prettyTable = function(array) {
+		var html = "<table>";
+		for (entry in array) {
+			html += "<tr><td>"+array[entry].key+"</td><td>"+array[entry].value+"</td></tr>";
+		}
+		html += "</table>";
+		return html;
+	};
+	
+	$("#superglobalcookie", summaryDom).html("Cookies:"+prettyTable(superGlobals.cookie.cookie));
+	$("#superglobalget", summaryDom).html("Get:"+prettyTable(superGlobals.get.get));
+	$("#superglobalpost", summaryDom).html("Post:"+prettyTable(superGlobals.post.post));
+	$("#superglobalserver", summaryDom).html("Server:"+prettyTable(superGlobals.server.server));
+	$("#superglobalsession", summaryDom).html("Session:"+prettyTable(superGlobals.session.session));
 }
 
 function addSlides() {
@@ -175,7 +202,7 @@ function addSlides() {
 		})(events[i]['debug-url']));
 		
 		$('#traceEvent', slideLi).click(function(url) {
-			org.zend.studio.openCodeTracingSnapshot(org.zend.codeTraceUrl);
+			org.zend.studio.openCodeTracingSnapshot(org.zend.codeTraceId);
 		});
 		
 		slideLi.addClass("zend_content");
