@@ -10,9 +10,9 @@ function login(f) {
 	// prepare args
 	var u = f.username.value;
 	var p = f.password.value;
-
+	
 	localStorage["username"] = u;
-
+	
 	// authenticate
 	authenticate(u, p, authenticate_success, authenticate_error);
 
@@ -22,15 +22,18 @@ function login(f) {
 function authenticate_success(sessionid) {
 	localStorage['projectxsess'] = sessionid;
 
-	var select = $('#form-message')[0];
+	var select = $('#login-form-message')[0];
 	select.style.display = 'none';
 
 	list(list_success, list_error);
 }
 
 function authenticate_error(status) {
-	var select = $('#form-message')[0];
+	var select = $('#login-form-message')[0];
 	select.style.display = 'inline';
+	
+	var select = $('#login-form-title')[0];
+	select.style.display = 'none';
 	signout();
 }
 
@@ -49,13 +52,13 @@ function list_error(status) {
 
 function refreshPopupContent() {
 	if (localStorage["username"] == undefined) {
-		$('#welcome')[0].style.display = 'none';
-		$('#loginform')[0].style.display = 'inline';
+		$('#mini_bar_welcome')[0].style.display = 'none';
+		$('#mini_bar_login')[0].style.display = 'inline';
 	} else {
-		$('#welcome')[0].innerHTML = "Welcome, " + localStorage["username"]
+		$('#mini_bar_welcome')[0].innerHTML = "Welcome, " + localStorage["username"]
 				+ "!<br/><a href='javascript:signout();'>sign out</a>";
-		$('#welcome')[0].style.display = 'inline';
-		$('#loginform')[0].style.display = 'none';
+		$('#mini_bar_welcome')[0].style.display = 'inline';
+		$('#mini_bar_login')[0].style.display = 'none';
 	}
 }
 

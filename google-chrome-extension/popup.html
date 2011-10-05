@@ -10,41 +10,55 @@
 <body onload="refreshPopupContent()">
 	<div class="mini_bar_header">
 		<img src="images/logo.jpg" />
+		<img src="images/close.png" onclick="window.close()" class="mini-bar-close-button" />
 	</div>
-
-	<form id="loginform" enctype="application/x-www-form-urlencoded"
-		action="http://devpaas.zend.com" onsubmit="return login(this);">
-
-		phpcloud.com<br /> (please log-in with your zend.com account
-		credentials) <br />
-		<dl>
-			<dt id="username-label">
-				<label for="username" class="required">Username or Email:</label>
-			</dt>
-			<dd id="username-element">
-				<input type="text" name="username" id="username" value=""
-					style="width: 160px;" />
-			</dd>
-			<dt id="password-label">
-				<label for="password" class="required">Password:</label>
-			</dt>
-			<dd id="password-element">
-				<input type="password" name="password" id="password" value=""
-					style="width: 160px;" />
-			</dd>
-			<dt id="submit-label">&#160;</dt>
-			<dd id="submit-element">
-				<input type="submit" name="submit" id="submit" value="Log in" />
-			</dd>
-		</dl>
-		<div id="form-message"
-			style="background-color: red; font-style: italic; display: none;">
-			Sorry, you need a valid user name and password to log in to
-			phpcloud.com <br />
+	
+	<div class="mini_bar_content">
+		<div id="mini_bar_welcome">
+			
 		</div>
-		<a href="http://www.zend.com/en/user/lost">forgot your password?</a><br />
-		<a href="http://www.zend.com/en/user/login-problems">Login
-			Problems?</a>
-	</form>
+		<div id="mini_bar_login">
+			<div id="login-form-message" style="display: none;">
+				<div class="login-form-message-error">
+					Oops, an incorrect user name or password
+				</div>
+				Please try again:
+			</div>
+			<div id="login-form-title">
+				To start the Zniffer, please enter the following:
+			</div>
+			<form id="loginform" enctype="application/x-www-form-urlencoded" action="http://devpaas.zend.com" onsubmit="return login(this);">
+				<table>
+					<tr>
+						<td class="login-form-title"><label for="username" class="required">User Name:</label></td>
+						<td>
+							<input type="text" name="username" id="username" value="" />
+						</td>
+					</tr>
+					<tr>
+						<td class="login-form-title"><label for="password" class="required">Password:</label></td>
+						<td>
+							<input type="password" name="password" id="password" value="" />
+						</td>
+					</tr>
+					<tr>
+						<td class="login-form-title">&nbsp;</td>
+						<td><a href="http://www.zend.com/en/user/lost" target="_blank" class="forgot-pass">Forgot your password or User Name ?</a></td>
+					</tr>
+					<tr>
+						<td class="login-form-title">&nbsp;</td>
+						<td><a href="http://www.zend.com/en/user/lost" target="_blank" class="forgot-pass">Create an account</a></td>
+					</tr>
+					<tr>
+						<td class="login-form-title">&nbsp;</td>
+						<td>
+							<input type="submit" name="start-now" id="start-now" value="Start Now" />
+							<input type="button" value="Start Later" onclick="window.close()" />
+						</td>
+					</tr>
+				</table>
+			</form>
+		</div>
+	</div>
 </body>
 </html>

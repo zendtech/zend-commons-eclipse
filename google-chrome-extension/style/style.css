@@ -136,8 +136,50 @@ li.zend_content {
 
 .mini_bar_header {
 	background: #caebff;
-	width: 322px;
+	width: 330px;
 	height: 33px;
 	padding-top: 5px;
 	padding-left: 10px;
+}
+
+.mini_bar_content {
+	background: #f4fbff;
+	padding: 10px 20px 0 20px;
+}
+
+body {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+}
+
+#mini_bar_welcome {
+	display: none;
+}
+
+.forgot-pass {
+	font-size: 12px;
+}
+
+.login-form-title {
+	width: 80px;
+}
+
+#loginform input[type="text"],
+#loginform input[type="password"] {
+	width: 200px;
+}
+
+.login-form-message-error {
+	color: #FF0000;
+	font-weight: bold;
+	margin-bottom: 10px;
+}
+
+.mini-bar-close-button {
+	background: url('../images/close.png') top right no-repeat;
+	height: 24px;
+	width: 24px;
+	float: right;
+	margin-right: 5px;
+	margin-top: 2px;
 }
