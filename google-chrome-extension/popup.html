@@ -2,13 +2,15 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<script src="scripts/devcloud.js"></script>
-<script src="scripts/popup.js"></script>
-<script src="scripts/jquery.js"></script>
+<link rel="stylesheet" type="text/css" href="style/style.css" />
+<script type="text/javascript" src="scripts/devcloud.js"></script>
+<script type="text/javascript" src="scripts/popup.js"></script>
+<script type="text/javascript" src="scripts/jquery.js"></script>
 </head>
 <body onload="refreshPopupContent()">
-
-	<div id="welcome" style="display: none"></div>
+	<div class="mini_bar_header">
+		<img src="images/logo.jpg" />
+	</div>
 
 	<form id="loginform" enctype="application/x-www-form-urlencoded"
 		action="http://devpaas.zend.com" onsubmit="return login(this);">

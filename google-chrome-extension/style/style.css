@@ -119,3 +119,13 @@ li.zend_content {
 	margin-bottom: 15px;
 	color: #036
 }
+
+/* GUI CODE */
+
+.mini_bar_header {
+	background: #caebff;
+	width: 322px;
+	height: 33px;
+	padding-top: 5px;
+	padding-left: 10px;
+}
