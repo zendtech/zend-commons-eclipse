@@ -6,16 +6,31 @@
 <script type="text/javascript" src="scripts/devcloud.js"></script>
 <script type="text/javascript" src="scripts/popup.js"></script>
 <script type="text/javascript" src="scripts/jquery.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+	refreshPopupContent();  
+});
+</script>
 </head>
-<body onload="refreshPopupContent()">
-	<div class="mini_bar_header">
+<body>
+	<div id="mini_bar_header">
 		<img src="images/logo.jpg" />
 		<img src="images/close.png" onclick="window.close()" class="mini-bar-close-button" />
+		<img src="images/settings.png" id="settings-button" class="mini-bar-close-button" />
+		<img src="images/logout.png" id="logout-button" class="mini-bar-close-button" onclick="signout()" />
 	</div>
 	
 	<div class="mini_bar_content">
 		<div id="mini_bar_welcome">
-			
+			Oh, nothing to sniff yet! <br /><br />
+			The sniffer will automatically start sniffing as a valid URL is running in your browser.
+			<hr />
+			<div class="share-bar">
+				Like this extension? Why not share it with your friends!
+				<div style="float: right">
+					<a href="https://m.google.com/app/plus/x/?v=compose&content=INSERT_MESSAGE_HERE_WITH_URL_IF_YOU_WANT" onclick="window.open('https://m.google.com/app/plus/x/?v=compose&content=INSERT_MESSAGE_HERE_WITH_URL_IF_YOU_WANT','gplusshare','width=450,height=300,left='+(screen.availWidth/2-225)+',top='+(screen.availHeight/2-150)+'');return false;"><img src="http://path.to/plus.png" alt="Share on Google+" width="55" height="22" /></a>
+				</div>
+			</div>
 		</div>
 		<div id="mini_bar_login">
 			<div id="login-form-message" style="display: none;">

@@ -54,11 +54,17 @@ function refreshPopupContent() {
 	if (localStorage["username"] == undefined) {
 		$('#mini_bar_welcome')[0].style.display = 'none';
 		$('#mini_bar_login')[0].style.display = 'inline';
+		$('#settings-button').css('display', 'none'); 
+		$('#logout-button').css('display', 'none');
+		$('#mini_bar_header').width(330);
+		document.body.style.width="340px";
 	} else {
-		$('#mini_bar_welcome')[0].innerHTML = "Welcome, " + localStorage["username"]
-				+ "!<br/><a href='javascript:signout();'>sign out</a>";
 		$('#mini_bar_welcome')[0].style.display = 'inline';
 		$('#mini_bar_login')[0].style.display = 'none';
+		$('#settings-button').css('display', 'block'); 
+		$('#logout-button').css('display', 'block');
+		$('#mini_bar_header').width(490);
+		document.body.style.width="500px";
 	}
 }
 

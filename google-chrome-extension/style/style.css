@@ -134,7 +134,7 @@ li.zend_content {
 
 /* GUI CODE */
 
-.mini_bar_header {
+#mini_bar_header {
 	background: #caebff;
 	width: 330px;
 	height: 33px;
@@ -154,6 +154,7 @@ body {
 
 #mini_bar_welcome {
 	display: none;
+	width: 600px;
 }
 
 .forgot-pass {
@@ -176,10 +177,16 @@ body {
 }
 
 .mini-bar-close-button {
-	background: url('../images/close.png') top right no-repeat;
-	height: 24px;
-	width: 24px;
+	height: 22px;
+	width: 22px;
 	float: right;
-	margin-right: 5px;
-	margin-top: 2px;
+	margin: 4px 5px 0 0;
+}
+
+#settings-button, #logout-button {
+	display: none;
+}
+
+.share-bar {
+	font-size: 12px;
 }
