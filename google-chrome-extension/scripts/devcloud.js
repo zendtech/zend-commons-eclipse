@@ -116,7 +116,7 @@ function downloadAmf(containerName, amf, _success, _error) {
 		url : "https://projectx.zend.com/monitor/download-amf/" + params,
 		success : function(data, textStatus) {
 			try {
-				resp = JSON.parse(data);
+				var response = JSON.parse(data);
 			} catch (ex) {
 				_error('error parsing json');
 				return;

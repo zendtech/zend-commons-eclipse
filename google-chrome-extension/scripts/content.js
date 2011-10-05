@@ -1,7 +1,7 @@
 var ZDE_DetectPort = 20080; 
 
 var org = org || {};
-org.zend = org.zend = {
+org.zend = {
 
 	isValidDomain : function(domain) {
 		return domain == "devpaas.zend.com" || domain == "projectx.zend.com"
@@ -9,8 +9,8 @@ org.zend = org.zend = {
 	},
 
 	getMonitorRequestId : function(name) {
-		prefix = "ZENDMONITORURL";
-		length = prefix.length;
+		var prefix = "ZENDMONITORURL";
+		var length = prefix.length;
 
 		// is valid request id
 		var arrcookies = document.cookie.split(";");
@@ -22,36 +22,59 @@ org.zend = org.zend = {
 		}
 		return null;
 	},
+	
+	/**
+	 * Chrome-Studio communication related methods
+	 */
+	studio : {
+		/**
+		 * Opens SSH tunnel in Zend Studio
+		 */
+		enableSshTunnel : function (){
+			try {
+				var url = "http://127.0.0.1:28029/org.zend.php.zendserver.deployment.debug.openSshTunnel?container="+containerName;
+				var rf = new XMLHttpRequest();
+				rf.open("GET", url, false);
+				rf.send(null);
+				if (rf.status!=200)
+					return false;
+				return rf.responseText;
 
-	summary_success : function(response) {
-		var c = response.requestSummary["events-count"];
-		if (c != null && c.trim() != '0') {
-			for ( var i = 0; i < parseInt(c); i++) {
-				var e = response.requestSummary.events.event[i];
-				events.push(e);
+			} catch(e) { 
+				console.log(e);
+				return false; 
 			}
-			if (hasFader()) {
-				addSlides();
-				all_events = all_events.concat(events);
-				events = [];
-				updateSummary(all_events);
+		},
+		
+		/**
+		 * Opens AMF file in Zend Studio
+		 */
+		openCodeTracingSnapshot : function (url) {
+			
+			var success = function(response) {
+				console.log(response);
+			};
+			var error = function(error) {
+				console.log(error);
+			};
+			
+			downloadAmf(containerName, url, success, error);
+			
+			try {
+				var amfPath = '';
+				var url = "http://127.0.0.1:28029/org.zend.php.zendserver.deployment.ui.OpenCodeTracingSnapshot?amfPath="+amfPath;
+				var rf = new XMLHttpRequest();
+				rf.open("GET", url, false);
+				rf.send(null);
+				if (rf.status!=200)
+					return false;
+				return rf.responseText;
+
+			} catch(e) { 
+				console.log(e);
+				return false; 
 			}
-			chrome.extension.sendRequest({
-				method : "showNotifications"
-			}, function(response) {
-			});
 		}
-	},
-
-	summary_error : function(message) {
-		chrome.extension.sendRequest({
-			method : "signout"
-		}, function(response) {
-			chrome.extension.sendRequest({
-				method : "refreshPopupContent"
-			}, function(response) {
-			});
-		});
 	}
 };
 
@@ -68,8 +91,48 @@ if (dot != -1 && org.zend.isValidDomain(domain.substr(dot + 1))) {
 		if (response.data != -1) {
 			requestId = org.zend.getMonitorRequestId(document.cookie);
 			if (requestId != null) {
+				var summary_success = function(response) {
+					var c = response.requestSummary["events-count"];
+					if (c == 0) {
+						return;
+					}
+
+					var id = response.requestSummary['code-tracing'];
+					if (id) {
+						var matches = /amf=(.*)[&]?/.exec(id);
+						org.zend.codeTraceId = matches[1]; // match[0] is "amfid=.....", match[1] is "....." 
+					}
+					
+					for ( var i = 0; i < c; i++) {
+						var e = response.requestSummary.events.event[i];
+						events.push(e);
+					}
+					if (hasFader()) {
+						addSlides();
+						all_events = all_events.concat(events);
+						events = [];
+						updateSummary(all_events);
+					}
+					
+					chrome.extension.sendRequest({
+						method : "showNotifications"
+					}, function(response) {
+					});
+				};
+
+				var summary_error = function(message) {
+					chrome.extension.sendRequest({
+						method : "signout"
+					}, function(response) {
+						chrome.extension.sendRequest({
+							method : "refreshPopupContent"
+						}, function(response) {
+						});
+					});
+				};
+				
 				requestSummary(containerName, requestId,
-						org.zend.summary_success, org.zend.summary_error);
+						summary_success, summary_error);
 			}
 		}
 	});
@@ -99,21 +162,21 @@ function addSlides() {
 	var slidesUl = $("#slides");
 	for ( var i = 0; i < events.length; i++) {
 		// todo: prettify
-		var slideLi = $("<li>").html('<h1>' + events[i].type +  '</h1><p>' 
-				+ events[i].description +  '</p>' + '<a id="debugEvent" href="#">Debug Event</a><br/>'
-				+ '<a href="#" id="traceEvent">Open Code Tracing Snapshot</a>'
-				+ '<p>' + events[i].severity + '</p>');
+		var slideLiMsg = '<h1>' + events[i].type +  '</h1><p>' + events[i].description +  '</p>' + '<a id="debugEvent" href="#">Debug Event</a><br/>';
+		if (org.zend.codeTraceId) {
+			slideLiMsg += '<a href="#" id="traceEvent">Open Code Tracing Snapshot</a>';
+		}
+		slideLiMsg += '<p>' + events[i].severity + '</p>';
+		var slideLi = $("<li>").html(slideLiMsg);
 		$('#debugEvent', slideLi).click((function(url) {
 			return function() {
 				debugEvent(url);
 			};
 		})(events[i]['debug-url']));
 		
-		$('#traceEvent', slideLi).click((function(url) {
-			return function() {
-				openCodeTracingSnapshot(url);
-			};
-		})(events[i]['code-tracing']));
+		$('#traceEvent', slideLi).click(function(url) {
+			org.zend.studio.openCodeTracingSnapshot(org.zend.codeTraceUrl);
+		});
 		
 		slideLi.addClass("zend_content");
 		slidesUl.append(slideLi);
@@ -233,36 +296,16 @@ function debugEvent(url) {
 	var settings = getZdeSettingString(ZDE_DetectPort);
 	if (!settings) {
 		alert("Can't connect to Zend Studio. Make sure that it's running.");
-		return;
+	//	return;
 	}
 	
-	enableSshTunnel();
+	org.zend.studio.enableSshTunnel();
 	
 	console.log('debug '+url);
 	var params=url.split("/")[5].split("&");
 	var issueId = params[0].split("=")[1];;
 	var groupId = params[1].split("=")[1];
 	startDebug(containerName, issueId, groupId, function() { }, function() { });
-}
-
-function openCodeTracingSnapshot(url) {
-	try {
-		// TODO call downloadAmf and then set amfPath properly
-		
-		var amfPath = '';
-		var url = "http://127.0.0.1:28029/org.zend.php.zendserver.deployment.ui.OpenCodeTracingSnapshot?amfPath="+amfPath;
-		var rf = new XMLHttpRequest();
-		rf.open("GET", url, false);
-		rf.send(null);
-		if (rf.status!=200)
-			return false;
-		return rf.responseText;
-
-	} catch(e) { 
-		console.log(e);
-		return false; 
-	}
-	
 }
 
 function getZdeSettingString(ZDE_DetectPort){
@@ -278,22 +321,6 @@ function getZdeSettingString(ZDE_DetectPort){
 		return rf.responseText;
 
 	} catch(e) {
-		console.log(e);
-		return false; 
-	}
-}
-
-function enableSshTunnel(){
-	try {
-		var url = "http://127.0.0.1:28029/org.zend.php.zendserver.deployment.debug.openSshTunnel?container="+containerName;
-		var rf = new XMLHttpRequest();
-		rf.open("GET", url, false);
-		rf.send(null);
-		if (rf.status!=200)
-			return false;
-		return rf.responseText;
-
-	} catch(e) { 
 		console.log(e);
 		return false; 
 	}

@@ -15,7 +15,7 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 
 
 var org = org || {};
-org.zend = org.zend = {
+org.zend = {
 
 	isNotificationVisible : false,
 
