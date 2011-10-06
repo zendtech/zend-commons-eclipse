@@ -4,6 +4,7 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
     	sendResponse({data: searchConatiner(request.key)});
     } else if (request.method == "showNotifications") {
     	org.zend.showNotification();
+    	chrome.browserAction.setPopup({popup:"summary.html"});
     	sendResponse({ status: 'done' }); 
     } else if (request.method == "signout") {
     	org.zend.signout();
