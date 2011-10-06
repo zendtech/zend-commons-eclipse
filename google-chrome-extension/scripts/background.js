@@ -38,6 +38,7 @@ org.zend = {
     	delete localStorage['projectxsess'];
     	delete localStorage['containers_length'];
     	setSessionId(null);
+    	chrome.browserAction.setPopup({popup:"popup.html"});
 	}
 };
 
