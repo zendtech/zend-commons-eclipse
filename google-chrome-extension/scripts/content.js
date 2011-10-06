@@ -104,9 +104,14 @@ if (dot != -1 && org.zend.isValidDomain(domain.substr(dot + 1))) {
 					}
 					
 					// copy events
-					for ( var i = 0; i < c; i++) {
-						var e = response.requestSummary.events.event[i];
+					if (c == 1) {
+						var e = response.requestSummary.events.event;
 						events.push(e);
+					} else {
+						for ( var i = 0; i < c; i++) {
+							var e = response.requestSummary.events.event[i];
+							events.push(e);
+						}
 					}
 					
 					if (hasFader()) {
