@@ -1,0 +1,48 @@
+@CHARSET "UTF-8";
+
+#summary-bar {
+	padding: 6px 0 6px 0;
+	height: 35px;
+}
+
+.mini_bar_header span {
+	vertical-align: 30%;
+}
+
+span.url-label {
+	font-weight:bold;
+}
+
+div.summary-description {
+	font-weight: bold;
+	height: 25px;
+	line-height: 35px;
+	color: #5180bb;
+}
+
+ul.summary-icons {
+	margin:0;
+	padding:0;
+}
+
+ul.summary-icons li {
+	list-style-type: none;
+	display: inline;
+}
+
+ul.summary-icons li div.icon{
+	line-height: 35px;
+	text-align: center;
+	margin-left: 10px;
+	height: 35px;
+	width: 35px;
+	margin-right: 10px;
+	float: left;
+	background: url('../images/logo.jpg') top left repeat;
+}
+
+div.summary-share-links {
+	padding-bottom:10px;
+	padding-top:5px;
+	color: grey;
+}

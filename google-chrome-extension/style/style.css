@@ -3,6 +3,10 @@ p {
 	margin-bottom: 12px
 }
 
+.mini-window-icons {
+	margin: 4px;
+}
+
 .float-left {
 	float: left;
 }
@@ -13,6 +17,10 @@ p {
 
 .clear-both {
 	clear: both;
+}
+
+.bottom-separator {
+	border-bottom:1px solid grey;
 }
 
 .black_overlay {
@@ -190,3 +198,4 @@ body {
 .share-bar {
 	font-size: 12px;
 }
+

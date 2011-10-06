@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>Summary information</title>
+		<script type="text/javascript" src="scripts/popup.js"></script>
+		<script type="text/javascript" src="scripts/devcloud.js"></script>
+		<script type="text/javascript" src="scripts/jquery.js"></script>
+		<script type="text/javascript" src="scripts/summary.js"></script>
+		<link rel="stylesheet" type="text/css" href="style/style.css" media="screen"/>
+		<link rel="stylesheet" type="text/css" href="style/summary-bar.css" media="screen"/>
+		
+		<script type="text/javascript">
+			$(document).ready(function() {
+				refreshPopupContent();
+				populateSummary('asdfdsfasdfasdaf', 123, 123, 123, 123, 132);
+			});
+		</script>
+	</head>
+	<body>
+		<div id="mini_bar_header">
+			<img src="images/logo.jpg" />
+			<span class="url-label">Information for:</span>&nbsp;<span id="summary-bar-url" class="url-value"></span>
+			<div class="mini-window-icons float-right">
+				<img src="images/close.png" onclick="window.close()" />
+				<img src="images/settings.png" id="settings-button" />
+				<img src="images/logout.png" id="logout-button" onclick="signout()" />
+			</div>
+		</div>
+		<div class="mini_bar_content">
+			<div id="summary-bar" class="bottom-separator">
+				<div class="summary-description float-left">Requests (<span id="summary-requests-count"></span>) &gt; Events (<span id="summary-events-count"></span>): </div>
+				<ul class="summary-icons">
+					<li><div id="summary-icon-critical" class="icon"></div></li>
+					<li><div id="summary-icon-error" class="icon"></div></li>
+					<li><div id="summary-icon-warning" class="icon"></div></li>
+				</ul>
+			</div>
+			<div class="summary-share-links clear-both"><div class="float-right">Share links</div><div>Like this extension? Why not share it with your friends!</div></div>
+		</div>
+	</body>
+</html>
