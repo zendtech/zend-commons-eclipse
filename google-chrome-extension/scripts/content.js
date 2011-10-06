@@ -5,7 +5,7 @@ org.zend = {
 
 	isValidDomain : function(domain) {
 		return domain == "devpaas.zend.com" || domain == "projectx.zend.com"
-				|| domain == "phpcloud.com";
+				|| domain == "my.phpcloud.com";
 	},
 
 	getMonitorRequestId : function(name) {
