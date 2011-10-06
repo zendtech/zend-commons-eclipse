@@ -32,7 +32,7 @@ function authenticate_error(status) {
 	var select = $('#login-form-message')[0];
 	select.style.display = 'inline';
 	
-	var select = $('#login-form-title')[0];
+	var select = $('#login-form-welcome-title')[0];
 	select.style.display = 'none';
 	signout();
 }

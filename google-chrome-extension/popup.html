@@ -23,8 +23,16 @@ $(document).ready(function() {
 	
 	<div class="mini_bar_content">
 		<div id="mini_bar_welcome">
-			Oh, nothing to sniff yet! <br /><br />
-			The sniffer will automatically start sniffing as a valid URL is running in your browser.
+			<table class="nothing-to-see">
+				<tr>
+					<td><img src="images/info.png"></td>
+					<td>Nothing to sniff yet!</td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+					<td>The sniffer will start working when you enter the URL of one of your hosted DevCloud applications.</td>
+				</tr>
+			</table>
 			<hr />
 			<div class="share-bar">
 				Like this extension? Why not share it with your friends!
@@ -38,12 +46,12 @@ $(document).ready(function() {
 		<div id="mini_bar_login">
 			<div id="login-form-message" style="display: none;">
 				<div class="login-form-message-error">
-					Oops, an incorrect user name or password
+					Oops, you have entered an incorrect user name or password.
 				</div>
-				Please try again:
+				Try again:
 			</div>
-			<div id="login-form-title">
-				To start the Zniffer, please enter the following:
+			<div id="login-form-welcome-title">
+				Enter your Zend DevCloud credentials to log in:
 			</div>
 			<form id="loginform" enctype="application/x-www-form-urlencoded" action="http://devpaas.zend.com" onsubmit="return login(this);">
 				<table>
@@ -61,11 +69,11 @@ $(document).ready(function() {
 					</tr>
 					<tr>
 						<td class="login-form-title">&nbsp;</td>
-						<td><a href="http://www.zend.com/en/user/lost" target="_blank" class="forgot-pass">Forgot your password or User Name ?</a></td>
+						<td><a href="http://www.zend.com/en/user/lost" target="_blank" class="forgot-pass">Forgot your password or user name ?</a></td>
 					</tr>
 					<tr>
 						<td class="login-form-title">&nbsp;</td>
-						<td><a href="http://www.zend.com/en/user/lost" target="_blank" class="forgot-pass">Create an account</a></td>
+						<td><a href="http://www.zend.com/en/user/lost" target="_blank" class="forgot-pass">Don't have an account?</a></td>
 					</tr>
 					<tr>
 						<td class="login-form-title">&nbsp;</td>

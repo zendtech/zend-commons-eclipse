@@ -152,7 +152,6 @@ li.zend_content {
 
 .mini_bar_content {
 	background: #f4fbff;
-	padding: 10px 20px 0 20px;
 }
 
 body {
@@ -171,6 +170,15 @@ body {
 
 .login-form-title {
 	width: 80px;
+}
+
+#login-form-welcome-title {
+	margin: 10px 0;
+}
+
+#mini_bar_login {
+	float: left;
+	margin: 5px 0 0 10px;
 }
 
 #loginform input[type="text"],
@@ -198,4 +206,8 @@ body {
 .share-bar {
 	font-size: 12px;
 	line-height: 24px;
+}
+
+.nothing-to-see {
+	padding: 10px;
 }
