@@ -1,0 +1,80 @@
+* {
+	padding: 0;
+	margin: 0;
+}
+
+html, body {
+	height: 100%;
+}
+
+#container {
+	min-height: 100%;
+	width: 100%;
+	margin: 0 auto;
+}
+
+#container2 {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 30%;
+	background: green;
+}
+
+#main-top-menu {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 10%;
+	background: yellow;
+}
+
+#main-top-summary {
+	position: absolute;
+	top: 10%;
+	left: 0;
+	width: 100%;
+	height: 10%;
+	background: blue;
+}
+
+* html #container, * html #container2 {
+	height: 100%;
+}
+
+#ui-layout-wrapper {
+	position: absolute;
+	top: 20%;
+	left: 0;
+	height: 80%;
+	width: 100%;
+	background: red;
+}
+
+#ui-layout-left {
+	width: 30%;
+	min-height: 100%;
+}
+
+#ui-layout-right {
+	width: 70%;
+	height: 100%;
+	float: left;
+}
+
+#ui-layout-top {
+	width: 100%;
+	height: 80%;
+}
+
+#ui-layout-lbottom {
+	 height: 20%;
+	 width: 40%;
+}
+
+#ui-layout-rbottom {
+	height: 20%;
+	width: 60%;
+}
