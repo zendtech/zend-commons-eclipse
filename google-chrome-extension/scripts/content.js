@@ -49,31 +49,30 @@ org.zend = {
 		/**
 		 * Opens AMF file in Zend Studio
 		 */
-		openCodeTracingSnapshot : function (url) {
+		openCodeTracingSnapshot : function (amfid) {
 			
 			var success = function(response) {
-				console.log(response);
+				
+				
+				try {
+					var url = "http://127.0.0.1:28029/org.zend.php.zendserver.deployment.ui.OpenCodeTracingSnapshot";
+					var rf = new XMLHttpRequest();
+					rf.open("POST", url, false);
+					rf.send(response);
+					if (rf.status!=200)
+						return false;
+					return rf.responseText;
+
+				} catch(e) { 
+					console.log(e);
+					return false; 
+				}
 			};
 			var error = function(error) {
 				console.log(error);
 			};
 			
-			downloadAmf(containerName, url, success, error);
-			
-			try {
-				var amfPath = '';
-				var url = "http://127.0.0.1:28029/org.zend.php.zendserver.deployment.ui.OpenCodeTracingSnapshot?amfPath="+amfPath;
-				var rf = new XMLHttpRequest();
-				rf.open("GET", url, false);
-				rf.send(null);
-				if (rf.status!=200)
-					return false;
-				return rf.responseText;
-
-			} catch(e) { 
-				console.log(e);
-				return false; 
-			}
+			downloadAmf(containerName, amfid, success, error);
 		}
 	}
 };
@@ -328,7 +327,7 @@ function debugEvent(url) {
 	
 	org.zend.studio.enableSshTunnel();
 	
-	console.log('debug '+url);
+	console.log('debug '+org.zend.sessionid);
 	var params=url.split("/")[5].split("&");
 	var issueId = params[0].split("=")[1];;
 	var groupId = params[1].split("=")[1];
