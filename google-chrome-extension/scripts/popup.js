@@ -20,7 +20,7 @@ function login(f) {
 }
 
 function authenticate_success(sessionid) {
-	localStorage['projectxsess'] = sessionid;
+	localStorage['phpcloudsess'] = sessionid;
 
 	var select = $('#login-form-message')[0];
 	select.style.display = 'none';

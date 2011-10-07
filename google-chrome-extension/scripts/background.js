@@ -35,7 +35,7 @@ org.zend = {
 	
 	signout : function() {
     	delete localStorage["username"];
-    	delete localStorage['projectxsess'];
+    	delete localStorage['phpcloudsess'];
     	delete localStorage['containers_length'];
     	setSessionId(null);
     	chrome.browserAction.setPopup({popup:"popup.html"});

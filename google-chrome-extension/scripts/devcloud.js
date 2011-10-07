@@ -25,8 +25,8 @@ function authenticate(u, p, _success, _error) {
 				_error('error parsing json');
 				return;
 			}
-			setSessionId(resp.session.projectxsess);
-			_success(resp.session.projectxsess);
+			setSessionId(resp.session.phpcloudsess);
+			_success(resp.session.phpcloudsess);
 		},
 		error : function(jqxhr, textStatus, errorThrown) {
 			_error(jqxhr.response);
@@ -173,6 +173,6 @@ function setSessionId(sessionid) {
 	if (sessionid != null) {
 		expire.setTime(today.getTime() + 3600000 * 24);
 	}
-	document.cookie = "projectxsess=" + escape(sessionid) + ";expires="
+	document.cookie = "phpcloudsess=" + escape(sessionid) + ";expires="
 			+ expire.toGMTString();
 }
