@@ -6,3 +6,9 @@ function populateSummary(url, requests, events, critical, error, warning) {
 	$('#summary-icon-error').text(error);
 	$('#summary-icon-warning').text(warning);
 }
+
+function openTab() {
+    chrome.tabs.create({'url': chrome.extension.getURL('main.html')}, function(tab) {
+    });
+
+}
