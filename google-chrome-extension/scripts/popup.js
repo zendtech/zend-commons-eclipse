@@ -40,7 +40,7 @@ function authenticate_error(status) {
 function list_success(containers) {
 	localStorage['containers_length'] = containers.length;
 	for ( var i = 0; i < containers.length; i++) {
-		localStorage['containers' + i] = containers[0].name;
+		localStorage['containers' + i] = containers[i].name;
 	}
 	refreshPopupContent();
 	window.close();
