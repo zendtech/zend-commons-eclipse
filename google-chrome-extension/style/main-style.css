@@ -60,6 +60,20 @@
 	border-bottom:	1px solid #BBB;
 }
 
+div.section-headline {
+	color: #5180bb;
+	background-color: #CEEEFE;
+	height: 35px;
+	line-height: 35px;
+	-webkit-box-shadow: 0 0 5px 5px #999;
+}
+
+div.section-headline h2 {
+	margin:0;
+	top: 0;
+	cursor:default;
+}
+
 /*
  * End of layout
  */
