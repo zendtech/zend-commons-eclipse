@@ -40,12 +40,39 @@
 			,	north__size:			500
 			});
 			
-			populateSuperglobals({key:'value', key2: 'value2'},{key:'value', key2: 'value2'},{},{key:'value', key2: 'value2'},{key:'value', key2: 'value2'});
-			
 			$('a.toggler').click(function() {
 				$(this).nextAll('div.super-global-display').slideToggle(500);
 		        return false;
 		    });
+
+			var events = [
+				             {title:'mypass/user/login',
+				           	  get: 		{key:'value', key2: 'value2'},
+							  post: 	{key:'value', key2: 'value2'},
+							  cookie: 	{},
+							  server:	{key:'value', key2: 'value2'},
+							  session:	{key:'value', key2: 'value2'}, 
+							  events: [
+							           {name: 'Fatal PHP Error', type: 'critical'},
+							           {name: 'Event X', type: 'warning'},
+							           {name: 'Event Y', type: 'normal'}
+							  ]
+							 },
+							 {title:'mypass/user/login2', 
+							  get: 		{key:'vvalue', key2: 'vvalue2'},
+							  post: 	{key:'vvalue', key2: 'vvalue2'},
+							  cookie: 	{},
+							  server:	{key:'vvalue', key2: 'vvalue2'},
+							  session:	{key:'vvalue', key2: 'vvalue2'},
+								  events: [
+							           {name: 'Fatal PHP Error', type: 'critical'},
+							           {name: 'Event X', type: 'warning'},
+							           {name: 'Event Y', type: 'normal'}
+							  ]
+							 }
+					];
+
+			setEvents(events);
 			
 			populateZniffingUrl('amitdar.projectx.zend.com/bla/bla/bla/user/login');
 			populateSummary('asdfdsfasdfasdaf', 123, 123, 123, 123, 132);

@@ -1,31 +1,16 @@
 function populateEvents(params) {
-	var params = [
-	             {title:'mypass/user/login', 
-				  events: [
-				           {name: 'Fatal PHP Error', type: 'critical'},
-				           {name: 'Event X', type: 'warning'},
-				           {name: 'Event Y', type: 'normal'}
-				  ]
-				 },
-				 {title:'mypass/user/login2', 
-					  events: [
-				           {name: 'Fatal PHP Error', type: 'critical'},
-				           {name: 'Event X', type: 'warning'},
-				           {name: 'Event Y', type: 'normal'}
-				  ]
-				 }
-		];
-	
-	populateEventsList(params);
+	var events = getEvents();
+	populateEventsList(events);
+	switchEvent(events.length - 1);
 }
 
 function populateEventsList(params) {
 	jQuery.each(params.reverse(), function(index,element) {
 		var event = '';
 		if (index == params.length - 1) {
-			event = '<li id="selected-event">';
+			event = '<li id="selected-event" onClick="switchEvent(' + index + ')">';
 		} else {
-			event = '<li>';
+			event = '<li onClick="switchEvent(' + index + ')">';
 		}
 		
 		event += '<div class="event-title">' +
@@ -54,4 +39,20 @@ function getEventTypeIcon(type) {
 	} else {
 		return 'normal-small';
 	}
+}
+
+function setEvents(events) {
+	window.events = events;
+}
+
+function getEvents() {
+	return window.events;
+}
+
+function switchEvent(index) {
+	var events = getEvents();
+	console.log(index);
+	event = events[index];
+	
+	populateSuperglobals(event.get, event.post, event.cookie, event.server, event.session);
 }
