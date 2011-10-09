@@ -1,5 +1,18 @@
 @CHARSET "UTF-8";
 
+div.super-global-headline {
+	color: #5180bb;
+	background-color: #CEEEFE;
+	height: 35px;
+	line-height: 35px;
+	-webkit-box-shadow: 0 0 5px 5px #999;
+}
+
+div.super-global-headline h2 {
+	margin:0;
+	top: 0;
+	cursor:default;
+}
 
 ul.super-global-list li{
 	display: block;
