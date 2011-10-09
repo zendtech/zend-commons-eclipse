@@ -7,21 +7,37 @@
 		<script type="text/javascript" src="scripts/devcloud.js"></script>
 		<script type="text/javascript" src="scripts/jquery.js"></script>
 		<script type="text/javascript" src="scripts/jquery-ui.js"></script>
+		<script type="text/javascript" src="scripts/jquery.layout.js"></script>
 		<script type="text/javascript" src="scripts/summary.js"></script>
 		<link rel="stylesheet" type="text/css" href="style/style.css" media="screen"/>
 		<link rel="stylesheet" type="text/css" href="style/main-style.css" media="screen"/>
+		<SCRIPT type="text/javascript">
+		$(document).ready(function () {
+			outerLayout = $('body').layout({
+				center__paneSelector:	".outer-center" 
+			,	west__paneSelector:		".outer-west" 
+			,	north__paneSelector:	".outer-north" 
+			,	west__size:				250 
+			,	north__size:			120 
+			}); 
+
+			innerLayout = $('div.outer-center').layout({
+				center__paneSelector:	".inner-center" 
+			,	west__paneSelector:		".inner-west" 
+			,	north__paneSelector:	".inner-north" 
+			,	west__size:				300 
+			,	north__size:			500 
+			});
+		});
+		</SCRIPT>
 	</head>
 	<body>
-		<div id="container">
-			<div id="main-top-menu">
-				top menu
-			</div>
-			<div id="main-top-summary">
-				top summary
-			</div>
-			<div id="ui-layout-wrapper">
-				
-			</div>
-		</div>
+		<DIV class="outer-center">
+			<DIV class="inner-north">Center</DIV>
+			<DIV class="inner-center">bb</DIV>
+			<DIV class="inner-west">aa</DIV>
+		</DIV>
+		<DIV class="outer-north">aa</DIV>
+		<DIV class="outer-west">bb</DIV>
 	</body>
 </html>
