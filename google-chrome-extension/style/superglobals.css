@@ -1,0 +1,33 @@
+@CHARSET "UTF-8";
+
+
+ul.super-global-list li{
+	display: block;
+	border: 1px solid #AAA;
+	padding: 3px 10px 3px 10px;
+	margin-right: 20px;
+	margin-bottom: 10px;
+}
+
+table.super-global-table {
+	border: 2px solid #CCC;
+	border-collapse:collapse;
+    border-spacing:0;
+}
+
+table.super-global-table thead tr {
+	background-color: #CEEEFE;
+}
+
+table.super-global-table thead th, table.super-global-table tbody td {
+	padding: 3px 10px 3px 10px;
+}
+
+table.super-global-table tbody tr td {
+	width:400px;
+}
+
+table.super-global-table tbody tr td:first-child {
+	border-right: 2px solid #CCC;
+	width:200px;
+}

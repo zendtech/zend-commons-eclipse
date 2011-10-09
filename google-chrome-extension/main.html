@@ -3,17 +3,20 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title>Summary information</title>
-		<script type="text/javascript" src="scripts/popup.js"></script>
+		<!-- <script type="text/javascript" src="scripts/popup.js"></script> -->
 		<script type="text/javascript" src="scripts/devcloud.js"></script>
 		<script type="text/javascript" src="scripts/jquery.js"></script>
 		<script type="text/javascript" src="scripts/jquery-ui.js"></script>
 		<script type="text/javascript" src="scripts/jquery.layout.js"></script>
 		<script type="text/javascript" src="scripts/summary.js"></script>
+		<script type="text/javascript" src="scripts/superglobals.js"></script>
 		<script type="text/javascript" src="scripts/main.js"></script>
 		<link rel="stylesheet" type="text/css" href="style/style.css" media="screen"/>
 		<link rel="stylesheet" type="text/css" href="style/summary-bar.css" media="screen"/>
 		<link rel="stylesheet" type="text/css" href="style/main-style.css" media="screen"/>
+		<link rel="stylesheet" type="text/css" href="style/superglobals.css" media="screen"/>
 		<script type="text/javascript">
+
 		$(document).ready(function () {
 			outerLayout = $('body').layout({
 				closable:				false
@@ -34,7 +37,14 @@
 			,	west__size:				300 
 			,	north__size:			500
 			});
-
+			
+			populateSuperglobals({key:'value', key2: 'value2'},{key:'value', key2: 'value2'},{},{key:'value', key2: 'value2'},{key:'value', key2: 'value2'});
+			
+			$('a.toggler').click(function() {
+				$(this).nextAll('div.super-global-display').slideToggle(500);
+		        return false;
+		    });
+			
 			populateZniffingUrl('amitdar.projectx.zend.com/bla/bla/bla/user/login');
 			populateSummary('asdfdsfasdfasdaf', 123, 123, 123, 123, 132);
 		});
@@ -43,7 +53,77 @@
 	<body>
 		<div class="outer-center">
 			<div class="inner-north">
-				Center<br />Center<br />Center<br />Center<br />Center<br />Center<br />Center<br />Center<br />Center<br />Center<br />Center<br />Center<br />Center<br />Center<br />Center<br />Center<br />Center<br />Center<br />Center<br />Center<br />Center<br />Center<br />Center<br />Center<br />Center<br />Center<br />Center<br />Center<br />Center<br />Center<br />Center<br />Center<br />Center<br />Center<br />Center<br />Center<br />Center<br />Center<br />
+				<ul class="super-global-list">
+					<li id="get-super-global">
+						<a href="javascript:void(0)" class="toggler">Open/Close</a>
+						<label class="has-content-label">Get</label>
+						<label class="no-content-label">Get (Empty)</label>
+						<div class="super-global-display">
+							<table class="super-global-table">
+								<thead>
+									<tr><th>Variable</th><th>Value</th></tr>
+								</thead>
+								<tbody />
+							</table>
+						</div>
+					</li>
+					
+					<li id="post-super-global">
+						<a href="javascript:void(0)" class="toggler">Open/Close</a>
+						<label class="has-content-label">Post</label>
+						<label class="no-content-label">Post (Empty)</label>
+						<div class="super-global-display">
+							<table class="super-global-table">
+								<thead>
+									<tr><th>Variable</th><th>Value</th></tr>
+								</thead>
+								<tbody />
+							</table>
+						</div>
+					</li>
+					
+					<li id="cookie-super-global">
+						<a href="javascript:void(0)" class="toggler">Open/Close</a>
+						<label class="has-content-label">Post</label>
+						<label class="no-content-label">Post (Empty)</label>
+						<div class="super-global-display">
+							<table class="super-global-table">
+								<thead>
+									<tr><th>Variable</th><th>Value</th></tr>
+								</thead>
+								<tbody />
+							</table>
+						</div>
+					</li>
+					
+					<li id="server-super-global">
+						<a href="javascript:void(0)" class="toggler">Open/Close</a>
+						<label class="has-content-label">Post</label>
+						<label class="no-content-label">Post (Empty)</label>
+						<div class="super-global-display">
+							<table class="super-global-table">
+								<thead>
+									<tr><th>Variable</th><th>Value</th></tr>
+								</thead>
+								<tbody />
+							</table>
+						</div>
+					</li>
+					
+					<li id="session-super-global">
+						<a href="javascript:void(0)" class="toggler">Open/Close</a>
+						<label class="has-content-label">Post</label>
+						<label class="no-content-label">Post (Empty)</label>
+						<div class="super-global-display">
+							<table class="super-global-table">
+								<thead>
+									<tr><th>Variable</th><th>Value</th></tr>
+								</thead>
+								<tbody />
+							</table>
+						</div>
+					</li>
+				</ul>
 			</div>
 			<div class="inner-center">bb</div>
 			<div class="inner-west">aa</div>
@@ -67,11 +147,11 @@
 			</div>
 			<div id="main-top-summary">
 				<div id="summary-bar">
-					<div class="summary-description float-left">Requests (<span id="summary-requests-count"></span>) &gt; Events (<span id="summary-events-count"></span>): </div>
+					<div class="summary-description float-left"><label>Requests</label>&nbsp;(<span id="summary-requests-count"></span>)&nbsp;&gt;&nbsp;<label>Events</label>&nbsp;(<span id="summary-events-count"></span>):</div>
 					<ul class="summary-icons">
-						<li><div id="summary-icon-critical" class="icon"></div></li>
-						<li><div id="summary-icon-warning" class="icon"></div></li>
-						<li><div id="summary-icon-normal" class="icon"></div></li>
+						<li><div id="summary-icon-critical" class="icon"><label></label></div></li>
+						<li><div id="summary-icon-warning" class="icon"><label></label></div></li>
+						<li><div id="summary-icon-normal" class="icon"><label></label></div></li>
 					</ul>
 				</div>
 			</div>
