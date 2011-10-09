@@ -18,8 +18,10 @@
 			,	west__paneSelector:		".outer-west" 
 			,	north__paneSelector:	".outer-north" 
 			,	west__size:				250 
-			,	north__size:			120 
-			}); 
+			,	north__size:			95 
+			,	north__minSize:			95
+			,	north__maxSize:			95
+			});
 
 			innerLayout = $('div.outer-center').layout({
 				center__paneSelector:	".inner-center" 
@@ -37,7 +39,14 @@
 			<DIV class="inner-center">bb</DIV>
 			<DIV class="inner-west">aa</DIV>
 		</DIV>
-		<DIV class="outer-north">aa</DIV>
-		<DIV class="outer-west">bb</DIV>
+		<DIV class="outer-north">
+			<div id="main-top-menu">
+				dedede
+			</div>
+			<div id="main-top-summary">
+				dsasasad
+			</div>
+		</DIV>
+		<DIV class="outer-west">dd</DIV>
 	</body>
 </html>
