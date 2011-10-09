@@ -15,18 +15,18 @@ $(document).ready(function() {
 </head>
 <body>
 	<div id="mini_bar_header">
-		<img src="images/logo.jpg" />
-		<img src="images/close.png" onclick="window.close()" class="mini-bar-close-button" />
-		<img src="images/settings.png" id="settings-button" class="mini-bar-close-button" />
-		<img src="images/logout.png" id="logout-button" class="mini-bar-close-button" onclick="signout()" />
+		<img src="images/logo.png" />
+		<div id="close-button" onclick="window.close()"></div>
+		<div id="settings-button"></div>
+		<div id="logout-button" onclick="signout()"></div>
 	</div>
 	
 	<div class="mini_bar_content">
 		<div id="mini_bar_welcome">
 			<table class="nothing-to-see">
 				<tr>
-					<td><img src="images/info.png"></td>
-					<td>Nothing to sniff yet!</td>
+					<td><div id="info-icon"></div></td>
+					<td><b>Nothing to sniff yet!</b></td>
 				</tr>
 				<tr>
 					<td>&nbsp;</td>

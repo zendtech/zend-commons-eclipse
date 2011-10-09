@@ -143,9 +143,9 @@ li.zend_content {
 /* GUI CODE */
 
 #mini_bar_header {
-	background: #caebff;
-	width: 330px;
-	height: 33px;
+	background: #ceeefe;
+	width: 350px;
+	height: 22px;
 	padding-top: 5px;
 	padding-left: 10px;
 }
@@ -192,11 +192,32 @@ body {
 	margin-bottom: 10px;
 }
 
-.mini-bar-close-button {
-	height: 22px;
-	width: 22px;
+#close-button {
+	background: url('../images/close.png') top right no-repeat;
+	width: 16px;
+	height: 15px;
 	float: right;
-	margin: 4px 5px 0 0;
+	margin: 1px 5px 0 0;
+}
+
+#close-button:hover {
+	background: url('../images/close-over.png') top right no-repeat;
+}
+
+#settings-button {
+	background: url('../images/settings.png') top right no-repeat;
+	width: 18px;
+	height: 17px;
+	float: right;
+	margin-right: 5px;
+}
+
+#logout-button {
+	background: url('../images/logout.png') top right no-repeat;
+	width: 18px;
+	height: 17px;
+	float: right;
+	margin-right: 5px;
 }
 
 #settings-button, #logout-button {
@@ -208,5 +229,14 @@ body {
 }
 
 .nothing-to-see {
+	font-size: 12px;
 	padding: 10px;
+	line-height: 16px;
+}
+
+#info-icon {
+	background: url('../images/info.png') top right no-repeat;
+	width: 16px;
+	height: 16px;
+	margin-right: 10px;
 }
