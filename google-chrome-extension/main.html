@@ -16,7 +16,8 @@
 		<script type="text/javascript">
 		$(document).ready(function () {
 			outerLayout = $('body').layout({
-				center__paneSelector:	".outer-center" 
+				closable:				false
+			,	center__paneSelector:	".outer-center" 
 			,	west__paneSelector:		".outer-west" 
 			,	north__paneSelector:	".outer-north" 
 			,	west__size:				250 
@@ -26,11 +27,12 @@
 			});
 
 			innerLayout = $('div.outer-center').layout({
-				center__paneSelector:	".inner-center" 
+				closable:				false
+			,	center__paneSelector:	".inner-center" 
 			,	west__paneSelector:		".inner-west" 
 			,	north__paneSelector:	".inner-north" 
 			,	west__size:				300 
-			,	north__size:			500 
+			,	north__size:			500
 			});
 
 			populateZniffingUrl('amitdar.projectx.zend.com/bla/bla/bla/user/login');
@@ -40,7 +42,9 @@
 	</head>
 	<body>
 		<div class="outer-center">
-			<div class="inner-north">Center</div>
+			<div class="inner-north">
+				Center<br />Center<br />Center<br />Center<br />Center<br />Center<br />Center<br />Center<br />Center<br />Center<br />Center<br />Center<br />Center<br />Center<br />Center<br />Center<br />Center<br />Center<br />Center<br />Center<br />Center<br />Center<br />Center<br />Center<br />Center<br />Center<br />Center<br />Center<br />Center<br />Center<br />Center<br />Center<br />Center<br />Center<br />Center<br />Center<br />Center<br />Center<br />
+			</div>
 			<div class="inner-center">bb</div>
 			<div class="inner-west">aa</div>
 		</div>
