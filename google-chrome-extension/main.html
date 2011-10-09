@@ -10,12 +10,14 @@
 		<script type="text/javascript" src="scripts/jquery.layout.js"></script>
 		<script type="text/javascript" src="scripts/summary.js"></script>
 		<script type="text/javascript" src="scripts/superglobals.js"></script>
+		<script type="text/javascript" src="scripts/backtrace.js"></script>
 		<script type="text/javascript" src="scripts/events.js"></script>
 		<script type="text/javascript" src="scripts/main.js"></script>
 		<link rel="stylesheet" type="text/css" href="style/style.css" media="screen"/>
 		<link rel="stylesheet" type="text/css" href="style/summary-bar.css" media="screen"/>
 		<link rel="stylesheet" type="text/css" href="style/main-style.css" media="screen"/>
 		<link rel="stylesheet" type="text/css" href="style/superglobals.css" media="screen"/>
+		<link rel="stylesheet" type="text/css" href="style/stacktrace.css" media="screen"/>
 		<script type="text/javascript">
 
 		$(document).ready(function () {
@@ -40,11 +42,17 @@
 			,	north__size:			500
 			});
 			
+			
+			populateSuperglobals({key:'value', key2: 'value2'},{key:'value', key2: 'value2'},{},{key:'value', key2: 'value2'},{key:'value', key2: 'value2'});
+			
 			$('a.toggler').click(function() {
 				$(this).nextAll('div.super-global-display').slideToggle(500);
 		        return false;
 		    });
-
+			
+			populateZniffingUrl('amitdar.projectx.zend.com/bla/bla/bla/user/login');
+			populateSummary('asdfdsfasdfasdaf', 123, 123, 123, 123, 132);
+			
 			var events = [
 				             {title:'mypass/user/login',
 				           	  get: 		{key:'value', key2: 'value2'},
@@ -72,12 +80,11 @@
 							 }
 					];
 
+			populateBacktrace('ERROR ROOROROROR', 'SOME sort of error', [{method: 'SimpleXMLElement::__construct()', filename: '/gui/application/PE/models/Deployment/Prerequisites/Validator/Generator.php(23)'}, {method: 'SimpleXMLElement::__construct()', filename: '/gui/application/PE/models/Deployment/Prerequisites/Validator/Generator.php(23)'}]);
 			setEvents(events);
 			
-			populateZniffingUrl('amitdar.projectx.zend.com/bla/bla/bla/user/login');
-			populateSummary('asdfdsfasdfasdaf', 123, 123, 123, 123, 132);
-			populateEvents();
 		});
+		
 		</SCRIPT>
 	</head>
 	<body>
@@ -158,6 +165,9 @@
 			</div>
 			<div class="inner-center">
 				<div class="section-headline"><h2>Stack Trace</h2></div>
+				<div class="stack-trace-error"><span class="error-type no-wrap"></span>:&nbsp;&quot;<span class="error-message"></span>&quot;</div>
+				<ol class="stack-trace-list">
+				</ol>
 			</div>
 			<div class="inner-west">aa</div>
 		</div>
@@ -191,7 +201,98 @@
 		</div>
 		<div class="outer-west">
 			<ul>
-				
+				<li id="selected-event">
+					<div class="event-title">
+						<div class="studio-icon"></div>
+						mypass/user/login
+					</div>
+					<ul>
+						<li>
+							<div class="event-type" id="critical-small"></div>
+							<div class="event-type" id="debug-small"></div>
+							Fatal PHP Error
+						</li>
+						<li>
+							<div class="event-type" id="warning-small"></div>
+							<div class="event-type" id="debug-small"></div>
+							Event X
+						</li>
+						<li>
+							<div class="event-type" id="normal-small"></div>
+							<div class="event-type" id="debug-small"></div>
+							Event Y
+						</li>
+					</ul>
+				</li>
+				<li>
+					<div class="event-title">
+						<div class="studio-icon"></div>
+						mypass/user/login
+					</div>
+					<ul>
+						<li>
+							<div class="event-type" id="critical-small"></div>
+							<div class="event-type" id="debug-small"></div>
+							Fatal PHP Error
+						</li>
+						<li>
+							<div class="event-type" id="warning-small"></div>
+							<div class="event-type" id="debug-small"></div>
+							Event X
+						</li>
+						<li>
+							<div class="event-type" id="normal-small"></div>
+							<div class="event-type" id="debug-small"></div>
+							Event Y
+						</li>
+					</ul>
+				</li>
+				<li>
+					<div class="event-title">
+						<div class="studio-icon"></div>
+						mypass/user/login
+					</div>
+					<ul>
+						<li>
+							<div class="event-type" id="critical-small"></div>
+							<div class="event-type" id="debug-small"></div>
+							Fatal PHP Error
+						</li>
+						<li>
+							<div class="event-type" id="warning-small"></div>
+							<div class="event-type" id="debug-small"></div>
+							Event X
+						</li>
+						<li>
+							<div class="event-type" id="normal-small"></div>
+							<div class="event-type" id="debug-small"></div>
+							Event Y
+						</li>
+					</ul>
+				</li>
+				<li>
+					<div class="event-title">
+						<div class="studio-icon"></div>
+						mypass/user/login
+					</div>
+					<ul>
+						<li>
+							<div class="event-type" id="critical-small"></div>
+							<div class="event-type" id="debug-small"></div>
+							Fatal PHP Error
+						</li>
+						<li>
+							<div class="event-type" id="warning-small"></div>
+							<div class="event-type" id="debug-small"></div>
+							Event X
+						</li>
+						<li>
+							<div class="event-type" id="normal-small"></div>
+							<div class="event-type" id="debug-small"></div>
+							Event Y
+						</li>
+					</ul>
+				</li>
 			</ul>
 		</div>
 	</body>

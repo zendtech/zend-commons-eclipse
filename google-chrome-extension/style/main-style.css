@@ -38,6 +38,7 @@
 .ui-layout-pane-east		{ border-left:		0; overflow: auto;} 
 .ui-layout-resizer-east		{ border-right:		1px solid #BBB; }
 .ui-layout-pane-north		{ border-bottom:	0; overflow: auto;}
+.ui-layout-pane-center		{ border-bottom:	0; overflow: auto;}
 .ui-layout-resizer-north	{ border-top:		1px solid #BBB; }
 .ui-layout-pane-south		{ border-top:		0; overflow: auto;}
 .ui-layout-resizer-south	{ border-bottom: 	1px solid #BBB; }

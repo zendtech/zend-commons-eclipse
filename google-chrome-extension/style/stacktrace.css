@@ -1,0 +1,27 @@
+@CHARSET "UTF-8";
+
+ol.stack-trace-list{
+	padding-left: 30px;
+}
+
+ol.stack-trace-list li {
+	padding:2px 0;
+	
+}
+
+div.stack-trace-error {
+	margin-top:15px;
+}
+
+div.stack-trace-error span.error-type{
+	font-weight: bold;
+}
+
+ol.stack-trace-list li span.error-type {
+	text-transform: capitalize;
+}
+
+ol.stack-trace-list li span.filename, ul.stack-trace-list li span.method-name {
+	font-family: monospace;
+}
+
