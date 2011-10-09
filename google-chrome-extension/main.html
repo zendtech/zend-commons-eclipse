@@ -11,6 +11,7 @@
 		<script type="text/javascript" src="scripts/summary.js"></script>
 		<script type="text/javascript" src="scripts/main.js"></script>
 		<link rel="stylesheet" type="text/css" href="style/style.css" media="screen"/>
+		<link rel="stylesheet" type="text/css" href="style/summary-bar.css" media="screen"/>
 		<link rel="stylesheet" type="text/css" href="style/main-style.css" media="screen"/>
 		<script type="text/javascript">
 		$(document).ready(function () {
@@ -19,9 +20,9 @@
 			,	west__paneSelector:		".outer-west" 
 			,	north__paneSelector:	".outer-north" 
 			,	west__size:				250 
-			,	north__size:			95 
-			,	north__minSize:			95
-			,	north__maxSize:			95
+			,	north__size:			80 
+			,	north__minSize:			80
+			,	north__maxSize:			80
 			});
 
 			innerLayout = $('div.outer-center').layout({
@@ -33,6 +34,7 @@
 			});
 
 			populateZniffingUrl('amitdar.projectx.zend.com/bla/bla/bla/user/login');
+			populateSummary('asdfdsfasdfasdaf', 123, 123, 123, 123, 132);
 		});
 		</SCRIPT>
 	</head>
@@ -44,7 +46,7 @@
 		</div>
 		<div class="outer-north">
 			<div id="main-top-menu">
-				<img src="images/logo.jpg" />
+				<img src="images/logo.png" id="main-logo"/>
 				<div class="menu-url">
 					<b>Zniffing URL: </b>
 					<span id="zniffing-url">fsfsddfs</span>
@@ -60,7 +62,14 @@
 				</div>
 			</div>
 			<div id="main-top-summary">
-				dsasasad
+				<div id="summary-bar">
+					<div class="summary-description float-left">Requests (<span id="summary-requests-count"></span>) &gt; Events (<span id="summary-events-count"></span>): </div>
+					<ul class="summary-icons">
+						<li><div id="summary-icon-critical" class="icon"></div></li>
+						<li><div id="summary-icon-warning" class="icon"></div></li>
+						<li><div id="summary-icon-normal" class="icon"></div></li>
+					</ul>
+				</div>
 			</div>
 		</div>
 		<div class="outer-west">dd</div>

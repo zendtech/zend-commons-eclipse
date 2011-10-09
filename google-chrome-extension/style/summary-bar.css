@@ -1,8 +1,8 @@
 @CHARSET "UTF-8";
 
 #summary-bar {
-	padding: 6px 0 6px 0;
 	height: 35px;
+	padding-left: 10px;
 }
 
 .mini_bar_header span {
@@ -28,6 +28,9 @@ ul.summary-icons {
 ul.summary-icons li {
 	list-style-type: none;
 	display: inline;
+	color: #fff;
+	font-size: 12px;
+	font-weight: bold;
 }
 
 ul.summary-icons li div.icon{
@@ -39,9 +42,28 @@ ul.summary-icons li div.icon{
 	margin-right: 10px;
 	float: left;
 	background: url('../images/logo.jpg') top left repeat;
+	line-height: 32px;
 }
 
 div.summary-share-links {
 	padding-bottom:10px;
 	padding-top:5px;
+}
+
+#summary-icon-critical {
+	background: url('../images/icon-critical.png') top left repeat;
+	height: 32px;
+	width: 32px;
+}
+
+#summary-icon-normal {
+	background: url('../images/icon-normal.png') top left repeat;
+	height: 32px;
+	width: 32px;
+}
+
+#summary-icon-warning {
+	background: url('../images/icon-warning.png') top left repeat;
+	height: 32px;
+	width: 32px;
 }
