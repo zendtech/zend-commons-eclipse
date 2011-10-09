@@ -18,6 +18,17 @@
 	background: #ceeefe;
 }
 
+#main-top-menu img {
+	float: left;
+	margin: 5px 0 0 10px;
+}
+
+.menu-url {
+	float: left;
+	margin: 10px 0 0 20px;
+	padding-left: 10px;
+	border-left: 2px groove #fff;
+}
 
 /*
  *	customize borders on panes/resizers to make pretty
