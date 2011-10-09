@@ -52,15 +52,23 @@ function list_error(status) {
 
 function refreshPopupContent() {
 	if (localStorage["username"] == undefined) {
-		$('#mini_bar_welcome')[0].style.display = 'none';
-		$('#mini_bar_login')[0].style.display = 'inline';
+		if ($('#mini_bar_welcome').length > 0) {
+			$('#mini_bar_welcome')[0].style.display = 'none';
+		}
+		if ($('#mini_bar_login').length > 0) {
+			$('#mini_bar_login')[0].style.display = 'inline';
+		}
 		$('#settings-button').css('display', 'none'); 
 		$('#logout-button').css('display', 'none');
 		$('#mini_bar_header').width(350);
 		document.body.style.width="360px";
 	} else {
-		$('#mini_bar_welcome')[0].style.display = 'inline';
-		$('#mini_bar_login')[0].style.display = 'none';
+		if ($('#mini_bar_welcome').length > 0) {
+			$('#mini_bar_welcome')[0].style.display = 'inline';
+		}
+		if ($('#mini_bar_login').length > 0) {
+			$('#mini_bar_login')[0].style.display = 'none';
+		}
 		$('#settings-button').css('display', 'block'); 
 		$('#logout-button').css('display', 'block');
 		$('#mini_bar_header').width(490);
