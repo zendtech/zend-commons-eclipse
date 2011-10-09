@@ -16,6 +16,7 @@ org.zend = {
 		var arrcookies = document.cookie.split(";");
 		for ( var i = 0; i < arrcookies.length; i++) {
 			name = arrcookies[i].substr(0, arrcookies[i].indexOf("="));
+			name = trim(name);
 			if (name.length > length && name.substr(0, length) == prefix) {
 				return name.substr(length);
 			}
@@ -77,6 +78,70 @@ org.zend = {
 	}
 };
 
+
+function trim(stringToTrim) {
+	return stringToTrim.replace(/^\s+|\s+$/g,"");
+}
+
+function isValidDomainResponseFunc(response) {
+	if (response.data != -1) {
+		requestId = org.zend.getMonitorRequestId(document.cookie);
+		if (requestId != null) {
+			var summary_success = function(response) {
+				var c = response.requestSummary["events-count"];
+				if (c == 0) {
+					return;
+				}
+
+				// copy code-tracing id
+				var id = response.requestSummary['code-tracing'];
+				if (id) {
+					var matches = /amf=(.*)[&]?/.exec(id);
+					org.zend.codeTraceId = matches[1]; // match[0] is "amfid=.....", match[1] is "....." 
+				}
+
+				// copy events
+				if (c == 1) {
+					var e = response.requestSummary.events.event;
+					events.push(e);
+				} else {
+					for ( var i = 0; i < c; i++) {
+						var e = response.requestSummary.events.event[i];
+						events.push(e);
+					}
+				}
+
+				if (hasFader()) {
+					addSlides();
+					all_events = all_events.concat(events);
+					events = [];
+					updateSummary(all_events);
+				}
+
+				chrome.extension.sendRequest({
+					method : "showNotifications"
+				}, function(response) {
+				});
+			};
+
+			var summary_error = function(message) {
+				chrome.extension.sendRequest({
+					method : "signout"
+				}, function(response) {
+					chrome.extension.sendRequest({
+						method : "refreshPopupContent"
+					}, function(response) {
+					});
+				});
+			};
+
+			requestSummary(containerName, requestId,
+					summary_success, summary_error);
+		}
+	}
+	}
+
+
 // search for the magic cookie....
 domain = window.location.hostname;
 dot = domain.indexOf('.');
@@ -86,63 +151,7 @@ if (dot != -1 && org.zend.isValidDomain(domain.substr(dot + 1))) {
 	chrome.extension.sendRequest({
 		method : "isValidContainer",
 		key : containerName
-	}, function(response) {
-		if (response.data != -1) {
-			requestId = org.zend.getMonitorRequestId(document.cookie);
-			if (requestId != null) {
-				var summary_success = function(response) {
-					var c = response.requestSummary["events-count"];
-					if (c == 0) {
-						return;
-					}
-
-					// copy code-tracing id
-					var id = response.requestSummary['code-tracing'];
-					if (id) {
-						var matches = /amf=(.*)[&]?/.exec(id);
-						org.zend.codeTraceId = matches[1]; // match[0] is "amfid=.....", match[1] is "....." 
-					}
-					
-					// copy events
-					if (c == 1) {
-						var e = response.requestSummary.events.event;
-						events.push(e);
-					} else {
-						for ( var i = 0; i < c; i++) {
-							var e = response.requestSummary.events.event[i];
-							events.push(e);
-						}
-					}
-					
-					if (hasFader()) {
-						addSlides();
-						all_events = all_events.concat(events);
-						events = [];
-						updateSummary(all_events);
-					}
-					
-					chrome.extension.sendRequest({
-						method : "showNotifications"
-					}, function(response) {
-					});
-				};
-
-				var summary_error = function(message) {
-					chrome.extension.sendRequest({
-						method : "signout"
-					}, function(response) {
-						chrome.extension.sendRequest({
-							method : "refreshPopupContent"
-						}, function(response) {
-						});
-					});
-				};
-				
-				requestSummary(containerName, requestId,
-						summary_success, summary_error);
-			}
-		}
-	});
+	}, isValidDomainResponseFunc);
 }
 
 var events = [];
