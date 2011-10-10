@@ -57,60 +57,80 @@
 				              {url: 		'mypass/user/login', 
 							  events: [
 							    {name: 		'Fatal PHP Error', 
-								 type: 		'critical',
+						    	 severity: 		'critical',
+								 type:			'Php Error',
+								 description:	'fopen() expects at least 2 parameters, 1 given',
 								 get: 		{key:'LCKey1', key2: 'LCvalue1'},
 								 post: 		{key:'LCKey2', key2: 'LCvalue2'},
 								 cookie: 	{},
 								 server:	{key:'LCKey3', key2: 'LCvalue3'},
 								 session:	{key:'LCKey4', key2: 'LCvalue4'},
+								 backtrace:	[{method: '1SimpleXMLElement::__construct()', filename: '/gui/application/PE/models/Deployment/Prerequisites/Validator/Generator.php(23)'}, {method: 'SimpleXMLElement::__construct()', filename: '/gui/application/PE/models/Deployment/Prerequisites/Validator/Generator.php(23)'}]
 								},
 							    {name:		 'Event X',
-								 type:		 'warning',
+								 severity: 		'warning',
+								 type:			'Php Error',
+								 description:	'fopen() expects at least 2 parameters, 1 given',
 								 get: 		{key:'LWKey1', key2: 'LWvalue1'},
 								 post: 		{key:'LWKey2', key2: 'LWvalue2'},
 								 cookie: 	{},
 								 server:	{key:'LWKey3', key2: 'LWvalue3'},
-								 session:	{key:'LWKey4', key2: 'LWvalue4'},},
+								 session:	{key:'LWKey4', key2: 'LWvalue4'},
+								 backtrace:	[{method: '2SimpleXMLElement::__construct()', filename: '/gui/application/PE/models/Deployment/Prerequisites/Validator/Generator.php(23)'}, {method: 'SimpleXMLElement::__construct()', filename: '/gui/application/PE/models/Deployment/Prerequisites/Validator/Generator.php(23)'}]
+								},
 							    {name: 		'Event Y',
-								 type:		 'normal',
+								 severity: 		'normal',
+								 type:			'Php Error',
+								 description:	'fopen() expects at least 2 parameters, 1 given',
 								 get: 		{key:'LNKey1', key2: 'LNvalue1'},
 								 post: 		{key:'LNKey2', key2: 'LNvalue2'},
 								 cookie: 	{},
 								 server:	{key:'LNKey3', key2: 'LNvalue3'},
-								 session:	{key:'LNKey4', key2: 'LNvalue4'}
+								 session:	{key:'LNKey4', key2: 'LNvalue4'},
+								 backtrace:	[{method: '3SimpleXMLElement::__construct()', filename: '/gui/application/PE/models/Deployment/Prerequisites/Validator/Generator.php(23)'}, {method: 'SimpleXMLElement::__construct()', filename: '/gui/application/PE/models/Deployment/Prerequisites/Validator/Generator.php(23)'}]
 								}
 							  ]
 							 },
 							 {url: 		'mypass/user/other_login', 
 							  events: [
 							    {name:		 'Fatal PHP Error', 
-								 type: 		'critical',
+								 severity: 		'critical',
+								 type:			'Php Error',
+								 description:	'fopen() expects at least 2 parameters, 1 given',
 								 get: 		{key:'LCKey5', key2: 'LCvalue5'},
 								 post: 		{key:'LCKey6', key2: 'LCvalue6'},
 								 cookie: 	{},
 								 server:	{key:'LCKey7', key2: 'LCvalue7'},
 								 session:	{key:'LCKey8', key2: 'LCvalue8'},
+								 backtrace:	[{method: '4SimpleXMLElement::__construct()', filename: '/gui/application/PE/models/Deployment/Prerequisites/Validator/Generator.php(23)'}, {method: 'SimpleXMLElement::__construct()', filename: '/gui/application/PE/models/Deployment/Prerequisites/Validator/Generator.php(23)'}]
 								},
 							    {name: 		'Event X',
-								 type: 		'warning',
+								 severity: 		'warning',
+								 type:			'Php Error',
+								 description:	'fopen() expects at least 2 parameters, 1 given',
 								 get: 		{key:'LWKey5', key2: 'LWvalue5'},
 								 post: 		{key:'LWKey6', key2: 'LWvalue6'},
 								 cookie: 	{},
 								 server:	{key:'LWKey7', key2: 'LWvalue7'},
-								 session:	{key:'LWKey8', key2: 'LWvalue8'},},
+								 session:	{key:'LWKey8', key2: 'LWvalue8'},
+								 backtrace:	[{method: '5SimpleXMLElement::__construct()', filename: '/gui/application/PE/models/Deployment/Prerequisites/Validator/Generator.php(23)'}, {method: 'SimpleXMLElement::__construct()', filename: '/gui/application/PE/models/Deployment/Prerequisites/Validator/Generator.php(23)'}]
+								},
 							    {name: 		'Event Y',
-								 type: 		'normal',
+								 severity: 		'normal',
+								 type:			'Php Error',
+								 description:	'fopen() expects at least 2 parameters, 1 given',
 								 get: 		{key:'LNKey5', key2: 'LNvalue5'},
 								 post: 		{key:'LNKey6', key2: 'LNvalue6'},
 								 cookie: 	{},
 								 server:	{key:'LNKey7', key2: 'LNvalue7'},
-								 session:	{key:'LNKey8', key2: 'LNvalue8'}
+								 session:	{key:'LNKey8', key2: 'LNvalue8'},
+								 backtrace:	[{method: '6SimpleXMLElement::__construct()', filename: '/gui/application/PE/models/Deployment/Prerequisites/Validator/Generator.php(23)'}, {method: 'SimpleXMLElement::__construct()', filename: '/gui/application/PE/models/Deployment/Prerequisites/Validator/Generator.php(23)'}]
 								}
 							  ]
 							 }
 					];
 
-			populateBacktrace('ERROR ROOROROROR', 'SOME sort of error', [{method: 'SimpleXMLElement::__construct()', filename: '/gui/application/PE/models/Deployment/Prerequisites/Validator/Generator.php(23)'}, {method: 'SimpleXMLElement::__construct()', filename: '/gui/application/PE/models/Deployment/Prerequisites/Validator/Generator.php(23)'}]);
+			//populateBacktrace('ERROR ROOROROROR', 'SOME sort of error', [{method: 'SimpleXMLElement::__construct()', filename: '/gui/application/PE/models/Deployment/Prerequisites/Validator/Generator.php(23)'}, {method: 'SimpleXMLElement::__construct()', filename: '/gui/application/PE/models/Deployment/Prerequisites/Validator/Generator.php(23)'}]);
 			setEvents(events);
 			populateEvents();
 		});
@@ -195,17 +215,12 @@
 			</div>
 			<div class="inner-center">
 				<div class="section-headline"><h2>Stack Trace</h2></div>
-				<div class="stack-trace-error"><span class="error-type no-wrap"></span>:&nbsp;&quot;<span class="error-message"></span>&quot;</div>
 				<ol class="stack-trace-list">
 				</ol>
 			</div>
 			<div class="inner-west">
 				<div class="section-headline"><h2>Event Description</h2></div>
-				<table>
-					<tr>
-						
-					</tr>
-				</table>
+				<div class="event-description"><span class="error-type no-wrap"></span>:&nbsp;&quot;<span class="description"></span>&quot;</div>
 			</div>
 		</div>
 		<div class="outer-north">

@@ -1,6 +1,4 @@
-function populateBacktrace(errorType, errorMessage, backtrace) {
-	$('.stack-trace-error .error-type').html(errorType);
-	$('.stack-trace-error .error-message').html(errorMessage);
+function populateBacktrace(backtrace) {
 	$('.stack-trace-list li').remove();
 	
 	$.each(backtrace, function(index, element) {

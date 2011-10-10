@@ -12,7 +12,7 @@ function populateEventsList(params) {
 				 '<div class="studio-icon"></div>' + element.url + '</div><ul>';
 		
 		jQuery.each(element.events, function(eventIndex, eventElement) {
-			event += '<li><div class="event-type" id="' + getEventTypeIcon(eventElement.type) + '"></div>' + 
+			event += '<li><div class="event-type" id="' + getEventTypeIcon(eventElement.severity) + '"></div>' + 
 					 '<div class="event-type" id="debug-small"></div>' +
 					 '<div class="event-type-desc" id="event_' + eventIndex + '" onClick="switchEvent(' + index + ', ' + eventIndex + ')">"' +  eventElement.name + '</div></li>'; 
 		});
@@ -61,4 +61,5 @@ function switchEvent(index, eventIndex) {
 	$('#request_' + index + ' #event_' + eventIndex).addClass('selected-event');
 	
 	populateSuperglobals(event.get, event.post, event.cookie, event.server, event.session);
+	populateBacktrace(event.backtrace);
 }
