@@ -170,3 +170,23 @@ div.section-headline h2 {
 #debug-small {
 	background: url('../images/debug.png') top left repeat;
 }
+
+.arrow-right {
+	margin-top: 10px;	
+}
+
+.toggler {
+	text-decoration: none;
+	color: #000;
+	font-weight: bold;
+}
+
+.eventOpen {
+	background: url('../images/arrow-down.png') left 3px no-repeat;
+	padding-left: 20px;
+}
+
+.eventClose {
+	background: url('../images/arrow-right.png') left 3px no-repeat;
+	padding-left: 20px;
+}

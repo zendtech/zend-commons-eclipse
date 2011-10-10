@@ -49,6 +49,8 @@
 			window.lock = false;
 			
 			$('a.toggler').click(function() {
+				$(this).toggleClass('eventOpen');
+				$(this).toggleClass('eventClose');
 				$(this).nextAll('div.super-global-display').slideToggle(500);
 		        return false;
 		    });
@@ -205,8 +207,9 @@
 				<div class="section-headline"><h2>Environment Details</h2></div>
 				<ul class="super-global-list">
 					<li id="get-super-global">
-						<a href="javascript:void(0)" class="toggler">Open/Close</a>
-						<label class="has-content-label">Get</label>
+						<a href="javascript:void(0)" class="toggler eventOpen">
+							<label class="has-content-label">Get</label>
+						</a>
 						<label class="no-content-label">Get (Empty)</label>
 						<div class="super-global-display">
 							<table class="super-global-table">
@@ -219,8 +222,9 @@
 					</li>
 					
 					<li id="post-super-global">
-						<a href="javascript:void(0)" class="toggler">Open/Close</a>
-						<label class="has-content-label">Post</label>
+						<a href="javascript:void(0)" class="toggler eventOpen">
+							<label class="has-content-label">Post</label>
+						</a>
 						<label class="no-content-label">Post (Empty)</label>
 						<div class="super-global-display">
 							<table class="super-global-table">
@@ -233,8 +237,9 @@
 					</li>
 					
 					<li id="cookie-super-global">
-						<a href="javascript:void(0)" class="toggler">Open/Close</a>
-						<label class="has-content-label">Cookie</label>
+						<a href="javascript:void(0)" class="toggler eventOpen">
+							<label class="has-content-label">Cookie</label>
+						</a>
 						<label class="no-content-label">Cookie (Empty)</label>
 						<div class="super-global-display">
 							<table class="super-global-table">
@@ -247,8 +252,10 @@
 					</li>
 					
 					<li id="server-super-global">
-						<a href="javascript:void(0)" class="toggler">Open/Close</a>
-						<label class="has-content-label">Server</label>
+						<a href="javascript:void(0)" class="toggler eventOpen">
+							<label class="has-content-label">Server</label>
+						</a>
+						<label class="has-content-label"></label>
 						<label class="no-content-label">Server (Empty)</label>
 						<div class="super-global-display">
 							<table class="super-global-table">
@@ -261,8 +268,9 @@
 					</li>
 					
 					<li id="session-super-global">
-						<a href="javascript:void(0)" class="toggler">Open/Close</a>
-						<label class="has-content-label">Session</label>
+						<a href="javascript:void(0)" class="toggler eventOpen">
+							<label class="has-content-label">Session</label>
+						</a>
 						<label class="no-content-label">Session (Empty)</label>
 						<div class="super-global-display">
 							<table class="super-global-table">
@@ -306,7 +314,7 @@
 			</div>
 			<div id="main-top-summary">
 				<div id="summary-bar">
-					<div class="summary-description float-left">Requests&nbsp;(<span id="summary-requests-count"></span>)&nbsp;&gt;&nbsp;Events&nbsp;(<span id="summary-events-count"></span>):</div>
+					<div class="summary-description float-left">Requests&nbsp;(<span id="summary-requests-count"></span>)&nbsp;<img src="images/arrow-right.png" class="arrow-right" />&nbsp;Events&nbsp;(<span id="summary-events-count"></span>):</div>
 					<ul class="summary-icons">
 						<li><div id="summary-icon-critical" class="icon"></div></li>
 						<li><div id="summary-icon-warning" class="icon"></div></li>
