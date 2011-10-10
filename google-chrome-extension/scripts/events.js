@@ -3,18 +3,18 @@ function populateRequest(index, request) {
 	
 	event += '<div class="event-title">';
 	if (request.codeTracing) {
-		event += '<img class="request-icon" src="images/studio.png" title="Open code tracing in Studio" onclick=""/>';
+		event += '<img class="request-icon" src="images/studio.png" title="Open code tracing in Studio" onclick="openCodeTracingSnapshot(\'' + request.container + '\', \'' + request.codeTracing + '\');"/>';
 	} else {
-		event += '<img class="request-icon" src="images/studio-disabled.png" title="Code tracing is unavailable" onclick=""/>';
+		event += '<img class="request-icon" src="images/studio-disabled.png" title="Code tracing is unavailable" />';
 	}
 	event += request.url + '</div><ul>';
 	
 	jQuery.each(request.events, function(eventIndex, eventElement) {
 		event += '<li><div class="event-type" id="' + getEventTypeIcon(eventElement.severity) + '"></div>';
-		if (eventElement.debugUrl) {
-			event += '<img class="event-icon" src="images/debug.png" title="Debug event in Studio" onclick="" />';
+		if (eventElement.eventId && eventElement.issueId) {
+			event += '<img class="event-icon" src="images/debug.png" title="Debug event in Studio" onclick="startDebug(\'' + eventElement.container + '\', ' + eventElement.issueId + ', ' + eventElement.eventId + ', function() { }, function() { });" />';
 		} else {
-			event += '<img class="event-icon" src="images/debug-disabled.png" title="Debug is not available" onclick="" />';
+			event += '<img class="event-icon" src="images/debug-disabled.png" title="Debug is not available" />';
 		}
 		event += '<span class="event-type-desc" id="event_' + eventIndex + '" onClick="switchEvent(' + index + ', ' + eventIndex + ')">' +  eventElement.name + '</span></li>'; 
 	});
@@ -102,4 +102,33 @@ function switchEvent(index, eventIndex) {
 	populateSuperglobals(event.get, event.post, event.cookie, event.server, event.session);
 	populateBacktrace(event.backtrace);
 	populateDescription(event.type, event.description);
+}
+
+/**
+ * Opens AMF file in Zend Studio
+ */
+function openCodeTracingSnapshot (containerName, amfid) {
+	
+	var success = function(response) {
+		
+		
+		try {
+			var url = "http://127.0.0.1:28029/org.zend.php.zendserver.deployment.ui.OpenCodeTracingSnapshot";
+			var rf = new XMLHttpRequest();
+			rf.open("POST", url, false);
+			rf.send(response);
+			if (rf.status!=200)
+				return false;
+			return rf.responseText;
+
+		} catch(e) { 
+			console.log(e);
+			return false; 
+		}
+	};
+	var error = function(error) {
+		console.log(error);
+	};
+	
+	downloadAmf(containerName, amfid, success, error);
 }
