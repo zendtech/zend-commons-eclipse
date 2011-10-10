@@ -57,7 +57,7 @@
 			populateZniffingUrl('amitdar.projectx.zend.com/bla/bla/bla/user/login');
 			populateSummary('asdfdsfasdfasdaf', 123, 123, 123, 123, 132);
 			
-			var events = [
+			var request = [
 				              {url: 		'mypass/user/login', 
 							  events: [
 							    {name: 		'Fatal PHP Error', 
@@ -133,9 +133,49 @@
 							  ]
 							 }
 					];
-
 			//populateBacktrace('ERROR ROOROROROR', 'SOME sort of error', [{method: 'SimpleXMLElement::__construct()', filename: '/gui/application/PE/models/Deployment/Prerequisites/Validator/Generator.php(23)'}, {method: 'SimpleXMLElement::__construct()', filename: '/gui/application/PE/models/Deployment/Prerequisites/Validator/Generator.php(23)'}]);
-			addRequests(events);
+			addRequests(request);
+
+			var newRequest = {url: 		'mypass/user/new_login', 
+					 		  events: [
+							    {name:		'Fatal PHP Error', 
+								 severity: 		'critical',
+								 type:			'Php Error',
+								 description:	'fopen() expects at least 2 parameters, 1 given',
+								 get: 		{key:'LCKey9', key2: 'LCvalue9'},
+								 post: 		{key:'LCKey10', key2: 'LCvalue10'},
+								 cookie: 	{},
+								 server:	{key:'LCKey11', key2: 'LCvalue11'},
+								 session:	{key:'LCKey12', key2: 'LCvalue12'},
+								 backtrace:	[{method: '4SimpleXMLElement::__construct()', filename: '/gui/application/PE/models/Deployment/Prerequisites/Validator/Generator.php(23)'}, {method: 'SimpleXMLElement::__construct()', filename: '/gui/application/PE/models/Deployment/Prerequisites/Validator/Generator.php(23)'}]
+								},
+							    {name: 		'Event X',
+								 severity: 		'warning',
+								 type:			'Php Error',
+								 description:	'fopen() expects at least 2 parameters, 1 given',
+								 get: 		{key:'LWKey9', key2: 'LWvalue9'},
+								 post: 		{key:'LWKey10', key2: 'LWvalue10'},
+								 cookie: 	{},
+								 server:	{key:'LWKey11', key2: 'LWvalue11'},
+								 session:	{key:'LWKey12', key2: 'LWvalue12'},
+								 backtrace:	[{method: '5SimpleXMLElement::__construct()', filename: '/gui/application/PE/models/Deployment/Prerequisites/Validator/Generator.php(23)'}, {method: 'SimpleXMLElement::__construct()', filename: '/gui/application/PE/models/Deployment/Prerequisites/Validator/Generator.php(23)'}]
+								},
+							    {name: 		'Event Y',
+								 severity: 		'normal',
+								 type:			'Php Error',
+								 description:	'fopen() expects at least 2 parameters, 1 given',
+								 get: 		{key:'LNKey9', key2: 'LNvalue9'},
+								 post: 		{key:'LNKey10', key2: 'LNvalue10'},
+								 cookie: 	{},
+								 server:	{key:'LNKey11', key2: 'LNvalue11'},
+								 session:	{key:'LNKey12', key2: 'LNvalue12'},
+								 backtrace:	[{method: '6SimpleXMLElement::__construct()', filename: '/gui/application/PE/models/Deployment/Prerequisites/Validator/Generator.php(23)'}, {method: 'SimpleXMLElement::__construct()', filename: '/gui/application/PE/models/Deployment/Prerequisites/Validator/Generator.php(23)'}]
+								}
+							  ]
+							 };
+
+			addRequest(newRequest);
+			
 			switchEvent(0, 0);
 		});
 		

@@ -1,32 +1,3 @@
-function populateEvents(params) {
-	var requests = getEvents();
-	populateEventsList(events);
-	switchEvent(events.length - 1, 0);
-}
-
-function populateEventsList(params) {
-	jQuery.each(params.reverse(), function(index,element) {
-		var event = '<li id="request_' + index + '">';
-		
-		event += '<div class="event-title">' +
-				 '<div class="studio-icon"></div>' + element.url + '</div><ul>';
-		
-		jQuery.each(element.events, function(eventIndex, eventElement) {
-			event += '<li><div class="event-type" id="' + getEventTypeIcon(eventElement.severity) + '"></div>' + 
-					 '<div class="event-type" id="debug-small"></div>' +
-					 '<div class="event-type-desc" id="event_' + eventIndex + '" onClick="switchEvent(' + index + ', ' + eventIndex + ')">"' +  eventElement.name + '</div></li>'; 
-		});
-		
-		event += '</ul></li>';
-		
-		if (index == 0) {
-			$('.outer-west ul').html(event);
-		} else {
-			$('.outer-west ul li:first').before(event);
-		}
-	});
-}
-
 function populateRequest(index, request) {
 	var event = '<li id="request_' + index + '">';
 	
@@ -34,9 +5,9 @@ function populateRequest(index, request) {
 			 '<div class="studio-icon"></div>' + request.url + '</div><ul>';
 	
 	jQuery.each(request.events, function(eventIndex, eventElement) {
-		event += '<li><div class="event-type" id="' + getEventTypeIcon(eventElement.type) + '"></div>' + 
+		event += '<li><div class="event-type" id="' + getEventTypeIcon(eventElement.severity) + '"></div>' + 
 				 '<div class="event-type" id="debug-small"></div>' +
-				 '<div class="event-type-desc" id="event_' + eventIndex + '" onClick="switchEvent(' + index + ', ' + eventIndex + ')">"' +  eventElement.name + '</div></li>'; 
+				 '<div class="event-type-desc" id="event_' + eventIndex + '" onClick="switchEvent(' + index + ', ' + eventIndex + ')">' +  eventElement.name + '</div></li>'; 
 	});
 	
 	event += '</ul></li>';
@@ -71,15 +42,6 @@ function addRequest(request) {
 
 function getRequests() {
 	return window.requests;
-}
-
-
-function setEvents(events) {
-	window.events = events;
-}
-
-function getEvents() {
-	return window.events;
 }
 
 function switchEvent(index, eventIndex) {
