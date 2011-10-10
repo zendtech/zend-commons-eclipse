@@ -54,28 +54,58 @@
 			populateSummary('asdfdsfasdfasdaf', 123, 123, 123, 123, 132);
 			
 			var events = [
-				             {title:'mypass/user/login',
-				           	  get: 		{key:'value', key2: 'value2'},
-							  post: 	{key:'value', key2: 'value2'},
-							  cookie: 	{},
-							  server:	{key:'value', key2: 'value2'},
-							  session:	{key:'value', key2: 'value2'}, 
+				              {url: 		'mypass/user/login', 
 							  events: [
-							           {name: 'Fatal PHP Error', type: 'critical'},
-							           {name: 'Event X', type: 'warning'},
-							           {name: 'Event Y', type: 'normal'}
+							    {name: 		'Fatal PHP Error', 
+								 type: 		'critical',
+								 get: 		{key:'LCKey1', key2: 'LCvalue1'},
+								 post: 		{key:'LCKey2', key2: 'LCvalue2'},
+								 cookie: 	{},
+								 server:	{key:'LCKey3', key2: 'LCvalue3'},
+								 session:	{key:'LCKey4', key2: 'LCvalue4'},
+								},
+							    {name:		 'Event X',
+								 type:		 'warning',
+								 get: 		{key:'LWKey1', key2: 'LWvalue1'},
+								 post: 		{key:'LWKey2', key2: 'LWvalue2'},
+								 cookie: 	{},
+								 server:	{key:'LWKey3', key2: 'LWvalue3'},
+								 session:	{key:'LWKey4', key2: 'LWvalue4'},},
+							    {name: 		'Event Y',
+								 type:		 'normal',
+								 get: 		{key:'LNKey1', key2: 'LNvalue1'},
+								 post: 		{key:'LNKey2', key2: 'LNvalue2'},
+								 cookie: 	{},
+								 server:	{key:'LNKey3', key2: 'LNvalue3'},
+								 session:	{key:'LNKey4', key2: 'LNvalue4'}
+								}
 							  ]
 							 },
-							 {title:'mypass/user/login2', 
-							  get: 		{key:'vvalue', key2: 'vvalue2'},
-							  post: 	{key:'vvalue', key2: 'vvalue2'},
-							  cookie: 	{},
-							  server:	{key:'vvalue', key2: 'vvalue2'},
-							  session:	{key:'vvalue', key2: 'vvalue2'},
-								  events: [
-							           {name: 'Fatal PHP Error', type: 'critical'},
-							           {name: 'Event X', type: 'warning'},
-							           {name: 'Event Y', type: 'normal'}
+							 {url: 		'mypass/user/other_login', 
+							  events: [
+							    {name:		 'Fatal PHP Error', 
+								 type: 		'critical',
+								 get: 		{key:'LCKey5', key2: 'LCvalue5'},
+								 post: 		{key:'LCKey6', key2: 'LCvalue6'},
+								 cookie: 	{},
+								 server:	{key:'LCKey7', key2: 'LCvalue7'},
+								 session:	{key:'LCKey8', key2: 'LCvalue8'},
+								},
+							    {name: 		'Event X',
+								 type: 		'warning',
+								 get: 		{key:'LWKey5', key2: 'LWvalue5'},
+								 post: 		{key:'LWKey6', key2: 'LWvalue6'},
+								 cookie: 	{},
+								 server:	{key:'LWKey7', key2: 'LWvalue7'},
+								 session:	{key:'LWKey8', key2: 'LWvalue8'},},
+							    {name: 		'Event Y',
+								 type: 		'normal',
+								 get: 		{key:'LNKey5', key2: 'LNvalue5'},
+								 post: 		{key:'LNKey6', key2: 'LNvalue6'},
+								 cookie: 	{},
+								 server:	{key:'LNKey7', key2: 'LNvalue7'},
+								 session:	{key:'LNKey8', key2: 'LNvalue8'}
+								}
 							  ]
 							 }
 					];

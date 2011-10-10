@@ -107,11 +107,14 @@ div.section-headline h2 {
 .event-title {
 	padding: 2px;
 	width: 90%;
-	cursor: pointer;
 }
 
-.selected-event .event-title {
+.selected-request .event-title {
 	background: #c0c0c0;
+}
+
+.selected-event {
+	font-weight: bold;
 }
 
 .studio-icon {
