@@ -14,6 +14,7 @@
 		<script type="text/javascript" src="scripts/events.js"></script>
 		<script type="text/javascript" src="scripts/main.js"></script>
 		<script type="text/javascript" src="scripts/eventdescription.js"></script>
+		<script type="text/javascript" src="scripts/jquery.simplemodal.js"></script>
 		<link rel="stylesheet" type="text/css" href="style/style.css" media="screen"/>
 		<link rel="stylesheet" type="text/css" href="style/summary-bar.css" media="screen"/>
 		<link rel="stylesheet" type="text/css" href="style/main-style.css" media="screen"/>
@@ -24,7 +25,7 @@
 
 		$(document).ready(function () {
 			window.requests = new Array();
-			
+
 			outerLayout = $('body').layout({
 				closable:				false
 			,	center__paneSelector:	".outer-center" 
@@ -305,7 +306,7 @@
 				<div class="main-top-button">
 					About
 				</div>
-				<div class="main-top-button">
+				<div class="main-top-button" onClick="showHelp()">
 					Help
 				</div>
 				<div class="main-top-button">
@@ -326,6 +327,17 @@
 		<div class="outer-west">
 			<ul id="events-list">
 			</ul>
+		</div>
+		<div id="help-content">
+			<h3>Basic Modal Dialog</h3>
+			<p>For this demo, SimpleModal is using this "hidden" data for its content. You can also populate the modal dialog with an AJAX response, standard HTML or DOM element(s).</p>
+			<p>Examples:</p>
+			<p><code>$('#basicModalContent').modal(); // jQuery object - this demo</code></p>
+			<p><code>$.modal(document.getElementById('basicModalContent')); // DOM</code></p>
+			<p><code>$.modal('&lt;p&gt;&lt;b&gt;HTML&lt;/b&gt; elements&lt;/p&gt;'); // HTML</code></p>
+			<p><code>$('&lt;div&gt;&lt;/div&gt;').load('page.html').modal(); // AJAX</code></p>
+		
+			<p><a href='http://www.ericmmartin.com/projects/simplemodal/'>More details...</a></p>
 		</div>
 	</body>
 </html>

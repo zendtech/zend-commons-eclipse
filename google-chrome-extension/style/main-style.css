@@ -190,3 +190,12 @@ div.section-headline h2 {
 	background: url('../images/arrow-right.png') left 3px no-repeat;
 	padding-left: 20px;
 }
+
+#help-content {
+	display: none;
+	position: absoulte;
+	top: 0;
+	right: 100px;
+	background: #fff;
+	border: 1px solid #000;
+}

@@ -42,3 +42,7 @@ function toggleLock(img) {
 	}
 	window.lock = !window.lock;
 }
+
+function showHelp() {
+	$('#help-content').modal({opacity: 0, modal: false, autoPosition: true, position: [10, 10]});
+}
