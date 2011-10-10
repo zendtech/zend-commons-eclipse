@@ -8,6 +8,10 @@ ul.super-global-list li{
 	margin-bottom: 10px;
 }
 
+ul.super-global-list li .has-content-label {
+	cursor: pointer;
+}
+
 table.super-global-table {
 	border: 2px solid #CCC;
 	border-collapse:collapse;
