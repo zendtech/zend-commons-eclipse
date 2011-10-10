@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>Summary information</title>
+		<!-- <script type="text/javascript" src="scripts/popup.js"></script> -->
+		<script type="text/javascript" src="scripts/devcloud.js"></script>
+		<script type="text/javascript" src="scripts/jquery.js"></script>
+		<script type="text/javascript" src="scripts/jquery-ui.js"></script>
+		<script type="text/javascript" src="scripts/jquery.layout.js"></script>
+		<script type="text/javascript" src="scripts/summary.js"></script>
+		<script type="text/javascript" src="scripts/superglobals.js"></script>
+		<script type="text/javascript" src="scripts/backtrace.js"></script>
+		<script type="text/javascript" src="scripts/events.js"></script>
+		<script type="text/javascript" src="scripts/main.js"></script>
+		<link rel="stylesheet" type="text/css" href="style/style.css" media="screen"/>
+		<link rel="stylesheet" type="text/css" href="style/summary-bar.css" media="screen"/>
+		<link rel="stylesheet" type="text/css" href="style/main-style.css" media="screen"/>
+		<link rel="stylesheet" type="text/css" href="style/superglobals.css" media="screen"/>
+		<link rel="stylesheet" type="text/css" href="style/stacktrace.css" media="screen"/>
+		<script type="text/javascript">
+
+		$(document).ready(function () {
+			outerLayout = $('body').layout({
+				closable:				false
+			,	center__paneSelector:	".outer-center" 
+			,	west__paneSelector:		".outer-west" 
+			,	north__paneSelector:	".outer-north" 
+			,	west__size:				290 
+			,	north__size:			80 
+			,	north__minSize:			80
+			,	north__maxSize:			80
+			,	west__minSize:			200
+			});
+
+			innerLayout = $('div.outer-center').layout({
+				closable:				false
+			,	center__paneSelector:	".inner-center" 
+			,	west__paneSelector:		".inner-west" 
+			,	north__paneSelector:	".inner-north" 
+			,	west__size:				300 
+			,	north__size:			500
+			});
+			
+			
+			populateSuperglobals({key:'value', key2: 'value2'},{key:'value', key2: 'value2'},{},{key:'value', key2: 'value2'},{key:'value', key2: 'value2'});
+			
+			$('a.toggler').click(function() {
+				$(this).nextAll('div.super-global-display').slideToggle(500);
+		        return false;
+		    });
+			
+			populateZniffingUrl('amitdar.projectx.zend.com/bla/bla/bla/user/login');
+			populateSummary('asdfdsfasdfasdaf', 123, 123, 123, 123, 132);
+			
+			var events = [
+				              {url: 		'mypass/user/login', 
+							  events: [
+							    {name: 		'Fatal PHP Error', 
+								 type: 		'critical',
+								 get: 		{key:'LCKey1', key2: 'LCvalue1'},
+								 post: 		{key:'LCKey2', key2: 'LCvalue2'},
+								 cookie: 	{},
+								 server:	{key:'LCKey3', key2: 'LCvalue3'},
+								 session:	{key:'LCKey4', key2: 'LCvalue4'},
+								},
+							    {name:		 'Event X',
+								 type:		 'warning',
+								 get: 		{key:'LWKey1', key2: 'LWvalue1'},
+								 post: 		{key:'LWKey2', key2: 'LWvalue2'},
+								 cookie: 	{},
+								 server:	{key:'LWKey3', key2: 'LWvalue3'},
+								 session:	{key:'LWKey4', key2: 'LWvalue4'},},
+							    {name: 		'Event Y',
+								 type:		 'normal',
+								 get: 		{key:'LNKey1', key2: 'LNvalue1'},
+								 post: 		{key:'LNKey2', key2: 'LNvalue2'},
+								 cookie: 	{},
+								 server:	{key:'LNKey3', key2: 'LNvalue3'},
+								 session:	{key:'LNKey4', key2: 'LNvalue4'}
+								}
+							  ]
+							 },
+							 {url: 		'mypass/user/other_login', 
+							  events: [
+							    {name:		 'Fatal PHP Error', 
+								 type: 		'critical',
+								 get: 		{key:'LCKey5', key2: 'LCvalue5'},
+								 post: 		{key:'LCKey6', key2: 'LCvalue6'},
+								 cookie: 	{},
+								 server:	{key:'LCKey7', key2: 'LCvalue7'},
+								 session:	{key:'LCKey8', key2: 'LCvalue8'},
+								},
+							    {name: 		'Event X',
+								 type: 		'warning',
+								 get: 		{key:'LWKey5', key2: 'LWvalue5'},
+								 post: 		{key:'LWKey6', key2: 'LWvalue6'},
+								 cookie: 	{},
+								 server:	{key:'LWKey7', key2: 'LWvalue7'},
+								 session:	{key:'LWKey8', key2: 'LWvalue8'},},
+							    {name: 		'Event Y',
+								 type: 		'normal',
+								 get: 		{key:'LNKey5', key2: 'LNvalue5'},
+								 post: 		{key:'LNKey6', key2: 'LNvalue6'},
+								 cookie: 	{},
+								 server:	{key:'LNKey7', key2: 'LNvalue7'},
+								 session:	{key:'LNKey8', key2: 'LNvalue8'}
+								}
+							  ]
+							 }
+					];
+
+			populateBacktrace('ERROR ROOROROROR', 'SOME sort of error', [{method: 'SimpleXMLElement::__construct()', filename: '/gui/application/PE/models/Deployment/Prerequisites/Validator/Generator.php(23)'}, {method: 'SimpleXMLElement::__construct()', filename: '/gui/application/PE/models/Deployment/Prerequisites/Validator/Generator.php(23)'}]);
+			setEvents(events);
+			populateEvents();
+		});
+		
+		</SCRIPT>
+	</head>
+	<body>
+		<div class="outer-center">
+			<div class="inner-north">
+				<div class="section-headline"><h2>Environment Details</h2></div>
+				<ul class="super-global-list">
+					<li id="get-super-global">
+						<a href="javascript:void(0)" class="toggler">Open/Close</a>
+						<label class="has-content-label">Get</label>
+						<label class="no-content-label">Get (Empty)</label>
+						<div class="super-global-display">
+							<table class="super-global-table">
+								<thead>
+									<tr><th>Variable</th><th>Value</th></tr>
+								</thead>
+								<tbody />
+							</table>
+						</div>
+					</li>
+					
+					<li id="post-super-global">
+						<a href="javascript:void(0)" class="toggler">Open/Close</a>
+						<label class="has-content-label">Post</label>
+						<label class="no-content-label">Post (Empty)</label>
+						<div class="super-global-display">
+							<table class="super-global-table">
+								<thead>
+									<tr><th>Variable</th><th>Value</th></tr>
+								</thead>
+								<tbody />
+							</table>
+						</div>
+					</li>
+					
+					<li id="cookie-super-global">
+						<a href="javascript:void(0)" class="toggler">Open/Close</a>
+						<label class="has-content-label">Cookie</label>
+						<label class="no-content-label">Cookie (Empty)</label>
+						<div class="super-global-display">
+							<table class="super-global-table">
+								<thead>
+									<tr><th>Variable</th><th>Value</th></tr>
+								</thead>
+								<tbody />
+							</table>
+						</div>
+					</li>
+					
+					<li id="server-super-global">
+						<a href="javascript:void(0)" class="toggler">Open/Close</a>
+						<label class="has-content-label">Server</label>
+						<label class="no-content-label">Server (Empty)</label>
+						<div class="super-global-display">
+							<table class="super-global-table">
+								<thead>
+									<tr><th>Variable</th><th>Value</th></tr>
+								</thead>
+								<tbody />
+							</table>
+						</div>
+					</li>
+					
+					<li id="session-super-global">
+						<a href="javascript:void(0)" class="toggler">Open/Close</a>
+						<label class="has-content-label">Session</label>
+						<label class="no-content-label">Session (Empty)</label>
+						<div class="super-global-display">
+							<table class="super-global-table">
+								<thead>
+									<tr><th>Variable</th><th>Value</th></tr>
+								</thead>
+								<tbody />
+							</table>
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div class="inner-center">
+				<div class="section-headline"><h2>Stack Trace</h2></div>
+				<div class="stack-trace-error"><span class="error-type no-wrap"></span>:&nbsp;&quot;<span class="error-message"></span>&quot;</div>
+				<ol class="stack-trace-list">
+				</ol>
+			</div>
+			<div class="inner-west">
+				<div class="section-headline"><h2>Event Description</h2></div>
+				<table>
+					<tr>
+						
+					</tr>
+				</table>
+			</div>
+		</div>
+		<div class="outer-north">
+			<div id="main-top-menu">
+				<img src="images/logo.png" id="main-logo"/>
+				<div class="menu-url">
+					<b>Zniffing URL: </b>
+					<span id="zniffing-url">fsfsddfs</span>
+				</div>
+				<div class="main-top-button">
+					About
+				</div>
+				<div class="main-top-button">
+					Help
+				</div>
+				<div class="main-top-button">
+					Settings
+				</div>
+			</div>
+			<div id="main-top-summary">
+				<div id="summary-bar">
+					<div class="summary-description float-left">Requests&nbsp;(<span id="summary-requests-count"></span>)&nbsp;&gt;&nbsp;Events&nbsp;(<span id="summary-events-count"></span>):</div>
+					<ul class="summary-icons">
+						<li><div id="summary-icon-critical" class="icon"><label></label></div></li>
+						<li><div id="summary-icon-warning" class="icon"><label></label></div></li>
+						<li><div id="summary-icon-normal" class="icon"><label></label></div></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="outer-west">
+			<ul id="events-list">
+			</ul>
+		</div>
+	</body>
+</html>
