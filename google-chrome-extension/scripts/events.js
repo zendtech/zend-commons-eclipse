@@ -91,6 +91,7 @@ function getRequests() {
 
 function switchEvent(index, eventIndex) {
 	var requests = getRequests();
+	var request = requests[index];
 	event = requests[index].events[eventIndex];
 	
 	jQuery.each($('#events-list > li'), function(index, element) {
@@ -108,6 +109,7 @@ function switchEvent(index, eventIndex) {
 	populateSuperglobals(event.get, event.post, event.cookie, event.server, event.session);
 	populateBacktrace(event.backtrace);
 	populateDescription(event.type, event.description);
+	populateStudioButtons(request.container, request.codeTracing, event.eventId, event.issueId);
 }
 
 function enableSshTunnel (containerName) {

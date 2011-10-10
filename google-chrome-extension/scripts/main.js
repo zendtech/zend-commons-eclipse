@@ -46,3 +46,27 @@ function toggleLock(img) {
 function showHelp() {
 	$('#help-content').modal({opacity: 0, modal: false, autoPosition: true, position: [10, 10]});
 }
+
+function populateStudioButtons(container, codetracing, eventId, issueId) {
+	codetracingButton = $('#codetracing-button').get(0);
+	if (codetracing) {
+		codetracingButton.onclick = 'openCodeTracingSnapshot(\'' + container + '\', \'' + codetracing + '\');';
+		codetracingButton.title = "Open code tracing in Studio";
+		codetracingButton.src = "images/codetracing.png";
+	} else {
+		codetracingButton.onclick = '';
+		codetracingButton.title = "Code tracing is unavailable";
+		codetracingButton.src = "images/codetracing-disabled.png";
+	}
+	
+	debugButton = $('#debug-button').get(0);
+	if (eventId && issueId) {
+		debugButton.onclick = 'openTunnelAndDebug(\'' + container + '\', \'' + eventId + '\', \'' + issueId + '\');';
+		debugButton.title = "Debug event in Studio";
+		debugButton.src = "images/debug-button.png";
+	} else {
+		debugButton.onclick = '';
+		debugButton.title = "Debugging is unavailable";
+		debugButton.src = "images/debug-button-disabled.png";
+	}
+}
