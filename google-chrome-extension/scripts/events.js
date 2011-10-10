@@ -1,5 +1,5 @@
 function populateEvents(params) {
-	var events = getEvents();
+	var requests = getEvents();
 	populateEventsList(events);
 	switchEvent(events.length - 1, 0);
 }
@@ -27,6 +27,27 @@ function populateEventsList(params) {
 	});
 }
 
+function populateRequest(index, request) {
+	var event = '<li id="request_' + index + '">';
+	
+	event += '<div class="event-title">' +
+			 '<div class="studio-icon"></div>' + request.url + '</div><ul>';
+	
+	jQuery.each(request.events, function(eventIndex, eventElement) {
+		event += '<li><div class="event-type" id="' + getEventTypeIcon(eventElement.type) + '"></div>' + 
+				 '<div class="event-type" id="debug-small"></div>' +
+				 '<div class="event-type-desc" id="event_' + eventIndex + '" onClick="switchEvent(' + index + ', ' + eventIndex + ')">"' +  eventElement.name + '</div></li>'; 
+	});
+	
+	event += '</ul></li>';
+	
+	if (index == 0) {
+		$('.outer-west ul').html(event);
+	} else {
+		$('.outer-west > ul > li:last').after(event);
+	}
+}
+
 function getEventTypeIcon(type) {
 	if (type == 'critical') {
 		return 'critical-small';
@@ -37,6 +58,22 @@ function getEventTypeIcon(type) {
 	}
 }
 
+function addRequests(requests) {
+	jQuery.each(requests, function(index, element) {
+		addRequest(element);
+	});
+}
+
+function addRequest(request) {
+	window.requests.push(request);
+	populateRequest(window.requests.length - 1, request);
+}
+
+function getRequests() {
+	return window.requests;
+}
+
+
 function setEvents(events) {
 	window.events = events;
 }
@@ -46,8 +83,8 @@ function getEvents() {
 }
 
 function switchEvent(index, eventIndex) {
-	var events = getEvents();
-	event = events[index].events[eventIndex];
+	var requests = getRequests();
+	event = requests[index].events[eventIndex];
 	
 	jQuery.each($('#events-list > li'), function(index, element) {
 		$(element).removeClass('selected-request');

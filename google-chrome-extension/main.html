@@ -23,6 +23,8 @@
 		<script type="text/javascript">
 
 		$(document).ready(function () {
+			window.requests = new Array();
+			
 			outerLayout = $('body').layout({
 				closable:				false
 			,	center__paneSelector:	".outer-center" 
@@ -95,7 +97,7 @@
 							 },
 							 {url: 		'mypass/user/other_login', 
 							  events: [
-							    {name:		 'Fatal PHP Error', 
+							    {name:		'Fatal PHP Error', 
 								 severity: 		'critical',
 								 type:			'Php Error',
 								 description:	'fopen() expects at least 2 parameters, 1 given',
@@ -133,8 +135,8 @@
 					];
 
 			//populateBacktrace('ERROR ROOROROROR', 'SOME sort of error', [{method: 'SimpleXMLElement::__construct()', filename: '/gui/application/PE/models/Deployment/Prerequisites/Validator/Generator.php(23)'}, {method: 'SimpleXMLElement::__construct()', filename: '/gui/application/PE/models/Deployment/Prerequisites/Validator/Generator.php(23)'}]);
-			setEvents(events);
-			populateEvents();
+			addRequests(events);
+			switchEvent(0, 0);
 		});
 		
 		</SCRIPT>
