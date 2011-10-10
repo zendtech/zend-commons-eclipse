@@ -151,6 +151,10 @@ div.section-headline h2 {
 	cursor: pointer;
 }
 
+.new-event {
+	background-color: #CEEEFE;
+}
+
 #critical-small {
 	background: url('../images/critical-small.png') top left repeat;
 }

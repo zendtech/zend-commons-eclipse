@@ -1,5 +1,5 @@
 function populateRequest(index, request) {
-	var event = '<li id="request_' + index + '">';
+	var event = '<li id="request_' + index + '" class="new-event">';
 	
 	event += '<div class="event-title">';
 	if (request.codeTracing) {
@@ -95,6 +95,7 @@ function switchEvent(index, eventIndex) {
 		$(element).removeClass('selected-event');
 	});
 	
+	$('#request_' + index).removeClass('new-event');
 	$('#request_' + index).addClass('selected-request');
 	$('#request_' + index + ' #event_' + eventIndex).addClass('selected-event');
 	
