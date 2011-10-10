@@ -73,8 +73,14 @@ div.section-headline {
 
 div.section-headline h2 {
 	margin:0;
-	top: 0;
 	cursor:default;
+	display: inline;
+	vertical-align: middle;
+}
+
+div.section-headline img {
+	margin-right:6px;
+	vertical-align: middle;
 }
 
 /*
