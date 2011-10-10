@@ -6,19 +6,15 @@ function populateEvents(params) {
 
 function populateEventsList(params) {
 	jQuery.each(params.reverse(), function(index,element) {
-		var event = '';
-		if (index == params.length - 1) {
-			event = '<li id="selected-event" onClick="switchEvent(' + index + ')">';
-		} else {
-			event = '<li onClick="switchEvent(' + index + ')">';
-		}
+		var event = '<li onClick="switchEvent(' + index + ')" id="event_' + index + '">';
 		
 		event += '<div class="event-title">' +
 				 '<div class="studio-icon"></div>' + element.title + '</div><ul>';
 		
 		jQuery.each(element.events, function(eventIndex, eventElement) {
 			event += '<li><div class="event-type" id="' + getEventTypeIcon(eventElement.type) + '"></div>' + 
-					 '<div class="event-type" id="debug-small"></div>' + eventElement.name + '</li>'; 
+					 '<div class="event-type" id="debug-small"></div>' +
+					 '<div class="event-type-desc">"' +  eventElement.name + '</div></li>'; 
 		});
 		
 		event += '</ul></li>';
@@ -51,8 +47,15 @@ function getEvents() {
 
 function switchEvent(index) {
 	var events = getEvents();
-	console.log(index);
 	event = events[index];
+	
+	console.log($('#event_' + index));
+	
+	jQuery.each($('#events-list > li'), function(index, element) {
+		$(element).removeClass('selected-event');
+	});
+	
+	$('#event_' + index).addClass('selected-event');
 	
 	populateSuperglobals(event.get, event.post, event.cookie, event.server, event.session);
 }

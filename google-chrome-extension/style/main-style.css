@@ -101,12 +101,14 @@ div.section-headline h2 {
 	margin-bottom: 5px;
 }
 
+
 .event-title {
 	padding: 2px;
 	width: 90%;
+	cursor: pointer;
 }
 
-#selected-event .event-title {
+.selected-event .event-title {
 	background: #c0c0c0;
 }
 
@@ -123,6 +125,10 @@ div.section-headline h2 {
 	width: 18px;
 	float: left;
 	margin-right: 5px;
+}
+
+.event-type-desc {
+	cursor: pointer;
 }
 
 #critical-small {

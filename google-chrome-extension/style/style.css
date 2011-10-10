@@ -198,6 +198,7 @@ body {
 	height: 15px;
 	float: right;
 	margin: 1px 5px 0 0;
+	cursor: pointer;
 }
 
 #close-button:hover {
