@@ -37,8 +37,29 @@ function addRequests(requests) {
 
 function addRequest(request) {
 	window.requests.push(request);
-	populateRequest(window.requests.length - 1, request);
-	populateSummary('asdfdsfasdfasdaf', 123, 123, 123, 123, 132);
+	
+	var requests = getRequests();
+	var requestsLength = requests.length;
+	
+	var totalEvents = 0;
+	var totalCritical = 0;
+	var totalWarning = 0;
+	var totalNormal = 0;
+	jQuery.each(requests, function(index, element) {
+		totalEvents += element.events.length;
+		jQuery.each(element.events, function(eventIndex, eventElement) {
+			if (eventElement.severity == 'critical') {
+				totalCritical++;
+			} else if (eventElement.severity == 'warning') {
+				totalWarning++;
+			} else {
+				totalNormal++;
+			}
+		});
+	});
+	
+	populateRequest(requestsLength - 1, request);
+	populateSummary('', requestsLength, totalEvents, totalCritical, totalWarning, totalNormal);
 }
 
 function getRequests() {
