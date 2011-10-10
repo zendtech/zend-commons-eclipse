@@ -46,8 +46,7 @@
 			,	north__size:			500
 			});
 			
-			
-			populateSuperglobals({key:'value', key2: 'value2'},{key:'value', key2: 'value2'},{},{key:'value', key2: 'value2'},{key:'value', key2: 'value2'});
+			window.lock = false;
 			
 			$('a.toggler').click(function() {
 				$(this).nextAll('div.super-global-display').slideToggle(500);
@@ -132,7 +131,6 @@
 							  ]
 							 }
 					];
-			//populateBacktrace('ERROR ROOROROROR', 'SOME sort of error', [{method: 'SimpleXMLElement::__construct()', filename: '/gui/application/PE/models/Deployment/Prerequisites/Validator/Generator.php(23)'}, {method: 'SimpleXMLElement::__construct()', filename: '/gui/application/PE/models/Deployment/Prerequisites/Validator/Generator.php(23)'}]);
 			addRequests(request);
 
 			var newRequest = {url: 		'mypass/user/new_login', 
@@ -269,6 +267,8 @@
 		<div class="outer-north">
 			<div id="main-top-menu">
 				<img src="images/logo.png" id="main-logo"/>
+				<img src="images/lock-open.png" id="lock-button" title="Zniffer is accepting requests" onclick="toggleLock(this)"/>
+				
 				<div class="menu-url">
 					<b>Zniffing URL: </b>
 					<span id="zniffing-url">fsfsddfs</span>

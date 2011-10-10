@@ -30,12 +30,20 @@ function getEventTypeIcon(type) {
 }
 
 function addRequests(requests) {
+	if (window.lock) {
+		return ;
+	}
+	
 	jQuery.each(requests, function(index, element) {
 		addRequest(element);
 	});
 }
 
 function addRequest(request) {
+	if (window.lock) {
+		return ;
+	}
+	
 	window.requests.push(request);
 	
 	var requests = getRequests();
