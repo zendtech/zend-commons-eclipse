@@ -55,14 +55,15 @@ function searchConatiner (container) {
     return -1;
 }
 
+tabOpen = false;
 function openEvents() {
-	chrome.tabs.create({'url': chrome.extension.getURL('main.html')}, function(tab) {
-    });
-	/*chrome.tabs.getSelected(null, function(tab) {
-		chrome.tabs.sendRequest(tab.id, {
-			details : "openEvents"
+	if (tabOpen) {
+		// TODO test if tab was closed
+	} else {
+		chrome.tabs.create({'url': chrome.extension.getURL('main.html')}, function(tab) {
+			tabOpen = tab.id;
 		});
-	});*/
+	}
 }
 
 function windowClosed() {
