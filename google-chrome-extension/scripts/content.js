@@ -117,6 +117,10 @@ function isValidDomainResponseFunc(response) {
 					events = [];
 					updateSummary(all_events);
 				}
+				
+				chrome.extension.sendRequest(
+						{method : "events",
+							events : events}, function(response) {});
 
 				chrome.extension.sendRequest({
 					method : "showNotifications"

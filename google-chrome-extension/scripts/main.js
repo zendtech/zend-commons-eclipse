@@ -2,6 +2,12 @@ function populateZniffingUrl(url) {
 	$('#zniffing-url').text(url);
 }
 
+chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
+	if (request.method == "events") {
+		addRequests(request.events);
+	}
+});
+
 function toggleLock(img) {
 	if (window.lock) {
 		img.src="images/lock-open.png";
