@@ -12,7 +12,7 @@ function populateRequest(index, request) {
 	jQuery.each(request.events, function(eventIndex, eventElement) {
 		event += '<li><div class="event-type" id="' + getEventTypeIcon(eventElement.severity) + '"></div>';
 		if (eventElement.eventId && eventElement.issueId) {
-			event += '<img class="event-icon" src="images/debug.png" title="Debug event in Studio" onclick="startDebug(\'' + eventElement.container + '\', ' + eventElement.issueId + ', ' + eventElement.eventId + ', function() { }, function() { });" />';
+			event += '<img class="event-icon" src="images/debug.png" title="Debug event in Studio" onclick="openTunnelAndDebug(\'' + request.container + '\', '+eventElement.eventId+', '+eventElement.issueId+')" />';
 		} else {
 			event += '<img class="event-icon" src="images/debug-disabled.png" title="Debug is not available" />';
 		}
@@ -25,6 +25,12 @@ function populateRequest(index, request) {
 		$('.outer-west ul').html(event);
 	} else {
 		$('.outer-west > ul > li:last').after(event);
+	}
+}
+
+function openTunnelAndDebug(container, eventId, issueId) {
+	if (enableSshTunnel(container)) {
+		startDebug(container, issueId, eventId, function() { }, function() { });
 	}
 }
 
@@ -102,6 +108,22 @@ function switchEvent(index, eventIndex) {
 	populateSuperglobals(event.get, event.post, event.cookie, event.server, event.session);
 	populateBacktrace(event.backtrace);
 	populateDescription(event.type, event.description);
+}
+
+function enableSshTunnel (containerName) {
+	try {
+		var url = "http://127.0.0.1:28029/org.zend.php.zendserver.deployment.debug.openSshTunnel?container="+containerName;
+		var rf = new XMLHttpRequest();
+		rf.open("GET", url, false);
+		rf.send(null);
+		if (rf.status!=200)
+			return false;
+		return rf.responseText;
+
+	} catch(e) { 
+		console.log(e);
+		return false; 
+	}
 }
 
 /**
