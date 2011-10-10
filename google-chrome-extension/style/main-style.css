@@ -137,6 +137,18 @@ div.section-headline h2 {
 
 .event-type-desc {
 	cursor: pointer;
+	margin-left: 4px;
+}
+
+.request-icon {
+	vertical-align: middle;
+	margin-right: 2px;
+	cursor: pointer;
+}
+
+.event-icon {
+	vertical-align: middle;
+	cursor: pointer;
 }
 
 #critical-small {

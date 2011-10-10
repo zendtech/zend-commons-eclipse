@@ -1,13 +1,22 @@
 function populateRequest(index, request) {
 	var event = '<li id="request_' + index + '">';
 	
-	event += '<div class="event-title">' +
-			 '<div class="studio-icon"></div>' + request.url + '</div><ul>';
+	event += '<div class="event-title">';
+	if (request.codeTracing) {
+		event += '<img class="request-icon" src="images/studio.png" title="Open code tracing in Studio" onclick=""/>';
+	} else {
+		event += '<img class="request-icon" src="images/studio-disabled.png" title="Code tracing is unavailable" onclick=""/>';
+	}
+	event += request.url + '</div><ul>';
 	
 	jQuery.each(request.events, function(eventIndex, eventElement) {
-		event += '<li><div class="event-type" id="' + getEventTypeIcon(eventElement.severity) + '"></div>' + 
-				 '<div class="event-type" id="debug-small"></div>' +
-				 '<div class="event-type-desc" id="event_' + eventIndex + '" onClick="switchEvent(' + index + ', ' + eventIndex + ')">' +  eventElement.name + '</div></li>'; 
+		event += '<li><div class="event-type" id="' + getEventTypeIcon(eventElement.severity) + '"></div>';
+		if (eventElement.debugUrl) {
+			event += '<img class="event-icon" src="images/debug.png" title="Debug event in Studio" onclick="" />';
+		} else {
+			event += '<img class="event-icon" src="images/debug-disabled.png" title="Debug is not available" onclick="" />';
+		}
+		event += '<span class="event-type-desc" id="event_' + eventIndex + '" onClick="switchEvent(' + index + ', ' + eventIndex + ')">' +  eventElement.name + '</span></li>'; 
 	});
 	
 	event += '</ul></li>';
