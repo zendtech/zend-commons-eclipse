@@ -120,6 +120,7 @@ function isValidDomainResponseFunc(response) {
 				
 				chrome.extension.sendRequest(
 						{method : "events",
+							container : containerName,
 							events : events}, function(response) {});
 
 				chrome.extension.sendRequest({

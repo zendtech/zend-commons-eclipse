@@ -4,7 +4,30 @@ function populateZniffingUrl(url) {
 
 chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 	if (request.method == "events") {
-		addRequests(request.events);
+		
+		console.log(request);
+		
+		var newRequests = {url: 'mypass/user/new_login',
+			events : []};
+		
+		for (i in request.events) {
+			var ev = request.events[i];
+			var newEvent = {
+					name : "name",
+					severity : ev.severity,
+					type : ev.type,
+					description : ev.description,
+					get : ev['super-globals'].get,
+					post : ev['super-globals'].post, 
+					cookie : ev['super-globals'].cookie,
+					server : ev['super-globals'].server,
+					session : ev['super-globals'].session,
+					backtrace : ev.backtrace
+			};
+			newRequests.events.push(newEvent);
+			
+		}
+		addRequest(newRequests);
 	}
 });
 
