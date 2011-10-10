@@ -9,8 +9,13 @@
 	vertical-align: 30%;
 }
 
+#mini_bar_header img {
+	margin-right: 10px;
+}
+
 span.url-label {
 	font-weight:bold;
+	float: left;
 }
 
 div.summary-description {

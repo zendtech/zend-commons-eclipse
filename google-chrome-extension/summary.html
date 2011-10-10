@@ -20,16 +20,14 @@
 	</head>
 	<body>
 		<div id="mini_bar_header">
-			<img src="images/logo.png" />
+			<img src="images/logo.png" class="float-left" />
 			<span class="url-label">Information for:</span>&nbsp;<span id="summary-bar-url" class="url-value"></span>
-			<div class="mini-window-icons float-right">
-				<img src="images/close.png" onclick="window.close()" />
-				<img src="images/settings.png" id="settings-button" />
-				<img src="images/logout.png" id="logout-button" onclick="signout()" />
-			</div>
+			<div id="close-button" onclick="window.close()" title="Close" ></div>
+			<div id="settings-button" title="Settings"></div>
+			<div id="logout-button" onclick="signout()" title="Logout"></div>
 		</div>
 		<div class="mini_bar_content">
-			<div id="summary-bar" class="bottom-separator">
+			<div id="summary-bar">
 			<div class="summary-description float-left">Requests&nbsp;(<span id="summary-requests-count"></span>)&nbsp;&gt;&nbsp;Events&nbsp;(<span id="summary-events-count"></span>):</div>
 				<ul class="summary-icons">
 					<li><div id="summary-icon-critical" class="icon"></div></li>
@@ -37,12 +35,13 @@
 					<li><div id="summary-icon-normal" class="icon"></div></li>
 				</ul>
 			</div>
+			<hr />
 			<div class="share-bar">
 				Like this extension? Why not share it with your friends!
 				<div style="float: right">
-					<div style="float: right; margin: 0 3px;"><g:plusone size="small" count="false" href="http://phpcloud.com"></g:plusone></div>
-					<a href="http://twitter.com/home?status=Experienced the new Zend Studio Chrome extension http://phpcloud.com" target="_blank" style="background: url('images/twitter.png') top right no-repeat; width: 24px; height: 24px; display: block; float: right; margin: 0 3px;" ></a>
-					<a href="http://www.facebook.com/share.php?u=http://phpcloud.com" target="_blank" style="background: url('images/facebook.png') top right no-repeat; width: 24px; height: 24px; display: block; float: right; margin: 0 3px;" ></a>
+					<div style="float: right; margin: 0 3px;"><g:plusone count="false" size="small" href="http://phpcloud.com"></g:plusone></div>
+					<a href="http://twitter.com/home?status=Experienced the new Zend Studio Chrome extension http://phpcloud.com" target="_blank" style="background: url('images/twitter.png') top right no-repeat; width: 16px; height: 16px; display: block; float: right; margin: 0 3px;" ></a>
+					<a href="http://www.facebook.com/share.php?u=http://phpcloud.com" target="_blank" style="background: url('images/facebook.png') top right no-repeat; width: 16px; height: 16px; display: block; float: right; margin: 0 3px;" ></a>
 				</div>
 			</div>
 			
