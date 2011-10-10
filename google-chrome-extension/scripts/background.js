@@ -56,11 +56,13 @@ function searchConatiner (container) {
 }
 
 function openEvents() {
-	chrome.tabs.getSelected(null, function(tab) {
+	chrome.tabs.create({'url': chrome.extension.getURL('main.html')}, function(tab) {
+    });
+	/*chrome.tabs.getSelected(null, function(tab) {
 		chrome.tabs.sendRequest(tab.id, {
 			details : "openEvents"
 		});
-	});
+	});*/
 }
 
 function windowClosed() {
