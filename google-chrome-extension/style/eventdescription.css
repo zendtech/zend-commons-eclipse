@@ -1,0 +1,9 @@
+@CHARSET "UTF-8";
+
+div.event-description {
+	margin-top:15px;
+}
+
+div.event-description span.error-type {
+	font-weight: bold;
+}

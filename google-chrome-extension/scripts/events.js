@@ -62,4 +62,5 @@ function switchEvent(index, eventIndex) {
 	
 	populateSuperglobals(event.get, event.post, event.cookie, event.server, event.session);
 	populateBacktrace(event.backtrace);
+	populateDescription(event.type, event.description);
 }

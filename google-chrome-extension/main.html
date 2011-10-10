@@ -13,11 +13,13 @@
 		<script type="text/javascript" src="scripts/backtrace.js"></script>
 		<script type="text/javascript" src="scripts/events.js"></script>
 		<script type="text/javascript" src="scripts/main.js"></script>
+		<script type="text/javascript" src="scripts/eventdescription.js"></script>
 		<link rel="stylesheet" type="text/css" href="style/style.css" media="screen"/>
 		<link rel="stylesheet" type="text/css" href="style/summary-bar.css" media="screen"/>
 		<link rel="stylesheet" type="text/css" href="style/main-style.css" media="screen"/>
 		<link rel="stylesheet" type="text/css" href="style/superglobals.css" media="screen"/>
 		<link rel="stylesheet" type="text/css" href="style/stacktrace.css" media="screen"/>
+		<link rel="stylesheet" type="text/css" href="style/eventdescription.css" media="screen"/>
 		<script type="text/javascript">
 
 		$(document).ready(function () {
@@ -58,8 +60,8 @@
 							  events: [
 							    {name: 		'Fatal PHP Error', 
 						    	 severity: 		'critical',
-								 type:			'Php Error',
-								 description:	'fopen() expects at least 2 parameters, 1 given',
+								 type:			'Fatal PHP Error',
+								 description:	'fopen() expects at least 2 parameters, 11 given',
 								 get: 		{key:'LCKey1', key2: 'LCvalue1'},
 								 post: 		{key:'LCKey2', key2: 'LCvalue2'},
 								 cookie: 	{},
@@ -80,8 +82,8 @@
 								},
 							    {name: 		'Event Y',
 								 severity: 		'normal',
-								 type:			'Php Error',
-								 description:	'fopen() expects at least 2 parameters, 1 given',
+								 type:			'Php Warning',
+								 description:	'unknown',
 								 get: 		{key:'LNKey1', key2: 'LNvalue1'},
 								 post: 		{key:'LNKey2', key2: 'LNvalue2'},
 								 cookie: 	{},
