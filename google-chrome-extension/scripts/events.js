@@ -38,6 +38,7 @@ function addRequests(requests) {
 function addRequest(request) {
 	window.requests.push(request);
 	populateRequest(window.requests.length - 1, request);
+	//populateSummary('asdfdsfasdfasdaf', 123, 123, 123, 123, 132);
 }
 
 function getRequests() {
