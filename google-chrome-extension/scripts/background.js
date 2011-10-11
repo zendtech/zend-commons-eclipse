@@ -95,7 +95,8 @@ function openEvents() {
 	if (tabOpen) {
 		chrome.tabs.get(tabOpen, function (tab) {
 			if (tab) {
-				// empty, if tab is open, the event was already added. we only need to set focus to main
+				// empty, if tab is open, the event was already added. we only need to set focus
+				chrome.tabs.update(tabOpen, {selected : true});
 			} else {
 				tabOpen = undefined;
 				openEvents();
