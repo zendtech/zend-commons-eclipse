@@ -1,5 +1,6 @@
 if (chrome.extension) {
 	chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
+		console.log(request);
 		if (request.method == "showNotifications") {
 			if (request.requests) {
 				addRequests(request.requests);

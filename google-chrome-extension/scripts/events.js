@@ -20,7 +20,7 @@ function populateRequest(index, request) {
 	});
 	
 	event += '</ul></li>';
-	
+
 	if (index == 0) {
 		$('.outer-west ul').html(event);
 	} else {
@@ -35,9 +35,10 @@ function populateRequest(index, request) {
 }
 
 function openTunnelAndDebug(container, eventId, issueId) {
-	if (enableSshTunnel(container)) {
+	enableSshTunnel(container);
+	//if (enableSshTunnel(container)) {
 		startDebug(container, issueId, eventId, function() { }, function() { });
-	}
+	//}
 }
 
 function getEventTypeIcon(type) {
