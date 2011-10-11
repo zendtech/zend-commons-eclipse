@@ -44,7 +44,7 @@ function toggleLock(img) {
 }
 
 function showAbout() {
-	$('#about-content').modal({opacity: 0, modal: false, autoPosition: true, position: [45, 5]});
+	$('#about-content').modal({opacity: 0, modal: false, autoPosition: true, position: [40, 5]});
 }
 
 function populateStudioButtons(container, codetracing, eventId, issueId) {
