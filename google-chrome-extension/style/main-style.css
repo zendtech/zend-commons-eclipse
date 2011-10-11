@@ -131,6 +131,10 @@ div.section-body {
 	width: 90%;
 }
 
+.event-title span {
+	vertical-align: middle;
+}
+
 .selected-request .event-title {
 	background: #c0c0c0;
 }

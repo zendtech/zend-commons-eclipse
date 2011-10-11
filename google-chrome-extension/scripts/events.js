@@ -1,7 +1,7 @@
 function populateRequest(index, request) {
 	var event = '<li id="request_' + index + '" class="new-event">';
 	
-	event += '<div class="event-title">';
+	event += '<div class="event-title no-wrap">';
 	if (request.codeTracing) {
 		event += '<img class="request-icon" src="images/studio.png" title="Open code tracing in Studio" onclick="openCodeTracingSnapshot(\'' + request.container + '\', \'' + request.codeTracing + '\');"/>';
 	} else {
