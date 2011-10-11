@@ -74,3 +74,25 @@ div.summary-share-links {
 	height: 32px;
 	width: 32px;
 }
+
+#tab-link-trans {
+	position: absolute;
+	top: 0;
+	left: 0;
+	background: gray;
+	width: 400px;
+	height: 100px;
+}
+
+#tab-link {
+	position: absolute;
+	top: 0;
+	left: 0;
+	background: red;
+	width: 200px;
+	height: 100px;
+}
+
+.hidden {
+	display: none;
+}
