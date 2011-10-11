@@ -4,8 +4,9 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
     	sendResponse({data: searchConatiner(request.key)});
     } else if (request.method == "showNotifications") {
     	org.zend.showNotification();
+    	org.zend.request = request;
     	chrome.browserAction.setPopup({popup:"summary.html"});
-    	sendResponse({ status: 'done' }); 
+    	sendResponse({ status: 'done' });
     } else if (request.method == "signout") {
     	org.zend.signout();
     	sendResponse({ status: 'done' }); 
@@ -64,6 +65,8 @@ function openEvents() {
 			tabOpen = tab.id;
 		});
 	}
+	org.zend.request.method = "events";
+	chrome.extension.sendRequest(org.zend.request, function(response){});
 }
 
 function windowClosed() {

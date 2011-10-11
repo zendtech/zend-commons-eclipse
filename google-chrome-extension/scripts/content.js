@@ -90,6 +90,7 @@ function isValidDomainResponseFunc(response) {
 			var summary_success = function(response) {
 				var c = response.requestSummary["events-count"];
 				if (c == 0) {
+					console.log('no events');
 					return;
 				}
 
@@ -100,6 +101,7 @@ function isValidDomainResponseFunc(response) {
 					org.zend.codeTraceId = matches[1]; // match[0] is "amfid=.....", match[1] is "....." 
 				}
 
+				var events = [];
 				// copy events
 				if (c == 1) {
 					var e = response.requestSummary.events.event;
@@ -110,21 +112,12 @@ function isValidDomainResponseFunc(response) {
 						events.push(e);
 					}
 				}
-
-				if (hasFader()) {
-					addSlides();
-					all_events = all_events.concat(events);
-					events = [];
-					updateSummary(all_events);
-				}
 				
-				chrome.extension.sendRequest(
-						{method : "events",
-							container : containerName,
-							events : events}, function(response) {});
-
 				chrome.extension.sendRequest({
-					method : "showNotifications"
+					method : "showNotifications",
+					container : containerName,
+					codeTrace : org.zend.codeTraceId,
+					events : events
 				}, function(response) {
 				});
 			};
@@ -161,181 +154,7 @@ if (dot != -1 && org.zend.isValidDomain(domain.substr(dot + 1))) {
 
 var events = [];
 var all_events = [];
-var slideshow;
 
-chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
-	if (request.details == "openEvents") {
-		if (!hasFader()) {
-			createFader();
-		} 
-		addSlides();
-		all_events = all_events.concat(events);
-		events = [];
-		updateSummary(all_events);
-	}
-});
-
-function updateSummary(events) {
-	var summaryDom = $("#zend_ex_summary").html("<div id='totalEvents'>&nbsp;</div>" +
-			"<div id='superglobalcookie'></div>" +
-			"<div id='superglobalget'></div>" +
-			"<div id='superglobalpost'></div>" +
-			"<div id='superglobalserver'></div>" +
-			"<div id='superglobalsession'></div>");
-	$("#totalEvents", summaryDom).html("total " + events.length + " events.");
-	
-	// take super-globals from first event, but they should be equal for all events.
-	var superGlobals = events[0]['super-globals'];
-	
-	var prettyTable = function(array) {
-		var html = "<table>";
-		for (entry in array) {
-			html += "<tr><td>"+array[entry].key+"</td><td>"+array[entry].value+"</td></tr>";
-		}
-		html += "</table>";
-		return html;
-	};
-	
-	$("#superglobalcookie", summaryDom).html("Cookies:"+prettyTable(superGlobals.cookie.cookie));
-	$("#superglobalget", summaryDom).html("Get:"+prettyTable(superGlobals.get.get));
-	$("#superglobalpost", summaryDom).html("Post:"+prettyTable(superGlobals.post.post));
-	$("#superglobalserver", summaryDom).html("Server:"+prettyTable(superGlobals.server.server));
-	$("#superglobalsession", summaryDom).html("Session:"+prettyTable(superGlobals.session.session));
-}
-
-function addSlides() {
-	var slidesUl = $("#slides");
-	for ( var i = 0; i < events.length; i++) {
-		// todo: prettify
-		var slideLiMsg = '<h1>' + events[i].type +  '</h1><p>' + events[i].description +  '</p>' + '<a id="debugEvent" href="#">Debug Event</a><br/>';
-		if (org.zend.codeTraceId) {
-			slideLiMsg += '<a href="#" id="traceEvent">Open Code Tracing Snapshot</a>';
-		}
-		slideLiMsg += '<p>' + events[i].severity + '</p>';
-		var slideLi = $("<li>").html(slideLiMsg);
-		$('#debugEvent', slideLi).click((function(url) {
-			return function() {
-				debugEvent(url);
-			};
-		})(events[i]['debug-url']));
-		
-		$('#traceEvent', slideLi).click(function(url) {
-			org.zend.studio.openCodeTracingSnapshot(org.zend.codeTraceId);
-		});
-		
-		slideLi.addClass("zend_content");
-		slidesUl.append(slideLi);
-
-		slideshow.l++;
-	}
-
-	var paginationUl = $("#pagination");
-	for ( var i = 0; i < events.length; i++) {
-		j = i + 1;
-		var paginationLi = $("<li>").html(j);
-		var aff = (function(n) {
-			return function() {
-				slideshow.pos(n);
-			};
-		})(j);
-		paginationLi.click(aff);
-		paginationUl.append(paginationLi);
-	}
-}
-
-function hasFader() {
-	return document.getElementById("wrapper") != undefined;
-}
-
-function createFader() {
-	// slides
-	var divSlides = getSlidesDiv();
-
-	// pagination
-	var divPagination = getPaginationDiv();
-
-	// wrapper
-	var div = $(document.createElement('div'));
-	div.attr("id", "wrapper");
-	div.append(divSlides);
-	div.append(divPagination);
-
-	// add wrapper
-	$("body").prepend(div);
-
-	// <div id="fade" class="black_overlay"></div>
-	var fadeDiv = $(document.createElement('div'));
-	fadeDiv.attr("id", "fade");
-	fadeDiv.attr("class", "black_overlay");
-	$("body").prepend(fadeDiv);
-
-	// init slideshow
-	slideshow = new TINY.fader.fade('slideshow', {
-		id : 'slides',
-		auto : 0,
-		resume : false,
-		navid : 'pagination',
-		activeclass : 'current',
-		visible : true,
-		position : 0
-	});
-}
-
-function getSlidesDiv() {
-	// slides div
-
-	var divLeft = $(document.createElement('div'));
-	divLeft.attr("class", "sliderbutton");
-	divLeft.html('<img src="' + chrome.extension.getURL("images/left.gif")
-			+ '" width="32" height="38" alt="Previous" />');
-	$("img", divLeft).click(function() {
-		slideshow.move(-1);
-	});
-
-	var divRight = $(document.createElement('div'));
-	divRight.attr("class", "sliderbutton");
-	divRight.html('<img src="' + chrome.extension.getURL("images/right.gif")
-			+ '" width="32" height="38" alt="Next" />');
-	$("img", divRight).click(function() {
-		slideshow.move(1);
-	});
-
-	var divCenter = $(document.createElement('div'));
-	divCenter.attr("id", "slideshow");
-
-	var slidesUl = $(document.createElement('ul'));
-	slidesUl.attr("id", "slides");
-
-	// build summary page
-	var slideLi = $("<li>").html(
-			'<h1>Summary</h1><div id="zend_ex_summary"></div>');
-	slideLi.addClass("zend_content");
-	slidesUl.append(slideLi);
-	divCenter.append(slidesUl);
-
-	var divSlides = $(document.createElement('div'));
-	divSlides.append(divLeft);
-	divSlides.append(divCenter);
-	divSlides.append(divRight);
-	return divSlides;
-}
-
-function getPaginationDiv() {
-
-	var paginationUl = $(document.createElement('ul'));
-	paginationUl.attr("id", "pagination");
-	paginationUl.attr("class", "pagination");
-
-	// build summary page
-	var paginationLi = $("<li>");
-	paginationLi.click(function() {
-		slideshow.pos(0);
-	});
-	paginationLi.html("Summary");
-	paginationUl.append(paginationLi);
-
-	return paginationUl;
-}
 
 function debugEvent(url) {
 	var settings = getZdeSettingString(ZDE_DetectPort);
