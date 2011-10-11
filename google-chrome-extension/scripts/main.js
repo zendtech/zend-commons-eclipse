@@ -2,6 +2,7 @@ if (chrome.extension) {
 	chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 		if (request.method == "events") {
 			addRequest(request.request);
+			populateZniffingUrl(request.request.url);
 		}
 	});
 }
