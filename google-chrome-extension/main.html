@@ -303,10 +303,10 @@
 					<b>Zniffing URL: </b>
 					<span id="zniffing-url">fsfsddfs</span>
 				</div>
-				<div class="main-top-button">
+				<div class="main-top-button" onClick="showAbout()">
 					About
 				</div>
-				<div class="main-top-button" onClick="showHelp()">
+				<div class="main-top-button">
 					Help
 				</div>
 				<div class="main-top-button">
@@ -328,16 +328,32 @@
 			<ul id="events-list">
 			</ul>
 		</div>
-		<div id="help-content">
-			<h3>Basic Modal Dialog</h3>
-			<p>For this demo, SimpleModal is using this "hidden" data for its content. You can also populate the modal dialog with an AJAX response, standard HTML or DOM element(s).</p>
-			<p>Examples:</p>
-			<p><code>$('#basicModalContent').modal(); // jQuery object - this demo</code></p>
-			<p><code>$.modal(document.getElementById('basicModalContent')); // DOM</code></p>
-			<p><code>$.modal('&lt;p&gt;&lt;b&gt;HTML&lt;/b&gt; elements&lt;/p&gt;'); // HTML</code></p>
-			<p><code>$('&lt;div&gt;&lt;/div&gt;').load('page.html').modal(); // AJAX</code></p>
-		
-			<p><a href='http://www.ericmmartin.com/projects/simplemodal/'>More details...</a></p>
+		<div id="about-content">
+			<div class="about-menu">
+				<div id="close-button" class="simplemodal-close" title="Close" ></div>
+			</div>
+			<div id="about-desc">
+				<div class="about-left">
+					<img src="images/logo.png"/>
+				</div>
+				<div class="about-right">
+				The Zniffer is an extension that allows you to run your Zend DevCloud application during development
+				to see which events occur during run time, helping you to debug your application.
+				</div>
+			</div>
+			<div id="about-version">
+				<div class="about-left">
+					version: <br />
+					1.0
+				</div>
+				<div class="about-right">
+					DevCloud Buide Date: <br />
+					October 10, 2011
+				</div>
+			</div>
+			<div class="about-left">
+				<a href="">http://www.DevCloud.com</a>
+			</div>
 		</div>
 	</body>
 </html>

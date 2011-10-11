@@ -43,8 +43,8 @@ function toggleLock(img) {
 	window.lock = !window.lock;
 }
 
-function showHelp() {
-	$('#help-content').modal({opacity: 0, modal: false, autoPosition: true, position: [10, 10]});
+function showAbout() {
+	$('#about-content').modal({opacity: 0, modal: false, autoPosition: true, position: [45, 5]});
 }
 
 function populateStudioButtons(container, codetracing, eventId, issueId) {
