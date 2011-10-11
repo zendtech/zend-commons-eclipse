@@ -10,6 +10,11 @@ if (chrome.extension) {
 
 function populateSummary(url, requests, events, critical, warning, normal) {
 	$('#summary-bar-url').text(url);
+	$('#summary-bar-url').truncate({
+	    width: 'auto',
+	    token: '&hellip;',
+	    center: true,
+	});
 	$('#summary-requests-count').text(requests);
 	$('#summary-events-count').text(events);
 	$('#summary-icon-critical').text(critical);

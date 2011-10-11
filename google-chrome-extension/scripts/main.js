@@ -5,7 +5,7 @@ if (chrome.extension) {
 				addRequests(request.requests);
 				populateZniffingUrl(request.requests[request.requests.length - 1].url);
 			} else {
-				addRequest(request.request);				
+				addRequest(request.request);
 				populateZniffingUrl(request.request.url);
 			}
 		}
@@ -14,6 +14,11 @@ if (chrome.extension) {
 
 function populateZniffingUrl(url) {
 	$('#zniffing-url').text(url);
+	$('#zniffing-url').truncate({
+	    width: 'auto',
+	    token: '&hellip;',
+	    center: true,
+	});
 }
 
 function toggleLock(img) {

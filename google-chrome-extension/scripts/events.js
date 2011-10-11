@@ -26,6 +26,12 @@ function populateRequest(index, request) {
 	} else {
 		$('.outer-west > ul > li:last').after(event);
 	}
+	
+	$('.event-title').truncate({
+	    width: 'auto',
+	    token: '&hellip;',
+	    center: true,
+	});
 }
 
 function openTunnelAndDebug(container, eventId, issueId) {
