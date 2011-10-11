@@ -22,7 +22,7 @@
 		<link rel="stylesheet" type="text/css" href="style/stacktrace.css" media="screen"/>
 		<link rel="stylesheet" type="text/css" href="style/eventdescription.css" media="screen"/>
 		<script type="text/javascript">
-
+		
 		$(document).ready(function () {
 			window.requests = new Array();
 
@@ -45,6 +45,7 @@
 			,	north__paneSelector:	".inner-north" 
 			,	west__size:				300 
 			,	north__size:			500
+			,	onresize:				copySizeToPane
 			});
 			
 			window.lock = false;
@@ -205,93 +206,101 @@
 	<body>
 		<div class="outer-center">
 			<div class="inner-north">
-				<div class="section-headline"><img src="images/environment.png" /><h2>Environment Details</h2><img id="codetracing-button" src="images/codetracing-disabled.png" class="headline-button"/></div>
-				<ul class="super-global-list">
-					<li id="get-super-global">
-						<a href="javascript:void(0)" class="toggler eventOpen">
-							<label class="has-content-label">Get</label>
-						</a>
-						<label class="no-content-label">Get (Empty)</label>
-						<div class="super-global-display">
-							<table class="super-global-table">
-								<thead>
-									<tr><th>Variable</th><th>Value</th></tr>
-								</thead>
-								<tbody />
-							</table>
-						</div>
-					</li>
-					
-					<li id="post-super-global">
-						<a href="javascript:void(0)" class="toggler eventOpen">
-							<label class="has-content-label">Post</label>
-						</a>
-						<label class="no-content-label">Post (Empty)</label>
-						<div class="super-global-display">
-							<table class="super-global-table">
-								<thead>
-									<tr><th>Variable</th><th>Value</th></tr>
-								</thead>
-								<tbody />
-							</table>
-						</div>
-					</li>
-					
-					<li id="cookie-super-global">
-						<a href="javascript:void(0)" class="toggler eventOpen">
-							<label class="has-content-label">Cookie</label>
-						</a>
-						<label class="no-content-label">Cookie (Empty)</label>
-						<div class="super-global-display">
-							<table class="super-global-table">
-								<thead>
-									<tr><th>Variable</th><th>Value</th></tr>
-								</thead>
-								<tbody />
-							</table>
-						</div>
-					</li>
-					
-					<li id="server-super-global">
-						<a href="javascript:void(0)" class="toggler eventOpen">
-							<label class="has-content-label">Server</label>
-						</a>
-						<label class="has-content-label"></label>
-						<label class="no-content-label">Server (Empty)</label>
-						<div class="super-global-display">
-							<table class="super-global-table">
-								<thead>
-									<tr><th>Variable</th><th>Value</th></tr>
-								</thead>
-								<tbody />
-							</table>
-						</div>
-					</li>
-					
-					<li id="session-super-global">
-						<a href="javascript:void(0)" class="toggler eventOpen">
-							<label class="has-content-label">Session</label>
-						</a>
-						<label class="no-content-label">Session (Empty)</label>
-						<div class="super-global-display">
-							<table class="super-global-table">
-								<thead>
-									<tr><th>Variable</th><th>Value</th></tr>
-								</thead>
-								<tbody />
-							</table>
-						</div>
-					</li>
-				</ul>
+				<div class="section-headline">
+					<img src="images/environment.png" />
+					<h2>Environment Details</h2>
+					<img id="codetracing-button" src="images/codetracing-disabled.png" class="headline-button"/>
+				</div>
+				<div class="section-body">
+					<ul class="super-global-list">
+						<li id="get-super-global">
+							<a href="javascript:void(0)" class="toggler eventOpen">
+								<label class="has-content-label">Get</label>
+							</a>
+							<label class="no-content-label">Get (Empty)</label>
+							<div class="super-global-display">
+								<table class="super-global-table">
+									<thead>
+										<tr><th>Variable</th><th>Value</th></tr>
+									</thead>
+									<tbody />
+								</table>
+							</div>
+						</li>
+						
+						<li id="post-super-global">
+							<a href="javascript:void(0)" class="toggler eventOpen">
+								<label class="has-content-label">Post</label>
+							</a>
+							<label class="no-content-label">Post (Empty)</label>
+							<div class="super-global-display">
+								<table class="super-global-table">
+									<thead>
+										<tr><th>Variable</th><th>Value</th></tr>
+									</thead>
+									<tbody />
+								</table>
+							</div>
+						</li>
+						
+						<li id="cookie-super-global">
+							<a href="javascript:void(0)" class="toggler eventOpen">
+								<label class="has-content-label">Cookie</label>
+							</a>
+							<label class="no-content-label">Cookie (Empty)</label>
+							<div class="super-global-display">
+								<table class="super-global-table">
+									<thead>
+										<tr><th>Variable</th><th>Value</th></tr>
+									</thead>
+									<tbody />
+								</table>
+							</div>
+						</li>
+						
+						<li id="server-super-global">
+							<a href="javascript:void(0)" class="toggler eventOpen">
+								<label class="has-content-label">Server</label>
+							</a>
+							<label class="has-content-label"></label>
+							<label class="no-content-label">Server (Empty)</label>
+							<div class="super-global-display">
+								<table class="super-global-table">
+									<thead>
+										<tr><th>Variable</th><th>Value</th></tr>
+									</thead>
+									<tbody />
+								</table>
+							</div>
+						</li>
+						
+						<li id="session-super-global">
+							<a href="javascript:void(0)" class="toggler eventOpen">
+								<label class="has-content-label">Session</label>
+							</a>
+							<label class="no-content-label">Session (Empty)</label>
+							<div class="super-global-display">
+								<table class="super-global-table">
+									<thead>
+										<tr><th>Variable</th><th>Value</th></tr>
+									</thead>
+									<tbody />
+								</table>
+							</div>
+						</li>
+					</ul>
+				</div>
 			</div>
 			<div class="inner-center">
 				<div class="section-headline"><img src="images/stack.png" /><h2>Stack Trace</h2></div>
-				<ol class="stack-trace-list">
-				</ol>
+				<div class="section-body">
+					<ol class="stack-trace-list">
+					</ol>
+				</div>
 			</div>
 			<div class="inner-west">
 				<div class="section-headline"><img src="images/description.png" /><h2>Event Description</h2><img id="debug-button" src="images/debug-button-disabled.png" class="headline-button"/></div>
-				<div class="event-description"><span class="error-type no-wrap"></span>:&nbsp;&quot;<span class="description"></span>&quot;</div>
+				<div class="section-body"><div class="event-description"><span class="error-type no-wrap"></span>:&nbsp;&quot;<span class="description"></span>&quot;</div></div>
 			</div>
 		</div>
 		<div class="outer-north">
@@ -347,7 +356,7 @@
 					1.0
 				</div>
 				<div class="about-right">
-					DevCloud Buide Date: <br />
+					DevCloud Build Date: <br />
 					October 10, 2011
 				</div>
 			</div>

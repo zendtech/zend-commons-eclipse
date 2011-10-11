@@ -49,3 +49,12 @@ function populateStudioButtons(container, codetracing, eventId, issueId) {
 		debugButton.src = "images/debug-button-disabled.png";
 	}
 }
+
+function copySizeToPane() {
+	var pane = arguments[1];
+	var css = arguments[2];
+	var newHeight = parseInt(css.css.height);
+	var headlineHeight = parseInt(pane.find('.section-headline').css('height'));
+	pane.find('.section-body').css('height', newHeight - headlineHeight);
+	return true;
+}
