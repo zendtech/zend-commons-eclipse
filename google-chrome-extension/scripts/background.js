@@ -91,7 +91,12 @@ function searchConatiner (container) {
 tabOpen = false;
 function openEvents() {
 	if (tabOpen) {
-		// TODO test if tab was closed
+		chrome.tabs.get(tabOpen, function (tab) {
+			if (tab === undefined) {
+				tabOpen = undefined;
+				openEvents();
+			}
+		});
 	} else {
 		chrome.tabs.create({'url': chrome.extension.getURL('main.html')}, function(tab) {
 			tabOpen = tab.id;
