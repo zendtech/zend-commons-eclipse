@@ -133,9 +133,14 @@ function isValidDomainResponseFunc(response) {
 					var issueId = params[0].split("=")[1];;
 					var groupId = params[1].split("=")[1];
 					
+					var severity = ev.severity;
+					if (severity == 'severe') {
+						severity = 'critical';
+					}
+					
 					var newEvent = {
-							name : ev.description,
-							severity : ev.severity,
+							name : ev.type,
+							severity : severity,
 							type : ev.type,
 							issueId : issueId,
 							eventId : groupId,
