@@ -4,7 +4,8 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
     	sendResponse({data: searchConatiner(request.key)});
     } else if (request.method == "showNotifications") {
     	org.zend.showNotification();
-    	org.zend.request = request;
+    	zend.lastRequest = request;
+    	zend.allRequests.push(request.request);
     	chrome.browserAction.setPopup({popup:"summary.html"});
     	sendResponse({ status: 'done' });
     	updateSummary(request);
@@ -27,6 +28,7 @@ zend.summary = {
 	warning :0,
 	normal : 0
 };
+zend.allRequests = [];
 
 function updateSummary(newReq) {
 	zend.summary.requests++;
@@ -92,7 +94,9 @@ tabOpen = false;
 function openEvents() {
 	if (tabOpen) {
 		chrome.tabs.get(tabOpen, function (tab) {
-			if (tab === undefined) {
+			if (tab) {
+				// empty, if tab is open, the event was already added. we only need to set focus to main
+			} else {
 				tabOpen = undefined;
 				openEvents();
 			}
@@ -100,7 +104,7 @@ function openEvents() {
 	} else {
 		chrome.tabs.create({'url': chrome.extension.getURL('main.html')}, function(tab) {
 			tabOpen = tab.id;
-			chrome.extension.sendRequest(org.zend.request, function(response){});
+			chrome.extension.sendRequest({method : "showNotifications", requests : zend.allRequests }, function(response){});
 		});
 	}
 }

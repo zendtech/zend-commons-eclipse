@@ -1,8 +1,13 @@
 if (chrome.extension) {
 	chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 		if (request.method == "showNotifications") {
-			addRequest(request.request);
-			populateZniffingUrl(request.request.url);
+			if (request.requests) {
+				addRequests(request.requests);
+				populateZniffingUrl(request.requests[request.requests.length - 1].url);
+			} else {
+				addRequest(request.request);				
+				populateZniffingUrl(request.request.url);
+			}
 		}
 	});
 }
