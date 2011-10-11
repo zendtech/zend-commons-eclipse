@@ -135,7 +135,7 @@ function isValidDomainResponseFunc(response) {
 					var groupId = params[1].split("=")[1];
 					
 					var newEvent = {
-							name : "name",
+							name : ev.description,
 							severity : ev.severity,
 							type : ev.type,
 							issueId : issueId,
