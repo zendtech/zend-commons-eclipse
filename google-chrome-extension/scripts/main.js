@@ -15,8 +15,16 @@ if (chrome.extension) {
 
 function populateZniffingUrl(url) {
 	$('#zniffing-url').text(url);
+	
+	var topMenuWidth = parseInt($('#main-top-menu').css('width'));
+	var actualWidth = topMenuWidth - 500;
+	
+	if (actualWidth < 0) {
+		actualWidth = 0;
+	}
+	
 	$('#zniffing-url').truncate({
-	    width: 'auto',
+	    width: actualWidth,
 	    token: '&hellip;',
 	    center: true,
 	});

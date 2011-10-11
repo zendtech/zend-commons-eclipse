@@ -178,11 +178,9 @@ function resetEvents() {
 	$('a.toggler').hide();
 	$('label.no-content-label').show();
 	
-	$('.event-description .error-type').html('');
-	$('.event-description .description').html('');
-	
 	$('.stack-trace-list').html('');
 	populateZniffingUrl('');
 	
 	populateStudioButtons('', 0, 0, 0);
+	resetDescription();
 }
