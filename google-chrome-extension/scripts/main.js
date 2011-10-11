@@ -47,8 +47,7 @@ function showAbout() {
 function populateStudioButtons(container, codetracing, eventId, issueId) {
 	codetracingButton = $('#codetracing-button').get(0);
 	if (codetracing) {
-		$('#codetracing-button').click({container: container, codetracing: codetracing}, openCodeTracingSnapshot);
-		codetracingButton.onclick = 'openCodeTracingSnapshot(\'' + container + '\', \'' + codetracing + '\');';
+		$('#codetracing-button').bind('click', [container, codetracing], openCodeTracingSnapshotEvent);
 		codetracingButton.title = "Open code tracing in Studio";
 		codetracingButton.src = "images/codetracing.png";
 	} else {
@@ -59,7 +58,7 @@ function populateStudioButtons(container, codetracing, eventId, issueId) {
 	
 	debugButton = $('#debug-button').get(0);
 	if (eventId && issueId) {
-		debugButton.onclick = 'openTunnelAndDebug(\'' + container + '\', \'' + eventId + '\', \'' + issueId + '\');';
+		$('#debug-button').bind('click', [container, eventId, issueId], openTunnelAndDebugEvent);
 		debugButton.title = "Debug event in Studio";
 		debugButton.src = "images/debug-button.png";
 	} else {

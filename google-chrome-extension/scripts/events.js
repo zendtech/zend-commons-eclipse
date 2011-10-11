@@ -34,6 +34,10 @@ function populateRequest(index, request) {
 	});
 }
 
+function openTunnelAndDebugEvent(event) {
+	return openTunnelAndDebug(event.data[0], event.data[1], event.data[2]);
+}
+
 function openTunnelAndDebug(container, eventId, issueId) {
 	enableSshTunnel(container);
 	//if (enableSshTunnel(container)) {
@@ -139,6 +143,10 @@ function enableSshTunnel (containerName) {
 /**
  * Opens AMF file in Zend Studio
  */
+function openCodeTracingSnapshotEvent(event) {
+	
+	return openCodeTracingSnapshot (event.data[0], event.data[1]);
+}
 function openCodeTracingSnapshot (containerName, amfid) {
 	
 	var success = function(response) {

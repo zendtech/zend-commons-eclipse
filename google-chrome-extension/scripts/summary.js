@@ -16,7 +16,6 @@ function populateSummary(url, requests, events, critical, warning, normal) {
 	$('#summary-icon-normal').text(normal);
 	
 	$('#summary-bar-url').text(url);
-	console.log($('#summary-bar-url'));
 	$('#summary-bar-url').truncate({
 		width: 185,
 		token: '&hellip;',
