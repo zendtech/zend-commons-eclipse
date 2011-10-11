@@ -180,19 +180,19 @@ div.section-body {
 }
 
 #critical-small {
-	background: url('../images/critical-small.png') top left repeat;
+	background: url('../images/critical-small.png') top left no-repeat;
 }
 
 #warning-small {
-	background: url('../images/warning-small.png') top left repeat;
+	background: url('../images/warning-small.png') top left no-repeat;
 }
 
 #normal-small {
-	background: url('../images/normal-small.png') top left repeat;
+	background: url('../images/normal-small.png') top left no-repeat;
 }
 
 #debug-small {
-	background: url('../images/debug.png') top left repeat;
+	background: url('../images/debug.png') top left no-repeat;
 }
 
 .arrow-right {
