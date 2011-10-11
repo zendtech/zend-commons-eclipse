@@ -3,7 +3,7 @@
   "description": "Integrates into the PHP runtime and watches for various events such as errors, failing functions, slow scripts and database errors.",
   "version": "0.0.0",
   "icons": { "16": "images/phpcloud.png", "48" : "images/cloud.gif" },	
-  "permissions": ["tabs", "notifications", "cookies", "http://127.0.0.1*", "*://*.devpaas.zend.com/*", "*://*.projectx.zend.com/*", "*://*.my.phpcloud.com/*" ],
+  "permissions": ["tabs", "notifications", "cookies", "http://*/*", "*://*.devpaas.zend.com/*", "*://*.projectx.zend.com/*", "*://*.my.phpcloud.com/*" ],
   "browser_action": {
     "default_icon": "images/phpcloud.png", 
     "default_title": "phpcloud.com Sniffer",      
