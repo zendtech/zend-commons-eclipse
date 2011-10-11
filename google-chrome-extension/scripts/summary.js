@@ -11,7 +11,7 @@ if (chrome.extension) {
 function populateSummary(url, requests, events, critical, warning, normal) {
 	$('#summary-bar-url').text(url);
 	$('#summary-bar-url').truncate({
-	    width: 'auto',
+	    width: 60,
 	    token: '&hellip;',
 	    center: true,
 	});

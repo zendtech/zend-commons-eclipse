@@ -164,3 +164,25 @@ function openCodeTracingSnapshot (containerName, amfid) {
 	
 	downloadAmf(containerName, amfid, success, error);
 }
+
+function resetEvents() {
+	window.requests = new Array();
+	
+	populateSummary('', 0, 0, 0, 0, 0);
+	document.title = 'Events: ' + 0 + ', ' + 0 + ', ' + 0;
+	$('.outer-west ul').html('');
+	
+	$('.super-global-table').hide();
+	$('.super-global-table tbody tr').remove();
+	$('label.has-content-label').hide();
+	$('a.toggler').hide();
+	$('label.no-content-label').show();
+	
+	$('.event-description .error-type').html('');
+	$('.event-description .description').html('');
+	
+	$('.stack-trace-list').html('');
+	populateZniffingUrl('');
+	
+	populateStudioButtons('', 0, 0, 0);
+}
