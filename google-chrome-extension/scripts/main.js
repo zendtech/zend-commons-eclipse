@@ -61,6 +61,21 @@ function populateStudioButtons(container, codetracing, eventId, issueId) {
 	}
 }
 
+function truncateEventUrls() {
+	var eventTitleUrl = $('.event-title span.event-url');
+	eventTitleUrl.each(function(index, element) {
+		var eventTitle = $('.event-title');
+		var eventTitleWidth = parseInt(eventTitle.css('width'));
+		$(element).html(element.title);
+		$(element).truncate({
+			width: eventTitleWidth - 23,
+			token: '&hellip;',
+			center: true,
+		});
+	});
+	return true;
+}
+
 function copySizeToPane() {
 	var pane = arguments[1];
 	var css = arguments[2];

@@ -7,7 +7,7 @@ function populateRequest(index, request) {
 	} else {
 		event += '<img class="request-icon" src="images/studio-disabled.png" title="Code tracing is unavailable" />';
 	}
-	event += '<span>'+request.url + '</span></div><ul>';
+	event += '<span class="event-url" title="'+request.url + '">'+request.url + '</span></div><ul>';
 	
 	jQuery.each(request.events, function(eventIndex, eventElement) {
 		event += '<li><div class="event-type" id="' + getEventTypeIcon(eventElement.severity) + '"></div>';
@@ -27,8 +27,8 @@ function populateRequest(index, request) {
 		$('.outer-west > ul > li:last').after(event);
 	}
 	
-	$('.event-title span').truncate({
-	    width: 'auto',
+	$('.event-title span.event-url').truncate({
+	    width: '235',
 	    token: '&hellip;',
 	    center: true,
 	});

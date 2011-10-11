@@ -41,6 +41,7 @@
 			,	north__minSize:			80
 			,	north__maxSize:			80
 			,	west__minSize:			200
+			,	onresize:				truncateEventUrls
 			});
 
 			innerLayout = $('div.outer-center').layout({
@@ -49,7 +50,7 @@
 			,	west__paneSelector:		".inner-west" 
 			,	north__paneSelector:	".inner-north" 
 			,	west__size:				300 
-			,	north__size:			500
+			,	north__size:			200
 			,	onresize:				copySizeToPane
 			});
 			
@@ -61,7 +62,150 @@
 				$(this).nextAll('div.super-global-display').slideToggle(500);
 		        return false;
 		    });
-		}
+			
+			populateZniffingUrl('');
+			
+			var request = [
+				              {url: 		'http://amitdar.my.phpcloud.com/?all=php_error',
+				              container:	'containerName',
+				              codeTracing:	'1.2.3',
+							  events: [
+							    {name: 		'Fatal PHP Error', 
+						    	 severity: 		'critical',
+								 type:			'Fatal PHP Error',
+								 description:	'fopen() expects at least 2 parameters, 11 given',
+								 issueId:		'12',
+								 eventId:		'123',
+								 get: 		{key:'LCKey1', key2: 'LCvalue1'},
+								 post: 		{key:'LCKey2', key2: 'LCvalue2'},
+								 cookie: 	{},
+								 server:	{key:'LCKey3', key2: 'LCvalue3'},
+								 session:	{key:'LCKey4', key2: 'LCvalue4'},
+								 backtrace:	[{method: '1SimpleXMLElement::__construct()', filename: '/gui/application/PE/models/Deployment/Prerequisites/Validator/Generator.php(23)'}, {method: 'SimpleXMLElement::__construct()', filename: '/gui/application/PE/models/Deployment/Prerequisites/Validator/Generator.php(23)'}]
+								},
+							    {name:		 'Event X',
+								 severity: 		'warning',
+								 type:			'Php Error',
+								 description:	'fopen() expects at least 2 parameters, 1 given',
+								 eventId:		'1',
+								 get: 		{key:'LWKey1', key2: 'LWvalue1'},
+								 post: 		{key:'LWKey2', key2: 'LWvalue2'},
+								 cookie: 	{},
+								 server:	{key:'LWKey3', key2: 'LWvalue3'},
+								 session:	{key:'LWKey4', key2: 'LWvalue4'},
+								 backtrace:	[{method: '2SimpleXMLElement::__construct()', filename: '/gui/application/PE/models/Deployment/Prerequisites/Validator/Generator.php(23)'}, {method: 'SimpleXMLElement::__construct()', filename: '/gui/application/PE/models/Deployment/Prerequisites/Validator/Generator.php(23)'}]
+								},
+							    {name: 		'Event Y',
+								 severity: 		'normal',
+								 type:			'Php Warning',
+								 description:	'unknown',
+								 eventId:		'123',
+								 get: 		{key:'LNKey1', key2: 'LNvalue1'},
+								 post: 		{key:'LNKey2', key2: 'LNvalue2'},
+								 cookie: 	{},
+								 server:	{key:'LNKey3', key2: 'LNvalue3'},
+								 session:	{key:'LNKey4', key2: 'LNvalue4'},
+								 backtrace:	[{method: '3SimpleXMLElement::__construct()', filename: '/gui/application/PE/models/Deployment/Prerequisites/Validator/Generator.php(23)'}, {method: 'SimpleXMLElement::__construct()', filename: '/gui/application/PE/models/Deployment/Prerequisites/Validator/Generator.php(23)'}]
+								}
+							  ]
+							 },
+							 {url: 		'mypass/user/other_login', 
+								 container:	'containerName',
+								 codeTracing:	'',
+							  events: [
+							    {name:		'Fatal PHP Error', 
+								 severity: 		'critical',
+								 type:			'Php Error',
+								 description:	'fopen() expects at least 2 parameters, 1 given',
+								 issueId:		'12',
+								 eventId:		'123',
+								 get: 		{key:'LCKey5', key2: 'LCvalue5'},
+								 post: 		{key:'LCKey6', key2: 'LCvalue6'},
+								 cookie: 	{},
+								 server:	{key:'LCKey7', key2: 'LCvalue7'},
+								 session:	{key:'LCKey8', key2: 'LCvalue8'},
+								 backtrace:	[{method: '4SimpleXMLElement::__construct()', filename: '/gui/application/PE/models/Deployment/Prerequisites/Validator/Generator.php(23)'}, {method: 'SimpleXMLElement::__construct()', filename: '/gui/application/PE/models/Deployment/Prerequisites/Validator/Generator.php(23)'}]
+								},
+							    {name: 		'Event X',
+								 severity: 		'warning',
+								 type:			'Php Error',
+								 description:	'fopen() expects at least 2 parameters, 1 given',
+								 eventId:		'123',
+								 get: 		{key:'LWKey5', key2: 'LWvalue5'},
+								 post: 		{key:'LWKey6', key2: 'LWvalue6'},
+								 cookie: 	{},
+								 server:	{key:'LWKey7', key2: 'LWvalue7'},
+								 session:	{key:'LWKey8', key2: 'LWvalue8'},
+								 backtrace:	[{method: '5SimpleXMLElement::__construct()', filename: '/gui/application/PE/models/Deployment/Prerequisites/Validator/Generator.php(23)'}, {method: 'SimpleXMLElement::__construct()', filename: '/gui/application/PE/models/Deployment/Prerequisites/Validator/Generator.php(23)'}]
+								},
+							    {name: 		'Event Y',
+								 severity: 		'normal',
+								 type:			'Php Error',
+								 description:	'fopen() expects at least 2 parameters, 1 given',
+								 issueId:		'12',
+								 eventId:		'123',
+								 get: 		{key:'LNKey5', key2: 'LNvalue5'},
+								 post: 		{key:'LNKey6', key2: 'LNvalue6'},
+								 cookie: 	{},
+								 server:	{key:'LNKey7', key2: 'LNvalue7'},
+								 session:	{key:'LNKey8', key2: 'LNvalue8'},
+								 backtrace:	[{method: '6SimpleXMLElement::__construct()', filename: '/gui/application/PE/models/Deployment/Prerequisites/Validator/Generator.php(23)'}, {method: 'SimpleXMLElement::__construct()', filename: '/gui/application/PE/models/Deployment/Prerequisites/Validator/Generator.php(23)'}]
+								}
+							  ]
+							 }
+					];
+			addRequests(request);
+
+			var newRequest = {url: 		'mypass/user/new_login', 
+								container:	'containerName',
+								codeTracing:	'1.2.3',
+					 		  events: [
+							    {name:		'Fatal PHP Error', 
+								 severity: 		'critical',
+								 type:			'Php Error',
+								 description:	'fopen() expects at least 2 parameters, 1 given',
+								 issueId:		'12',
+								 eventId:		'123',
+								 get: 		{key:'LCKey9', key2: 'LCvalue9'},
+								 post: 		{key:'LCKey10', key2: 'LCvalue10'},
+								 cookie: 	{},
+								 server:	{key:'LCKey11', key2: 'LCvalue11'},
+								 session:	{key:'LCKey12', key2: 'LCvalue12'},
+								 backtrace:	[{method: '4SimpleXMLElement::__construct()', filename: '/gui/application/PE/models/Deployment/Prerequisites/Validator/Generator.php(23)'}, {method: 'SimpleXMLElement::__construct()', filename: '/gui/application/PE/models/Deployment/Prerequisites/Validator/Generator.php(23)'}]
+								},
+							    {name: 		'Event X',
+								 severity: 		'warning',
+								 type:			'Php Error',
+								 description:	'fopen() expects at least 2 parameters, 1 given',
+								 issueId:		'12',
+								 eventId:		'123',
+								 get: 		{key:'LWKey9', key2: 'LWvalue9'},
+								 post: 		{key:'LWKey10', key2: 'LWvalue10'},
+								 cookie: 	{},
+								 server:	{key:'LWKey11', key2: 'LWvalue11'},
+								 session:	{key:'LWKey12', key2: 'LWvalue12'},
+								 backtrace:	[{method: '5SimpleXMLElement::__construct()', filename: '/gui/application/PE/models/Deployment/Prerequisites/Validator/Generator.php(23)'}, {method: 'SimpleXMLElement::__construct()', filename: '/gui/application/PE/models/Deployment/Prerequisites/Validator/Generator.php(23)'}]
+								},
+							    {name: 		'Event Y',
+								 severity: 		'normal',
+								 type:			'Php Error',
+								 description:	'fopen() expects at least 2 parameters, 1 given',
+								 issueId:		'12',
+								 eventId:		'123',
+								 get: 		{key:'LNKey9', key2: 'LNvalue9'},
+								 post: 		{key:'LNKey10', key2: 'LNvalue10'},
+								 cookie: 	{},
+								 server:	{key:'LNKey11', key2: 'LNvalue11'},
+								 session:	{key:'LNKey12', key2: 'LNvalue12'},
+								 backtrace:	[{method: '6SimpleXMLElement::__construct()', filename: '/gui/application/PE/models/Deployment/Prerequisites/Validator/Generator.php(23)'}, {method: 'SimpleXMLElement::__construct()', filename: '/gui/application/PE/models/Deployment/Prerequisites/Validator/Generator.php(23)'}]
+								}
+							  ]
+							 };
+
+			addRequest(newRequest);
+			
+			switchEvent(0, 0);
+		};
 		
 		</SCRIPT>
 	</head>
