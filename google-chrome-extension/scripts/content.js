@@ -113,7 +113,7 @@ function isValidDomainResponseFunc(response) {
 					}
 				}
 				
-				var newRequest = {url: 'url',
+				var newRequest = {url: document.URL,
 						container : containerName,
 						codeTracing : org.zend.codeTraceId,
 						events : []};
