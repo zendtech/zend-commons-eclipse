@@ -3,9 +3,6 @@ if (chrome.extension) {
 		if (request.method == "events") {
 			addRequest(request.request);
 			populateZniffingUrl(request.request.url);
-		} else if (request.method == "updateSummary") {
-			var s =request.summary;
-			populateSummary(s.url, s.requests, s.events, s.critical, s.warning, s.normal);
 		}
 	});
 }

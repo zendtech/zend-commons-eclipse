@@ -2,14 +2,6 @@ var ZDE_DetectPort = 20080;
 
 var org = org || {};
 org.zend = {
-	summary : {
-		requests : 0,
-		events : 0,
-		critical : 0,
-		warning :0,
-		normal : 0
-	},
-		
 	isValidDomain : function(domain) {
 		return domain == "devpaas.zend.com" || domain == "projectx.zend.com"
 				|| domain == "my.phpcloud.com";
@@ -129,24 +121,13 @@ function isValidDomainResponseFunc(response) {
 					}
 				}
 				
-				org.zend.summary.requests++;
-				org.zend.summary.url = document.URL;
-				
 				var newRequest = {url: document.URL,
 						container : containerName,
 						codeTracing : org.zend.codeTraceId,
 						events : []};
 				
-				for (i in events) {
-					org.zend.summary.events++;
+				for (var i in events) {
 					var ev = events[i];
-					
-					switch (ev.type) {
-						case 'critical' : org.zend.summary.critical++; break;
-						case'warning' : org.zend.summary.warning++; break;
-						case 'normal' : org.zend.summary.normal++; break;
-						
-					}
 					
 					var params=ev['debug-url'].split("/")[5].split("&");
 					var issueId = params[0].split("=")[1];;
@@ -173,12 +154,6 @@ function isValidDomainResponseFunc(response) {
 				chrome.extension.sendRequest({
 					method : "showNotifications",
 					request : newRequest
-				}, function(response) {
-				});
-				
-				chrome.extension.sendRequest({
-					method : "updateSummary",
-					summary : org.zend.summary
 				}, function(response) {
 				});
 			};

@@ -7,6 +7,10 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
     	org.zend.request = request;
     	chrome.browserAction.setPopup({popup:"summary.html"});
     	sendResponse({ status: 'done' });
+    	updateSummary(request);
+    	sendSummary();
+    } else if (request.method == "requestSummary") { 
+    	sendSummary();
     } else if (request.method == "signout") {
     	org.zend.signout();
     	sendResponse({ status: 'done' }); 
@@ -14,6 +18,34 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
     	sendResponse({ }); 
     }
 });
+
+var zend = zend || {};
+zend.summary = {
+	requests : 0,
+	events : 0,
+	critical : 0,
+	warning :0,
+	normal : 0
+};
+
+function updateSummary(newReq) {
+	zend.summary.requests++;
+	zend.summary.url = newReq.request.url;
+	for (var i in newReq.request.events) {
+		zend.summary.events++;
+		var ev = newReq.request.events[i];
+		switch (ev.severity) {
+			case 'critical' : zend.summary.critical++; break;
+			case'warning' : zend.summary.warning++; break;
+			case 'normal' : zend.summary.normal++; break;
+			
+		}
+	}
+}
+
+function sendSummary() {
+	chrome.extension.sendRequest({method : "updateSummary", summary : zend.summary}, function(response){});
+}
 
 
 var org = org || {};
