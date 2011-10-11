@@ -1,10 +1,7 @@
 if (chrome.extension) {
 	chrome.extension.sendRequest({method : "requestSummary"}, function(response){});
 	chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
-		if (request.method == "events") {
-			addRequest(request.request);
-			populateZniffingUrl(request.request.url);
-		} else if (request.method == "updateSummary") {
+		if (request.method == "updateSummary") {
 			var s =request.summary;
 			populateSummary(s.url, s.requests, s.events, s.critical, s.warning, s.normal);
 		}
