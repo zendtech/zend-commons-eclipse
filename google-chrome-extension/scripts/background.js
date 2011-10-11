@@ -105,10 +105,19 @@ function openEvents() {
 	} else {
 		chrome.tabs.create({'url': chrome.extension.getURL('main.html')}, function(tab) {
 			tabOpen = tab.id;
-			chrome.extension.sendRequest({method : "showNotifications", requests : zend.allRequests }, function(response){});
 		});
 	}
 }
+
+chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
+	if (tabId !== tabOpen) {
+		return;
+	}
+	
+	if (changeInfo.status === 'complete') {
+		chrome.extension.sendRequest({method : "showNotifications", requests : zend.allRequests }, function(response){});
+	}
+});
 
 function windowClosed() {
 	org.zend.isNotificationVisible = false;	
