@@ -47,6 +47,7 @@ function showAbout() {
 function populateStudioButtons(container, codetracing, eventId, issueId) {
 	codetracingButton = $('#codetracing-button').get(0);
 	if (codetracing) {
+		$('#codetracing-button').click({container: container, codetracing: codetracing}, openCodeTracingSnapshot);
 		codetracingButton.onclick = 'openCodeTracingSnapshot(\'' + container + '\', \'' + codetracing + '\');';
 		codetracingButton.title = "Open code tracing in Studio";
 		codetracingButton.src = "images/codetracing.png";
