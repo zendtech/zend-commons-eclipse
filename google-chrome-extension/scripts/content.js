@@ -113,11 +113,39 @@ function isValidDomainResponseFunc(response) {
 					}
 				}
 				
+				var newRequest = {url: 'url',
+						container : containerName,
+						codeTracing : org.zend.codeTraceId,
+						events : []};
+				
+				for (i in events) {
+					var ev = events[i];
+					
+					var params=ev['debug-url'].split("/")[5].split("&");
+					var issueId = params[0].split("=")[1];;
+					var groupId = params[1].split("=")[1];
+					
+					var newEvent = {
+							name : "name",
+							severity : ev.severity,
+							type : ev.type,
+							issueId : issueId,
+							eventId : groupId,
+							description : ev.description,
+							get : ev['super-globals'].get,
+							post : ev['super-globals'].post, 
+							cookie : ev['super-globals'].cookie,
+							server : ev['super-globals'].server,
+							session : ev['super-globals'].session,
+							backtrace : ev.backtrace
+					};
+					newRequest.events.push(newEvent);
+					
+				}
+				
 				chrome.extension.sendRequest({
 					method : "showNotifications",
-					container : containerName,
-					codeTrace : org.zend.codeTraceId,
-					events : events
+					request : newRequest
 				}, function(response) {
 				});
 			};
