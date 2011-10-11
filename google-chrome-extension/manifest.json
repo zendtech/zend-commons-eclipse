@@ -13,7 +13,7 @@
     {
       "matches": ["http://*.devpaas.zend.com/*", "http://*.projectx.zend.com/*", "http://*.my.phpcloud.com/*"],
       "css": ["style/style.css"],
-      "js": ["scripts/content.js", "scripts/jquery.js", "scripts/devcloud.js", "scripts/tinyfader.js"]
+      "js": ["scripts/content.js", "scripts/jquery.js", "scripts/devcloud.js"]
     }
   ],
   "background_page": "background.html"
