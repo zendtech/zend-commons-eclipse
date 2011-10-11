@@ -138,6 +138,18 @@ function isValidDomainResponseFunc(response) {
 						severity = 'critical';
 					}
 					
+					var backtrace = [];
+					if (ev.backtrace && ev.backtrace.backtrace) {
+						for (var j = 0; j < ev.backtrace.backtrace.length; j++) { // 2 - backtrace max length
+							backtrace.push({
+								method : ev.backtrace.backtrace[j]['function'],
+								filename : ev.backtrace.backtrace[j].file,
+								'class' : ev.backtrace.backtrace[j]['class'],
+								line : ev.backtrace.backtrace[j].line
+							});
+						}
+					}
+					
 					var newEvent = {
 							name : ev.type,
 							severity : severity,
@@ -150,7 +162,7 @@ function isValidDomainResponseFunc(response) {
 							cookie : flatten(ev['super-globals'].cookie.cookie),
 							server : flatten(ev['super-globals'].server.server),
 							session : flatten(ev['super-globals'].session.session),
-							backtrace : ev.backtrace
+							backtrace : backtrace
 					};
 					newRequest.events.push(newEvent);
 					
