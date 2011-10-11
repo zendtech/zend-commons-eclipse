@@ -1,5 +1,11 @@
 function populateRequest(index, request) {
-	var event = '<li id="request_' + index + '" class="new-event">';
+	var autoSwitch = false;
+	/// autoswitch (at the end of the process) only if we have no current events
+	if (! $('.request-item').length) {
+		autoSwitch = true;
+	}
+	
+	var event = '<li id="request_' + index + '" class="new-event request-item">';
 	
 	event += '<div class="event-title no-wrap">';
 	if (request.codeTracing) {
@@ -9,6 +15,7 @@ function populateRequest(index, request) {
 	}
 	event += '<span class="event-url" title="'+request.url + '">'+request.url + '</span></div><ul>';
 	
+	var lastEventIndex = null;
 	jQuery.each(request.events, function(eventIndex, eventElement) {
 		event += '<li><div class="event-type" id="' + getEventTypeIcon(eventElement.severity) + '"></div>';
 		if (eventElement.eventId && eventElement.issueId) {
@@ -16,7 +23,8 @@ function populateRequest(index, request) {
 		} else {
 			event += '<img class="event-icon" src="images/debug-disabled.png" title="Debug is not available" />';
 		}
-		event += '<span class="event-type-desc" id="event_' + eventIndex + '" onClick="switchEvent(' + index + ', ' + eventIndex + ')">' +  eventElement.name + '</span></li>'; 
+		event += '<span class="event-type-desc" id="event_' + eventIndex + '" onClick="switchEvent(' + index + ', ' + eventIndex + ')">' +  eventElement.name + '</span></li>';
+		lastEventIndex = lastEventIndex == null ? eventIndex : lastEventIndex;
 	});
 	
 	event += '</ul></li>';
@@ -32,6 +40,10 @@ function populateRequest(index, request) {
 	    token: '&hellip;',
 	    center: true,
 	});
+	
+	if (autoSwitch) {
+		switchEvent(index, lastEventIndex);
+	}
 }
 
 function openTunnelAndDebugEvent(event) {
