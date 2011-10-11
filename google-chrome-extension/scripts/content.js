@@ -83,6 +83,15 @@ function trim(stringToTrim) {
 	return stringToTrim.replace(/^\s+|\s+$/g,"");
 }
 
+function flatten(kvArray) {
+	var result = {};
+	for (var i in kvArray) {
+		var kvElem = kvArray[i];
+		result[kvElem.key] = kvElem.value;
+	}
+	return result;
+}
+
 function isValidDomainResponseFunc(response) {
 	if (response.data != -1) {
 		requestId = org.zend.getMonitorRequestId(document.cookie);
@@ -132,11 +141,11 @@ function isValidDomainResponseFunc(response) {
 							issueId : issueId,
 							eventId : groupId,
 							description : ev.description,
-							get : ev['super-globals'].get,
-							post : ev['super-globals'].post, 
-							cookie : ev['super-globals'].cookie,
-							server : ev['super-globals'].server,
-							session : ev['super-globals'].session,
+							get : flatten(ev['super-globals'].get.get),
+							post : flatten(ev['super-globals'].post.post), 
+							cookie : flatten(ev['super-globals'].cookie.cookie),
+							server : flatten(ev['super-globals'].server.server),
+							session : flatten(ev['super-globals'].session.session),
 							backtrace : ev.backtrace
 					};
 					newRequest.events.push(newEvent);
