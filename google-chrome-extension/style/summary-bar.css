@@ -9,7 +9,7 @@
 	vertical-align: 30%;
 }
 
-#mini_bar_header img {
+#summary-logo {
 	margin-right: 10px;
 }
 
@@ -95,9 +95,4 @@ div.summary-share-links {
 
 .hidden {
 	display: none;
-}
-
-#summary-bar-url {
-	width: 30px;
-	overflow: hidden;
 }

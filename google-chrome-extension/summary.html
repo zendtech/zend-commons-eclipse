@@ -6,6 +6,7 @@
 		<script type="text/javascript" src="scripts/popup.js"></script>
 		<script type="text/javascript" src="scripts/devcloud.js"></script>
 		<script type="text/javascript" src="scripts/jquery.js"></script>
+		<script type="text/javascript" src="scripts/jquery.truncate.js"></script>
 		<script type="text/javascript" src="scripts/summary.js"></script>
 		<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
 		<link rel="stylesheet" type="text/css" href="style/style.css" media="screen"/>
@@ -20,8 +21,8 @@
 	</head>
 	<body>
 		<div id="mini_bar_header no-wrap">
-			<img src="images/logo.png" class="float-left" />
-			<span class="url-label">Information for:</span>&nbsp;<span style=""><span id="summary-bar-url" class="url-value"></span>
+			<img id="summary-logo" src="images/logo.png" class="float-left" />
+			<span class="url-label">Information for:</span>&nbsp;<span id="summary-bar-url" class="url-value"></span>
 			<div id="close-button" onclick="window.close()" title="Close" ></div>
 			<div id="settings-button" title="Settings"></div>
 			<div id="logout-button" onclick="signout()" title="Logout"></div>
@@ -33,6 +34,7 @@
 					<li><div id="summary-icon-critical" class="icon"></div></li>
 					<li><div id="summary-icon-warning" class="icon"></div></li>
 					<li><div id="summary-icon-normal" class="icon"></div></li>
+					<li><a href="javascript:void(0)" onclick="openTab(); return false">More Details</a></li>
 				</ul>
 			</div>
 			<hr />
@@ -46,8 +48,6 @@
 			</div>
 			
 		</div>
-		
-		<a href="#" onclick="openTab(); return false">tab</a>
 		
 	</body>
 </html>
