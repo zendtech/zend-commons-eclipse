@@ -100,10 +100,9 @@ function openEvents() {
 	} else {
 		chrome.tabs.create({'url': chrome.extension.getURL('main.html')}, function(tab) {
 			tabOpen = tab.id;
+			chrome.extension.sendRequest(org.zend.request, function(response){});
 		});
 	}
-	org.zend.request.method = "events";
-	chrome.extension.sendRequest(org.zend.request, function(response){});
 }
 
 function windowClosed() {
