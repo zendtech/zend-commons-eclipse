@@ -141,12 +141,16 @@ function isValidDomainResponseFunc(response) {
 					var backtrace = [];
 					if (ev.backtrace && ev.backtrace.backtrace) {
 						for (var j = 0; j < ev.backtrace.backtrace.length; j++) { // 2 - backtrace max length
-							backtrace.push({
-								method : ev.backtrace.backtrace[j]['function'],
-								filename : ev.backtrace.backtrace[j].file,
-								'class' : ev.backtrace.backtrace[j]['class'],
-								line : ev.backtrace.backtrace[j].line
-							});
+							var entry ={
+									method : ev.backtrace.backtrace[j]['function'],
+									filename : ev.backtrace.backtrace[j].file,
+									line : ev.backtrace.backtrace[j].line
+							};
+							var classname = ev.backtrace.backtrace[j]['class'];
+							if (typeof classname === 'string') {
+								entry['class'] = classname;
+							}
+							backtrace.push(entry);
 						}
 					}
 					

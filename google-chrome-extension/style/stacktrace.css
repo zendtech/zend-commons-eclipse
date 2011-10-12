@@ -1,15 +1,21 @@
 @CHARSET "UTF-8";
 
-ol.stack-trace-list{
+ul.stack-trace-list{
 	padding-left: 30px;
 }
 
-ol.stack-trace-list li {
-	padding:2px 0;
-	
+ul.stack-trace-list li {
+	padding:0;
+	list-style-image: url('../images/stckframe_obj.gif');
+	white-space: nowrap;
+	line-height: 8pt;
 }
 
-ol.stack-trace-list li span.filename, ul.stack-trace-list li span.method-name {
+ul.stack-trace-list li span.filename, ul.stack-trace-list li span.method-name {
 	font-family: monospace;
+	font-size: 8pt;
 }
 
+ul.stack-trace-list li span.filename {
+	color: gray;
+}
