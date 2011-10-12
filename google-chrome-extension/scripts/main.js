@@ -8,6 +8,8 @@ if (chrome.extension) {
 				addRequest(request.request);
 				populateZniffingUrl(request.request.url);
 			}
+		} else if (request.method == "resetRequests") {
+			resetEvents();
 		}
 	});
 }

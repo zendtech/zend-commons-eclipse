@@ -12,8 +12,7 @@
   "content_scripts": [
     {
       "matches": ["http://*.devpaas.zend.com/*", "http://*.projectx.zend.com/*", "http://*.my.phpcloud.com/*"],
-      "css": ["style/style.css"],
-      "js": ["scripts/content.js", "scripts/jquery.js", "scripts/devcloud.js"]
+      "js": ["scripts/content.js" ]
     }
   ],
   "background_page": "background.html"
