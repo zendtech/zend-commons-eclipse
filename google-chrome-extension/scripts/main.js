@@ -1,6 +1,9 @@
 if (chrome.extension) {
 	chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
-		if (request.method == "showNotifications") {
+		if (request.method == "backgroundPublishRequests") {
+			if (request.resetRequests) {
+				resetEvents();
+			}
 			if (request.requests) {
 				addRequests(request.requests);
 				populateZniffingUrl(request.requests[request.requests.length - 1].url);
@@ -8,8 +11,6 @@ if (chrome.extension) {
 				addRequest(request.request);
 				populateZniffingUrl(request.request.url);
 			}
-		} else if (request.method == "resetRequests") {
-			resetEvents();
 		}
 	});
 }

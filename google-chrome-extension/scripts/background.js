@@ -1,14 +1,13 @@
 chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 	if (request.method == "ContentEvaluateCookie") {
-		var cn = searchConatiner(request.key);
+		var cn = searchContainer(request.domain);
 		if (cn) {
-			zend.path = request.path;
-			containerName = cn;
 			resetRequests();
-			searchEvents(request.cookie);
+			zend.path = request.path;
 		}
 	} else if (request.method == "showNotifications") {
-    	showNotifications(request);
+		org.zend.showNotification();
+    	addRequests(request);
     } else if (request.method == "requestSummary") { 
     	sendSummary();
     } else if (request.method == "signout") {
@@ -33,29 +32,27 @@ chrome.cookies.onChanged.addListener(function(cookieInfo) {
 	}		
 });
 
-function resetRequests() {
-	zend.allRequests = [];
-	chrome.extension.sendRequest({method:"resetRequests"});
-}
-
-function showNotifications(request) {
-	org.zend.showNotification();
+function addRequests(request) {
 	zend.lastRequest = request;
 	zend.allRequests.push(request.request);
-	chrome.browserAction.setPopup({popup:"summary.html"});
 	updateSummary(request);
 	sendSummary();
 }
 
+function resetRequests() {
+	zend.summary = {
+			requests : 0,
+			events : 0,
+			critical : 0,
+			warning :0,
+			normal : 0
+	};
+	zend.allRequests = [];
+	zend.resetRequests = true;
+}
+
 var zend = zend || {};
-zend.summary = {
-	requests : 0,
-	events : 0,
-	critical : 0,
-	warning :0,
-	normal : 0
-};
-zend.allRequests = [];
+resetRequests();
 
 function updateSummary(newReq) {
 	zend.summary.requests++;
@@ -128,15 +125,15 @@ tabOpen = false;
 function openEvents() {
 	if (tabOpen) {
 		chrome.tabs.get(tabOpen, function (tab) {
-			if (tab) {
-				// empty, if tab is open, the event was already added. we only need to set focus
+			if (tab) { // tab is open
+				chrome.extension.sendRequest(zend.lastRequest, function(response){});
 				chrome.tabs.update(tabOpen, {selected : true});
-			} else {
+			} else { // tab was closed, need to re-open it
 				tabOpen = undefined;
 				openEvents();
 			}
 		});
-	} else {
+	} else { // tab was never opened
 		chrome.tabs.create({'url': chrome.extension.getURL('main.html')}, function(tab) {
 			tabOpen = tab.id;
 		});
@@ -149,7 +146,7 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
 	}
 	
 	if (changeInfo.status === 'complete') {
-		chrome.extension.sendRequest({method : "showNotifications", requests : zend.allRequests }, function(response){});
+		chrome.extension.sendRequest({method : "backgroundPublishRequests", requests : zend.allRequests }, function(response){});
 	}
 });
 
@@ -198,7 +195,7 @@ function searchEvents(cookie) {
 		var summary_success = function(response) {
 			var c = response.requestSummary["events-count"];
 			if (c == 0) {
-				console.log('no events');
+				//console.log('no events');
 				return;
 			}
 
@@ -272,10 +269,16 @@ function searchEvents(cookie) {
 				
 			}
 			
-			showNotifications({
-				method : "showNotifications",
+			var notfEvent = {
+				method : "backgroundPublishRequests",
 				request : newRequest
-			});
+			};
+			if (zend.resetRequests) {
+				notfEvent.resetRequests = true;
+				zend.resetRequests = undefined;
+			}
+			org.zend.showNotification();
+			addRequests(notfEvent);
 		};
 
 		var summary_error = function(message) {
