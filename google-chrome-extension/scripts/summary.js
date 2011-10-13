@@ -24,7 +24,7 @@ function populateSummary(url, requests, events, critical, warning, normal) {
 }
 
 function openTab() {
-    chrome.tabs.create({'url': chrome.extension.getURL('main.html')}, function(tab) {
-    });
-
+	var bg = chrome.extension.getBackgroundPage();
+	bg.openEvents();
+	
 }

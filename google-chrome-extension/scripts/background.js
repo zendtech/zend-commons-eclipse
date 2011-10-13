@@ -1,16 +1,16 @@
 chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
-	if (request.method == "ContentEvaluateCookie") {
+	if (request.method == "ContentEvaluateCookie") { // request from content.js to evaluate a cookie
 		var cn = searchContainer(request.domain);
 		if (cn) {
 			resetRequests();
 			zend.path = request.path;
 		}
-	} else if (request.method == "showNotifications") {
+	} else if (request.method == "showNotifications") { // request to show notification bar about new events
 		org.zend.showNotification();
     	addRequests(request);
-    } else if (request.method == "requestSummary") { 
+    } else if (request.method == "requestSummary") { // request fresh summary data
     	sendSummary();
-    } else if (request.method == "signout") {
+    } else if (request.method == "signout") { // request to signout
     	org.zend.signout();
     	sendResponse({ status: 'done' }); 
     } else {
@@ -137,7 +137,12 @@ function openEvents() {
 		chrome.tabs.create({'url': chrome.extension.getURL('main.html')}, function(tab) {
 			tabOpen = tab.id;
 		});
+		chrome.browserAction.setPopup({popup:"summary.html"});
 	}
+}
+
+function neverForThisApplication() {
+	// TODO
 }
 
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {

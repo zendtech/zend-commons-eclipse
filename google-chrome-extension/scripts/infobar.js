@@ -1,7 +1,8 @@
 function showDetails() {
 	var bg = chrome.extension.getBackgroundPage();
 	bg.openEvents();
-	return nope();
+	window.close();
+	return false;
 }
 function nope() {
 	var bg = chrome.extension.getBackgroundPage();
@@ -10,5 +11,8 @@ function nope() {
 	return false;
 }
 function never() {
-	return nope();
+	var bg = chrome.extension.getBackgroundPage();
+	bg.neverForThisApplication();
+	window.close();
+	return false;
 }

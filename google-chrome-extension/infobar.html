@@ -1,15 +1,21 @@
 <!DOCTYPE html>
 <html>
-<head>
-<script src="scripts/infobar.js"></script>
-</head>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<script src="scripts/infobar.js"></script>
+		<link rel="stylesheet" type="text/css" href="style/style.css" media="screen"/>
+	</head>
 <body>
+	<div id="mini_bar_header no-wrap">
+		<img src="images/logo.png" />
+		<div id="close-button" onclick="return nope()" title="Close" ></div>
+	</div>
 	<div style="font-size: 1px; padding-top: 2px;">&nbsp;</div>
-	<span style="font-size: medium;">phpcloud.com sniffer detected one or more events while running this Web page. Would you like to see more details?
-		<button type="button" onclick="return showDetails();"
-			style="font-size: 105%">Details</button>
-		<button type="button" onclick="return nope();" style="font-size: 105%">Nope</button>
-		<button type="button" onclick="return never();"
-			style="font-size: 105%">Never for this application</button> </span>
+	<div>phpcloud.com sniffer detected one or more events while running this Web page. Would you like to see more details?</div>
+	<hr>
+	<div>
+		<button type="button" onclick="return showDetails();">Details</button>
+		<button type="button" onclick="return never();">Never for this application</button>
+	</div>
 </body>
 </html>
