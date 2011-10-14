@@ -146,7 +146,7 @@ function enableSshTunnel (containerName) {
 		return rf.responseText;
 
 	} catch(e) { 
-		console.log(e);
+		alert("Cannot connect to Zend Studio. Make sure it's launched and not behind firewall");
 		return false; 
 	}
 }
@@ -173,7 +173,7 @@ function openCodeTracingSnapshot (containerName, amfid) {
 			return rf.responseText;
 
 		} catch(e) { 
-			console.log(e);
+			alert("Cannot connect to Zend Studio. Make sure it's launched and not behind firewall");
 			return false; 
 		}
 	};
