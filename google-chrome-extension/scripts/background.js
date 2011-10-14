@@ -85,6 +85,7 @@ org.zend = {
 				}
 			});
 		} else { // tab was never opened, show notification about opening it
+			chrome.browserAction.setPopup({popup:"summary.html"});
 			var notification = webkitNotifications.createHTMLNotification('infobar.html');
 			notification.show();
 		}
@@ -136,7 +137,6 @@ function openEvents() {
 			tabOpen = tab.id;
 		});
 		clearActionBadge();
-		chrome.browserAction.setPopup({popup:"summary.html"});
 	}
 }
 
