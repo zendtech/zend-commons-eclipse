@@ -181,18 +181,21 @@ div.section-body {
 
 #critical-small {
 	background: url('../images/icon-critical.png') top left no-repeat;
+	background-size: 100%;
 }
 
 #warning-small {
 	background: url('../images/icon-warning.png') top left no-repeat;
+	background-size: 100%;
 }
 
 #normal-small {
 	background: url('../images/icon-normal.png') top left no-repeat;
+	background-size: 100%;
 }
 
 #debug-small {
-	background: url('../images/debug.png') top left no-repeat;
+	background: url('../images/debug.gif') top left no-repeat;
 }
 
 .arrow-right {

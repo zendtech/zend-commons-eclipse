@@ -18,12 +18,11 @@ function populateRequest(index, request) {
 	var lastEventIndex = null;
 	jQuery.each(request.events, function(eventIndex, eventElement) {
 		event += '<li><div class="event-type" id="' + getEventTypeIcon(eventElement.severity) + '"></div>';
+		event += '<span class="event-type-desc" id="event_' + eventIndex + '" onClick="switchEvent(' + index + ', ' + eventIndex + ')">' +  eventElement.name + '</span>';
 		if (eventElement.eventId && eventElement.issueId) {
-			event += '<img class="event-icon" src="images/debug.png" title="Debug event in Studio" onclick="openTunnelAndDebug(\'' + request.container + '\', '+eventElement.eventId+', '+eventElement.issueId+')" />';
-		} else {
-			event += '<img class="event-icon" src="images/debug-disabled.png" title="Debug is not available" />';
-		}
-		event += '<span class="event-type-desc" id="event_' + eventIndex + '" onClick="switchEvent(' + index + ', ' + eventIndex + ')">' +  eventElement.name + '</span></li>';
+			event += ' <img class="event-icon" src="images/debug.gif" title="Debug this event" onclick="openTunnelAndDebug(\'' + request.container + '\', '+eventElement.eventId+', '+eventElement.issueId+')" />';
+		} 
+		event += "</li>";
 		lastEventIndex = lastEventIndex == null ? eventIndex : lastEventIndex;
 	});
 	
