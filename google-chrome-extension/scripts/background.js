@@ -137,12 +137,13 @@ function openEvents() {
 		chrome.tabs.create({'url': chrome.extension.getURL('main.html')}, function(tab) {
 			tabOpen = tab.id;
 		});
+		clearActionBadge();
 		chrome.browserAction.setPopup({popup:"summary.html"});
 	}
 }
 
 function neverForThisApplication() {
-	// TODO
+	
 }
 
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
@@ -154,6 +155,28 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
 		chrome.extension.sendRequest({method : "backgroundPublishRequests", requests : zend.allRequests }, function(response){});
 	}
 });
+
+chrome.tabs.onSelectionChanged.addListener(function (tabId, changeInfo) {
+	if (tabId === tabOpen) {
+		clearActionBadge();
+	}
+});
+
+function setActionBadge() {
+	var badgeColor = [0,153,191,255]; // default is blue for 'normal' events
+	if (zend.summary.critical > 0) {
+		badgeColor = [180,33,10,255]; // red
+	} else if (zend.summary.warning > 0) {
+		badgeColor = [237,144,46,255]; // yellow
+	}
+	
+	chrome.browserAction.setBadgeBackgroundColor({color: badgeColor});
+	chrome.browserAction.setBadgeText({text : ''+zend.summary.events});
+}
+
+function clearActionBadge() {
+	chrome.browserAction.setBadgeText({text : ''});
+}
 
 function windowClosed() {
 	org.zend.isNotificationVisible = false;	
@@ -284,6 +307,7 @@ function searchEvents(cookie) {
 			}
 			org.zend.showNotification();
 			addRequests(notfEvent);
+			setActionBadge();
 		};
 
 		var summary_error = function(message) {
