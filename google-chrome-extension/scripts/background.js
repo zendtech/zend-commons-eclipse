@@ -76,20 +76,18 @@ function sendSummary() {
 
 var org = org || {};
 org.zend = {
-
-	isNotificationVisible : false,
-
 	showNotification : function() {
-		if (org.zend.isNotificationVisible) {
-			return;
+		if (tabOpen) {
+			chrome.tabs.get(tabOpen, function (tab) {
+				if (!tab) {
+					tabOpen = undefined;
+					org.zend.showNotification();
+				}
+			});
+		} else { // tab was never opened, show notification about opening it
+			var notification = webkitNotifications.createHTMLNotification('infobar.html');
+			notification.show();
 		}
-		org.zend.isNotificationVisible = true;
-		// Create an HTML notification:
-		var notification = webkitNotifications
-				.createHTMLNotification('infobar.html');// 
-		// Then show the notification.
-		notification.show();
-
 	},
 	
 	signout : function() {
