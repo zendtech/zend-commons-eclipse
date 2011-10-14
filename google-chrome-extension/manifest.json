@@ -15,5 +15,6 @@
       "js": ["scripts/content.js" ]
     }
   ],
-  "background_page": "background.html"
+  "background_page": "background.html",
+  "options_page": "options.html"
 }

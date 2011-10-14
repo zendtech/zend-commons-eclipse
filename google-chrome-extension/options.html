@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>Options</title>
+		<script type="text/javascript" src="scripts/jquery.js"></script>
+		<script type="text/javascript" src="scripts/jquery-ui.js"></script>
+		<script type="text/javascript" src="scripts/jquery.layout.js"></script>
+		<script type="text/javascript" src="scripts/jquery.truncate.js"></script>
+		<script type="text/javascript" src="scripts/jquery.simplemodal.js"></script>
+		<script type="text/javascript" src="scripts/options.js"></script>
+		<link rel="stylesheet" type="text/css" href="style/main-style.css" media="screen"/>
+		<link rel="stylesheet" type="text/css" href="style/options.css" media="screen"/>
+		<link rel="stylesheet" type="text/css" href="style/style.css" media="screen"/>
+		<script type="text/javascript">
+		$(document).ready(function () {
+			setTimeout( initLayout, 20 ); 
+		});
+		
+		function initLayout() {
+			outerLayout = $('body').layout({
+				closable:				false
+			,	center__paneSelector:	".outer-center" 
+			,	north__paneSelector:	".outer-north" 
+			,	west__size:				290 
+			,	north__size:			80 
+			,	north__minSize:			80
+			,	north__maxSize:			80
+			,	west__minSize:			200
+			,	onresize:				function(){}
+			});
+			
+			zend.options.populate();
+		};
+		</script>
+	</head>
+	<body>
+		<div class="outer-north">
+			<div id="main-top-menu">
+				<img src="images/logo.png" id="main-logo"/>
+				<div class="menu-url">
+					<b>Options </b>
+				</div>
+			</div>
+		</div>
+		<div class="outer-center">
+			<div class="main-options">
+				<input type="checkbox" id="disableNotifications" onclick="zend.options.fireChange(this)">
+				<label for="disableNotifications">Disable sniffer notifications</label>
+			</div>
+		</div>
+	</body>
+</html>
