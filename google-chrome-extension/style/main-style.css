@@ -180,15 +180,15 @@ div.section-body {
 }
 
 #critical-small {
-	background: url('../images/critical-small.png') top left no-repeat;
+	background: url('../images/icon-critical.png') top left no-repeat;
 }
 
 #warning-small {
-	background: url('../images/warning-small.png') top left no-repeat;
+	background: url('../images/icon-warning.png') top left no-repeat;
 }
 
 #normal-small {
-	background: url('../images/normal-small.png') top left no-repeat;
+	background: url('../images/icon-normal.png') top left no-repeat;
 }
 
 #debug-small {
