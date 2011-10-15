@@ -13,6 +13,8 @@ function populateSuperglobals(getParams, postParams, cookieParams, serverParams,
 }
 
 function populateTable(container, params) {
+	$(container).hide();
+	
 	jQuery.each(params, function(index,element) {
 		if ($(container + ' table tbody tr:last').length) {
 			$(container + ' table tbody tr:last').after('<tr><td>' + index + '</td><td>'+ element +'</td></tr>');
@@ -23,5 +25,6 @@ function populateTable(container, params) {
 		$(container + ' label.no-content-label').hide();
 		$(container + ' label.has-content-label').show();
 		$(container + ' a.toggler').show();
+		$(container).show();
 	});
 }
