@@ -2,7 +2,6 @@
 
 ul.super-global-list li{
 	display: block;
-	border: 1px solid #AAA;
 	padding: 3px 10px 3px 10px;
 	margin-right: 20px;
 	margin-bottom: 10px;
@@ -10,6 +9,7 @@ ul.super-global-list li{
 
 ul.super-global-list li .has-content-label {
 	cursor: pointer;
+	margin-bottom: 10px;
 }
 
 table.super-global-table {

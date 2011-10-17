@@ -3,15 +3,15 @@
  * password. Once authentication is validated, a session id is retrieved and
  * assigned as cookie
  * 
- * @param u
- * @param p
- * @param _success
- * @param _error
+ * @param user
+ * @param password
+ * @param _success(cookie)
+ * @param _error(message)
  */
-function authenticate(u, p, _success, _error) {
+function authenticate(user, password, _success, _error) {
 
-	var params = 'username=' + encodeURIComponent(u) + '&password='
-			+ encodeURIComponent(p);
+	var params = 'username=' + encodeURIComponent(user) + '&password='
+			+ encodeURIComponent(password);
 
 	$.ajax({
 		type : "POST",
@@ -37,8 +37,8 @@ function authenticate(u, p, _success, _error) {
 /**
  * Lists all containers for a given user TODO *all*
  * 
- * @param _success
- * @param _error
+ * @param _success(containers)
+ * @param _error(message)
  */
 function list(_success, _error) {
 	var params = '/container/list?format=json';
@@ -70,8 +70,8 @@ function list(_success, _error) {
  * 
  * @param containerName
  * @param requestUid
- * @param _success
- * @param _error
+ * @param _success(summary)
+ * @param _error(message)
  */
 function requestSummary(containerName, requestUid, _success, _error) {
 	var params = 'containerName/' + containerName + '/requestUid/' + requestUid
@@ -104,8 +104,8 @@ function requestSummary(containerName, requestUid, _success, _error) {
  * 
  * @param containerName
  * @param amf
- * @param _success
- * @param _error
+ * @param _success(amf)
+ * @param _error(message)
  */
 function downloadAmf(containerName, amf, _success, _error) {
 	var params = 'containerName/' + containerName + '/amf/' + amf
@@ -138,8 +138,8 @@ function downloadAmf(containerName, amf, _success, _error) {
  * 
  * @param containerName
  * @param amf
- * @param _success
- * @param _error
+ * @param _success(status)
+ * @param _error(message)
  */
 function startDebug(containerName, issueId, eventGroupId, _success, _error) {
 	var params = 'containerName/' + containerName + '/issueId/' + issueId

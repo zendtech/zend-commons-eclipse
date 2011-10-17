@@ -61,13 +61,12 @@ function populateStudioButtons(container, codetracing, eventId, issueId) {
 	
 	debugButton = $('#debug-button').get(0);
 	if (eventId && issueId) {
+		debugButton.show();
 		$('#debug-button').bind('click', [container, eventId, issueId], openTunnelAndDebugEvent);
 		debugButton.title = "Debug event in Studio";
 		debugButton.src = "images/debug-button.png";
 	} else {
-		debugButton.onclick = '';
-		debugButton.title = "Debugging is unavailable";
-		debugButton.src = "images/debug-button-disabled.png";
+		$('#debug-button').hide();
 	}
 }
 
