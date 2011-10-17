@@ -105,7 +105,6 @@ function addRequest(request) {
 	
 	populateRequest(requestsLength - 1, request);
 	populateSummary('', requestsLength, totalEvents, totalCritical, totalWarning, totalNormal);
-	document.title = 'Events: ' + totalCritical + ', ' + totalWarning + ', ' + totalNormal;
 }
 
 function getRequests() {

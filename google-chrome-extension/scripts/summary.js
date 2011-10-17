@@ -21,6 +21,8 @@ function populateSummary(url, requests, events, critical, warning, normal) {
 		token: '&hellip;',
 		center: true,
 	});
+	
+	document.title = 'Events: ' + critical + ', ' + warning + ', ' + normal;
 }
 
 function openTab() {
