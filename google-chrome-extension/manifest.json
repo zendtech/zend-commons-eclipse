@@ -1,5 +1,5 @@
 {
-  "name": "phpcloud.com Sniffer",
+  "name": "Zend Developer Cloud Sniffer",
   "description": "Integrates into the PHP runtime and watches for various events such as errors, failing functions, slow scripts and database errors.",
   "version": "0.0.0",
   "icons": { "16": "images/phpcloud.png", "48" : "images/cloud.gif" },	
