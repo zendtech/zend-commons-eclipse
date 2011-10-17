@@ -179,8 +179,7 @@ function openCodeTracingSnapshot (containerName, amfid) {
 			return rf.responseText;
 
 		} catch(e) { 
-			stopShowProgress();
-			alert("Cannot connect to Zend Studio. Make sure it's launched and not behind firewall");
+			stopShowProgress("Cannot connect to Zend Studio. Make sure it's launched and not behind firewall");
 			return false; 
 		}
 	};
@@ -206,7 +205,7 @@ function stopShowProgress(error) {
 	$.unblockUI();
 	
 	if (error) {
-		console.log(error);
+		alert(error);
 	}
 }
 
