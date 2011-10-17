@@ -1,6 +1,5 @@
 if (chrome.extension) {
 	chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
-		console.log(request.method);
 		if (request.method == "backgroundPublishRequests") {
 			if (request.resetRequests) {
 				resetEvents();
