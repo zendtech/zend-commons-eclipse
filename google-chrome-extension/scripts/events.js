@@ -50,9 +50,14 @@ function openTunnelAndDebugEvent(event) {
 }
 
 function openTunnelAndDebug(container, eventId, issueId) {
+	startShowProgress();
 	enableSshTunnel(container);
 	//if (enableSshTunnel(container)) {
-		startDebug(container, issueId, eventId, function() { }, function() { });
+	startDebug(container, issueId, eventId, function() {
+		stopShowProgress();
+	}, function() { 
+		stopShowProgress();
+	});
 	//}
 }
 
@@ -145,7 +150,7 @@ function enableSshTunnel (containerName) {
 		return rf.responseText;
 
 	} catch(e) { 
-		alert("Cannot connect to Zend Studio. Make sure it's launched and not behind firewall");
+		stopShowProgress("Cannot connect to Zend Studio. Make sure it's launched and not behind firewall");
 		return false; 
 	}
 }
@@ -158,6 +163,7 @@ function openCodeTracingSnapshotEvent(event) {
 	return openCodeTracingSnapshot (event.data[0], event.data[1]);
 }
 function openCodeTracingSnapshot (containerName, amfid) {
+	startShowProgress();
 	
 	var success = function(response) {
 		
@@ -167,20 +173,41 @@ function openCodeTracingSnapshot (containerName, amfid) {
 			var rf = new XMLHttpRequest();
 			rf.open("POST", url, false);
 			rf.send(response);
+			stopShowProgress();
 			if (rf.status!=200)
-				return false;
+				return false;			
 			return rf.responseText;
 
 		} catch(e) { 
+			stopShowProgress();
 			alert("Cannot connect to Zend Studio. Make sure it's launched and not behind firewall");
 			return false; 
 		}
 	};
 	var error = function(error) {
-		console.log(error);
+		stopShowProgress(error);
 	};
 	
 	downloadAmf(containerName, amfid, success, error);
+}
+
+function startShowProgress() {
+	//$('#progress-monitor').show();
+	$.blockUI({message : '<img src="images/spinner.gif" />', css: { 
+        border: 'none', 
+        padding: '15px', 
+        '-webkit-border-radius': '10px', 
+        width: 100,
+        opacity: .5, 
+    }});
+}
+
+function stopShowProgress(error) {
+	$.unblockUI();
+	
+	if (error) {
+		console.log(error);
+	}
 }
 
 function resetEvents() {
