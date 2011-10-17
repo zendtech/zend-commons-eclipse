@@ -1,8 +1,4 @@
 chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
-	if (!zend.options.isNotificationsEnabled()) {
-		return;
-	}
-	
 	if (request.method == "ContentEvaluateCookie") { // request from content.js to evaluate a cookie
 		var cn = searchContainer(request.domain);
 		if (cn) {
@@ -23,10 +19,6 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 });
 
 chrome.cookies.onChanged.addListener(function(cookieInfo) {
-	if (!zend.options.isNotificationsEnabled()) {
-		return;
-	}
-	
 	if (cookieInfo.cause === 'expired') {
 		return;
 	}
@@ -86,6 +78,10 @@ var org = org || {};
 org.zend = {
 
 	showNotification : function() {
+		if (!zend.options.isNotificationsEnabled()) {
+			return;
+		}
+		
 		// Create an HTML notification:
 		var notification = webkitNotifications
 				.createHTMLNotification('infobar.html');// 
