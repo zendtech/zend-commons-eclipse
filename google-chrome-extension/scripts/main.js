@@ -1,5 +1,6 @@
 if (chrome.extension) {
 	chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
+		console.log(request.method);
 		if (request.method == "backgroundPublishRequests") {
 			if (request.resetRequests) {
 				resetEvents();
@@ -61,7 +62,7 @@ function populateStudioButtons(container, codetracing, eventId, issueId) {
 	
 	debugButton = $('#debug-button').get(0);
 	if (eventId && issueId) {
-		debugButton.show();
+		$(debugButton).show();
 		$('#debug-button').bind('click', [container, eventId, issueId], openTunnelAndDebugEvent);
 		debugButton.title = "Debug event in Studio";
 		debugButton.src = "images/debug-button.png";
