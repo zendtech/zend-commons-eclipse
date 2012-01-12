@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension-point id="org.zend.usagedata.monitors" name="Usage Data Monitors" schema="schema/org.zend.usagedata.monitors.exsd"/>
+   <extension
+         point="org.eclipse.ui.startup">
+      <startup
+            class="org.zend.usagedata.Startup"></startup>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="org.zend.usagedata.internal.settings.UsageDataCapturePreferenceInitializer">
+      </initializer>
+   </extension>
+</plugin>
