@@ -14,29 +14,65 @@ import java.io.File;
 
 import org.zend.usagedata.internal.recording.filtering.UsageDataEventFilter;
 import org.zend.usagedata.internal.settings.UploadSettings;
+import org.zend.usagedata.recording.IUploadParameters;
 
 
-public class UploadParameters {
+public class UploadParameters implements IUploadParameters {
 
 	private File[] files;
 	private UploadSettings settings;
 	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.zend.usagedata.internal.recording.uploading.IUploadParameters#setSettings
+	 * (org.zend.usagedata.internal.settings.UploadSettings)
+	 */
 	public void setSettings(UploadSettings settings) {
 		this.settings = settings;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.zend.usagedata.internal.recording.uploading.IUploadParameters#setFiles
+	 * (java.io.File[])
+	 */
 	public void setFiles(File[] files) {
 		this.files = files;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.zend.usagedata.internal.recording.uploading.IUploadParameters#getSettings
+	 * ()
+	 */
 	public UploadSettings getSettings() {
 		return settings;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.zend.usagedata.internal.recording.uploading.IUploadParameters#getFiles
+	 * ()
+	 */
 	public File[] getFiles() {
 		return files;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.zend.usagedata.internal.recording.uploading.IUploadParameters#getFilter
+	 * ()
+	 */
 	public UsageDataEventFilter getFilter() {
 		return settings.getFilter();
 	}

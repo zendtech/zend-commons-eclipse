@@ -12,12 +12,21 @@ package org.zend.usagedata.internal.recording.uploading;
 
 import java.io.File;
 
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.ListenerList;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.ui.PlatformUI;
 import org.zend.usagedata.UsageDataActivator;
 import org.zend.usagedata.internal.settings.UsageDataSettings;
+import org.zend.usagedata.recording.IPreUploadListener;
+import org.zend.usagedata.recording.IUploadParameters;
+import org.zend.usagedata.recording.IUploader;
 
 public class UploadManager {
+
+	private static final String PREUPLOAD_LISTENERS = UsageDataActivator.PLUGIN_ID
+			+ ".preUploadListeners"; //$NON-NLS-1$
 
 	public static final int UPLOAD_STARTED_OK = 0;
 	public static final int NO_FILES_TO_UPLOAD = 1;
@@ -27,7 +36,7 @@ public class UploadManager {
 	public static final int UPLOAD_DISABLED = 5;
 	
 	private Object lock = new Object();
-	private Uploader uploader;
+	private IUploader uploader;
 	private ListenerList uploadListeners = new ListenerList();
 
 	/**
@@ -70,7 +79,7 @@ public class UploadManager {
 		
 		getSettings().setLastUploadTime();
 		
-		UploadParameters uploadParameters = new UploadParameters();
+		IUploadParameters uploadParameters = new UploadParameters();
 		uploadParameters.setSettings(getSettings());
 		uploadParameters.setFiles(usageDataUploadFiles);
 		//request.setFilter(getSettings().getFilter());
@@ -88,9 +97,33 @@ public class UploadManager {
 			}
 		});
 		
-		uploader.startUpload();
-		
+		if (handlePreUploadListeners()) {
+			uploader.startUpload();
+		}
 		return UPLOAD_STARTED_OK;
+	}
+
+	private boolean handlePreUploadListeners() {
+		IConfigurationElement[] elements = Platform.getExtensionRegistry()
+				.getConfigurationElementsFor(PREUPLOAD_LISTENERS);
+		for (IConfigurationElement element : elements) {
+			if ("preUploadListener".equals(element.getName())) { //$NON-NLS-1$
+				try {
+					Object listener = element
+							.createExecutableExtension("class"); //$NON-NLS-1$
+					if (listener instanceof IPreUploadListener) {
+						if (!((IPreUploadListener) listener)
+								.handleUpload(uploader)) {
+							return false;
+						}
+					}
+				} catch (CoreException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		return true;
 	}
 
 	private File[] findUsageDataUploadFiles() {
@@ -102,12 +135,12 @@ public class UploadManager {
 	}
 	
 	/**
-	 * This method returns the {@link Uploader} to use to upload data to the
+	 * This method returns the {@link IUploader} to use to upload data to the
 	 * server.
 	 * 
 	 * @return basic uploader instance
 	 */
-	private Uploader getUploader() {
+	private IUploader getUploader() {
 		if (uploader == null) {
 			uploader = new BasicUploader();
 		}

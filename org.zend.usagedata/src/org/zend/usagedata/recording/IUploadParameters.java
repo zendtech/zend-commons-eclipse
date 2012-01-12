@@ -8,19 +8,23 @@
  * Contributors:
  *    The Eclipse Foundation - initial API and implementation
  *******************************************************************************/
-package org.zend.usagedata.internal.recording.uploading;
+package org.zend.usagedata.recording;
 
+import java.io.File;
 
-public interface Uploader {
-	boolean isUploadInProgress();
+import org.zend.usagedata.internal.recording.filtering.UsageDataEventFilter;
+import org.zend.usagedata.internal.settings.UploadSettings;
 
-	void startUpload();
-	
-	void addUploadListener(UploadListener listener);
-	
-	void removeUploadListener(UploadListener listener);
+public interface IUploadParameters {
 
-	void setUploadParameters(UploadParameters uploadParameters);
-	
-	UploadParameters getUploadParameters();
+	void setSettings(UploadSettings settings);
+
+	void setFiles(File[] files);
+
+	UploadSettings getSettings();
+
+	File[] getFiles();
+
+	UsageDataEventFilter getFilter();
+
 }

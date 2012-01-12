@@ -11,11 +11,13 @@
 package org.zend.usagedata.internal.recording.uploading;
 
 import org.eclipse.core.runtime.ListenerList;
+import org.zend.usagedata.recording.IUploadParameters;
+import org.zend.usagedata.recording.IUploader;
 
-public abstract class AbstractUploader implements Uploader {
+public abstract class AbstractUploader implements IUploader {
 
 	private ListenerList uploadListeners = new ListenerList();
-	private UploadParameters uploadParameters;
+	private IUploadParameters uploadParameters;
 
 	public AbstractUploader() {
 	}
@@ -34,11 +36,11 @@ public abstract class AbstractUploader implements Uploader {
 		}
 	}	
 	
-	public UploadParameters getUploadParameters() {
+	public IUploadParameters getUploadParameters() {
 		return uploadParameters;
 	}
 
-	public void setUploadParameters(UploadParameters uploadParameters) {
+	public void setUploadParameters(IUploadParameters uploadParameters) {
 		this.uploadParameters = uploadParameters;
 	}
 	
