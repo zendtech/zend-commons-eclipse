@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.zend.usagedata.monitors">
+      <monitor
+            class="org.zend.usagedata.internal.monitors.ViewsUsageMonitor">
+      </monitor>
+   </extension>
+
+</plugin>
