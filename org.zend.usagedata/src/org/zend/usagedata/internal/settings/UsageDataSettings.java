@@ -22,6 +22,7 @@ import java.util.UUID;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.ui.PlatformUI;
+import org.zend.usagedata.IUsageDataSettings;
 import org.zend.usagedata.UsageDataActivator;
 import org.zend.usagedata.internal.recording.filtering.PreferencesBasedFilter;
 import org.zend.usagedata.internal.recording.filtering.UsageDataEventFilter;
@@ -35,44 +36,25 @@ import org.zend.usagedata.internal.recording.filtering.UsageDataEventFilter;
  * @author Wayne Beaton
  *
  */
-public class UsageDataRecordingSettings implements UploadSettings {
+public class UsageDataSettings implements UploadSettings, IUsageDataSettings {
 
 	private static final String DEFAULT_ID = "unknown"; //$NON-NLS-1$
 
 	private static final String UPLOAD_FILE_PREFIX = "upload"; //$NON-NLS-1$
 
-	public static final String UPLOAD_PERIOD_KEY = UsageDataActivator.PLUGIN_ID
-			+ ".period"; //$NON-NLS-1$
-	public static final String LAST_UPLOAD_KEY = UsageDataActivator.PLUGIN_ID
-			+ ".last-upload"; //$NON-NLS-1$
-	public static final String ASK_TO_UPLOAD_KEY = UsageDataActivator.PLUGIN_ID
-			+ ".ask"; //$NON-NLS-1$
-	public static final String LOG_SERVER_ACTIVITY_KEY = UsageDataActivator.PLUGIN_ID
-			+ ".log-server"; //$NON-NLS-1$
-	public static final String FILTER_ECLIPSE_BUNDLES_ONLY_KEY = UsageDataActivator.PLUGIN_ID
-			+ ".filter-eclipse-only"; //$NON-NLS-1$
-	public static final String FILTER_PATTERNS_KEY = UsageDataActivator.PLUGIN_ID
-			+ ".filter-patterns"; //$NON-NLS-1$
-	
 	static final String UPLOAD_URL_KEY = UsageDataActivator.PLUGIN_ID
 			+ ".upload-url"; //$NON-NLS-1$
-	
-	public static final int PERIOD_REASONABLE_MINIMUM = 15 * 60 * 1000; // 15 minutes
-	static final int UPLOAD_PERIOD_DEFAULT = 5 * 24 * 60 * 60 * 1000; // five days
+
+	static final int UPLOAD_PERIOD_DEFAULT = 5 * 24 * 60 * 60 * 1000; // five
+																		// days
 	static final String UPLOAD_URL_DEFAULT = "http://udc.eclipse.org/upload.php"; //$NON-NLS-1$
+	
 	static final boolean ASK_TO_UPLOAD_DEFAULT = true;
 
 	private PreferencesBasedFilter filter = new PreferencesBasedFilter();
 
-	/**
-	 * First if the system property {@value #UPLOAD_PERIOD_KEY} has been set,
-	 * use that value. Next, check to see if there is a value stored (same key)
-	 * in the preferences store. Finally, use the default value,
-	 * {@value #UPLOAD_PERIOD_DEFAULT}. If the obtained value is deemed to be
-	 * unreasonable (less than {@value #PERIOD_REASONABLE_MINIMUM}), that a
-	 * reasonable minimum value is returned instead.
-	 * 
-	 * @return
+	/* (non-Javadoc)
+	 * @see org.zend.usagedata.internal.settings.IUsageDataSettings#getPeriodBetweenUploads()
 	 */
 	public long getPeriodBetweenUploads() {
 		long period = 0L;
@@ -100,13 +82,8 @@ public class UsageDataRecordingSettings implements UploadSettings {
 		return period;
 	}
 
-	/**
-	 * The last upload time is stored in the preferences. If no value is
-	 * currently set, the current time is used (and is stored for the next time
-	 * we're asked). Time is expressed in milliseconds. There is no mechanism
-	 * for overriding this value.
-	 * 
-	 * @return
+	/* (non-Javadoc)
+	 * @see org.zend.usagedata.internal.settings.IUsageDataSettings#getLastUploadTime()
 	 */
 	public long getLastUploadTime() {
 		if (getPreferencesStore().contains(LAST_UPLOAD_KEY)) {
@@ -119,15 +96,8 @@ public class UsageDataRecordingSettings implements UploadSettings {
 		return period;
 	}
 
-	/**
-	 * This method answers <code>true</code> if enough time has passed since
-	 * the last upload to warrant starting a new one. If an upload has not yet
-	 * occurred, it answers <code>true</code> if the required amount of time
-	 * has passed since the first time this method was called. It answers
-	 * <code>false</code> otherwise.
-	 * 
-	 * @return <code>true</code> if it is time to upload; <code>false</code>
-	 *         otherwise.
+	/* (non-Javadoc)
+	 * @see org.zend.usagedata.internal.settings.IUsageDataSettings#isTimeToUpload()
 	 */
 	public boolean isTimeToUpload() {
 		if (PlatformUI.getWorkbench().isClosing())
@@ -135,23 +105,15 @@ public class UsageDataRecordingSettings implements UploadSettings {
 		return System.currentTimeMillis() - getLastUploadTime() > getPeriodBetweenUploads();
 	}
 
-	/** 
-	 * This method returns the {@link File} where usage data events should be persisted.
-	 *  
-	 * @return the {@link File} where usage data events are persisted.
+	/* (non-Javadoc)
+	 * @see org.zend.usagedata.internal.settings.IUsageDataSettings#getEventFile()
 	 */
 	public File getEventFile() {
 		return new File(getWorkingDirectory(), "usagedata.csv"); //$NON-NLS-1$
 	}
 
-	/**
-	 * When it's time to start uploading the usage data, the file that's used
-	 * to persist the data is moved (renamed) and a new file is created. The
-	 * moved file is then uploaded to the server. This method finds an appropriate
-	 * destination for the moved file. The destination {@link File} will be in the
-	 * bundle's state location, but will not actually exist in the file system.
-	 * 
-	 * @return a destination {@link File} for the move operation. 
+	/* (non-Javadoc)
+	 * @see org.zend.usagedata.internal.settings.IUsageDataSettings#computeDestinationFile()
 	 */
 	public File computeDestinationFile() {
 		int index = 0;
@@ -165,14 +127,8 @@ public class UsageDataRecordingSettings implements UploadSettings {
 		}
 	}
 
-	/**
-	 * This method returns an identifier for the workstation. This value
-	 * is common to all workspaces on a single machine. The value
-	 * is persisted (if possible) in a hidden file in the users's working 
-	 * directory. If an existing file cannot be read, or a new file cannot
-	 * be written, this method returns "unknown".
-	 * 
-	 * @return an identifier for the workstation.
+	/* (non-Javadoc)
+	 * @see org.zend.usagedata.internal.settings.IUsageDataSettings#getUserId()
 	 */
 	public String getUserId() {
 		return getExistingOrGenerateId(
@@ -180,13 +136,8 @@ public class UsageDataRecordingSettings implements UploadSettings {
 				+ ".userId"); //$NON-NLS-1$
 	}
 
-	/**
-	 * This method returns an identifier for the workspace. This value is unique
-	 * to the workspace. It is persisted (if possible) in a hidden file in the bundle's
-	 * state location.If an existing file cannot be read, or a new file cannot
-	 * be written, this method returns "unknown".
-	 * 
-	 * @return an identifier for the workspace.
+	/* (non-Javadoc)
+	 * @see org.zend.usagedata.internal.settings.IUsageDataSettings#getWorkspaceId()
 	 */
 	public String getWorkspaceId() {
 		return getExistingOrGenerateId(getWorkingDirectory(), "." //$NON-NLS-1$
@@ -194,25 +145,15 @@ public class UsageDataRecordingSettings implements UploadSettings {
 	}
 
 
-	/**
-	 * This method answers whether or not we want to ask the server to 
-	 * provide a log of activity. This method only answers <code>true</code>
-	 * if the "{@value #LOG_SERVER_ACTIVITY_KEY}" system property is set
-	 * to "true". This is mostly useful for debugging.
-	 * 
-	 * @return true if we're logging, false otherwise.
-	 * 
-	 * @see UploadSettings#isLoggingServerActivity()
+	/* (non-Javadoc)
+	 * @see org.zend.usagedata.internal.settings.IUsageDataSettings#isLoggingServerActivity()
 	 */
 	public boolean isLoggingServerActivity() {
 		return "true".equals(System.getProperty(LOG_SERVER_ACTIVITY_KEY)); //$NON-NLS-1$
 	}
 
-	/**
-	 * This method answers an array containing the files that are available
-	 * for uploading.
-	 * 
-	 * @return
+	/* (non-Javadoc)
+	 * @see org.zend.usagedata.internal.settings.IUsageDataSettings#getUsageDataUploadFiles()
 	 */
 	public File[] getUsageDataUploadFiles() {
 		return getWorkingDirectory().listFiles(new FilenameFilter() {
@@ -223,9 +164,8 @@ public class UsageDataRecordingSettings implements UploadSettings {
 		});
 	}
 
-	/**
-	 * This method sets the {@value #LAST_UPLOAD_KEY} property to the
-	 * current time.
+	/* (non-Javadoc)
+	 * @see org.zend.usagedata.internal.settings.IUsageDataSettings#setLastUploadTime()
 	 */
 	public void setLastUploadTime() {
 		getPreferencesStore().setValue(LAST_UPLOAD_KEY, System.currentTimeMillis());
@@ -335,6 +275,9 @@ public class UsageDataRecordingSettings implements UploadSettings {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see org.zend.usagedata.internal.settings.IUsageDataSettings#shouldAskBeforeUploading()
+	 */
 	public boolean shouldAskBeforeUploading() {
 		if (System.getProperties().containsKey(ASK_TO_UPLOAD_KEY)) {
 			return "true".equals(System.getProperty(ASK_TO_UPLOAD_KEY)); //$NON-NLS-1$
@@ -346,53 +289,81 @@ public class UsageDataRecordingSettings implements UploadSettings {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.eclipse.epp.usagedata.internal.recording.settings.UploadSettings#getFilter()
+	 * @see org.zend.usagedata.internal.settings.IUsageDataSettings#getFilter()
 	 */
 	public UsageDataEventFilter getFilter() {
 		return filter;
 	}
 
 	/* (non-Javadoc)
-	 * @see org.eclipse.epp.usagedata.internal.recording.settings.UploadSettings#hasUserAcceptedTermsOfUse()
+	 * @see org.zend.usagedata.internal.settings.IUsageDataSettings#hasUserAcceptedTermsOfUse()
 	 */
 	public boolean hasUserAcceptedTermsOfUse() {
-		return getCaptureSettings().hasUserAcceptedTermsOfUse();
-	}
-
-	public void setUserAcceptedTermsOfUse(boolean value) {
-		getCaptureSettings().setUserAcceptedTermsOfUse(value);
-		UsageDataActivator.getDefault().savePluginPreferences();
-	}
-	
-	private UsageDataCaptureSettings getCaptureSettings() {
-		return UsageDataActivator.getDefault().getCaptureSettings();
+		return getPreferencesStore().getBoolean(USER_ACCEPTED_TERMS_OF_USE_KEY);
 	}
 
 	/* (non-Javadoc)
-	 * @see org.eclipse.epp.usagedata.internal.recording.settings.UploadSettings#isEnabled()
+	 * @see org.zend.usagedata.internal.settings.IUsageDataSettings#setUserAcceptedTermsOfUse(boolean)
 	 */
-	public boolean isEnabled() {
-		return getCaptureSettings().isEnabled();
+	public void setUserAcceptedTermsOfUse(boolean value) {
+		getPreferencesStore().setValue(USER_ACCEPTED_TERMS_OF_USE_KEY, value);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.zend.usagedata.internal.settings.IUsageDataSettings#isEnabled()
+	 */
+	public boolean isEnabled() {
+		if (System.getProperties().containsKey(CAPTURE_ENABLED_KEY)) {
+			return "true".equals(System.getProperty(CAPTURE_ENABLED_KEY)); //$NON-NLS-1$
+		} else if (getPreferencesStore().contains(CAPTURE_ENABLED_KEY)) {
+			return getPreferencesStore().getBoolean(CAPTURE_ENABLED_KEY);
+		} else {
+			return true;
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see org.zend.usagedata.internal.settings.IUsageDataSettings#setAskBeforeUploading(boolean)
+	 */
 	public void setAskBeforeUploading(boolean value) {
 		getPreferencesStore().setValue(ASK_TO_UPLOAD_KEY, value);
 		UsageDataActivator.getDefault().savePluginPreferences();
 	}
 
+	/* (non-Javadoc)
+	 * @see org.zend.usagedata.internal.settings.IUsageDataSettings#setEnabled(boolean)
+	 */
 	public void setEnabled(boolean value) {
-		getCaptureSettings().setEnabled(value);
-		UsageDataActivator.getDefault().savePluginPreferences();
+		// The preferences store actually does this for us. However, for
+		// completeness, we're checking the value to potentially avoid
+		// messing with the service.
+		if (getPreferencesStore().getBoolean(CAPTURE_ENABLED_KEY) == value)
+			return;
+
+		getPreferencesStore().setValue(CAPTURE_ENABLED_KEY, value);
+
+		// The activator should be listening to changes in the preferences store
+		// and will change the state of the service as a result of us setting
+		// the value here.
 	}
 
+	/* (non-Javadoc)
+	 * @see org.zend.usagedata.internal.settings.IUsageDataSettings#dispose()
+	 */
 	public void dispose() {
 		filter.dispose();
 	}
 
+	/* (non-Javadoc)
+	 * @see org.zend.usagedata.internal.settings.IUsageDataSettings#getUserAgent()
+	 */
 	public String getUserAgent() {
 		return "Eclipse UDC/" + UsageDataActivator.getDefault().getBundle().getHeaders().get("Bundle-Version"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
+	/* (non-Javadoc)
+	 * @see org.zend.usagedata.internal.settings.IUsageDataSettings#getUploadUrl()
+	 */
 	public String getUploadUrl() {
 		if (System.getProperties().containsKey(UPLOAD_URL_KEY)) {
 			return System.getProperty(UPLOAD_URL_KEY);

@@ -8,7 +8,7 @@
  * Contributors:
  *    The Eclipse Foundation - initial API and implementation
  *******************************************************************************/
-package org.zend.usagedata;
+package org.zend.usagedata.internal;
 
 import org.eclipse.ui.IStartup;
 

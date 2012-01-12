@@ -13,9 +13,10 @@ package org.zend.usagedata.internal.recording.filtering;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
+import org.zend.usagedata.IUsageDataSettings;
 import org.zend.usagedata.UsageDataActivator;
 import org.zend.usagedata.internal.gathering.UsageDataEvent;
-import org.zend.usagedata.internal.settings.UsageDataRecordingSettings;
+import org.zend.usagedata.internal.settings.UsageDataSettings;
 
 /**
  * The {@link PreferencesBasedFilter} is a {@link UsageDataEventFilter} with
@@ -28,7 +29,7 @@ import org.zend.usagedata.internal.settings.UsageDataRecordingSettings;
  * A single instance of this class is maintained by the activator for the
  * bundle via the settings object. The activator manages the lifecycle.
  * 
- * @see UsageDataRecordingSettings
+ * @see UsageDataSettings
  * @author Wayne Beaton
  */
 public class PreferencesBasedFilter extends AbstractUsageDataEventFilter {
@@ -60,8 +61,8 @@ public class PreferencesBasedFilter extends AbstractUsageDataEventFilter {
 	 * a property that the receiver is interested in.
 	 */
 	boolean isFilterProperty(String property) {
-		if (UsageDataRecordingSettings.FILTER_ECLIPSE_BUNDLES_ONLY_KEY.equals(property)) return true;
-		if (UsageDataRecordingSettings.FILTER_PATTERNS_KEY.equals(property)) return true;
+		if (IUsageDataSettings.FILTER_ECLIPSE_BUNDLES_ONLY_KEY.equals(property)) return true;
+		if (IUsageDataSettings.FILTER_PATTERNS_KEY.equals(property)) return true;
 		return false;
 	}
 
@@ -76,13 +77,13 @@ public class PreferencesBasedFilter extends AbstractUsageDataEventFilter {
 	}
 
 	public String[] getFilterPatterns() {
-		String patternString = getPreferenceStore().getString(UsageDataRecordingSettings.FILTER_PATTERNS_KEY);
+		String patternString = getPreferenceStore().getString(IUsageDataSettings.FILTER_PATTERNS_KEY);
 		if ("".equals(patternString)) return new String[0]; //$NON-NLS-1$
 		return patternString.split("\n"); //$NON-NLS-1$
 	}
 
 	private boolean includeOnlyEclipseDotOrgBundles() {
-		return getPreferenceStore().getBoolean(UsageDataRecordingSettings.FILTER_ECLIPSE_BUNDLES_ONLY_KEY);
+		return getPreferenceStore().getBoolean(IUsageDataSettings.FILTER_ECLIPSE_BUNDLES_ONLY_KEY);
 	}
 
 	IPreferenceStore getPreferenceStore() {
@@ -90,13 +91,13 @@ public class PreferencesBasedFilter extends AbstractUsageDataEventFilter {
 	}
 
 	public void addPattern(String value) {
-		String patternString = getPreferenceStore().getString(UsageDataRecordingSettings.FILTER_PATTERNS_KEY);
+		String patternString = getPreferenceStore().getString(IUsageDataSettings.FILTER_PATTERNS_KEY);
 		if (patternString.trim().length() == 0) {
 			patternString = value;
 		} else {
 			patternString += "\n" + value; //$NON-NLS-1$
 		}
-		getPreferenceStore().setValue(UsageDataRecordingSettings.FILTER_PATTERNS_KEY, patternString);
+		getPreferenceStore().setValue(IUsageDataSettings.FILTER_PATTERNS_KEY, patternString);
 		UsageDataActivator.getDefault().savePluginPreferences();
 	}
 	
@@ -108,7 +109,7 @@ public class PreferencesBasedFilter extends AbstractUsageDataEventFilter {
 	}
 
 	public void removeFilterPatterns(Object[] toRemove) {
-		String patternString = getPreferenceStore().getString(UsageDataRecordingSettings.FILTER_PATTERNS_KEY);
+		String patternString = getPreferenceStore().getString(IUsageDataSettings.FILTER_PATTERNS_KEY);
 		String[] patterns = patternString.split("\n"); //$NON-NLS-1$
 		StringBuilder builder = new StringBuilder();
 		String separator = ""; //$NON-NLS-1$
@@ -119,7 +120,7 @@ public class PreferencesBasedFilter extends AbstractUsageDataEventFilter {
 				separator = "\n"; //$NON-NLS-1$
 			}
 		}
-		getPreferenceStore().setValue(UsageDataRecordingSettings.FILTER_PATTERNS_KEY, builder.toString());
+		getPreferenceStore().setValue(IUsageDataSettings.FILTER_PATTERNS_KEY, builder.toString());
 		UsageDataActivator.getDefault().savePluginPreferences();
 	}
 
@@ -131,14 +132,14 @@ public class PreferencesBasedFilter extends AbstractUsageDataEventFilter {
 	}
 
 	public void setEclipseOnly(boolean value) {
-		getPreferenceStore().setValue(UsageDataRecordingSettings.FILTER_ECLIPSE_BUNDLES_ONLY_KEY, value);
+		getPreferenceStore().setValue(IUsageDataSettings.FILTER_ECLIPSE_BUNDLES_ONLY_KEY, value);
 		UsageDataActivator.getDefault().savePluginPreferences();
 		// Don't need to do this, happens indirectly when value is set above.
 		// fireFilterChangedEvent();
 	}
 
 	public boolean isEclipseOnly() {
-		return getPreferenceStore().getBoolean(UsageDataRecordingSettings.FILTER_ECLIPSE_BUNDLES_ONLY_KEY);
+		return getPreferenceStore().getBoolean(IUsageDataSettings.FILTER_ECLIPSE_BUNDLES_ONLY_KEY);
 	}
 
 

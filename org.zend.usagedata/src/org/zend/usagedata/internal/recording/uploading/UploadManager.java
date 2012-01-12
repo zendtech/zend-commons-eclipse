@@ -15,7 +15,7 @@ import java.io.File;
 import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.ui.PlatformUI;
 import org.zend.usagedata.UsageDataActivator;
-import org.zend.usagedata.internal.settings.UsageDataRecordingSettings;
+import org.zend.usagedata.internal.settings.UsageDataSettings;
 
 public class UploadManager {
 
@@ -97,8 +97,8 @@ public class UploadManager {
 		return getSettings().getUsageDataUploadFiles();
 	}
 	
-	private UsageDataRecordingSettings getSettings() {
-		return UsageDataActivator.getDefault().getRecordingSettings();
+	private UsageDataSettings getSettings() {
+		return UsageDataActivator.getDefault().getSettings();
 	}
 	
 	/**

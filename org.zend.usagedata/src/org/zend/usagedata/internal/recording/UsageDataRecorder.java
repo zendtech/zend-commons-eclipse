@@ -18,12 +18,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.runtime.IStatus;
+import org.zend.usagedata.IUsageDataSettings;
 import org.zend.usagedata.UsageDataActivator;
 import org.zend.usagedata.internal.gathering.UsageDataEvent;
 import org.zend.usagedata.internal.gathering.UsageDataEventListener;
 import org.zend.usagedata.internal.recording.uploading.BasicUploader;
 import org.zend.usagedata.internal.recording.uploading.UploadManager;
-import org.zend.usagedata.internal.settings.UsageDataRecordingSettings;
 
 public class UsageDataRecorder implements UsageDataEventListener {
 	
@@ -101,10 +101,10 @@ public class UsageDataRecorder implements UsageDataEventListener {
 		manager.startUpload();
 	}
 
-	protected UsageDataRecordingSettings getSettings() {
+	protected IUsageDataSettings getSettings() {
 		if (UsageDataActivator.getDefault() == null)
 			return null;
-		return UsageDataActivator.getDefault().getRecordingSettings();
+		return UsageDataActivator.getDefault().getSettings();
 	}
 
 	/**

@@ -23,8 +23,7 @@ import org.zend.usagedata.gathering.IUsageDataService;
 import org.zend.usagedata.internal.gathering.UsageDataService;
 import org.zend.usagedata.internal.recording.UsageDataRecorder;
 import org.zend.usagedata.internal.recording.uploading.UploadManager;
-import org.zend.usagedata.internal.settings.UsageDataCaptureSettings;
-import org.zend.usagedata.internal.settings.UsageDataRecordingSettings;
+import org.zend.usagedata.internal.settings.UsageDataSettings;
 
 public class UsageDataActivator extends AbstractUIPlugin implements IStartup {
 
@@ -36,9 +35,7 @@ public class UsageDataActivator extends AbstractUIPlugin implements IStartup {
 
 	private UploadManager uploadManager;
 
-	private UsageDataRecordingSettings recordingSettings;
-
-	private UsageDataCaptureSettings captureSettings;
+	private UsageDataSettings settings;
 
 	private UsageDataRecorder usageDataRecorder;
 
@@ -59,8 +56,7 @@ public class UsageDataActivator extends AbstractUIPlugin implements IStartup {
 		this.context = context;
 
 		uploadManager = new UploadManager();
-		recordingSettings = new UsageDataRecordingSettings();
-		captureSettings = new UsageDataCaptureSettings();
+		settings = new UsageDataSettings();
 
 		usageDataRecorder = new UsageDataRecorder();
 		usageDataRecorder.start();
@@ -72,7 +68,7 @@ public class UsageDataActivator extends AbstractUIPlugin implements IStartup {
 				new IPropertyChangeListener() {
 
 					public void propertyChange(PropertyChangeEvent event) {
-						if (UsageDataCaptureSettings.CAPTURE_ENABLED_KEY
+						if (IUsageDataSettings.CAPTURE_ENABLED_KEY
 								.equals(event.getProperty())) {
 							if (isTrue(event.getNewValue())) {
 								service.startMonitoring();
@@ -94,7 +90,7 @@ public class UsageDataActivator extends AbstractUIPlugin implements IStartup {
 
 		UIJob job = new UIJob("Usage Data Service Starter") { //$NON-NLS-1$
 			public IStatus runInUIThread(IProgressMonitor monitor) {
-				if (captureSettings.isEnabled()) {
+				if (settings.isEnabled()) {
 					service.startMonitoring();
 				}
 				return Status.OK_STATUS;
@@ -114,7 +110,7 @@ public class UsageDataActivator extends AbstractUIPlugin implements IStartup {
 	public void stop(BundleContext context) throws Exception {
 		usageDataRecorder.stop();
 		service.removeUsageDataEventListener(usageDataRecorder);
-		recordingSettings.dispose();
+		settings.dispose();
 
 		if (service != null)
 			service.stopMonitoring();
@@ -132,12 +128,8 @@ public class UsageDataActivator extends AbstractUIPlugin implements IStartup {
 		return plugin;
 	}
 
-	public UsageDataRecordingSettings getRecordingSettings() {
-		return recordingSettings;
-	}
-
-	public UsageDataCaptureSettings getCaptureSettings() {
-		return captureSettings;
+	public UsageDataSettings getSettings() {
+		return settings;
 	}
 
 	public void log(int status, String message, Object... arguments) {

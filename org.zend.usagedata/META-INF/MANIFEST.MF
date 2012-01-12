@@ -10,4 +10,5 @@ Require-Bundle: org.eclipse.core.runtime,
  org.apache.commons.httpclient;bundle-version="3.1.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
-Export-Package: org.zend.usagedata.gathering
+Export-Package: org.zend.usagedata,
+ org.zend.usagedata.gathering
