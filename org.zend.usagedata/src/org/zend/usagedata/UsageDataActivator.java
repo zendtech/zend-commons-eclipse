@@ -128,7 +128,7 @@ public class UsageDataActivator extends AbstractUIPlugin implements IStartup {
 		return plugin;
 	}
 
-	public UsageDataSettings getSettings() {
+	public IUsageDataSettings getSettings() {
 		return settings;
 	}
 

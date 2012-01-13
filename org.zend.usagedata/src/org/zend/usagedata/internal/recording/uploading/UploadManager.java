@@ -19,8 +19,9 @@ import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.ui.PlatformUI;
+import org.zend.usagedata.IUsageDataSettings;
 import org.zend.usagedata.UsageDataActivator;
-import org.zend.usagedata.internal.settings.UsageDataSettings;
+import org.zend.usagedata.internal.settings.UploadSettings;
 import org.zend.usagedata.recording.IPreUploadListener;
 import org.zend.usagedata.recording.IUploadParameters;
 import org.zend.usagedata.recording.IUploader;
@@ -82,7 +83,7 @@ public class UploadManager {
 		getSettings().setLastUploadTime();
 		
 		IUploadParameters uploadParameters = new UploadParameters();
-		uploadParameters.setSettings(getSettings());
+		uploadParameters.setSettings((UploadSettings) getSettings());
 		uploadParameters.setFiles(usageDataUploadFiles);
 		//request.setFilter(getSettings().getFilter());
 		
@@ -136,7 +137,7 @@ public class UploadManager {
 		return getSettings().getUsageDataUploadFiles();
 	}
 	
-	private UsageDataSettings getSettings() {
+	private IUsageDataSettings getSettings() {
 		return UsageDataActivator.getDefault().getSettings();
 	}
 	

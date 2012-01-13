@@ -13,6 +13,7 @@ package org.zend.usagedata.ui.internal.listener;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Display;
+import org.zend.usagedata.UsageDataActivator;
 import org.zend.usagedata.recording.IPreUploadListener;
 import org.zend.usagedata.recording.IUploader;
 import org.zend.usagedata.ui.UIUploadSettings;
@@ -55,6 +56,10 @@ public class UIPreUploadListener implements IPreUploadListener {
 					status = callout.open();
 					if (callout.isDoNotDisplay()) {
 						UIUploadSettings.setDoNotShowAgain(true);
+						if (status == CANCEL) {
+							UsageDataActivator.getDefault().getSettings()
+									.setEnabled(false);
+						}
 					}
 				}
 			}
@@ -87,6 +92,7 @@ public class UIPreUploadListener implements IPreUploadListener {
 
 		calloutWindow.setText(Messages.UIPreUploadListener_Title);
 		calloutWindow.setDescription(Messages.UIPreUploadListener_Description);
+		calloutWindow.setIsShowMessage(true);
 
 		calloutWindow.setImage(UIUsageDataActivator
 				.getImageDescriptor(UIUsageDataActivator.INFO_ICON).createImage());
