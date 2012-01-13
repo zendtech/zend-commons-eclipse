@@ -38,5 +38,14 @@
              type="java.lang.Object">
        </propertyTester>
     </extension>
+    <extension
+          point="org.eclipse.ui.preferencePages">
+       <page
+             category="org.eclipse.php.ui.preferences.PHPBasePreferencePage"
+             class="org.zend.usagedata.ui.internal.preferences.UsageDataPreferencesPage"
+             id="org.zend.usagedata.ui.dataCapturePage"
+             name="Data Collecting">
+       </page>
+    </extension>
 
 </plugin>

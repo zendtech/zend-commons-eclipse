@@ -16,7 +16,6 @@ import org.eclipse.swt.widgets.Display;
 import org.zend.usagedata.UsageDataActivator;
 import org.zend.usagedata.recording.IPreUploadListener;
 import org.zend.usagedata.recording.IUploader;
-import org.zend.usagedata.ui.UIUploadSettings;
 import org.zend.usagedata.ui.internal.Messages;
 import org.zend.usagedata.ui.internal.UIUsageDataActivator;
 import org.zend.usagedata.ui.internal.message.CalloutWindow;
@@ -48,14 +47,16 @@ public class UIPreUploadListener implements IPreUploadListener {
 
 			@Override
 			public void run() {
-				if (UIUploadSettings.isDoNotShowAgain()) {
+				if (!UsageDataActivator.getDefault().getSettings()
+						.shouldAskBeforeUploading()) {
 					status = CANCEL;
 				} else {
 					CalloutWindow callout = createCallout();
 					callout.setBlockOnOpen(true);
 					status = callout.open();
 					if (callout.isDoNotDisplay()) {
-						UIUploadSettings.setDoNotShowAgain(true);
+						UsageDataActivator.getDefault().getSettings()
+								.setAskBeforeUploading(false);
 						if (status == CANCEL) {
 							UsageDataActivator.getDefault().getSettings()
 									.setEnabled(false);

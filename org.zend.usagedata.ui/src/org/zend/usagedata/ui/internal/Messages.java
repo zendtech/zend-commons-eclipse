@@ -24,6 +24,24 @@ public class Messages extends NLS {
 	public static String UIPreUploadListener_Description;
 	public static String UIPreUploadListener_Title;
 
+	public static String UsageDataPreferencesPage_AskBeforeUpload;
+
+	public static String UsageDataPreferencesPage_Days;
+
+	public static String UsageDataPreferencesPage_Description;
+
+	public static String UsageDataPreferencesPage_EnableCapture;
+
+	public static String UsageDataPreferencesPage_LastUpload;
+
+	public static String UsageDataPreferencesPage_OverriddenWarning;
+
+	public static String UsageDataPreferencesPage_Uploading;
+
+	public static String UsageDataPreferencesPage_UploadingPeriod;
+
+	public static String UsageDataPreferencesPage_uploadPeriodDescription;
+
 	static {
 		// initialize resource bundle
 		NLS.initializeMessages(BUNDLE_NAME, Messages.class);
