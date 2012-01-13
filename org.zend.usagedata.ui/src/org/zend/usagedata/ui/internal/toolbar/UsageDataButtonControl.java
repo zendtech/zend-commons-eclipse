@@ -8,7 +8,7 @@
  * Contributors:
  *    Zend Technologies Ltd. - initial API and implementation
  *******************************************************************************/
-package org.zend.usagedata.ui.internal.message;
+package org.zend.usagedata.ui.internal.toolbar;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
@@ -78,6 +78,7 @@ public class UsageDataButtonControl extends WorkbenchWindowControlContribution {
 
 		label.setLayoutData(data);
 		composite.setBackgroundMode(SWT.INHERIT_FORCE);
+
 		return composite;
 	}
 

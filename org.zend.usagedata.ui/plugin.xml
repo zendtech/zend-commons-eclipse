@@ -14,11 +14,29 @@
        <toolbar
              id="org.zend.usagedata.toolbar">
           <control
-                class="org.zend.usagedata.ui.internal.message.UsageDataButtonControl"
+                class="org.zend.usagedata.ui.internal.toolbar.UsageDataButtonControl"
                 id="UsageDataButtonControl">
+             <visibleWhen
+                   checkEnabled="false">
+                <test
+                      forcePluginActivation="false"
+                      property="org.zend.usagedata.ui.buttonVisibility"
+                      value="true">
+                </test>
+             </visibleWhen>
           </control>
        </toolbar>
     </menuContribution>
  </extension>
+    <extension
+          point="org.eclipse.core.expressions.propertyTesters">
+       <propertyTester
+             class="org.zend.usagedata.ui.internal.toolbar.ButtonVisibilityTester"
+             id="org.zend.usagedata.ui.buttonVisibilityTester"
+             namespace="org.zend.usagedata.ui"
+             properties="buttonVisibility"
+             type="java.lang.Object">
+       </propertyTester>
+    </extension>
 
 </plugin>
