@@ -11,4 +11,5 @@ Require-Bundle: org.eclipse.core.runtime,
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Export-Package: org.zend.usagedata,
- org.zend.usagedata.gathering
+ org.zend.usagedata.gathering,
+ org.zend.usagedata.recording

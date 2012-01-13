@@ -30,7 +30,7 @@ public abstract class AbstractUploader implements IUploader {
 		uploadListeners.remove(listener);
 	}
 	
-	protected void fireUploadComplete(UploadResult result) {
+	public void fireUploadComplete(UploadResult result) {
 		for (Object listener : uploadListeners.getListeners()) {
 			((UploadListener)listener).uploadComplete(result);
 		}

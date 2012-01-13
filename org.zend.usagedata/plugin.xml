@@ -2,7 +2,7 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension-point id="org.zend.usagedata.monitors" name="Usage Data Monitors" schema="schema/org.zend.usagedata.monitors.exsd"/>
-   <extension-point id="org.zend.usagedata.preUploadListeners" name="Pre-upload Listeners" schema="schema/org.zend.usagedata.preUploadListener.exsd"/>
+   <extension-point id="org.zend.usagedata.preUploadListeners" name="Pre-upload Listeners" schema="schema/org.zend.usagedata.preUploadListeners.exsd"/>
    <extension
          point="org.eclipse.ui.startup">
       <startup

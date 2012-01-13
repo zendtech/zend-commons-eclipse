@@ -8,27 +8,28 @@
  * Contributors:
  *    Zend Technologies Ltd. - initial API and implementation
  *******************************************************************************/
-package org.zend.usagedata.recording;
+package org.zend.usagedata.ui.internal;
+
+import org.eclipse.osgi.util.NLS;
 
 /**
- * Interface for preUploadListeners extension point.
+ * Plug-in messages.
  * 
  * @author Wojciech Galanciak, 2012
  * 
  */
-public interface IPreUploadListener {
+public class Messages extends NLS {
+	private static final String BUNDLE_NAME = "org.zend.usagedata.ui.internal.messages"; //$NON-NLS-1$
 
-	public static final int OK = 0;
-	public static final int CANCEL = 1;
+	public static String UIPreUploadListener_Description;
+	public static String UIPreUploadListener_Title;
 
-	/**
-	 * Method called before data upload will be performed. If any of registered
-	 * pre-upload listeners returns null, upload will be cancelled. Uploading
-	 * will be stopped until all listeners end their execution.
-	 * 
-	 * @param uploader
-	 * @return
-	 */
-	int handleUpload(IUploader uploader);
+	static {
+		// initialize resource bundle
+		NLS.initializeMessages(BUNDLE_NAME, Messages.class);
+	}
+
+	private Messages() {
+	}
 
 }

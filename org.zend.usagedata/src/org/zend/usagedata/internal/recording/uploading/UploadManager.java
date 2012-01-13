@@ -14,8 +14,10 @@ import java.io.File;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.ui.PlatformUI;
 import org.zend.usagedata.UsageDataActivator;
 import org.zend.usagedata.internal.settings.UsageDataSettings;
@@ -112,14 +114,18 @@ public class UploadManager {
 					Object listener = element
 							.createExecutableExtension("class"); //$NON-NLS-1$
 					if (listener instanceof IPreUploadListener) {
-						if (!((IPreUploadListener) listener)
-								.handleUpload(uploader)) {
+						int result  = ((IPreUploadListener) listener).handleUpload(uploader);
+						if (result == IPreUploadListener.CANCEL) {
+							uploader.fireUploadComplete(new UploadResult(
+									UploadResult.CANCELLED));
 							return false;
 						}
 					}
 				} catch (CoreException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					UsageDataActivator.getDefault().log(
+							new Status(IStatus.ERROR,
+									UsageDataActivator.PLUGIN_ID, e
+											.getMessage(), e));
 				}
 			}
 		}

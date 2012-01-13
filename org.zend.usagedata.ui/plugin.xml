@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.zend.usagedata.preUploadListeners">
+      <preUploadListener
+            class="org.zend.usagedata.ui.internal.listener.UIPreUploadListener">
+      </preUploadListener>
+   </extension>
+    <extension
+       point="org.eclipse.ui.menus">
+    <menuContribution
+          locationURI="toolbar:org.eclipse.ui.trim.status?after=additions ">
+       <toolbar
+             id="org.zend.usagedata.toolbar">
+          <control
+                class="org.zend.usagedata.ui.internal.message.UsageDataButtonControl"
+                id="UsageDataButtonControl">
+          </control>
+       </toolbar>
+    </menuContribution>
+ </extension>
+
+</plugin>

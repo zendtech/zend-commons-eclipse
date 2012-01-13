@@ -11,6 +11,7 @@
 package org.zend.usagedata.recording;
 
 import org.zend.usagedata.internal.recording.uploading.UploadListener;
+import org.zend.usagedata.internal.recording.uploading.UploadResult;
 
 public interface IUploader {
 
@@ -20,7 +21,7 @@ public interface IUploader {
 
 	void addUploadListener(UploadListener listener);
 
-	void removeUploadListener(UploadListener listener);
+	void fireUploadComplete(UploadResult result);
 
 	void setUploadParameters(IUploadParameters uploadParameters);
 
