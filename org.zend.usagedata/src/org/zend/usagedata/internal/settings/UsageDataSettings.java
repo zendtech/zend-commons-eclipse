@@ -38,18 +38,15 @@ import org.zend.usagedata.internal.recording.filtering.UsageDataEventFilter;
  */
 public class UsageDataSettings implements UploadSettings, IUsageDataSettings {
 
+	private static final String USAGEDATA_FILE_NAME = "usagedata"; //$NON-NLS-1$
 	private static final String DEFAULT_ID = "unknown"; //$NON-NLS-1$
-
 	private static final String UPLOAD_FILE_PREFIX = "upload"; //$NON-NLS-1$
+	private static final String DEFAULT_FORMAT = ".csv"; //$NON-NLS-1$
 
-	static final String UPLOAD_URL_KEY = UsageDataActivator.PLUGIN_ID
-			+ ".upload-url"; //$NON-NLS-1$
+	// 5 days
+	static final int UPLOAD_PERIOD_DEFAULT = 5 * 24 * 60 * 60 * 1000;
 
-	static final int UPLOAD_PERIOD_DEFAULT = 5 * 24 * 60 * 60 * 1000; // five
-																		// days
 	static final String UPLOAD_URL_DEFAULT = "http://udc.eclipse.org/upload.php"; //$NON-NLS-1$
-	
-	static final boolean ASK_TO_UPLOAD_DEFAULT = true;
 
 	private PreferencesBasedFilter filter = new PreferencesBasedFilter();
 
@@ -57,29 +54,7 @@ public class UsageDataSettings implements UploadSettings, IUsageDataSettings {
 	 * @see org.zend.usagedata.internal.settings.IUsageDataSettings#getPeriodBetweenUploads()
 	 */
 	public long getPeriodBetweenUploads() {
-		long period = 0L;
-		if (System.getProperties().containsKey(UPLOAD_PERIOD_KEY)) {
-			String value = System.getProperty(UPLOAD_PERIOD_KEY);
-			try {
-				period = Long.valueOf(value);
-			} catch (NumberFormatException e) {
-				// If we can't get it from this source, we'll pick it up some
-				// other way. Long the problem and move on.
-				UsageDataActivator
-						.getDefault()
-						.log(IStatus.WARNING,
-						e, "The UsageDataUploader cannot parse the %1$s system property (\"%2$s\"", UPLOAD_PERIOD_KEY, value); //$NON-NLS-1$
-			}
-		} else if (getPreferencesStore().contains(UPLOAD_PERIOD_KEY)) {
-			period = getPreferencesStore().getLong(UPLOAD_PERIOD_KEY);
-		} else {
-			period = UPLOAD_PERIOD_DEFAULT;
-		}
-
-		if (period < PERIOD_REASONABLE_MINIMUM)
-			period = PERIOD_REASONABLE_MINIMUM;
-
-		return period;
+		return UPLOAD_PERIOD_DEFAULT;
 	}
 
 	/* (non-Javadoc)
@@ -109,7 +84,7 @@ public class UsageDataSettings implements UploadSettings, IUsageDataSettings {
 	 * @see org.zend.usagedata.internal.settings.IUsageDataSettings#getEventFile()
 	 */
 	public File getEventFile() {
-		return new File(getWorkingDirectory(), "usagedata.csv"); //$NON-NLS-1$
+		return new File(getWorkingDirectory(), USAGEDATA_FILE_NAME + DEFAULT_FORMAT);
 	}
 
 	/* (non-Javadoc)
@@ -121,7 +96,8 @@ public class UsageDataSettings implements UploadSettings, IUsageDataSettings {
 		File file = null;
 		// TODO Unlikely (impossible?), but what if this spins forever.
 		while (true) {
-			file = new File(parent, UPLOAD_FILE_PREFIX + index++ + ".csv"); //$NON-NLS-1$
+			file = new File(parent, UPLOAD_FILE_PREFIX + index++
+					+ DEFAULT_FORMAT);
 			if (!file.exists())
 				return file;
 		}
@@ -279,13 +255,7 @@ public class UsageDataSettings implements UploadSettings, IUsageDataSettings {
 	 * @see org.zend.usagedata.internal.settings.IUsageDataSettings#shouldAskBeforeUploading()
 	 */
 	public boolean shouldAskBeforeUploading() {
-		if (System.getProperties().containsKey(ASK_TO_UPLOAD_KEY)) {
-			return "true".equals(System.getProperty(ASK_TO_UPLOAD_KEY)); //$NON-NLS-1$
-		} else if (getPreferencesStore().contains(ASK_TO_UPLOAD_KEY)) {
-			return getPreferencesStore().getBoolean(ASK_TO_UPLOAD_KEY);
-		} else {
-			return ASK_TO_UPLOAD_DEFAULT;
-		}
+		return getPreferencesStore().getBoolean(ASK_TO_UPLOAD_KEY);
 	}
 
 	/* (non-Javadoc)
@@ -365,9 +335,6 @@ public class UsageDataSettings implements UploadSettings, IUsageDataSettings {
 	 * @see org.zend.usagedata.internal.settings.IUsageDataSettings#getUploadUrl()
 	 */
 	public String getUploadUrl() {
-		if (System.getProperties().containsKey(UPLOAD_URL_KEY)) {
-			return System.getProperty(UPLOAD_URL_KEY);
-		}
 		return UPLOAD_URL_DEFAULT;
 	}
 

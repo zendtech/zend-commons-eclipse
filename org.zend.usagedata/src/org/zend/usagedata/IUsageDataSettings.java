@@ -17,8 +17,7 @@ import org.zend.usagedata.internal.settings.UploadSettings;
 
 public interface IUsageDataSettings {
 
-	public static final String UPLOAD_PERIOD_KEY = UsageDataActivator.PLUGIN_ID
-			+ ".period"; //$NON-NLS-1$
+
 	public static final String LAST_UPLOAD_KEY = UsageDataActivator.PLUGIN_ID
 			+ ".last-upload"; //$NON-NLS-1$
 	public static final String ASK_TO_UPLOAD_KEY = UsageDataActivator.PLUGIN_ID
@@ -29,8 +28,6 @@ public interface IUsageDataSettings {
 			+ ".filter-eclipse-only"; //$NON-NLS-1$
 	public static final String FILTER_PATTERNS_KEY = UsageDataActivator.PLUGIN_ID
 			+ ".filter-patterns"; //$NON-NLS-1$
-	public static final int PERIOD_REASONABLE_MINIMUM = 15 * 60 * 1000; // 15 minutes
-
 	public static final String CAPTURE_ENABLED_KEY = UsageDataActivator.PLUGIN_ID
 			+ ".enabled"; //$NON-NLS-1$
 	public static final String USER_ACCEPTED_TERMS_OF_USE_KEY = UsageDataActivator.PLUGIN_ID

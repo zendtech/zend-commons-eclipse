@@ -17,6 +17,8 @@ import org.zend.usagedata.UsageDataActivator;
 
 public class UsageDataCapturePreferenceInitializer extends AbstractPreferenceInitializer {
 
+	private static final boolean ASK_TO_UPLOAD_DEFAULT = true;
+
 	@Override
 	public void initializeDefaultPreferences() {
 		IPreferenceStore preferenceStore = UsageDataActivator.getDefault()
@@ -26,15 +28,10 @@ public class UsageDataCapturePreferenceInitializer extends AbstractPreferenceIni
 		// TODO disable it by default
 		preferenceStore.setDefault(
 				IUsageDataSettings.USER_ACCEPTED_TERMS_OF_USE_KEY, true);
+		preferenceStore.setDefault(IUsageDataSettings.ASK_TO_UPLOAD_KEY,
+				ASK_TO_UPLOAD_DEFAULT);
 		preferenceStore.setDefault(
-				IUsageDataSettings.UPLOAD_PERIOD_KEY,
-				UsageDataSettings.UPLOAD_PERIOD_DEFAULT);
-		preferenceStore.setDefault(
-				IUsageDataSettings.ASK_TO_UPLOAD_KEY,
-				UsageDataSettings.ASK_TO_UPLOAD_DEFAULT);
-		preferenceStore.setDefault(
-				IUsageDataSettings.FILTER_ECLIPSE_BUNDLES_ONLY_KEY,
-				false);
+				IUsageDataSettings.FILTER_ECLIPSE_BUNDLES_ONLY_KEY, false);
 	}
 
 }
