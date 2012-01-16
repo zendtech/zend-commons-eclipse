@@ -359,10 +359,8 @@ public class BasicUploader extends AbstractUploader {
 						writer.append('\n');
 					}
 					public void event(String line, UsageDataEvent event) throws Exception {
-						if (getUploadParameters().getFilter().includes(event)) {
-							writer.append(line);
-							writer.append('\n');
-						} 
+								writer.append(line);
+								writer.append('\n');
 					}					
 				});
 				writer.flush();

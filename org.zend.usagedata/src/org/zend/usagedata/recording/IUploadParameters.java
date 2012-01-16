@@ -12,7 +12,6 @@ package org.zend.usagedata.recording;
 
 import java.io.File;
 
-import org.zend.usagedata.internal.recording.filtering.UsageDataEventFilter;
 import org.zend.usagedata.internal.settings.UploadSettings;
 
 public interface IUploadParameters {
@@ -24,7 +23,5 @@ public interface IUploadParameters {
 	UploadSettings getSettings();
 
 	File[] getFiles();
-
-	UsageDataEventFilter getFilter();
 
 }

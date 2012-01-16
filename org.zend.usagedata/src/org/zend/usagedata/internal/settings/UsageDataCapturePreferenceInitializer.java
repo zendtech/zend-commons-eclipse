@@ -30,8 +30,6 @@ public class UsageDataCapturePreferenceInitializer extends AbstractPreferenceIni
 				IUsageDataSettings.USER_ACCEPTED_TERMS_OF_USE_KEY, true);
 		preferenceStore.setDefault(IUsageDataSettings.ASK_TO_UPLOAD_KEY,
 				ASK_TO_UPLOAD_DEFAULT);
-		preferenceStore.setDefault(
-				IUsageDataSettings.FILTER_ECLIPSE_BUNDLES_ONLY_KEY, false);
 	}
 
 }

@@ -12,7 +12,6 @@ package org.zend.usagedata;
 
 import java.io.File;
 
-import org.zend.usagedata.internal.recording.filtering.UsageDataEventFilter;
 import org.zend.usagedata.internal.settings.UploadSettings;
 
 public interface IUsageDataSettings {
@@ -24,10 +23,6 @@ public interface IUsageDataSettings {
 			+ ".ask"; //$NON-NLS-1$
 	public static final String LOG_SERVER_ACTIVITY_KEY = UsageDataActivator.PLUGIN_ID
 			+ ".log-server"; //$NON-NLS-1$
-	public static final String FILTER_ECLIPSE_BUNDLES_ONLY_KEY = UsageDataActivator.PLUGIN_ID
-			+ ".filter-eclipse-only"; //$NON-NLS-1$
-	public static final String FILTER_PATTERNS_KEY = UsageDataActivator.PLUGIN_ID
-			+ ".filter-patterns"; //$NON-NLS-1$
 	public static final String CAPTURE_ENABLED_KEY = UsageDataActivator.PLUGIN_ID
 			+ ".enabled"; //$NON-NLS-1$
 	public static final String USER_ACCEPTED_TERMS_OF_USE_KEY = UsageDataActivator.PLUGIN_ID
@@ -134,8 +129,6 @@ public interface IUsageDataSettings {
 
 	boolean shouldAskBeforeUploading();
 
-	UsageDataEventFilter getFilter();
-
 	boolean hasUserAcceptedTermsOfUse();
 
 	void setUserAcceptedTermsOfUse(boolean value);
@@ -145,8 +138,6 @@ public interface IUsageDataSettings {
 	void setAskBeforeUploading(boolean value);
 
 	void setEnabled(boolean value);
-
-	void dispose();
 
 	String getUserAgent();
 

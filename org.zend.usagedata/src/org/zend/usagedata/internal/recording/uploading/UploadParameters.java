@@ -12,7 +12,6 @@ package org.zend.usagedata.internal.recording.uploading;
 
 import java.io.File;
 
-import org.zend.usagedata.internal.recording.filtering.UsageDataEventFilter;
 import org.zend.usagedata.internal.settings.UploadSettings;
 import org.zend.usagedata.recording.IUploadParameters;
 
@@ -66,14 +65,4 @@ public class UploadParameters implements IUploadParameters {
 		return files;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.zend.usagedata.internal.recording.uploading.IUploadParameters#getFilter
-	 * ()
-	 */
-	public UsageDataEventFilter getFilter() {
-		return settings.getFilter();
-	}
 }

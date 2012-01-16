@@ -24,8 +24,6 @@ import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.ui.PlatformUI;
 import org.zend.usagedata.IUsageDataSettings;
 import org.zend.usagedata.UsageDataActivator;
-import org.zend.usagedata.internal.recording.filtering.PreferencesBasedFilter;
-import org.zend.usagedata.internal.recording.filtering.UsageDataEventFilter;
 
 /**
  * This class provides a convenient location to find the settings
@@ -47,8 +45,6 @@ public class UsageDataSettings implements UploadSettings, IUsageDataSettings {
 	static final int UPLOAD_PERIOD_DEFAULT = 5 * 24 * 60 * 60 * 1000;
 
 	static final String UPLOAD_URL_DEFAULT = "http://udc.eclipse.org/upload.php"; //$NON-NLS-1$
-
-	private PreferencesBasedFilter filter = new PreferencesBasedFilter();
 
 	/* (non-Javadoc)
 	 * @see org.zend.usagedata.internal.settings.IUsageDataSettings#getPeriodBetweenUploads()
@@ -259,13 +255,6 @@ public class UsageDataSettings implements UploadSettings, IUsageDataSettings {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.zend.usagedata.internal.settings.IUsageDataSettings#getFilter()
-	 */
-	public UsageDataEventFilter getFilter() {
-		return filter;
-	}
-
-	/* (non-Javadoc)
 	 * @see org.zend.usagedata.internal.settings.IUsageDataSettings#hasUserAcceptedTermsOfUse()
 	 */
 	public boolean hasUserAcceptedTermsOfUse() {
@@ -315,13 +304,6 @@ public class UsageDataSettings implements UploadSettings, IUsageDataSettings {
 		// The activator should be listening to changes in the preferences store
 		// and will change the state of the service as a result of us setting
 		// the value here.
-	}
-
-	/* (non-Javadoc)
-	 * @see org.zend.usagedata.internal.settings.IUsageDataSettings#dispose()
-	 */
-	public void dispose() {
-		filter.dispose();
 	}
 
 	/* (non-Javadoc)

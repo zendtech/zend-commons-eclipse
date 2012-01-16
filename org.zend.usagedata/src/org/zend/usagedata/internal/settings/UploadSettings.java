@@ -10,10 +10,6 @@
  *******************************************************************************/
 package org.zend.usagedata.internal.settings;
 
-import org.zend.usagedata.internal.recording.filtering.NullFilter;
-import org.zend.usagedata.internal.recording.filtering.UsageDataEventFilter;
-
-
 public interface UploadSettings {
 
 	/**
@@ -30,15 +26,6 @@ public interface UploadSettings {
 	 * @return the target URL for uploads.
 	 */
 	public abstract String getUploadUrl();
-
-	/**
-	 * This method returns the receiver's filter. A filter
-	 * is <strong>always</strong> returned. If no filter is required,
-	 * consider returning an instance of {@link NullFilter}.
-	 * 
-	 * @return an instance of a class that implements {@link UsageDataEventFilter}
-	 */
-	public abstract UsageDataEventFilter getFilter();
 
 	public abstract boolean hasUserAcceptedTermsOfUse();
 

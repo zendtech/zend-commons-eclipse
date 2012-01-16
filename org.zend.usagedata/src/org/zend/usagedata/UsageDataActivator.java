@@ -110,7 +110,6 @@ public class UsageDataActivator extends AbstractUIPlugin implements IStartup {
 	public void stop(BundleContext context) throws Exception {
 		usageDataRecorder.stop();
 		service.removeUsageDataEventListener(usageDataRecorder);
-		settings.dispose();
 
 		if (service != null)
 			service.stopMonitoring();
