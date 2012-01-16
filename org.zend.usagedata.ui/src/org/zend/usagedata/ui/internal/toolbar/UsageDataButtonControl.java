@@ -82,6 +82,13 @@ public class UsageDataButtonControl extends WorkbenchWindowControlContribution {
 			}
 		});
 
+		composite.getShell().addListener(SWT.Move, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				setLocation();
+			}
+		});
+
 		label.setLayoutData(data);
 		composite.setBackgroundMode(SWT.INHERIT_FORCE);
 
