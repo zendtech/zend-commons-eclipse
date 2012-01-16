@@ -12,8 +12,6 @@
 package org.zend.usagedata.ui.internal.message;
 
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
@@ -28,6 +26,8 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.graphics.Region;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
@@ -44,6 +44,7 @@ import org.eclipse.swt.widgets.Widget;
 import org.eclipse.ui.PlatformUI;
 import org.zend.usagedata.ui.internal.Messages;
 import org.zend.usagedata.ui.internal.UIUsageDataActivator;
+import org.zend.usagedata.ui.internal.dialogs.UsageDataUploadDialog;
 
 /**
  * A Shell wrapper which creates balloon popup windows.
@@ -86,13 +87,12 @@ public class CalloutWindow {
 	private ArrayList<Listener> selectionListeners = new ArrayList<Listener>();
 	private Link descriptionLabel;
 	private String description;
-	private int delayClose;
 	private Button checkboxDontShow;
-	private Button agreeToSend;
+	private Link agreeToSend;
+	private Link doNotAgreeToSend;
 	private boolean isShowMessage;
 	private boolean doNotDisplay = false;
 	private boolean block = false;
-	private Timer timer;
 	private int returnCode = CalloutWindow.CANCEL;
 
 	public CalloutWindow(Shell parent, int style) {
@@ -104,7 +104,6 @@ public class CalloutWindow {
 	}
 
 	public CalloutWindow(Display display, Shell parent, final int style) {
-		this.timer = new Timer();
 		this.style = style;
 		int shellStyle = style & (SWT.ON_TOP | SWT.TOOL);
 		if (parent == null) {
@@ -284,11 +283,6 @@ public class CalloutWindow {
 			titleSize = titleLabel.getSize();
 
 			if (systemControlsBar == null && (style & SWT.CLOSE) != 0) {
-				// Color closeFG = shell.getForeground(), closeBG =
-				// shell.getBackground();
-				// Color closeFG =
-				// shell.getDisplay().getSystemColor(SWT.COLOR_DARK_GRAY),
-				// closeBG = shell.getBackground();
 				Color closeFG = shell.getDisplay().getSystemColor(
 						SWT.COLOR_WIDGET_FOREGROUND), closeBG = shell
 						.getDisplay().getSystemColor(
@@ -338,73 +332,64 @@ public class CalloutWindow {
 				titleSize.x = Math.max(titleSize.x, descriptionSize.x);
 				titleSize.y += descriptionSize.y;
 				descriptionLabel.setLocation(marginLeft, marginTop + 19);
-				descriptionLabel.addSelectionListener(new SelectionAdapter() {
-					public void widgetSelected(SelectionEvent event) {
-						shell.getDisplay().syncExec(new Runnable() {
-
-							@Override
-							public void run() {
-								timer.cancel();
-								// TODO add real message dialog
-								MessageDialog dialog = new MessageDialog(
-										PlatformUI.getWorkbench()
-												.getActiveWorkbenchWindow()
-												.getShell(),
-										Messages.UIPreUploadListener_Title,
-										UIUsageDataActivator.getImageDescriptor(
-												UIUsageDataActivator.INFO_ICON)
-												.createImage(),
-										"put message here", 0, new String[] {
-												"Yes", "No" }, 0);
-								if (dialog.open() == 0) {
-									returnCode = CalloutWindow.OK;
-								} else {
-									returnCode = CalloutWindow.CANCEL;
-								}
-								close();
-							}
-						});
-					}
-				});
 			}
+
+			Composite links = new Composite(shell, SWT.NONE);
+			GridLayout layout = new GridLayout(2, true);
+			layout.marginWidth = 0;
+			links.setLayout(layout);
 
 			if (agreeToSend == null) {
-				agreeToSend = new Button(shell, SWT.PUSH);
-				agreeToSend.setBackground(shell.getBackground());
-				agreeToSend.setForeground(shell.getForeground());
-				FontData[] fds = shell.getFont().getFontData();
-				final Font font = new Font(shell.getDisplay(), fds);
-				agreeToSend.addListener(SWT.Dispose, new Listener() {
-					public void handleEvent(Event event) {
-						font.dispose();
-					}
-				});
-				agreeToSend.setFont(font);
-				agreeToSend.addSelectionListener(new SelectionListener() {
+				agreeToSend = createLink(Messages.CalloutWindow_Agree, links,
+						new SelectionAdapter() {
+							public void widgetSelected(SelectionEvent e) {
+								shell.getDisplay().syncExec(new Runnable() {
 
-					public void widgetSelected(SelectionEvent e) {
-						widgetDefaultSelected(e);
-					}
-
-					public void widgetDefaultSelected(SelectionEvent e) {
-						returnCode = CalloutWindow.CANCEL;
-						close();
-					}
-				});
-				selectionControls.add(agreeToSend);
-
-				String dontText = "Yes"; //$NON-NLS-1$
-				agreeToSend.setText(dontText);
-				agreeToSend.pack();
-				Point dontSize = agreeToSend.getSize();
-				titleSize.x = Math.max(titleSize.x, dontSize.x);
-				titleSize.y += dontSize.y;
-				agreeToSend.setLocation(
-						marginLeft,
-						descriptionLabel.getBounds().x
-								+ descriptionLabel.getBounds().height
-								+ marginTop + 15);
+									@Override
+									public void run() {
+										// TODO add real message dialog
+										MessageDialog dialog = new UsageDataUploadDialog(
+												PlatformUI
+														.getWorkbench()
+														.getActiveWorkbenchWindow()
+														.getShell());
+										if (dialog.open() == 0) {
+											returnCode = CalloutWindow.OK;
+										} else {
+											returnCode = CalloutWindow.CANCEL;
+										}
+										close();
+									}
+								});
+							}
+						});
 			}
+
+			if (doNotAgreeToSend == null) {
+				doNotAgreeToSend = createLink(
+						Messages.CalloutWindow_DoNotAgree, links,
+						new SelectionAdapter() {
+							public void widgetSelected(SelectionEvent e) {
+								shell.getDisplay().syncExec(new Runnable() {
+
+									@Override
+									public void run() {
+										returnCode = CalloutWindow.CANCEL;
+										doNotDisplay = true;
+										close();
+									}
+								});
+							}
+						});
+			}
+			links.setBackground(shell.getBackground());
+			links.setForeground(shell.getForeground());
+			links.pack();
+			Point linksSize = links.getSize();
+			titleSize.x = Math.max(titleSize.x, linksSize.x);
+			titleSize.y += linksSize.y;
+			links.setLocation(marginLeft, descriptionLabel.getBounds().x
+					+ descriptionLabel.getBounds().height + marginTop + 15);
 
 			if (checkboxDontShow == null && isShowMessage) {
 				checkboxDontShow = new Button(shell, SWT.CHECK);
@@ -428,8 +413,8 @@ public class CalloutWindow {
 				});
 				selectionControls.add(checkboxDontShow);
 
-				String dontText = "Don't show this message again."; //$NON-NLS-1$
-				checkboxDontShow.setText(dontText);
+				checkboxDontShow
+						.setText(Messages.UsageDataUploadDialog_DoNotShowAgain);
 				checkboxDontShow.pack();
 				Point dontSize = checkboxDontShow.getSize();
 				titleSize.x = Math.max(titleSize.x, dontSize.x);
@@ -438,8 +423,9 @@ public class CalloutWindow {
 						marginLeft,
 						descriptionLabel.getBounds().x
 								+ descriptionLabel.getBounds().height
-								+ agreeToSend.getBounds().height + marginTop
-								+ 15);
+								+ agreeToSend.getBounds().height
+								+ doNotAgreeToSend.getBounds().height
+								+ marginTop + 18);
 			}
 
 			titleSize.y += titleSpacing;
@@ -560,6 +546,27 @@ public class CalloutWindow {
 		}
 	}
 
+	private Link createLink(String label, Composite parent,
+			SelectionListener listener) {
+		Link link = new Link(parent, SWT.PUSH);
+		link.setText(label);
+		link.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		link.setBackground(shell.getBackground());
+		link.setForeground(shell.getForeground());
+		FontData[] fds = shell.getFont().getFontData();
+		final Font font = new Font(shell.getDisplay(), fds);
+		link.addListener(SWT.Dispose, new Listener() {
+			public void handleEvent(Event event) {
+				font.dispose();
+			}
+		});
+		link.setFont(font);
+		link.addSelectionListener(listener);
+		// selectionControls.add(link);
+		link.pack();
+		return link;
+	}
+
 	public String getDescription() {
 		return this.description;
 	}
@@ -580,34 +587,10 @@ public class CalloutWindow {
 		return returnCode;
 	}
 
-	/*
-	 * public void open() { if (calloutId != null && calloutId.length() > 0) {
-	 * IPreferenceStore preferenceStore = Activator.getDefault()
-	 * .getPreferenceStore(); preferenceStore.setDefault(calloutId, true);
-	 * boolean shouldOpen = preferenceStore.getBoolean(calloutId); if
-	 * (!shouldOpen) { return; } }
-	 * 
-	 * prepareForOpen(); shell.open();
-	 * 
-	 * if (delayClose > 0) { final Timer timer = new Timer(); timer.schedule(new
-	 * TimerTask() {
-	 * 
-	 * @Override public void run() { Display.getDefault().asyncExec(new
-	 * Runnable() { public void run() { if (shell != null &&
-	 * !shell.isDisposed()) { close(); } timer.cancel(); } }); } }, delayClose);
-	 * }
-	 * 
-	 * }
-	 */
-
 	public void close() {
 		if (shell != null && !shell.isDisposed()) {
 			shell.close();
 		}
-	}
-
-	public void setDelayClose(int delayClose) {
-		this.delayClose = delayClose;
 	}
 
 	public void setVisible(boolean visible) {
@@ -864,23 +847,6 @@ public class CalloutWindow {
 			display = Display.getCurrent();
 		} else {
 			display = loopShell.getDisplay();
-		}
-
-		if (delayClose > 0) {
-			timer.schedule(new TimerTask() {
-
-				@Override
-				public void run() {
-					display.asyncExec(new Runnable() {
-						public void run() {
-							if (shell != null && !shell.isDisposed()) {
-								close();
-							}
-							timer.cancel();
-						}
-					});
-				}
-			}, delayClose);
 		}
 
 		while (loopShell != null && !loopShell.isDisposed()) {

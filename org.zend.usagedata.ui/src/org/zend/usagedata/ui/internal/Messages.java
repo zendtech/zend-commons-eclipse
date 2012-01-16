@@ -21,26 +21,31 @@ import org.eclipse.osgi.util.NLS;
 public class Messages extends NLS {
 	private static final String BUNDLE_NAME = "org.zend.usagedata.ui.internal.messages"; //$NON-NLS-1$
 
+	public static String CalloutWindow_Agree;
+
+	public static String CalloutWindow_DoNotAgree;
+
+	public static String UsageDataUploadDialog_Cancel;
+
+	public static String UsageDataUploadDialog_DoNotShowAgain;
+
+	public static String UsageDataUploadDialog_Preview;
+
+	public static String UsageDataUploadDialog_Send;
+
+	public static String UsageDataUploadDialog_Title;
+
 	public static String UIPreUploadListener_Description;
 	public static String UIPreUploadListener_Title;
 
 	public static String UsageDataPreferencesPage_AskBeforeUpload;
 
-	public static String UsageDataPreferencesPage_Days;
 
 	public static String UsageDataPreferencesPage_Description;
 
 	public static String UsageDataPreferencesPage_EnableCapture;
 
 	public static String UsageDataPreferencesPage_LastUpload;
-
-	public static String UsageDataPreferencesPage_OverriddenWarning;
-
-	public static String UsageDataPreferencesPage_Uploading;
-
-	public static String UsageDataPreferencesPage_UploadingPeriod;
-
-	public static String UsageDataPreferencesPage_uploadPeriodDescription;
 
 	static {
 		// initialize resource bundle

@@ -87,15 +87,14 @@ public class UIPreUploadListener implements IPreUploadListener {
 		if (calloutWindow != null) {
 			calloutWindow.close();
 		}
-		calloutWindow = new CalloutWindow(display, SWT.CLOSE | SWT.TITLE);
+		calloutWindow = new CalloutWindow(display, SWT.TITLE);
 		calloutWindow.setLocation(hintLocation);
-
+		calloutWindow.setMargins(10, 10, 10, 10);
 		calloutWindow.setText(Messages.UIPreUploadListener_Title);
 		calloutWindow.setDescription(Messages.UIPreUploadListener_Description);
-		calloutWindow.setIsShowMessage(true);
+		calloutWindow.setIsShowMessage(false);
 
 		calloutWindow.setAnchor(SWT.RIGHT | SWT.BOTTOM);
-		calloutWindow.setDelayClose(3000);
 
 		return calloutWindow;
 	}
