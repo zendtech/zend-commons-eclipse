@@ -17,7 +17,6 @@ import org.zend.usagedata.UsageDataActivator;
 import org.zend.usagedata.recording.IPreUploadListener;
 import org.zend.usagedata.recording.IUploader;
 import org.zend.usagedata.ui.internal.Messages;
-import org.zend.usagedata.ui.internal.UIUsageDataActivator;
 import org.zend.usagedata.ui.internal.message.CalloutWindow;
 
 /**
@@ -95,8 +94,6 @@ public class UIPreUploadListener implements IPreUploadListener {
 		calloutWindow.setDescription(Messages.UIPreUploadListener_Description);
 		calloutWindow.setIsShowMessage(true);
 
-		calloutWindow.setImage(UIUsageDataActivator
-				.getImageDescriptor(UIUsageDataActivator.INFO_ICON).createImage());
 		calloutWindow.setAnchor(SWT.RIGHT | SWT.BOTTOM);
 		calloutWindow.setDelayClose(3000);
 

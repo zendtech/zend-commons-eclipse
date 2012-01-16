@@ -283,23 +283,6 @@ public class CalloutWindow {
 			titleLabel.pack();
 			titleSize = titleLabel.getSize();
 
-			final Image titleImage = shell.getImage();
-			if (titleImageLabel == null && shell.getImage() != null) {
-				titleImageLabel = new Canvas(shell, SWT.NONE);
-				titleImageLabel.setBackground(shell.getBackground());
-				titleImageLabel.setBounds(titleImage.getBounds());
-				titleImageLabel.addListener(SWT.Paint, new Listener() {
-					public void handleEvent(Event event) {
-						event.gc.drawImage(titleImage, 0, 0);
-					}
-				});
-				Point tilSize = titleImageLabel.getSize();
-				titleSize.x += tilSize.x + titleWidgetSpacing;
-				if (tilSize.y > titleSize.y)
-					titleSize.y = tilSize.y;
-				selectionControls.add(titleImageLabel);
-			}
-
 			if (systemControlsBar == null && (style & SWT.CLOSE) != 0) {
 				// Color closeFG = shell.getForeground(), closeBG =
 				// shell.getBackground();
@@ -354,12 +337,7 @@ public class CalloutWindow {
 				Point descriptionSize = descriptionLabel.getSize();
 				titleSize.x = Math.max(titleSize.x, descriptionSize.x);
 				titleSize.y += descriptionSize.y;
-				descriptionLabel.setLocation(marginLeft,
-						titleImage.getBounds().height + marginTop + 3 /*
-																	 * +
-																	 * descriptionSize
-																	 * .y / 2
-																	 */);
+				descriptionLabel.setLocation(marginLeft, marginTop + 19);
 				descriptionLabel.addSelectionListener(new SelectionAdapter() {
 					public void widgetSelected(SelectionEvent event) {
 						shell.getDisplay().syncExec(new Runnable() {
@@ -881,7 +859,7 @@ public class CalloutWindow {
 	private void runEventLoop(Shell loopShell) {
 
 		// Use the display provided by the shell if possible
-		Display display;
+		final Display display;
 		if (shell == null) {
 			display = Display.getCurrent();
 		} else {
@@ -893,7 +871,7 @@ public class CalloutWindow {
 
 				@Override
 				public void run() {
-					Display.getDefault().asyncExec(new Runnable() {
+					display.asyncExec(new Runnable() {
 						public void run() {
 							if (shell != null && !shell.isDisposed()) {
 								close();
