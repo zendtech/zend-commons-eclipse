@@ -26,6 +26,7 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.zend.usagedata.UsageDataActivator;
 import org.zend.usagedata.gathering.IUsageDataService;
 import org.zend.usagedata.gathering.IUsageMonitor;
+import org.zend.usagedata.gathering.UsageDataEvent;
 
 /**
  * The {@link UsageDataService} class is registered as an OSGi service by the

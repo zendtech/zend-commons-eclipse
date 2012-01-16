@@ -20,7 +20,7 @@ import java.util.List;
 import org.eclipse.core.runtime.IStatus;
 import org.zend.usagedata.IUsageDataSettings;
 import org.zend.usagedata.UsageDataActivator;
-import org.zend.usagedata.internal.gathering.UsageDataEvent;
+import org.zend.usagedata.gathering.UsageDataEvent;
 import org.zend.usagedata.internal.gathering.UsageDataEventListener;
 import org.zend.usagedata.internal.recording.uploading.BasicUploader;
 import org.zend.usagedata.internal.recording.uploading.UploadManager;

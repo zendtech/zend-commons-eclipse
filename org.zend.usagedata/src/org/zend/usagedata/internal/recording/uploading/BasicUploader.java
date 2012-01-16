@@ -37,8 +37,9 @@ import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.zend.usagedata.UsageDataActivator;
-import org.zend.usagedata.internal.gathering.UsageDataEvent;
+import org.zend.usagedata.gathering.UsageDataEvent;
 import org.zend.usagedata.internal.settings.UploadSettings;
+import org.zend.usagedata.recording.UsageDataFileReader;
 
 /**
  * Instances of the {@link BasicUploader} class are responsible for

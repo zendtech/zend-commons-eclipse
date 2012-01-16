@@ -8,7 +8,7 @@
  * Contributors:
  *    The Eclipse Foundation - initial API and implementation
  *******************************************************************************/
-package org.zend.usagedata.internal.recording.uploading;
+package org.zend.usagedata.recording;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -21,7 +21,7 @@ import java.io.Reader;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.zend.usagedata.internal.gathering.UsageDataEvent;
+import org.zend.usagedata.gathering.UsageDataEvent;
 import org.zend.usagedata.internal.recording.UsageDataRecorderUtils;
 
 public class UsageDataFileReader {

@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.zend.usagedata.internal.gathering;
 
+import org.zend.usagedata.gathering.UsageDataEvent;
+
 
 /**
  * Implementors of this interface subscribe to the {@link UsageDataService} for

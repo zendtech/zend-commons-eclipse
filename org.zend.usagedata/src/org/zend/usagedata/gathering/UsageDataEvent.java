@@ -8,7 +8,7 @@
  * Contributors:
  *    The Eclipse Foundation - initial API and implementation
  *******************************************************************************/
-package org.zend.usagedata.internal.gathering;
+package org.zend.usagedata.gathering;
 
 /**
  * The {@link UsageDataEvent} class captures information about a single

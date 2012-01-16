@@ -16,7 +16,7 @@ import java.io.StringReader;
 import java.io.Writer;
 import java.util.List;
 
-import org.zend.usagedata.internal.gathering.UsageDataEvent;
+import org.zend.usagedata.gathering.UsageDataEvent;
 
 public class UsageDataRecorderUtils {
 	
