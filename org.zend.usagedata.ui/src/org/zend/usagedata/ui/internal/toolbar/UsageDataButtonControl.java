@@ -18,7 +18,9 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.ui.menus.WorkbenchWindowControlContribution;
 import org.zend.usagedata.ui.internal.UIUsageDataActivator;
 import org.zend.usagedata.ui.internal.listener.UIPreUploadListener;
@@ -69,10 +71,14 @@ public class UsageDataButtonControl extends WorkbenchWindowControlContribution {
 
 		Display.getDefault().asyncExec(new Runnable() {
 			public void run() {
-				if (!composite.isDisposed()) {
-					final Point bounds = composite.toDisplay(0, 0);
-					UIPreUploadListener.setHintMessageLocation(bounds);
-				}
+				setLocation();
+			}
+		});
+
+		composite.getShell().addListener(SWT.Resize, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				setLocation();
 			}
 		});
 
@@ -80,6 +86,13 @@ public class UsageDataButtonControl extends WorkbenchWindowControlContribution {
 		composite.setBackgroundMode(SWT.INHERIT_FORCE);
 
 		return composite;
+	}
+
+	protected void setLocation() {
+		if (!composite.isDisposed()) {
+			final Point bounds = composite.toDisplay(0, 0);
+			UIPreUploadListener.setHintMessageLocation(bounds);
+		}
 	}
 
 }
