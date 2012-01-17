@@ -8,110 +8,98 @@
  * Contributors:
  *    Zend Technologies Ltd. - initial API and implementation
  *******************************************************************************/
-package org.zend.usagedata.ui.internal.dialogs;
+package org.zend.usagedata.ui.internal.wizards;
 
-import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.layout.GridDataFactory;
+import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.forms.events.ExpansionAdapter;
 import org.eclipse.ui.forms.events.ExpansionEvent;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
-import org.eclipse.ui.forms.widgets.SharedScrolledComposite;
-import org.zend.usagedata.IUsageDataSettings;
-import org.zend.usagedata.UsageDataActivator;
+import org.zend.usagedata.recording.IUploader;
 import org.zend.usagedata.ui.internal.Messages;
-import org.zend.usagedata.ui.internal.UIUsageDataActivator;
 
 /**
- * Usage data upload dialog which contains details about UDC, additional
- * settings and upload preview.
+ * Upload Wizard page which contains general information about data uploading
+ * and collected data preview.
  * 
  * @author Wojciech Galanciak, 2012
  * 
  */
-public class UsageDataUploadDialog extends MessageDialog {
-	
-	private static final String[] labels = new String[] { Messages.UsageDataUploadDialog_Send, Messages.UsageDataUploadDialog_Cancel };
+public class DetailsPage extends WizardPage {
 
 	private Button askBeforeUploadingCheckbox;
-	private int previewSectionHeight = 0;
 
-	public UsageDataUploadDialog(Shell parentShell) {
-		super(parentShell, Messages.UsageDataUploadDialog_Title, UIUsageDataActivator
-				.getImageDescriptor(
-						UIUsageDataActivator.INFO_ICON)
-				.createImage(), Messages.UsageDataPreferencesPage_Description,
-				MessageDialog.INFORMATION,
-				labels, 0);
+	private boolean askBeforeUploading;
+	private int previewSectionHeight = 0;
+	private IUploader uploader;
+
+	protected DetailsPage(IUploader uploader) {
+		super("Upload Details"); //$NON-NLS-1$
+		this.uploader = uploader;
+		setDescription(Messages.DetailsPage_Description);
+		setTitle(Messages.DetailsPage_Title);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.jface.dialogs.MessageDialog#createCustomArea(org.eclipse.
-	 * swt.widgets.Composite)
+	 * org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets
+	 * .Composite)
 	 */
 	@Override
-	protected Control createCustomArea(Composite parent) {
+	public void createControl(Composite parent) {
 		Composite composite = new Composite(parent, SWT.NONE);
-		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		composite.setLayout(new GridLayout(2, false));
+		composite.setLayout(new GridLayout(1, false));
 
-		askBeforeUploadingCheckbox = new Button(composite, SWT.CHECK
-				| SWT.LEFT);
+		Label description = new Label(composite, SWT.WRAP);
+		description.setText(Messages.UsageDataPreferencesPage_Description);
+		GridDataFactory
+				.fillDefaults()
+				.align(SWT.FILL, SWT.BEGINNING)
+				.grab(true, false)
+				.hint(convertHorizontalDLUsToPixels(IDialogConstants.MINIMUM_MESSAGE_AREA_WIDTH),
+						SWT.DEFAULT).applyTo(description);
+
+		askBeforeUploadingCheckbox = new Button(composite, SWT.CHECK | SWT.LEFT);
 		askBeforeUploadingCheckbox
 				.setText(Messages.UsageDataUploadDialog_DoNotShowAgain);
 		askBeforeUploadingCheckbox.setLayoutData(new GridData(SWT.FILL,
-				SWT.TOP, true, true, 2, 1));
+				SWT.TOP, true, false));
+		askBeforeUploadingCheckbox.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				askBeforeUploading = askBeforeUploadingCheckbox.getSelection();
+			}
+		});
 
 		createPreviewSection(composite);
 
-		return composite;
+		setControl(composite);
 	}
 
-	protected SharedScrolledComposite getParentScrolledComposite(Control control) {
-		Control parent = control.getParent();
-		if (parent != null) {
-			if (parent instanceof SharedScrolledComposite) {
-				return (SharedScrolledComposite) parent;
-			} else {
-				parent = parent.getParent();
-				if (parent instanceof SharedScrolledComposite) {
-					return (SharedScrolledComposite) parent;
-				}
-			}
-		}
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.dialogs.MessageDialog#buttonPressed(int)
+	/**
+	 * @return selection for "ask before uploading" checkbox
 	 */
-	@Override
-	protected void buttonPressed(int buttonId) {
-		if (buttonId == 0) {
-			UsageDataActivator
-					.getDefault()
-					.getPreferenceStore()
-					.setValue(IUsageDataSettings.ASK_TO_UPLOAD_KEY,
-							!askBeforeUploadingCheckbox.getSelection());
-		}
-		super.buttonPressed(buttonId);
+	public boolean isAskBeforeUploading() {
+		return askBeforeUploading;
 	}
 
 	private void createPreviewSection(final Composite parent) {
 		final ExpandableComposite expComposite = new ExpandableComposite(
-				parent, SWT.NONE, ExpandableComposite.TWISTIE
-						| ExpandableComposite.CLIENT_INDENT);
+				parent, SWT.NONE, ExpandableComposite.TWISTIE);
 		expComposite.addExpansionListener(new ExpansionAdapter() {
 			@Override
 			public void expansionStateChanged(ExpansionEvent e) {
@@ -134,22 +122,21 @@ public class UsageDataUploadDialog extends MessageDialog {
 					shell.setSize(shellSize.x, shellSize.y
 							- previewSectionHeight);
 				}
-
-				SharedScrolledComposite scrolledComposite = getParentScrolledComposite(expComposite
-						.getParent());
-				if (scrolledComposite != null) {
-					scrolledComposite.reflow(true);
-				}
 			}
 		});
 		expComposite.setText(Messages.UsageDataUploadDialog_Preview);
-		GridData gd = new GridData(SWT.FILL, SWT.FILL, true, true);
-		gd.horizontalSpan = 2;
-		expComposite.setLayoutData(gd);
+		expComposite
+				.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		Composite advancedSection = new Composite(expComposite, SWT.NONE);
 		GridLayout layout = new GridLayout(2, false);
 		layout.horizontalSpacing = 0;
 		advancedSection.setLayout(layout);
+
+		Control uploadPreview = new UploadPreview(
+				uploader.getUploadParameters()).createControl(advancedSection);
+		uploadPreview
+				.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+
 		expComposite.setClient(advancedSection);
 	}
 

@@ -25,6 +25,16 @@ public class Messages extends NLS {
 
 	public static String CalloutWindow_DoNotAgree;
 
+	public static String DetailsPage_Description;
+
+	public static String DetailsPage_Title;
+
+	public static String TermsOfUsePage_acceptTerms;
+
+	public static String TermsOfUsePage_Description;
+
+	public static String TermsOfUsePage_Title;
+
 	public static String UsageDataUploadDialog_Cancel;
 
 	public static String UsageDataUploadDialog_DoNotShowAgain;
@@ -36,10 +46,24 @@ public class Messages extends NLS {
 	public static String UsageDataUploadDialog_Title;
 
 	public static String UIPreUploadListener_Description;
+
 	public static String UIPreUploadListener_Title;
 
-	public static String UsageDataPreferencesPage_AskBeforeUpload;
+	public static String UploadDetailsWizard_Title;
 
+	public static String UploadPreview_When;
+
+	public static String UploadPreview_BundleId;
+
+	public static String UploadPreview_Description;
+
+	public static String UploadPreview_Kind;
+
+	public static String UploadPreview_Version;
+
+	public static String UploadPreview_What;
+
+	public static String UsageDataPreferencesPage_AskBeforeUpload;
 
 	public static String UsageDataPreferencesPage_Description;
 

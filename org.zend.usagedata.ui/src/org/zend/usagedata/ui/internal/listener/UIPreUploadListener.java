@@ -41,7 +41,7 @@ public class UIPreUploadListener implements IPreUploadListener {
 	 * .usagedata.recording.IUploader)
 	 */
 	@Override
-	public int handleUpload(IUploader uploader) {
+	public int handleUpload(final IUploader uploader) {
 		Display.getDefault().syncExec(new Runnable() {
 
 			@Override
@@ -50,7 +50,7 @@ public class UIPreUploadListener implements IPreUploadListener {
 						.shouldAskBeforeUploading()) {
 					status = CANCEL;
 				} else {
-					CalloutWindow callout = createCallout();
+					CalloutWindow callout = createCallout(uploader);
 					callout.setBlockOnOpen(true);
 					status = callout.open();
 					if (callout.isDoNotDisplay()) {
@@ -77,7 +77,7 @@ public class UIPreUploadListener implements IPreUploadListener {
 		hintLocation = hint;
 	}
 
-	private CalloutWindow createCallout() {
+	private CalloutWindow createCallout(IUploader uploader) {
 		if (hintLocation == null) {
 			throw new IllegalStateException();
 		}
@@ -93,6 +93,7 @@ public class UIPreUploadListener implements IPreUploadListener {
 		calloutWindow.setText(Messages.UIPreUploadListener_Title);
 		calloutWindow.setDescription(Messages.UIPreUploadListener_Description);
 		calloutWindow.setIsShowMessage(false);
+		calloutWindow.setUploader(uploader);
 
 		calloutWindow.setAnchor(SWT.RIGHT | SWT.BOTTOM);
 

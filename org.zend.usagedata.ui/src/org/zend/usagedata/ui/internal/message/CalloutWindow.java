@@ -13,7 +13,7 @@ package org.zend.usagedata.ui.internal.message;
 
 import java.util.ArrayList;
 
-import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -42,9 +42,10 @@ import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.swt.widgets.Widget;
 import org.eclipse.ui.PlatformUI;
+import org.zend.usagedata.recording.IUploader;
 import org.zend.usagedata.ui.internal.Messages;
 import org.zend.usagedata.ui.internal.UIUsageDataActivator;
-import org.zend.usagedata.ui.internal.dialogs.UsageDataUploadDialog;
+import org.zend.usagedata.ui.internal.wizards.UploadWizard;
 
 /**
  * A Shell wrapper which creates balloon popup windows.
@@ -94,6 +95,8 @@ public class CalloutWindow {
 	private boolean doNotDisplay = false;
 	private boolean block = false;
 	private int returnCode = CalloutWindow.CANCEL;
+
+	private IUploader uploader;
 
 	public CalloutWindow(Shell parent, int style) {
 		this(null, parent, style);
@@ -348,11 +351,21 @@ public class CalloutWindow {
 									@Override
 									public void run() {
 										// TODO add real message dialog
-										MessageDialog dialog = new UsageDataUploadDialog(
+										WizardDialog dialog = new WizardDialog(
 												PlatformUI
 														.getWorkbench()
 														.getActiveWorkbenchWindow()
-														.getShell());
+														.getShell(),
+												new UploadWizard(
+														uploader));
+
+										/*
+										 * MessageDialog dialog = new
+										 * UsageDataUploadDialog( PlatformUI
+										 * .getWorkbench()
+										 * .getActiveWorkbenchWindow()
+										 * .getShell());
+										 */
 										if (dialog.open() == 0) {
 											returnCode = CalloutWindow.OK;
 										} else {
@@ -569,6 +582,10 @@ public class CalloutWindow {
 
 	public String getDescription() {
 		return this.description;
+	}
+
+	public void setUploader(IUploader uploader) {
+		this.uploader = uploader;
 	}
 
 	public void setDescription(String description) {

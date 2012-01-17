@@ -25,9 +25,8 @@ public class UsageDataCapturePreferenceInitializer extends AbstractPreferenceIni
 				.getPreferenceStore();
 		preferenceStore
 				.setDefault(IUsageDataSettings.CAPTURE_ENABLED_KEY, true);
-		// TODO disable it by default
 		preferenceStore.setDefault(
-				IUsageDataSettings.USER_ACCEPTED_TERMS_OF_USE_KEY, true);
+				IUsageDataSettings.USER_ACCEPTED_TERMS_OF_USE_KEY, false);
 		preferenceStore.setDefault(IUsageDataSettings.ASK_TO_UPLOAD_KEY,
 				ASK_TO_UPLOAD_DEFAULT);
 	}
