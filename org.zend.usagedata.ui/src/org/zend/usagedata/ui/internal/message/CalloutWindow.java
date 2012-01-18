@@ -338,8 +338,11 @@ public class CalloutWindow {
 			}
 
 			Composite links = new Composite(shell, SWT.NONE);
-			GridLayout layout = new GridLayout(2, true);
+			GridLayout layout = new GridLayout(5, true);
 			layout.marginWidth = 0;
+			layout.marginHeight = 5;
+			links.setBackground(Display.getDefault().getSystemColor(
+					SWT.COLOR_BLUE));
 			links.setLayout(layout);
 
 			if (agreeToSend == null) {
@@ -350,22 +353,12 @@ public class CalloutWindow {
 
 									@Override
 									public void run() {
-										// TODO add real message dialog
 										WizardDialog dialog = new WizardDialog(
 												PlatformUI
 														.getWorkbench()
 														.getActiveWorkbenchWindow()
 														.getShell(),
-												new UploadWizard(
-														uploader));
-
-										/*
-										 * MessageDialog dialog = new
-										 * UsageDataUploadDialog( PlatformUI
-										 * .getWorkbench()
-										 * .getActiveWorkbenchWindow()
-										 * .getShell());
-										 */
+												new UploadWizard(uploader));
 										if (dialog.open() == 0) {
 											returnCode = CalloutWindow.OK;
 										} else {
@@ -375,7 +368,7 @@ public class CalloutWindow {
 									}
 								});
 							}
-						});
+						}, 3);
 			}
 
 			if (doNotAgreeToSend == null) {
@@ -393,11 +386,12 @@ public class CalloutWindow {
 									}
 								});
 							}
-						});
+						}, 2);
 			}
 			links.setBackground(shell.getBackground());
 			links.setForeground(shell.getForeground());
-			links.pack();
+			links.setSize(descriptionLabel.getSize().x,
+					agreeToSend.getSize().y + 10);
 			Point linksSize = links.getSize();
 			titleSize.x = Math.max(titleSize.x, linksSize.x);
 			titleSize.y += linksSize.y;
@@ -560,10 +554,12 @@ public class CalloutWindow {
 	}
 
 	private Link createLink(String label, Composite parent,
-			SelectionListener listener) {
+			SelectionListener listener, int horizontalSpan) {
 		Link link = new Link(parent, SWT.PUSH);
 		link.setText(label);
-		link.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		GridData gd = new GridData(SWT.RIGHT, SWT.FILL, true, false,
+				horizontalSpan, 1);
+		link.setLayoutData(gd);
 		link.setBackground(shell.getBackground());
 		link.setForeground(shell.getForeground());
 		FontData[] fds = shell.getFont().getFontData();
@@ -575,7 +571,6 @@ public class CalloutWindow {
 		});
 		link.setFont(font);
 		link.addSelectionListener(listener);
-		// selectionControls.add(link);
 		link.pack();
 		return link;
 	}
