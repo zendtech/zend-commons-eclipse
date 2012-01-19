@@ -39,8 +39,6 @@ public class Messages extends NLS {
 
 	public static String UsageDataUploadDialog_DoNotShowAgain;
 
-	public static String UsageDataUploadDialog_Preview;
-
 	public static String UsageDataUploadDialog_Send;
 
 	public static String UsageDataUploadDialog_Title;
@@ -62,8 +60,6 @@ public class Messages extends NLS {
 	public static String UploadPreview_Version;
 
 	public static String UploadPreview_What;
-
-	public static String UsageDataPreferencesPage_AskBeforeUpload;
 
 	public static String UsageDataPreferencesPage_EnableCapture;
 

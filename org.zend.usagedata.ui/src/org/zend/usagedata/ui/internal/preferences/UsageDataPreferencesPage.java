@@ -15,8 +15,6 @@ import java.util.Date;
 
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -44,7 +42,6 @@ public class UsageDataPreferencesPage extends PreferencePage implements
 	private Button captureEnabledCheckbox;
 	private Label label;
 	private Text lastUploadText;
-	private Button askBeforeUploadingCheckbox;
 
 	public UsageDataPreferencesPage() {
 		setDescription(MessageFormat.format(
@@ -62,8 +59,6 @@ public class UsageDataPreferencesPage extends PreferencePage implements
 	public boolean performOk() {
 		getPreferenceStore().setValue(IUsageDataSettings.CAPTURE_ENABLED_KEY,
 				captureEnabledCheckbox.getSelection());
-		getPreferenceStore().setValue(IUsageDataSettings.ASK_TO_UPLOAD_KEY,
-				askBeforeUploadingCheckbox.getSelection());
 		return super.performOk();
 	}
 
@@ -86,8 +81,6 @@ public class UsageDataPreferencesPage extends PreferencePage implements
 	protected void performDefaults() {
 		captureEnabledCheckbox.setSelection(getPreferenceStore()
 				.getDefaultBoolean(IUsageDataSettings.CAPTURE_ENABLED_KEY));
-		askBeforeUploadingCheckbox.setSelection(getPreferenceStore()
-				.getDefaultBoolean(IUsageDataSettings.ASK_TO_UPLOAD_KEY));
 		lastUploadText.setText(getLastUploadDateAsString());
 		super.performDefaults();
 	}
@@ -107,13 +100,6 @@ public class UsageDataPreferencesPage extends PreferencePage implements
 
 		Composite generalArea = createGeneralArea(composite);
 
-		askBeforeUploadingCheckbox = new Button(generalArea, SWT.CHECK
-				| SWT.LEFT);
-		askBeforeUploadingCheckbox
-				.setText(Messages.UsageDataPreferencesPage_AskBeforeUpload);
-		askBeforeUploadingCheckbox.setLayoutData(new GridData(SWT.FILL,
-				SWT.TOP, true, true, 2, 1));
-
 		createLastUploadField(generalArea);
 
 		initializeValues();
@@ -125,12 +111,6 @@ public class UsageDataPreferencesPage extends PreferencePage implements
 		captureEnabledCheckbox = new Button(parent, SWT.CHECK | SWT.LEFT);
 		captureEnabledCheckbox
 				.setText(Messages.UsageDataPreferencesPage_EnableCapture);
-		captureEnabledCheckbox.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				updateEnabled(captureEnabledCheckbox.getSelection());
-			}
-		});
 		captureEnabledCheckbox.setLayoutData(new GridData(SWT.FILL, SWT.FILL,
 				true, false));
 		Group group = new Group(parent, SWT.NONE);
@@ -144,8 +124,9 @@ public class UsageDataPreferencesPage extends PreferencePage implements
 		label.setText(Messages.UsageDataPreferencesPage_LastUpload);
 		label.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
 
-		lastUploadText = new Text(parent, SWT.SINGLE | SWT.BORDER);
-		lastUploadText.setEnabled(false);
+		lastUploadText = new Text(parent, SWT.SINGLE | SWT.BORDER
+				| SWT.READ_ONLY);
+		// lastUploadText.setEnabled(false);
 		lastUploadText.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false,
 				true));
 	}
@@ -161,14 +142,6 @@ public class UsageDataPreferencesPage extends PreferencePage implements
 		captureEnabledCheckbox.setSelection(getPreferenceStore().getBoolean(
 				IUsageDataSettings.CAPTURE_ENABLED_KEY));
 		lastUploadText.setText(getLastUploadDateAsString());
-		askBeforeUploadingCheckbox.setSelection(getPreferenceStore()
-				.getBoolean(IUsageDataSettings.ASK_TO_UPLOAD_KEY));
-		updateEnabled(captureEnabledCheckbox.getSelection());
-
-	}
-
-	private void updateEnabled(boolean value) {
-		askBeforeUploadingCheckbox.setEnabled(value);
 	}
 
 }
