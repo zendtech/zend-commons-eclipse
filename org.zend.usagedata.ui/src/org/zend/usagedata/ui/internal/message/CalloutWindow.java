@@ -42,7 +42,6 @@ import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.swt.widgets.Widget;
 import org.eclipse.ui.PlatformUI;
-import org.zend.usagedata.recording.IUploader;
 import org.zend.usagedata.ui.internal.Messages;
 import org.zend.usagedata.ui.internal.UIUsageDataActivator;
 import org.zend.usagedata.ui.internal.wizards.UploadWizard;
@@ -95,8 +94,6 @@ public class CalloutWindow {
 	private boolean doNotDisplay = false;
 	private boolean block = false;
 	private int returnCode = CalloutWindow.CANCEL;
-
-	private IUploader uploader;
 
 	public CalloutWindow(Shell parent, int style) {
 		this(null, parent, style);
@@ -338,8 +335,7 @@ public class CalloutWindow {
 								WizardDialog dialog = new WizardDialog(
 										PlatformUI.getWorkbench()
 												.getActiveWorkbenchWindow()
-												.getShell(), new UploadWizard(
-												uploader));
+												.getShell(), new UploadWizard());
 								if (dialog.open() == 0) {
 									returnCode = CalloutWindow.OK;
 								} else {
@@ -588,10 +584,6 @@ public class CalloutWindow {
 
 	public String getDescription() {
 		return this.description;
-	}
-
-	public void setUploader(IUploader uploader) {
-		this.uploader = uploader;
 	}
 
 	public void setDescription(String description) {

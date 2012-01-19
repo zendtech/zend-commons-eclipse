@@ -10,26 +10,24 @@
  *******************************************************************************/
 package org.zend.usagedata.ui.internal.wizards;
 
+import java.io.IOException;
+import java.net.URL;
 import java.text.MessageFormat;
 
+import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.forms.events.ExpansionAdapter;
-import org.eclipse.ui.forms.events.ExpansionEvent;
-import org.eclipse.ui.forms.widgets.ExpandableComposite;
-import org.zend.usagedata.recording.IUploader;
 import org.zend.usagedata.ui.internal.Messages;
 import org.zend.usagedata.ui.internal.UIUsageDataActivator;
 
@@ -42,15 +40,14 @@ import org.zend.usagedata.ui.internal.UIUsageDataActivator;
  */
 public class DetailsPage extends WizardPage {
 
-	private Button askBeforeUploadingCheckbox;
+	private static final String TERMS_FILE = "terms.html"; //$NON-NLS-1$
 
-	private boolean askBeforeUploading;
-	private int previewSectionHeight = 0;
-	private IUploader uploader;
+	private Button acceptTermOfUse;
 
-	protected DetailsPage(IUploader uploader) {
+	private boolean termsAccepted;
+
+	protected DetailsPage() {
 		super("Upload Details"); //$NON-NLS-1$
-		this.uploader = uploader;
 		setDescription(Messages.DetailsPage_Description);
 		setTitle(MessageFormat.format(Messages.DetailsPage_Title,
 				UIUsageDataActivator.getDefault().getProductName()));
@@ -79,71 +76,57 @@ public class DetailsPage extends WizardPage {
 				.hint(convertHorizontalDLUsToPixels(IDialogConstants.MINIMUM_MESSAGE_AREA_WIDTH),
 						SWT.DEFAULT).applyTo(description);
 
-		askBeforeUploadingCheckbox = new Button(composite, SWT.CHECK | SWT.LEFT);
-		askBeforeUploadingCheckbox
-				.setText(Messages.UsageDataUploadDialog_DoNotShowAgain);
-		askBeforeUploadingCheckbox.setLayoutData(new GridData(SWT.FILL,
-				SWT.TOP, true, false));
-		askBeforeUploadingCheckbox.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				askBeforeUploading = askBeforeUploadingCheckbox.getSelection();
-			}
-		});
-
-		createPreviewSection(composite);
+		createTermsOfUseSection(composite);
 
 		setControl(composite);
 	}
 
-	/**
-	 * @return selection for "ask before uploading" checkbox
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.wizard.WizardPage#isPageComplete()
 	 */
-	public boolean isAskBeforeUploading() {
-		return askBeforeUploading;
+	@Override
+	public boolean isPageComplete() {
+		return acceptTermOfUse.getSelection();
 	}
 
-	private void createPreviewSection(final Composite parent) {
-		final ExpandableComposite expComposite = new ExpandableComposite(
-				parent, SWT.NONE, ExpandableComposite.TWISTIE);
-		expComposite.addExpansionListener(new ExpansionAdapter() {
+	/**
+	 * @return selection for "accept terms of use" checkbox
+	 */
+	public boolean isTermsAccepted() {
+		return termsAccepted;
+	}
+
+	private void createTermsOfUseSection(Composite composite) {
+		Browser browser = new Browser(composite, SWT.BORDER);
+		GridData layoutData = new GridData(SWT.FILL, SWT.FILL, true, true);
+		layoutData.heightHint = 300;
+		browser.setLayoutData(layoutData);
+		browser.setUrl(getTermsOfUseUrl());
+
+		acceptTermOfUse = new Button(composite, SWT.CHECK);
+		acceptTermOfUse.setText(Messages.TermsOfUsePage_acceptTerms);
+		acceptTermOfUse.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true,
+				false));
+		acceptTermOfUse.addSelectionListener(new SelectionAdapter() {
 			@Override
-			public void expansionStateChanged(ExpansionEvent e) {
-				if (e.getState()) {
-					Shell shell = parent.getShell();
-					Point shellSize = shell.getSize();
-					if (previewSectionHeight == 0) {
-						Point groupSize = expComposite.computeSize(SWT.DEFAULT,
-								SWT.DEFAULT, true);
-						previewSectionHeight = groupSize.y;
-					}
-					shell.setSize(shellSize.x, shellSize.y
-							+ previewSectionHeight);
-					parent.layout();
-				}
-				if (!e.getState()) {
-					parent.layout();
-					Shell shell = parent.getShell();
-					Point shellSize = shell.getSize();
-					shell.setSize(shellSize.x, shellSize.y
-							- previewSectionHeight);
-				}
+			public void widgetSelected(SelectionEvent e) {
+				termsAccepted = acceptTermOfUse.getSelection();
+				setPageComplete(termsAccepted);
 			}
 		});
-		expComposite.setText(Messages.UsageDataUploadDialog_Preview);
-		expComposite
-				.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		Composite advancedSection = new Composite(expComposite, SWT.NONE);
-		GridLayout layout = new GridLayout(2, false);
-		layout.horizontalSpacing = 0;
-		advancedSection.setLayout(layout);
+	}
 
-		Control uploadPreview = new UploadPreview(
-				uploader.getUploadParameters()).createControl(advancedSection);
-		uploadPreview
-				.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-
-		expComposite.setClient(advancedSection);
+	private String getTermsOfUseUrl() {
+		URL terms = FileLocator.find(UIUsageDataActivator.getDefault()
+				.getBundle(), new Path(TERMS_FILE), null);
+		try {
+			return FileLocator.toFileURL(terms).toString();
+		} catch (IOException e) {
+			UIUsageDataActivator.log(e);
+		}
+		return null;
 	}
 
 }

@@ -13,7 +13,6 @@ package org.zend.usagedata.ui.internal.wizards;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.widgets.Composite;
 import org.zend.usagedata.UsageDataActivator;
-import org.zend.usagedata.recording.IUploader;
 import org.zend.usagedata.ui.internal.Messages;
 
 /**
@@ -25,12 +24,8 @@ import org.zend.usagedata.ui.internal.Messages;
 public class UploadWizard extends Wizard {
 
 	private DetailsPage detailsPage;
-	private TermsOfUsePage termsOfUsePage;
 
-	private IUploader uploader;
-
-	public UploadWizard(IUploader uploader) {
-		this.uploader = uploader;
+	public UploadWizard() {
 		setNeedsProgressMonitor(false);
 		setWindowTitle(Messages.UploadDetailsWizard_Title);
 		// TODO add setDefaultPageImageDescriptor();
@@ -43,15 +38,12 @@ public class UploadWizard extends Wizard {
 	 */
 	@Override
 	public boolean performFinish() {
-		if (termsOfUsePage != null) {
-			boolean termsAccepted = termsOfUsePage.isTermsAccepted();
+		if (detailsPage != null) {
+			UsageDataActivator.getDefault().getSettings()
+					.setAskBeforeUploading(true);
+			boolean termsAccepted = detailsPage.isTermsAccepted();
 			UsageDataActivator.getDefault().getSettings()
 					.setUserAcceptedTermsOfUse(termsAccepted);
-		}
-		if (detailsPage != null) {
-			boolean askBeforeUpload = detailsPage.isAskBeforeUploading();
-			UsageDataActivator.getDefault().getSettings()
-					.setAskBeforeUploading(!askBeforeUpload);
 		}
 		return true;
 	}
@@ -64,14 +56,8 @@ public class UploadWizard extends Wizard {
 	@Override
 	public void addPages() {
 		super.addPages();
-		detailsPage = new DetailsPage(uploader);
+		detailsPage = new DetailsPage();
 		addPage(detailsPage);
-		boolean termsAccepted = UsageDataActivator.getDefault().getSettings()
-				.hasUserAcceptedTermsOfUse();
-		if (!termsAccepted) {
-			termsOfUsePage = new TermsOfUsePage();
-			addPage(termsOfUsePage);
-		}
 	}
 
 	/*

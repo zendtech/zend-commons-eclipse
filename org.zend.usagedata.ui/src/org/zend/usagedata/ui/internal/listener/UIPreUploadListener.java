@@ -98,7 +98,6 @@ public class UIPreUploadListener implements IPreUploadListener {
 				Messages.UIPreUploadListener_Description, UIUsageDataActivator
 						.getDefault().getProductName()));
 		calloutWindow.setIsShowMessage(false);
-		calloutWindow.setUploader(uploader);
 
 		calloutWindow.setAnchor(SWT.RIGHT | SWT.BOTTOM);
 
