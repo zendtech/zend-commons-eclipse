@@ -29,9 +29,9 @@ public class Messages extends NLS {
 
 	public static String DetailsPage_Title;
 
-	public static String TermsOfUsePage_acceptTerms;
+	public static String DetailsPage_UDCDescription;
 
-	public static String TermsOfUsePage_Description;
+	public static String TermsOfUsePage_acceptTerms;
 
 	public static String TermsOfUsePage_Title;
 
@@ -64,8 +64,6 @@ public class Messages extends NLS {
 	public static String UploadPreview_What;
 
 	public static String UsageDataPreferencesPage_AskBeforeUpload;
-
-	public static String UsageDataPreferencesPage_Description;
 
 	public static String UsageDataPreferencesPage_EnableCapture;
 

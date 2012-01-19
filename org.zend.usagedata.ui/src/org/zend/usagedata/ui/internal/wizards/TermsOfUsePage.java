@@ -46,7 +46,6 @@ public class TermsOfUsePage extends WizardPage {
 
 	protected TermsOfUsePage() {
 		super("Upload Details"); //$NON-NLS-1$
-		setDescription(Messages.TermsOfUsePage_Description);
 		setTitle(Messages.TermsOfUsePage_Title);
 	}
 

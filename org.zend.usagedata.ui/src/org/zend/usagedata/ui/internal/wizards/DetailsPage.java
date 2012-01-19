@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.zend.usagedata.ui.internal.wizards;
 
+import java.text.MessageFormat;
+
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.wizard.WizardPage;
@@ -29,6 +31,7 @@ import org.eclipse.ui.forms.events.ExpansionEvent;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.zend.usagedata.recording.IUploader;
 import org.zend.usagedata.ui.internal.Messages;
+import org.zend.usagedata.ui.internal.UIUsageDataActivator;
 
 /**
  * Upload Wizard page which contains general information about data uploading
@@ -49,7 +52,8 @@ public class DetailsPage extends WizardPage {
 		super("Upload Details"); //$NON-NLS-1$
 		this.uploader = uploader;
 		setDescription(Messages.DetailsPage_Description);
-		setTitle(Messages.DetailsPage_Title);
+		setTitle(MessageFormat.format(Messages.DetailsPage_Title,
+				UIUsageDataActivator.getDefault().getProductName()));
 	}
 
 	/*
@@ -65,7 +69,9 @@ public class DetailsPage extends WizardPage {
 		composite.setLayout(new GridLayout(1, false));
 
 		Label description = new Label(composite, SWT.WRAP);
-		description.setText(Messages.UsageDataPreferencesPage_Description);
+		description.setText(MessageFormat.format(
+				Messages.DetailsPage_UDCDescription, UIUsageDataActivator
+						.getDefault().getProductName()));
 		GridDataFactory
 				.fillDefaults()
 				.align(SWT.FILL, SWT.BEGINNING)

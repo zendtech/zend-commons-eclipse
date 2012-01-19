@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.zend.usagedata.ui.internal.listener;
 
+import java.text.MessageFormat;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Display;
@@ -17,6 +19,7 @@ import org.zend.usagedata.UsageDataActivator;
 import org.zend.usagedata.recording.IPreUploadListener;
 import org.zend.usagedata.recording.IUploader;
 import org.zend.usagedata.ui.internal.Messages;
+import org.zend.usagedata.ui.internal.UIUsageDataActivator;
 import org.zend.usagedata.ui.internal.message.CalloutWindow;
 
 /**
@@ -48,7 +51,7 @@ public class UIPreUploadListener implements IPreUploadListener {
 			public void run() {
 				if (!UsageDataActivator.getDefault().getSettings()
 						.shouldAskBeforeUploading()) {
-					status = CANCEL;
+					status = OK;
 				} else {
 					CalloutWindow callout = createCallout(uploader);
 					callout.setBlockOnOpen(true);
@@ -91,7 +94,9 @@ public class UIPreUploadListener implements IPreUploadListener {
 		calloutWindow.setLocation(hintLocation);
 		calloutWindow.setMargins(10, 10, 10, 10);
 		calloutWindow.setText(Messages.UIPreUploadListener_Title);
-		calloutWindow.setDescription(Messages.UIPreUploadListener_Description);
+		calloutWindow.setDescription(MessageFormat.format(
+				Messages.UIPreUploadListener_Description, UIUsageDataActivator
+						.getDefault().getProductName()));
 		calloutWindow.setIsShowMessage(false);
 		calloutWindow.setUploader(uploader);
 

@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.zend.usagedata.ui.internal.preferences;
 
+import java.text.MessageFormat;
 import java.util.Date;
 
 import org.eclipse.jface.preference.PreferencePage;
@@ -29,6 +30,7 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.zend.usagedata.IUsageDataSettings;
 import org.zend.usagedata.UsageDataActivator;
 import org.zend.usagedata.ui.internal.Messages;
+import org.zend.usagedata.ui.internal.UIUsageDataActivator;
 
 /**
  * Data collecting preference page.
@@ -45,7 +47,9 @@ public class UsageDataPreferencesPage extends PreferencePage implements
 	private Button askBeforeUploadingCheckbox;
 
 	public UsageDataPreferencesPage() {
-		setDescription(Messages.UsageDataPreferencesPage_Description);
+		setDescription(MessageFormat.format(
+				Messages.DetailsPage_UDCDescription, UIUsageDataActivator
+						.getDefault().getProductName()));
 		setPreferenceStore(UsageDataActivator.getDefault().getPreferenceStore());
 	}
 

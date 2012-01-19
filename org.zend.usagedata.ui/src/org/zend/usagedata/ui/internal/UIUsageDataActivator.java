@@ -10,7 +10,9 @@
  *******************************************************************************/
 package org.zend.usagedata.ui.internal;
 
+import org.eclipse.core.runtime.IProduct;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
@@ -34,6 +36,8 @@ public class UIUsageDataActivator extends AbstractUIPlugin {
 	
 	// The shared instance
 	private static UIUsageDataActivator plugin;
+
+	private String productName;
 	
 	/**
 	 * The constructor
@@ -48,6 +52,8 @@ public class UIUsageDataActivator extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
+		IProduct product = Platform.getProduct();
+		productName = product == null ? "this product" : product.getName(); //$NON-NLS-1$
 	}
 
 	/*
@@ -83,6 +89,13 @@ public class UIUsageDataActivator extends AbstractUIPlugin {
 	 */
 	public static ImageDescriptor getImageDescriptor(String path) {
 		return imageDescriptorFromPlugin(PLUGIN_ID, path);
+	}
+
+	/**
+	 * @return product name
+	 */
+	public String getProductName() {
+		return productName;
 	}
 
 }

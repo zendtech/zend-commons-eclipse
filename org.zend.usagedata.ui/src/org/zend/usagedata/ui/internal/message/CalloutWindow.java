@@ -326,10 +326,30 @@ public class CalloutWindow {
 					}
 				});
 				descriptionLabel.setFont(font);
-				selectionControls.add(descriptionLabel);
 				String descriptionText = getDescription();
 				descriptionLabel.setText(descriptionText == null ? "" //$NON-NLS-1$
 						: descriptionText);
+				descriptionLabel.addSelectionListener(new SelectionAdapter() {
+					public void widgetSelected(SelectionEvent e) {
+						shell.getDisplay().syncExec(new Runnable() {
+
+							@Override
+							public void run() {
+								WizardDialog dialog = new WizardDialog(
+										PlatformUI.getWorkbench()
+												.getActiveWorkbenchWindow()
+												.getShell(), new UploadWizard(
+												uploader));
+								if (dialog.open() == 0) {
+									returnCode = CalloutWindow.OK;
+								} else {
+									returnCode = CalloutWindow.CANCEL;
+								}
+								close();
+							}
+						});
+					}
+				});
 				descriptionLabel.pack();
 				Point descriptionSize = descriptionLabel.getSize();
 				titleSize.x = Math.max(titleSize.x, descriptionSize.x);
@@ -353,17 +373,8 @@ public class CalloutWindow {
 
 									@Override
 									public void run() {
-										WizardDialog dialog = new WizardDialog(
-												PlatformUI
-														.getWorkbench()
-														.getActiveWorkbenchWindow()
-														.getShell(),
-												new UploadWizard(uploader));
-										if (dialog.open() == 0) {
-											returnCode = CalloutWindow.OK;
-										} else {
-											returnCode = CalloutWindow.CANCEL;
-										}
+										returnCode = CalloutWindow.OK;
+										doNotDisplay = true;
 										close();
 									}
 								});
