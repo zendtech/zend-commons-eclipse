@@ -44,7 +44,10 @@ public class UsageDataSettings implements UploadSettings, IUsageDataSettings {
 	// 5 days
 	static final int UPLOAD_PERIOD_DEFAULT = 5 * 24 * 60 * 60 * 1000;
 
-	static final String UPLOAD_URL_DEFAULT = "http://udc.eclipse.org/upload.php"; //$NON-NLS-1$
+	static final String UPLOAD_URL_KEY = UsageDataActivator.PLUGIN_ID
+			+ ".upload-url"; //$NON-NLS-1$
+
+	static final String UPLOAD_URL_DEFAULT = "http://wojtek.my.phpcloud.com/udc/index.php"; //$NON-NLS-1$
 
 	/* (non-Javadoc)
 	 * @see org.zend.usagedata.internal.settings.IUsageDataSettings#getPeriodBetweenUploads()
@@ -310,13 +313,16 @@ public class UsageDataSettings implements UploadSettings, IUsageDataSettings {
 	 * @see org.zend.usagedata.internal.settings.IUsageDataSettings#getUserAgent()
 	 */
 	public String getUserAgent() {
-		return "Eclipse UDC/" + UsageDataActivator.getDefault().getBundle().getHeaders().get("Bundle-Version"); //$NON-NLS-1$ //$NON-NLS-2$
+		return "Zend UDC/" + UsageDataActivator.getDefault().getBundle().getHeaders().get("Bundle-Version"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	/* (non-Javadoc)
 	 * @see org.zend.usagedata.internal.settings.IUsageDataSettings#getUploadUrl()
 	 */
 	public String getUploadUrl() {
+		if (System.getProperties().containsKey(UPLOAD_URL_KEY)) {
+			return System.getProperty(UPLOAD_URL_KEY);
+		}
 		return UPLOAD_URL_DEFAULT;
 	}
 
