@@ -6,6 +6,9 @@
       <monitor
             class="org.zend.usagedata.internal.monitors.ViewsUsageMonitor">
       </monitor>
+      <monitor
+            class="org.zend.usagedata.internal.monitors.FormattingUsageMonitor">
+      </monitor>
    </extension>
 
 </plugin>
