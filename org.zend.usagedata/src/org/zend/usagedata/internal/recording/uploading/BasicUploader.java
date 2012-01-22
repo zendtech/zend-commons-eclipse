@@ -78,6 +78,8 @@ public class BasicUploader extends AbstractUploader {
 
 	private static final String USER_AGENT = "User-Agent"; //$NON-NLS-1$
 	
+	private static final String CONTENT_LENGTH = "Content-Length"; //$NON-NLS-1$
+
 	private boolean uploadInProgress = false;
 
 	private ListenerList responseListeners = new ListenerList();
@@ -214,7 +216,8 @@ public class BasicUploader extends AbstractUploader {
 			post.setRequestHeader("LOGGING", "true"); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		post.setRequestEntity(new MultipartRequestEntity(getFileParts(monitor), post.getParams()));
-		
+		post.setRequestHeader(CONTENT_LENGTH,
+				String.valueOf(post.getRequestEntity().getContentLength()));
 		// Configure the HttpClient to timeout after one minute.
 		HttpClientParams httpParameters = new HttpClientParams();
 		httpParameters.setSoTimeout(getSocketTimeout()); // "So" means "socket"; who knew?
@@ -375,18 +378,6 @@ public class BasicUploader extends AbstractUploader {
 			}
 		}
 		
-		/**
-		 * Return the length (size in bytes) of the data we're sending.
-		 * Since we're going to be (potentially) applying filters to the
-		 * data, we don't really know the size so return -1. We could
-		 * compute the size, but that would require either passing twice
-		 * over the file, or keeping the content in memory; both options
-		 * have limited appeal.
-		 */
-		@Override
-		public long length() throws IOException {
-			return -1;
-		}
 	}
 
 	public synchronized boolean isUploadInProgress() {
