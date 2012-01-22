@@ -45,6 +45,8 @@ import org.zend.usagedata.monitors.Activator;
  */
 public class ViewsUsageMonitor implements IUsageMonitor {
 
+	public static final String MONITOR_ID = "org.zend.viewsUsageMonitor"; //$NON-NLS-1$
+
 	private static final String PERSPECTIVES_FILE = "perspectives"; //$NON-NLS-1$
 	private static final String ACTIVATED = "activated"; //$NON-NLS-1$
 	private static final String VIEW = "view"; //$NON-NLS-1$
@@ -131,7 +133,7 @@ public class ViewsUsageMonitor implements IUsageMonitor {
 			IPerspectiveDescriptor perspective = site.getPage()
 					.getPerspective();
 			if (perspectives.contains(perspective.getId())) {
-				usageDataService.recordEvent(event, VIEW, site.getId(),
+				usageDataService.recordEvent(MONITOR_ID, event, VIEW, site.getId(),
 						perspective.getId());
 			}
 		}
