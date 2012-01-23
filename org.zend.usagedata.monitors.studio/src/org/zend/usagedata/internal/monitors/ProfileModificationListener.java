@@ -18,13 +18,15 @@ import com.zend.php.customization.IProfileModificationListener;
 
 /**
  * Implementation of {@link IProfileModificationListener}. It listens on profile
- * modifications and record those events using usage reporitng mechanism.
+ * modifications and record those events using usage reporting mechanism.
  * 
  * @author Wojciech Galanciak, 2012
  * 
  */
 public class ProfileModificationListener implements
 		IProfileModificationListener {
+
+	private static final String SEPARATOR = ";"; //$NON-NLS-1$
 
 	public ProfileModificationListener() {
 	}
@@ -41,7 +43,7 @@ public class ProfileModificationListener implements
 			IStatus status) {
 		if (FeatureUsageMonitor.isMonitoring()) {
 			String message = status.getSeverity() != IStatus.OK ? status
-					.getMessage() : "";
+					.getMessage() : ""; //$NON-NLS-1$
 			FeatureUsageMonitor.recordEvent(FeatureUsageMonitor.MONTIOR_ID,
 					getString(added), getString(removed),
 					String.valueOf(status.getSeverity()), message);
@@ -52,9 +54,9 @@ public class ProfileModificationListener implements
 		StringBuilder builder = new StringBuilder();
 		for (String id : added) {
 			builder.append(id);
-			builder.append(";");
+			builder.append(SEPARATOR);
 		}
-		return added.size() > 0 ? builder.toString() : "";
+		return added.size() > 0 ? builder.toString() : ""; //$NON-NLS-1$
 	}
 
 }
