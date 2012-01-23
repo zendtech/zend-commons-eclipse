@@ -42,6 +42,7 @@ import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.swt.widgets.Widget;
 import org.eclipse.ui.PlatformUI;
+import org.zend.usagedata.UsageDataActivator;
 import org.zend.usagedata.ui.internal.Messages;
 import org.zend.usagedata.ui.internal.UIUsageDataActivator;
 import org.zend.usagedata.ui.internal.wizards.UploadWizard;
@@ -371,6 +372,10 @@ public class CalloutWindow {
 									public void run() {
 										returnCode = CalloutWindow.OK;
 										doNotDisplay = true;
+										UsageDataActivator
+												.getDefault()
+												.getSettings()
+												.setUserAcceptedTermsOfUse(true);
 										close();
 									}
 								});
