@@ -47,7 +47,7 @@ public class ToolbarUsageMonitor implements IUsageMonitor {
 	private SelectionAdapter listener = new SelectionAdapter() {
 		@Override
 		public void widgetSelected(final SelectionEvent e) {
-			if (e.display.isDisposed() || e.display == null) {
+			if (e.display == null || e.display.isDisposed()) {
 				return;
 			}
 			e.display.asyncExec(new Runnable() {
