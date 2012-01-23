@@ -106,14 +106,19 @@ public class ToolbarUsageMonitor implements IUsageMonitor {
 		}
 	}
 
-	private void removeButtonsListener(CoolBar coolBar2) {
+	private void removeButtonsListener(CoolBar coolBar) {
+		if (coolBar == null || coolBar.isDisposed()) {
+			return;
+		}
 		CoolItem[] items = coolBar.getItems();
 		for (CoolItem coolItem : items) {
 			if (coolItem.getControl() instanceof ToolBar) {
 				ToolBar bar = (ToolBar) coolItem.getControl();
 				ToolItem[] toolItems = bar.getItems();
 				for (ToolItem toolItem : toolItems) {
-					toolItem.removeSelectionListener(listener);
+					if (coolBar != null && !coolBar.isDisposed()) {
+						toolItem.removeSelectionListener(listener);
+					}
 				}
 			}
 		}
