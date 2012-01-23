@@ -47,6 +47,9 @@ public class ToolbarUsageMonitor implements IUsageMonitor {
 	private SelectionAdapter listener = new SelectionAdapter() {
 		@Override
 		public void widgetSelected(final SelectionEvent e) {
+			if (e.display.isDisposed() || e.display == null) {
+				return;
+			}
 			e.display.asyncExec(new Runnable() {
 
 				@Override
@@ -131,8 +134,12 @@ public class ToolbarUsageMonitor implements IUsageMonitor {
 			}
 		}
 		for (Control control : children) {
-			if (control instanceof Composite)
-				return (getFirstCoolBar(((Composite) control).getChildren()));
+			if (control instanceof Composite) {
+				Control[] c = ((Composite) control).getChildren();
+				if (c != null) {
+					return getFirstCoolBar(c);
+				}
+			}
 		}
 		return null;
 	}
