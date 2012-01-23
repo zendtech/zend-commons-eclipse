@@ -6,6 +6,9 @@
       <monitor
             class="org.zend.usagedata.internal.monitors.FeatureUsageMonitor">
       </monitor>
+      <monitor
+            class="org.zend.usagedata.internal.monitors.FormattingUsageMonitor">
+      </monitor>
    </extension>
    <extension
          point="com.zend.php.customization.profileModificationListeners">

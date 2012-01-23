@@ -1,3 +1,4 @@
+package org.zend.usagedata.internal.monitors;
 /*******************************************************************************
  * Copyright (c) 2012 Zend Technologies Ltd.
  * All rights reserved. This program and the accompanying materials
@@ -8,7 +9,7 @@
  * Contributors:
  *    Zend Technologies Ltd. - initial API and implementation
  *******************************************************************************/
-package org.zend.usagedata.internal.monitors;
+
 
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences.IPreferenceChangeListener;
@@ -39,6 +40,8 @@ public class FormattingUsageMonitor implements IUsageMonitor {
 
 	private IUsageDataService usageDataService;
 
+	private IEclipsePreferences node;
+
 	private IPreferenceChangeListener listener = new IPreferenceChangeListener() {
 
 		@Override
@@ -54,8 +57,6 @@ public class FormattingUsageMonitor implements IUsageMonitor {
 		}
 
 	};
-
-	private IEclipsePreferences node;
 
 	/*
 	 * (non-Javadoc)
