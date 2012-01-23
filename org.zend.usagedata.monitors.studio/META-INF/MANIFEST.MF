@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Studio Monitors
+Bundle-SymbolicName: org.zend.usagedata.monitors.studio;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: Zend Technologies Ltd.
+Fragment-Host: org.zend.usagedata.monitors;bundle-version="1.0.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Require-Bundle: com.zend.php.customization;bundle-version="9.0.2"
