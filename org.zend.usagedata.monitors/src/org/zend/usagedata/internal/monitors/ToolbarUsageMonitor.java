@@ -32,9 +32,8 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPartReference;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
-import org.zend.usagedata.gathering.IUsageDataService;
-import org.zend.usagedata.gathering.IUsageMonitor;
-import org.zend.usagedata.internal.MonitorUtils;
+import org.zend.usagedata.monitors.AbstractMonitor;
+import org.zend.usagedata.monitors.MonitorUtils;
 
 /**
  * Instances of the {@link FormattingUsageMonitor} class monitor main window
@@ -47,7 +46,7 @@ import org.zend.usagedata.internal.MonitorUtils;
  * @author Wojciech Galanciak, 2012
  * 
  */
-public class ToolbarUsageMonitor implements IUsageMonitor {
+public class ToolbarUsageMonitor extends AbstractMonitor {
 
 	private static final String PERSPECTIVES_FILE = "config" + File.separator + "toolbar.perspectives"; //$NON-NLS-1$ //$NON-NLS-2$
 
@@ -55,7 +54,6 @@ public class ToolbarUsageMonitor implements IUsageMonitor {
 
 	public static final String MONITOR_ID = "org.zend.toolbarUsageMonitor"; //$NON-NLS-1$
 
-	private IUsageDataService usageDataService;
 	private List<String> perspectives;
 
 	private SelectionAdapter listener = new SelectionAdapter() {
@@ -76,9 +74,8 @@ public class ToolbarUsageMonitor implements IUsageMonitor {
 							ActionContributionItem actionContribution = (ActionContributionItem) data;
 							actionId = actionContribution.getId();
 						}
-						usageDataService.recordEvent(MONITOR_ID,
-								item.getToolTipText(), actionId,
-								"SWT.Selection"); //$NON-NLS-1$
+						recordEvent(MONITOR_ID, item.getToolTipText(),
+								actionId, "SWT.Selection"); //$NON-NLS-1$
 					}
 				}
 			});
@@ -158,12 +155,9 @@ public class ToolbarUsageMonitor implements IUsageMonitor {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.epp.usagedata.internal.gathering.UsageMonitor#register(org
-	 * .eclipse.epp.usagedata.internal.gathering.UsageDataService)
+	 * @see org.zend.usagedata.monitors.AbstractMonitor#doStartMonitoring()
 	 */
-	public void startMonitoring(IUsageDataService usageDataService) {
-		this.usageDataService = usageDataService;
+	protected void doStartMonitoring() {
 		IWorkbench workbench = PlatformUI.getWorkbench();
 		perspectives = MonitorUtils.getValues(PERSPECTIVES_FILE);
 		hookListeners(workbench);
@@ -172,10 +166,9 @@ public class ToolbarUsageMonitor implements IUsageMonitor {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.epp.usagedata.internal.gathering.UsageMonitor#deregister()
+	 * @see org.zend.usagedata.monitors.AbstractMonitor#doStopMonitoring()
 	 */
-	public void stopMonitoring() {
+	protected void doStopMonitoring() {
 		IWorkbench workbench = PlatformUI.getWorkbench();
 		unhookListeners(workbench);
 	}

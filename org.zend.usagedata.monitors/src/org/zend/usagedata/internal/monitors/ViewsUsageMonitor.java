@@ -23,9 +23,8 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchPartSite;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
-import org.zend.usagedata.gathering.IUsageDataService;
-import org.zend.usagedata.gathering.IUsageMonitor;
-import org.zend.usagedata.internal.MonitorUtils;
+import org.zend.usagedata.monitors.AbstractMonitor;
+import org.zend.usagedata.monitors.MonitorUtils;
 
 /**
  * Instances of the {@link ViewsUsageMonitor} class monitor the use of views in
@@ -40,7 +39,7 @@ import org.zend.usagedata.internal.MonitorUtils;
  * @author Wojciech Galanciak, 2011
  * 
  */
-public class ViewsUsageMonitor implements IUsageMonitor {
+public class ViewsUsageMonitor extends AbstractMonitor {
 
 	public static final String MONITOR_ID = "org.zend.viewsUsageMonitor"; //$NON-NLS-1$
 
@@ -49,7 +48,6 @@ public class ViewsUsageMonitor implements IUsageMonitor {
 	private static final String VIEW = "view"; //$NON-NLS-1$
 
 	private List<String> perspectives;
-	private IUsageDataService usageDataService;
 
 	private IPartListener partListener = new IPartListener() {
 		public void partActivated(IWorkbenchPart part) {
@@ -91,12 +89,9 @@ public class ViewsUsageMonitor implements IUsageMonitor {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.epp.usagedata.internal.gathering.UsageMonitor#register(org
-	 * .eclipse.epp.usagedata.internal.gathering.UsageDataService)
+	 * @see org.zend.usagedata.monitors.AbstractMonitor#doStartMonitoring()
 	 */
-	public void startMonitoring(IUsageDataService usageDataService) {
-		this.usageDataService = usageDataService;
+	protected void doStartMonitoring() {
 		IWorkbench workbench = PlatformUI.getWorkbench();
 		perspectives = MonitorUtils.getValues(PERSPECTIVES_FILE);
 		if (perspectives != null && perspectives.size() > 0) {
@@ -107,10 +102,9 @@ public class ViewsUsageMonitor implements IUsageMonitor {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.epp.usagedata.internal.gathering.UsageMonitor#deregister()
+	 * @see org.zend.usagedata.monitors.AbstractMonitor#doStopMonitoring()
 	 */
-	public void stopMonitoring() {
+	protected void doStopMonitoring() {
 		if (perspectives != null && perspectives.size() > 0) {
 			IWorkbench workbench = PlatformUI.getWorkbench();
 			unhookListeners(workbench);
@@ -158,8 +152,8 @@ public class ViewsUsageMonitor implements IUsageMonitor {
 			IPerspectiveDescriptor perspective = site.getPage()
 					.getPerspective();
 			if (perspectives.contains(perspective.getId())) {
-				usageDataService.recordEvent(MONITOR_ID, event, VIEW,
-						site.getId(), perspective.getId());
+				recordEvent(MONITOR_ID, event, VIEW, site.getId(),
+						perspective.getId());
 			}
 		}
 	}
