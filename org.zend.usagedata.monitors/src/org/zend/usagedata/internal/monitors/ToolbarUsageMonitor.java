@@ -10,6 +10,9 @@
  *******************************************************************************/
 package org.zend.usagedata.internal.monitors;
 
+import java.io.File;
+import java.util.List;
+
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -31,6 +34,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.zend.usagedata.gathering.IUsageDataService;
 import org.zend.usagedata.gathering.IUsageMonitor;
+import org.zend.usagedata.internal.MonitorUtils;
 
 /**
  * Instances of the {@link FormattingUsageMonitor} class monitor main window
@@ -45,11 +49,14 @@ import org.zend.usagedata.gathering.IUsageMonitor;
  */
 public class ToolbarUsageMonitor implements IUsageMonitor {
 
+	private static final String PERSPECTIVES_FILE = "config" + File.separator + "toolbar.perspectives"; //$NON-NLS-1$ //$NON-NLS-2$
+
 	private static final String EMPTY_ACTION = "EMPTY_ACTION"; //$NON-NLS-1$
 
 	public static final String MONITOR_ID = "org.zend.toolbarUsageMonitor"; //$NON-NLS-1$
 
 	private IUsageDataService usageDataService;
+	private List<String> perspectives;
 
 	private SelectionAdapter listener = new SelectionAdapter() {
 		@Override
@@ -158,6 +165,7 @@ public class ToolbarUsageMonitor implements IUsageMonitor {
 	public void startMonitoring(IUsageDataService usageDataService) {
 		this.usageDataService = usageDataService;
 		IWorkbench workbench = PlatformUI.getWorkbench();
+		perspectives = MonitorUtils.getValues(PERSPECTIVES_FILE);
 		hookListeners(workbench);
 	}
 
@@ -176,7 +184,10 @@ public class ToolbarUsageMonitor implements IUsageMonitor {
 		workbench.addWindowListener(windowListener);
 		for (IWorkbenchWindow window : workbench.getWorkbenchWindows()) {
 			window.addPerspectiveListener(perspectiveListener);
-			hookListener(window);
+			if (perspectives.contains(window.getActivePage().getPerspective()
+					.getId())) {
+				hookListener(window);
+			}
 		}
 	}
 
@@ -189,15 +200,29 @@ public class ToolbarUsageMonitor implements IUsageMonitor {
 	}
 
 	private void hookListener(IWorkbenchWindow window) {
-		Shell shell = window.getShell();
-		CoolBar coolBar = getFirstCoolBar(shell.getChildren());
-		addButtonsListener(coolBar);
+		if (perspectives.contains(window.getActivePage().getPerspective()
+				.getId())) {
+			Shell shell = window.getShell();
+			CoolBar coolBar = getFirstCoolBar(shell.getChildren());
+			addButtonsListener(coolBar);
+		}
 	}
 
 	private void unhookListener(IWorkbenchWindow window) {
-		Shell shell = window.getShell();
-		CoolBar coolBar = getFirstCoolBar(shell.getChildren());
-		removeButtonsListener(coolBar);
+		if (window != null) {
+			IWorkbenchPage page = window.getActivePage();
+			if (page != null) {
+				IPerspectiveDescriptor perspective = page.getPerspective();
+				if (perspective != null) {
+					if (perspectives.contains(window.getActivePage()
+							.getPerspective().getId())) {
+						Shell shell = window.getShell();
+						CoolBar coolBar = getFirstCoolBar(shell.getChildren());
+						removeButtonsListener(coolBar);
+					}
+				}
+			}
+		}
 	}
 
 	private void addButtonsListener(CoolBar coolBar) {

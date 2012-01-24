@@ -10,11 +10,7 @@
  *******************************************************************************/
 package org.zend.usagedata.internal.monitors;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
+import java.io.File;
 import java.util.List;
 
 import org.eclipse.ui.IPartListener;
@@ -29,7 +25,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.zend.usagedata.gathering.IUsageDataService;
 import org.zend.usagedata.gathering.IUsageMonitor;
-import org.zend.usagedata.monitors.Activator;
+import org.zend.usagedata.internal.MonitorUtils;
 
 /**
  * Instances of the {@link ViewsUsageMonitor} class monitor the use of views in
@@ -48,7 +44,7 @@ public class ViewsUsageMonitor implements IUsageMonitor {
 
 	public static final String MONITOR_ID = "org.zend.viewsUsageMonitor"; //$NON-NLS-1$
 
-	private static final String PERSPECTIVES_FILE = "perspectives"; //$NON-NLS-1$
+	private static final String PERSPECTIVES_FILE = "config" + File.separator + "views.perspectives"; //$NON-NLS-1$ //$NON-NLS-2$
 	private static final String ACTIVATED = "activated"; //$NON-NLS-1$
 	private static final String VIEW = "view"; //$NON-NLS-1$
 
@@ -102,7 +98,7 @@ public class ViewsUsageMonitor implements IUsageMonitor {
 	public void startMonitoring(IUsageDataService usageDataService) {
 		this.usageDataService = usageDataService;
 		IWorkbench workbench = PlatformUI.getWorkbench();
-		perspectives = getPerspectives();
+		perspectives = MonitorUtils.getValues(PERSPECTIVES_FILE);
 		if (perspectives != null && perspectives.size() > 0) {
 			hookListeners(workbench);
 		}
@@ -162,30 +158,10 @@ public class ViewsUsageMonitor implements IUsageMonitor {
 			IPerspectiveDescriptor perspective = site.getPage()
 					.getPerspective();
 			if (perspectives.contains(perspective.getId())) {
-				usageDataService.recordEvent(MONITOR_ID, event, VIEW, site.getId(),
-						perspective.getId());
+				usageDataService.recordEvent(MONITOR_ID, event, VIEW,
+						site.getId(), perspective.getId());
 			}
 		}
-	}
-
-	private List<String> getPerspectives() {
-		List<String> result = new ArrayList<String>();
-		InputStream stream = Activator.getDefault()
-				.getStream(PERSPECTIVES_FILE);
-		if (stream != null) {
-			BufferedReader reader = new BufferedReader(new InputStreamReader(
-					stream));
-			String line = null;
-			try {
-				while ((line = reader.readLine()) != null) {
-					result.add(line.trim());
-				}
-			} catch (IOException e) {
-				Activator.log(e);
-				return null;
-			}
-		}
-		return result;
 	}
 
 }
