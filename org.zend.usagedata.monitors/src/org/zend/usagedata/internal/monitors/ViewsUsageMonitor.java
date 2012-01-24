@@ -20,6 +20,7 @@ import java.util.List;
 import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.IPerspectiveDescriptor;
 import org.eclipse.ui.IViewSite;
+import org.eclipse.ui.IWindowListener;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
@@ -72,6 +73,24 @@ public class ViewsUsageMonitor implements IUsageMonitor {
 		}
 	};
 
+	private IWindowListener windowListener = new IWindowListener() {
+		public void windowOpened(IWorkbenchWindow window) {
+			hookListener(window);
+		}
+
+		public void windowClosed(IWorkbenchWindow window) {
+			unhookListener(window);
+		}
+
+		@Override
+		public void windowActivated(IWorkbenchWindow window) {
+		}
+
+		@Override
+		public void windowDeactivated(IWorkbenchWindow window) {
+		}
+
+	};
 
 	/*
 	 * (non-Javadoc)
@@ -103,13 +122,9 @@ public class ViewsUsageMonitor implements IUsageMonitor {
 	}
 
 	private void hookListeners(final IWorkbench workbench) {
+		workbench.addWindowListener(windowListener);
 		for (IWorkbenchWindow window : workbench.getWorkbenchWindows()) {
-			if (window == null) {
-				return;
-			}
-			for (IWorkbenchPage page : window.getPages()) {
-				page.addPartListener(partListener);
-			}
+			hookListener(window);
 		}
 	}
 
@@ -117,13 +132,27 @@ public class ViewsUsageMonitor implements IUsageMonitor {
 		if (workbench.getDisplay().isDisposed()) {
 			return;
 		}
+		workbench.removeWindowListener(windowListener);
 		for (IWorkbenchWindow window : workbench.getWorkbenchWindows()) {
-			if (window == null) {
-				return;
-			}
-			for (IWorkbenchPage page : window.getPages()) {
-				page.removePartListener(partListener);
-			}
+			unhookListener(window);
+		}
+	}
+
+	private void hookListener(IWorkbenchWindow window) {
+		if (window == null) {
+			return;
+		}
+		for (IWorkbenchPage page : window.getPages()) {
+			page.addPartListener(partListener);
+		}
+	}
+
+	private void unhookListener(IWorkbenchWindow window) {
+		if (window == null) {
+			return;
+		}
+		for (IWorkbenchPage page : window.getPages()) {
+			page.removePartListener(partListener);
 		}
 	}
 
