@@ -11,6 +11,7 @@
 package org.zend.usagedata.internal.monitors;
 
 import org.eclipse.jface.action.ActionContributionItem;
+import org.eclipse.jface.action.Separator;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Composite;
@@ -20,6 +21,13 @@ import org.eclipse.swt.widgets.CoolItem;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
+import org.eclipse.ui.IPerspectiveDescriptor;
+import org.eclipse.ui.IPerspectiveListener3;
+import org.eclipse.ui.IWindowListener;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchPartReference;
+import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.zend.usagedata.gathering.IUsageDataService;
 import org.zend.usagedata.gathering.IUsageMonitor;
@@ -42,7 +50,6 @@ public class ToolbarUsageMonitor implements IUsageMonitor {
 	public static final String MONITOR_ID = "org.zend.toolbarUsageMonitor"; //$NON-NLS-1$
 
 	private IUsageDataService usageDataService;
-	private CoolBar coolBar;
 
 	private SelectionAdapter listener = new SelectionAdapter() {
 		@Override
@@ -71,6 +78,76 @@ public class ToolbarUsageMonitor implements IUsageMonitor {
 		}
 	};
 
+	private IWindowListener windowListener = new IWindowListener() {
+		public void windowOpened(IWorkbenchWindow window) {
+			window.addPerspectiveListener(perspectiveListener);
+			hookListener(window);
+		}
+
+		public void windowClosed(IWorkbenchWindow window) {
+			window.removePerspectiveListener(perspectiveListener);
+			unhookListener(window);
+		}
+
+		@Override
+		public void windowActivated(IWorkbenchWindow window) {
+		}
+
+		@Override
+		public void windowDeactivated(IWorkbenchWindow window) {
+		}
+
+	};
+
+	private IPerspectiveListener3 perspectiveListener = new IPerspectiveListener3() {
+
+		@Override
+		public void perspectiveChanged(IWorkbenchPage page,
+				IPerspectiveDescriptor perspective, String changeId) {
+		}
+
+		@Override
+		public void perspectiveActivated(final IWorkbenchPage page,
+				IPerspectiveDescriptor perspective) {
+			page.getWorkbenchWindow().getShell().getDisplay()
+					.asyncExec(new Runnable() {
+
+						@Override
+						public void run() {
+							hookListener(page.getWorkbenchWindow());
+						}
+					});
+		}
+
+		@Override
+		public void perspectiveChanged(IWorkbenchPage page,
+				IPerspectiveDescriptor perspective,
+				IWorkbenchPartReference partRef, String changeId) {
+		}
+
+		@Override
+		public void perspectiveSavedAs(IWorkbenchPage page,
+				IPerspectiveDescriptor oldPerspective,
+				IPerspectiveDescriptor newPerspective) {
+		}
+
+		@Override
+		public void perspectiveOpened(IWorkbenchPage page,
+				IPerspectiveDescriptor perspective) {
+		}
+
+		@Override
+		public void perspectiveDeactivated(IWorkbenchPage page,
+				IPerspectiveDescriptor perspective) {
+			unhookListener(page.getWorkbenchWindow());
+		}
+
+		@Override
+		public void perspectiveClosed(IWorkbenchPage page,
+				IPerspectiveDescriptor perspective) {
+		}
+	};
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -80,10 +157,8 @@ public class ToolbarUsageMonitor implements IUsageMonitor {
 	 */
 	public void startMonitoring(IUsageDataService usageDataService) {
 		this.usageDataService = usageDataService;
-		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
-				.getShell();
-		coolBar = getFirstCoolBar(shell.getChildren());
-		addButtonsListener(coolBar);
+		IWorkbench workbench = PlatformUI.getWorkbench();
+		hookListeners(workbench);
 	}
 
 	/*
@@ -93,6 +168,35 @@ public class ToolbarUsageMonitor implements IUsageMonitor {
 	 * org.eclipse.epp.usagedata.internal.gathering.UsageMonitor#deregister()
 	 */
 	public void stopMonitoring() {
+		IWorkbench workbench = PlatformUI.getWorkbench();
+		unhookListeners(workbench);
+	}
+
+	private void hookListeners(IWorkbench workbench) {
+		workbench.addWindowListener(windowListener);
+		for (IWorkbenchWindow window : workbench.getWorkbenchWindows()) {
+			window.addPerspectiveListener(perspectiveListener);
+			hookListener(window);
+		}
+	}
+
+	private void unhookListeners(IWorkbench workbench) {
+		workbench.removeWindowListener(windowListener);
+		for (IWorkbenchWindow window : workbench.getWorkbenchWindows()) {
+			window.removePerspectiveListener(perspectiveListener);
+			unhookListener(window);
+		}
+	}
+
+	private void hookListener(IWorkbenchWindow window) {
+		Shell shell = window.getShell();
+		CoolBar coolBar = getFirstCoolBar(shell.getChildren());
+		addButtonsListener(coolBar);
+	}
+
+	private void unhookListener(IWorkbenchWindow window) {
+		Shell shell = window.getShell();
+		CoolBar coolBar = getFirstCoolBar(shell.getChildren());
 		removeButtonsListener(coolBar);
 	}
 
@@ -103,6 +207,9 @@ public class ToolbarUsageMonitor implements IUsageMonitor {
 				ToolBar bar = (ToolBar) coolItem.getControl();
 				ToolItem[] toolItems = bar.getItems();
 				for (final ToolItem toolItem : toolItems) {
+					if (toolItem.getData() instanceof Separator) {
+						continue;
+					}
 					toolItem.addSelectionListener(listener);
 				}
 			}
@@ -120,6 +227,9 @@ public class ToolbarUsageMonitor implements IUsageMonitor {
 				ToolItem[] toolItems = bar.getItems();
 				for (ToolItem toolItem : toolItems) {
 					if (coolBar != null && !coolBar.isDisposed()) {
+						if (toolItem.getData() instanceof Separator) {
+							continue;
+						}
 						toolItem.removeSelectionListener(listener);
 					}
 				}
