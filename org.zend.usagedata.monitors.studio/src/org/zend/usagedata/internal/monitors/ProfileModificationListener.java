@@ -44,7 +44,8 @@ public class ProfileModificationListener implements
 		if (FeatureUsageMonitor.isMonitoring()) {
 			String message = status.getSeverity() != IStatus.OK ? status
 					.getMessage() : ""; //$NON-NLS-1$
-			FeatureUsageMonitor.recordEvent(FeatureUsageMonitor.MONTIOR_ID,
+			FeatureUsageMonitor.recordFeatureEvent(
+					FeatureUsageMonitor.MONTIOR_ID,
 					getString(added), getString(removed),
 					String.valueOf(status.getSeverity()), message);
 		}

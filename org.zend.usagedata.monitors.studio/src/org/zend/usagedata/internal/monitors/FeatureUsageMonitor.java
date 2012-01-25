@@ -11,8 +11,7 @@
 package org.zend.usagedata.internal.monitors;
 
 import org.eclipse.core.runtime.IStatus;
-import org.zend.usagedata.gathering.IUsageDataService;
-import org.zend.usagedata.gathering.IUsageMonitor;
+import org.zend.usagedata.monitors.AbstractMonitor;
 
 /**
  * Instances of the {@link FeatureUsageMonitor} class monitor features
@@ -22,11 +21,11 @@ import org.zend.usagedata.gathering.IUsageMonitor;
  * @author Wojciech Galanciak, 2012
  * 
  */
-public class FeatureUsageMonitor implements IUsageMonitor {
+public class FeatureUsageMonitor extends AbstractMonitor {
 
 	public static final String MONTIOR_ID = "org.zend.featuresUsageMonitor"; //$NON-NLS-1$
 
-	private static IUsageDataService usageDataService;
+	private static AbstractMonitor monitor;
 
 	public FeatureUsageMonitor() {
 	}
@@ -34,23 +33,21 @@ public class FeatureUsageMonitor implements IUsageMonitor {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.zend.usagedata.gathering.IUsageMonitor#startMonitoring(org.zend.usagedata
-	 * .gathering.IUsageDataService)
+	 * @see org.zend.usagedata.monitors.AbstractMonitor#doStartMonitoring()
 	 */
 	@Override
-	public void startMonitoring(IUsageDataService usageDataService) {
-		FeatureUsageMonitor.usageDataService = usageDataService;
+	public void doStartMonitoring() {
+		FeatureUsageMonitor.monitor = this;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.zend.usagedata.gathering.IUsageMonitor#stopMonitoring()
+	 * @see org.zend.usagedata.monitors.AbstractMonitor#doStopMonitoring()
 	 */
 	@Override
-	public void stopMonitoring() {
-		usageDataService = null;
+	protected void doStopMonitoring() {
+		FeatureUsageMonitor.monitor = null;
 	}
 
 	/**
@@ -68,12 +65,9 @@ public class FeatureUsageMonitor implements IUsageMonitor {
 	 *            - status message, empty if status severity is
 	 *            {@link IStatus#OK}
 	 */
-	static void recordEvent(String monitorId, String added, String removed,
-			String status, String statusMessage) {
-		if (isMonitoring()) {
-			usageDataService.recordEvent(monitorId, added, removed, status,
-					statusMessage);
-		}
+	static void recordFeatureEvent(String monitorId, String added,
+			String removed, String status, String statusMessage) {
+		monitor.recordEvent(monitorId, added, removed, status, statusMessage);
 	}
 
 	/**
@@ -81,7 +75,7 @@ public class FeatureUsageMonitor implements IUsageMonitor {
 	 *         return <code>false</code>
 	 */
 	static boolean isMonitoring() {
-		return usageDataService != null ? true : false;
+		return monitor != null ? true : false;
 	}
 
 }

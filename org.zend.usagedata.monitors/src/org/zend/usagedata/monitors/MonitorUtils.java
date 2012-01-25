@@ -17,7 +17,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * Utility class for monitors.
  * 
@@ -51,6 +50,16 @@ public class MonitorUtils {
 			}
 		}
 		return result;
+	}
+
+	/**
+	 * Replace each ',' in given input string.
+	 * 
+	 * @param input
+	 * @return input string without commas
+	 */
+	public static String replaceCommas(String input) {
+		return input.replace(",", "|"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 }
