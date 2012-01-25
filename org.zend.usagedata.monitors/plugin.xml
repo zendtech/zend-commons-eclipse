@@ -9,6 +9,9 @@
       <monitor
             class="org.zend.usagedata.internal.monitors.ToolbarUsageMonitor">
       </monitor>
+      <monitor
+            class="org.zend.usagedata.internal.monitors.ContentAssistMonitor">
+      </monitor>
    </extension>
 
 </plugin>
