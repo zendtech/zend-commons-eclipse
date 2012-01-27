@@ -18,6 +18,10 @@ import org.eclipse.jface.text.source.ContentAssistantFacade;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.php.internal.ui.editor.PHPStructuredEditor;
 import org.eclipse.php.internal.ui.editor.PHPStructuredTextViewer;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IPageListener;
 import org.eclipse.ui.IPartListener;
@@ -47,6 +51,53 @@ import org.zend.usagedata.monitors.MonitorUtils;
 public class ContentAssistMonitor extends AbstractMonitor {
 
 	public static final String MONITOR_ID = "org.zend.contentAssistMonitor"; //$NON-NLS-1$
+
+	private class ContentAssistMouseListener implements Listener {
+
+		private boolean selected = false;
+
+		@Override
+		public void handleEvent(Event event) {
+			selected = true;
+		}
+	};
+
+	private class ContentAssistKeyListener implements Listener {
+
+		private boolean cancelled = true;
+
+		@Override
+		public void handleEvent(Event e) {
+			char key = e.character;
+			if (key == 0) {
+				switch (e.keyCode) {
+				case SWT.ARROW_LEFT:
+				case SWT.ARROW_RIGHT:
+				case SWT.ARROW_UP:
+				case SWT.ARROW_DOWN:
+				case SWT.PAGE_DOWN:
+				case SWT.PAGE_UP:
+				case SWT.HOME:
+				case SWT.END:
+					break;
+				default:
+					if (e.keyCode != SWT.CAPS_LOCK && e.keyCode != SWT.MOD1
+							&& e.keyCode != SWT.MOD2 && e.keyCode != SWT.MOD3
+							&& e.keyCode != SWT.MOD4) {
+						cancelled = true;
+						return;
+					}
+				}
+			}
+			switch (key) {
+			case '\r':
+				cancelled = false;
+				break;
+			default:
+				cancelled = true;
+			}
+		}
+	};
 
 	private IPageListener pageListener = new IPageListener() {
 
@@ -108,6 +159,8 @@ public class ContentAssistMonitor extends AbstractMonitor {
 		private ICompletionProposal proposal;
 		private long startTime;
 		private long endTime;
+		private ContentAssistKeyListener keyListener = new ContentAssistKeyListener();
+		private ContentAssistMouseListener mouseListener = new ContentAssistMouseListener();
 
 		@Override
 		public void selectionChanged(ICompletionProposal proposal,
@@ -118,12 +171,15 @@ public class ContentAssistMonitor extends AbstractMonitor {
 		@Override
 		public void assistSessionStarted(ContentAssistEvent event) {
 			startTime = System.currentTimeMillis();
+			addFilter(SWT.KeyDown, keyListener);
+			addFilter(SWT.MouseDoubleClick, mouseListener);
 		}
 
 		@Override
 		public void assistSessionEnded(ContentAssistEvent event) {
 			endTime = System.currentTimeMillis();
-			if (proposal != null) {
+			if (proposal != null
+					&& (!keyListener.cancelled || mouseListener.selected)) {
 				recordEvent(
 						MONITOR_ID,
 						MonitorUtils.replaceCommas(proposal.getDisplayString()),
@@ -133,6 +189,10 @@ public class ContentAssistMonitor extends AbstractMonitor {
 				proposal = null;
 				startTime = endTime = 0;
 			}
+			keyListener.cancelled = true;
+			mouseListener.selected = false;
+			removeFilter(SWT.KeyDown, keyListener);
+			removeFilter(SWT.MouseDoubleClick, mouseListener);
 		}
 
 		private String getReplacementLength() {
@@ -142,6 +202,20 @@ public class ContentAssistMonitor extends AbstractMonitor {
 						.substring(0, p.getReplacementLength()));
 			}
 			return ""; //$NON-NLS-1$
+		}
+
+		private void addFilter(int eventType, Listener listener) {
+			Display display = Display.getCurrent();
+			if (display != null) {
+				display.addFilter(eventType, listener);
+			}
+		}
+
+		private void removeFilter(int eventType, Listener listener) {
+			Display display = Display.getCurrent();
+			if (display != null) {
+				display.removeFilter(eventType, listener);
+			}
 		}
 
 	};
