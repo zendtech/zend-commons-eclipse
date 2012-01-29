@@ -69,26 +69,6 @@ public class ContentAssistMonitor extends AbstractMonitor {
 		@Override
 		public void handleEvent(Event e) {
 			char key = e.character;
-			if (key == 0) {
-				switch (e.keyCode) {
-				case SWT.ARROW_LEFT:
-				case SWT.ARROW_RIGHT:
-				case SWT.ARROW_UP:
-				case SWT.ARROW_DOWN:
-				case SWT.PAGE_DOWN:
-				case SWT.PAGE_UP:
-				case SWT.HOME:
-				case SWT.END:
-					break;
-				default:
-					if (e.keyCode != SWT.CAPS_LOCK && e.keyCode != SWT.MOD1
-							&& e.keyCode != SWT.MOD2 && e.keyCode != SWT.MOD3
-							&& e.keyCode != SWT.MOD4) {
-						cancelled = true;
-						return;
-					}
-				}
-			}
 			switch (key) {
 			case '\r':
 				cancelled = false;
