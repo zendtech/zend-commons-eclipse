@@ -61,7 +61,7 @@ public abstract class AbstractMonitor implements IUsageMonitor {
 	 * @param arg4
 	 *            - custom argument
 	 */
-	public final void recordEvent(String monitorId, String arg1,
+	public void recordEvent(String monitorId, String arg1,
 			String arg2, String arg3, String arg4) {
 		if (usageDataService != null) {
 			usageDataService.recordEvent(monitorId, arg1, arg2, arg3, arg4);
@@ -80,7 +80,7 @@ public abstract class AbstractMonitor implements IUsageMonitor {
 	 * @param arg3
 	 *            - custom argument
 	 */
-	public final void recordEvent(String monitorId, String arg1,
+	public void recordEvent(String monitorId, String arg1,
 			String arg2, String arg3) {
 		recordEvent(monitorId, arg1, arg2, arg3, ""); //$NON-NLS-1$
 	}

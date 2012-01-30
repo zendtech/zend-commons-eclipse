@@ -12,6 +12,9 @@
       <monitor
             class="org.zend.usagedata.internal.monitors.ContentAssistMonitor">
       </monitor>
+      <monitor
+            class="org.zend.usagedata.internal.monitors.WizardUsageMonitor">
+      </monitor>
    </extension>
 
 </plugin>
