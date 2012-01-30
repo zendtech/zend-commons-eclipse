@@ -43,7 +43,7 @@ public class ViewsUsageMonitor extends AbstractMonitor {
 
 	public static final String MONITOR_ID = "org.zend.viewsUsageMonitor"; //$NON-NLS-1$
 
-	private static final String PERSPECTIVES_FILE = "config" + File.separator + "views.perspectives"; //$NON-NLS-1$ //$NON-NLS-2$
+	private static final String PERSPECTIVES_FILE = "config" + File.separator + "viewsUsageMonitor.config"; //$NON-NLS-1$ //$NON-NLS-2$
 	private static final String ACTIVATED = "activated"; //$NON-NLS-1$
 	private static final String VIEW = "view"; //$NON-NLS-1$
 

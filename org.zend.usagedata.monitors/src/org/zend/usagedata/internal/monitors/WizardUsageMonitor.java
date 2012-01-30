@@ -20,7 +20,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.zend.usagedata.internal.swt.EventListener;
 import org.zend.usagedata.internal.swt.EventMonitor;
-import org.zend.usagedata.internal.swt.IMonitor;
+import org.zend.usagedata.internal.swt.SWTUsageMonitor;
 import org.zend.usagedata.internal.swt.filters.ButtonFilter;
 import org.zend.usagedata.internal.swt.filters.ComboFilter;
 import org.zend.usagedata.internal.swt.filters.FormTextFilter;
@@ -31,7 +31,6 @@ import org.zend.usagedata.internal.swt.filters.MenuFilter;
 import org.zend.usagedata.internal.swt.filters.TableFilter;
 import org.zend.usagedata.internal.swt.filters.TextFilter;
 import org.zend.usagedata.internal.swt.filters.TreeFilter;
-import org.zend.usagedata.monitors.AbstractMonitor;
 import org.zend.usagedata.monitors.MonitorUtils;
 
 /**
@@ -41,13 +40,12 @@ import org.zend.usagedata.monitors.MonitorUtils;
  * @author Wojciech Galanciak, 2012
  * 
  */
-public class WizardUsageMonitor extends AbstractMonitor {
+public class WizardUsageMonitor extends SWTUsageMonitor {
 
 	public static final String MONITOR_ID = "org.zend.wizardUsageMonitor"; //$NON-NLS-1$
 
-	private static final String WIZARDS_FILE = "config" + File.separator + "wizards.titles"; //$NON-NLS-1$ //$NON-NLS-2$
+	private static final String WIZARDS_FILE = "config" + File.separator + "wizardUsageMonitor.config"; //$NON-NLS-1$ //$NON-NLS-2$
 
-	private IMonitor monitor;
 	private List<String> titles;
 
 	private IWindowListener windowListener = new IWindowListener() {
@@ -73,6 +71,15 @@ public class WizardUsageMonitor extends AbstractMonitor {
 		this.monitor = new EventMonitor();
 		initMonitor();
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.zend.usagedata.monitors.AbstractMonitor#getId()
+	 */
+	public String getId() {
+		return MONITOR_ID;
+	};
 
 	@Override
 	public void recordEvent(String monitorId, String kind, String description,
@@ -121,7 +128,8 @@ public class WizardUsageMonitor extends AbstractMonitor {
 		monitor.addFilter(new ListFilter(this, SWT.Selection));
 		monitor.addFilter(new ItemFilter(this, SWT.Selection));
 		monitor.addFilter(new TableFilter(this, SWT.Selection));
-		monitor.addFilter(new TextFilter(this, SWT.Selection, SWT.FocusOut));
+		monitor.addFilter(new TextFilter(this, SWT.Selection, SWT.Modify,
+				SWT.FocusOut));
 		monitor.addFilter(new TreeFilter(this, SWT.Selection, SWT.Expand));
 		monitor.addFilter(new MenuFilter(this, SWT.Selection, SWT.Show));
 		monitor.addFilter(new FormTextFilter(this, SWT.Selection));
