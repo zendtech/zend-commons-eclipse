@@ -23,12 +23,21 @@ import org.zend.usagedata.monitors.AbstractMonitor;
  */
 public class FeatureUsageMonitor extends AbstractMonitor {
 
-	public static final String MONTIOR_ID = "org.zend.featuresUsageMonitor"; //$NON-NLS-1$
+	public static final String MONITOR_ID = "org.zend.featuresUsageMonitor"; //$NON-NLS-1$
 
 	private static AbstractMonitor monitor;
 
 	public FeatureUsageMonitor() {
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.zend.usagedata.monitors.AbstractMonitor#getId()
+	 */
+	public String getId() {
+		return MONITOR_ID;
+	};
 
 	/*
 	 * (non-Javadoc)

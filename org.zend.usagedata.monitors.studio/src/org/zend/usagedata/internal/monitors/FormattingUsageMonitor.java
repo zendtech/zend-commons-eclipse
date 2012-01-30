@@ -58,6 +58,15 @@ public class FormattingUsageMonitor extends AbstractMonitor {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see org.zend.usagedata.monitors.AbstractMonitor#getId()
+	 */
+	public String getId() {
+		return MONITOR_ID;
+	};
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.zend.usagedata.monitors.AbstractMonitor#doStartMonitoring()
 	 */
 	protected void doStartMonitoring() {

@@ -86,6 +86,11 @@ public abstract class AbstractMonitor implements IUsageMonitor {
 	}
 
 	/**
+	 * @return monitor's id
+	 */
+	public abstract String getId();
+
+	/**
 	 * Perform additional actions in
 	 * {@link AbstractMonitor#startMonitoring(IUsageDataService)}.
 	 */
