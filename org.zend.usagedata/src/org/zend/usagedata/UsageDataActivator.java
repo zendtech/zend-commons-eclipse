@@ -58,6 +58,8 @@ public class UsageDataActivator extends AbstractUIPlugin implements IStartup {
 		uploadManager = new UploadManager();
 		settings = new UsageDataSettings();
 
+		settings.setStartTime(System.currentTimeMillis());
+
 		usageDataRecorder = new UsageDataRecorder();
 		usageDataRecorder.start();
 

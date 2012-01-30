@@ -63,21 +63,37 @@ public class UploadManager {
 	 * be found, or {@value #UPLOAD_STARTED_OK} if a new upload is started.
 	 * </p>
 	 * 
+	 * @param shouldUpload
+	 *            - <code>true</code> if data should be uploaded;
+	 *            <code>false</code> if only preUpload listeners should be
+	 *            called.
+	 * 
 	 * @return a status code.
 	 */
-	public int startUpload() {
+	public int startUpload(boolean shouldUpload) {
 		if (!getSettings().isEnabled()) return UPLOAD_DISABLED;
 		if (PlatformUI.getWorkbench().isClosing()) return WORKBENCH_IS_CLOSING;
 		
 		File[] usageDataUploadFiles;
 		synchronized (lock) {
-			if (uploader != null) return UPLOAD_IN_PROGRESS;
+			if (!shouldUpload) {
+				handlePreUploadListeners();
+				return UPLOAD_STARTED_OK;
+			}
+
+			if (uploader != null) {
+				return UPLOAD_IN_PROGRESS;
+			}
 			
 			usageDataUploadFiles = findUsageDataUploadFiles();
-			if (usageDataUploadFiles.length == 0) return NO_FILES_TO_UPLOAD;
-			
+			if (usageDataUploadFiles.length == 0) {
+				return NO_FILES_TO_UPLOAD;
+			}
+
 			uploader = getUploader();
-			if (uploader == null) return NO_UPLOADER;
+			if (uploader == null) {
+				return NO_UPLOADER;
+			}
 		}
 		
 		getSettings().setLastUploadTime();
@@ -85,7 +101,6 @@ public class UploadManager {
 		IUploadParameters uploadParameters = new UploadParameters();
 		uploadParameters.setSettings((UploadSettings) getSettings());
 		uploadParameters.setFiles(usageDataUploadFiles);
-		//request.setFilter(getSettings().getFilter());
 		
 		uploader.setUploadParameters(uploadParameters);
 		
@@ -100,7 +115,7 @@ public class UploadManager {
 			}
 		});
 		
-		if (handlePreUploadListeners()) {
+		if (handlePreUploadListeners() && shouldUpload) {
 			uploader.startUpload();
 		}
 		return UPLOAD_STARTED_OK;
@@ -116,7 +131,8 @@ public class UploadManager {
 							.createExecutableExtension("class"); //$NON-NLS-1$
 					if (listener instanceof IPreUploadListener) {
 						int result  = ((IPreUploadListener) listener).handleUpload(uploader);
-						if (result == IPreUploadListener.CANCEL) {
+						if (result == IPreUploadListener.CANCEL
+								&& uploader != null) {
 							uploader.fireUploadComplete(new UploadResult(
 									UploadResult.CANCELLED));
 							return false;

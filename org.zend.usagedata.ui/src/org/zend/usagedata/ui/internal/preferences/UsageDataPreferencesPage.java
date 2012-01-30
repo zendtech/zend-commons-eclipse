@@ -57,8 +57,17 @@ public class UsageDataPreferencesPage extends PreferencePage implements
 	 */
 	@Override
 	public boolean performOk() {
+		boolean oldValue = getPreferenceStore().getBoolean(
+				IUsageDataSettings.CAPTURE_ENABLED_KEY);
+		boolean newValue = captureEnabledCheckbox.getSelection();
+		if (!oldValue && newValue) {
+			getPreferenceStore().setValue(IUsageDataSettings.ASK_TO_UPLOAD_KEY,
+					false);
+			getPreferenceStore().setValue(
+					IUsageDataSettings.USER_ACCEPTED_TERMS_OF_USE_KEY, true);
+		}
 		getPreferenceStore().setValue(IUsageDataSettings.CAPTURE_ENABLED_KEY,
-				captureEnabledCheckbox.getSelection());
+				newValue);
 		return super.performOk();
 	}
 

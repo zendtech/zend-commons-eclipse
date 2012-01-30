@@ -26,7 +26,7 @@ import org.zend.usagedata.internal.recording.uploading.BasicUploader;
 import org.zend.usagedata.internal.recording.uploading.UploadManager;
 
 public class UsageDataRecorder implements UsageDataEventListener {
-	
+
 	/**
 	 * How many events do we queue up before we attempt to write them out to
 	 * disk?
@@ -41,8 +41,8 @@ public class UsageDataRecorder implements UsageDataEventListener {
 	private static final int EXCEPTION_THRESHOLD = 5;
 
 	/**
-	 * When the file holding upload data exceeds this number
-	 * of bytes, it is moved so that it can be uploaded.
+	 * When the file holding upload data exceeds this number of bytes, it is
+	 * moved so that it can be uploaded.
 	 */
 	private static final long FILE_SIZE_THRESHOLD = 25000;
 
@@ -67,44 +67,53 @@ public class UsageDataRecorder implements UsageDataEventListener {
 	private int exceptionCount = 0;
 
 	public void start() {
-		if (running) return;
-		events = new ArrayList<UsageDataEvent>(EVENT_COUNT_THRESHOLD);
-		running = true;
+		if (!running) {
+			events = new ArrayList<UsageDataEvent>(EVENT_COUNT_THRESHOLD);
+			running = true;
+		}
 	}
 
 	public synchronized void stop() {
-		if (!running) return;
-		running = false;
-		dumpEvents();
-		events = null;
+		if (running) {
+			running = false;
+			dumpEvents();
+			events = null;
+		}
 	}
-	
+
 	public synchronized void accept(UsageDataEvent event) {
-		if (event == null) return;
-		if (!canAcceptEvents()) return;
-		
-		if (!running) return;
+		if (event == null || !canAcceptEvents() || !running) {
+			return;
+		}
 		events.add(event);
-			
-		if (events.size() >= EVENT_COUNT_THRESHOLD) dumpEvents();
-		
+
+		if (events.size() >= EVENT_COUNT_THRESHOLD) {
+			dumpEvents();
+		}
 		uploadDataIfNecessary();
 	}
-	
+
 	protected void uploadDataIfNecessary() {
-		if (getSettings() == null) return;
-		if (!getSettings().isTimeToUpload())
+		if (getSettings() == null) {
 			return;
-		
+		}
 		UploadManager manager = getUploadManager();
-		if (manager == null) return;
-		manager.startUpload();
+		if (manager != null) {
+			if (getSettings().shouldAskBeforeUploading()) {
+				if (getSettings().isTimeToAsk()) {
+					manager.startUpload(getSettings().isTimeToUpload());
+				}
+			} else {
+				if (getSettings().isTimeToUpload()) {
+					manager.startUpload(true);
+				}
+			}
+		}
 	}
 
 	protected IUsageDataSettings getSettings() {
-		if (UsageDataActivator.getDefault() == null)
-			return null;
-		return UsageDataActivator.getDefault().getSettings();
+		return UsageDataActivator.getDefault() != null ? UsageDataActivator
+				.getDefault().getSettings() : null;
 	}
 
 	/**
@@ -112,20 +121,20 @@ public class UsageDataRecorder implements UsageDataEventListener {
 	 * the receiver for upload. Preparing the data involves first making sure
 	 * that all the events that we've recorded up to this point are properly
 	 * recorded. Then, the file that we've been writing events to is renamed so
-	 * that it can be found by the {@link BasicUploader}. When the next
-	 * event comes in, a new file will be created.
+	 * that it can be found by the {@link BasicUploader}. When the next event
+	 * comes in, a new file will be created.
 	 */
 	private synchronized void prepareForUpload() {
-		if (getSettings() == null) return;
+		if (getSettings() == null) {
+			return;
+		}
 		File file = getSettings().getEventFile();
-		
-		// If the file does not exist, then something bad has happened. Just return.
-		if (!file.exists()) return;
-		
-		if (file.length() < FILE_SIZE_THRESHOLD) return;
-		
+		// If the file does not exist, then something bad has happened. Just
+		// return.
+		if (!file.exists() || file.length() < FILE_SIZE_THRESHOLD) {
+			return;
+		}
 		File destination = getSettings().computeDestinationFile();
-		
 		// TODO What if the rename fails?
 		file.renameTo(destination);
 	}
@@ -137,21 +146,21 @@ public class UsageDataRecorder implements UsageDataEventListener {
 	}
 
 	private boolean canAcceptEvents() {
-		if (events == null) return false;
-		return true;
+		return events != null ? true : false;
 	}
 
 	protected synchronized void dumpEvents() {
 		prepareForUpload();
-		
+
 		Writer writer = null;
 		try {
 			writer = getWriter();
-			if (writer == null) return;
-			for (UsageDataEvent event : events) {
-				UsageDataRecorderUtils.writeEvent(writer, event);
+			if (writer != null) {
+				for (UsageDataEvent event : events) {
+					UsageDataRecorderUtils.writeEvent(writer, event);
+				}
+				events.clear();
 			}
-			events.clear();
 		} catch (IOException e) {
 			handleException(e, "Error writing events to file."); //$NON-NLS-1$
 		} finally {
@@ -170,11 +179,10 @@ public class UsageDataRecorder implements UsageDataEventListener {
 		}
 		UsageDataActivator.getDefault().log(IStatus.ERROR, e, message);
 	}
-	
 
 	private Writer getWriter() throws IOException {
-		if (getSettings() == null) return null;
-		return createEventWriter(getSettings().getEventFile());
+		return getSettings() != null ? createEventWriter(getSettings()
+				.getEventFile()) : null;
 	}
 
 	private Writer createEventWriter(File file) throws IOException {
@@ -184,16 +192,18 @@ public class UsageDataRecorder implements UsageDataEventListener {
 		file.createNewFile();
 		FileWriter writer = new FileWriter(file);
 		UsageDataRecorderUtils.writeHeader(writer);
-		
+
 		return writer;
 	}
-	
+
 	private void close(Writer writer) {
-		if (writer == null) return;
-		try {
-			writer.close();
-		} catch (IOException e) {
-			// TODO Handle exception
+		if (writer != null) {
+			try {
+				writer.close();
+			} catch (IOException e) {
+				UsageDataActivator.getDefault().log(IStatus.ERROR, e,
+						"Error during usage data uploading"); //$NON-NLS-1$
+			}
 		}
 	}
 }

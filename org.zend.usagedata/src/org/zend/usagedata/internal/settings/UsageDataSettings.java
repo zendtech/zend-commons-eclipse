@@ -44,10 +44,15 @@ public class UsageDataSettings implements UploadSettings, IUsageDataSettings {
 	// 5 days
 	static final int UPLOAD_PERIOD_DEFAULT = 5 * 24 * 60 * 60 * 1000;
 
+	// 5 minutes
+	static final int ASK_TIME = 5 * 60 * 1000;
+
 	static final String UPLOAD_URL_KEY = UsageDataActivator.PLUGIN_ID
 			+ ".upload-url"; //$NON-NLS-1$
 
 	static final String UPLOAD_URL_DEFAULT = "http://wojtek.my.phpcloud.com/udc/index.php"; //$NON-NLS-1$
+
+	private long startTime;
 
 	/* (non-Javadoc)
 	 * @see org.zend.usagedata.internal.settings.IUsageDataSettings#getPeriodBetweenUploads()
@@ -77,6 +82,19 @@ public class UsageDataSettings implements UploadSettings, IUsageDataSettings {
 		if (PlatformUI.getWorkbench().isClosing())
 			return false;
 		return System.currentTimeMillis() - getLastUploadTime() > getPeriodBetweenUploads();
+	}
+
+	@Override
+	public boolean isTimeToAsk() {
+		if (PlatformUI.getWorkbench().isClosing()) {
+			return false;
+		}
+		return System.currentTimeMillis() - startTime > ASK_TIME;
+	}
+
+	@Override
+	public void setStartTime(long startTime) {
+		this.startTime = startTime;
 	}
 
 	/* (non-Javadoc)

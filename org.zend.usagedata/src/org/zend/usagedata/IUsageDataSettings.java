@@ -62,6 +62,24 @@ public interface IUsageDataSettings {
 	 */
 	boolean isTimeToUpload();
 
+	/**
+	 * This method answers <code>true</code> if enough time has passed since the
+	 * product was started. The time does not accumulate so if user always close
+	 * the product before this method returns <code>true</code> then user is not
+	 * be asked about usage data uploading at all. It answers <code>false</code>
+	 * otherwise.
+	 * 
+	 * @return <code>true</code> if it is time to ask user about usage data
+	 *         reporting; <code>false</code> otherwise.
+	 */
+	boolean isTimeToAsk();
+
+	/**
+	 * Set product start time. This value is used to calculate value returned by
+	 * {@link IUsageDataSettings#isTimeToAsk()}.
+	 */
+	void setStartTime(long startTime);
+
 	/** 
 	 * This method returns the {@link File} where usage data events should be persisted.
 	 *  
