@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011 Wojciech Galanciak
+ * Copyright (c) 2011, 2012 Wojciech Galanciak
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -15,9 +15,10 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Widget;
+import org.zend.usagedata.internal.swt.SWTUsageEvent;
+import org.zend.usagedata.internal.swt.SWTUsageMonitor;
 import org.zend.usagedata.internal.swt.adapters.MenuItemAdapter;
 import org.zend.usagedata.internal.swt.adapters.WidgetAdapter;
-import org.zend.usagedata.monitors.AbstractMonitor;
 
 /**
  * Event handler for SWT {@link Menu} component.
@@ -27,7 +28,7 @@ import org.zend.usagedata.monitors.AbstractMonitor;
  */
 public class MenuFilter extends AbstractFilter {
 
-	public MenuFilter(AbstractMonitor monitor, int... types) {
+	public MenuFilter(SWTUsageMonitor monitor, int... types) {
 		super(monitor, types);
 	}
 
@@ -42,8 +43,7 @@ public class MenuFilter extends AbstractFilter {
 						event.type);
 			}
 			if (adapter != null) {
-				record(event.type, adapter.getMessage(),
-						adapter.getShellTitle());
+				record(new SWTUsageEvent(event.type, adapter));
 			}
 
 		}

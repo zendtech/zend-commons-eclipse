@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011 Wojciech Galanciak
+ * Copyright (c) 2011, 2012 Wojciech Galanciak
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -17,13 +17,14 @@ import org.eclipse.swt.widgets.ExpandItem;
 import org.eclipse.swt.widgets.Item;
 import org.eclipse.swt.widgets.TaskItem;
 import org.eclipse.swt.widgets.ToolItem;
+import org.zend.usagedata.internal.swt.SWTUsageEvent;
+import org.zend.usagedata.internal.swt.SWTUsageMonitor;
 import org.zend.usagedata.internal.swt.adapters.CoolItemAdapter;
 import org.zend.usagedata.internal.swt.adapters.ExpandItemAdapter;
 import org.zend.usagedata.internal.swt.adapters.ItemAdapter;
 import org.zend.usagedata.internal.swt.adapters.TableTreeItemAdapter;
 import org.zend.usagedata.internal.swt.adapters.TaskItemAdapter;
 import org.zend.usagedata.internal.swt.adapters.ToolItemAdapter;
-import org.zend.usagedata.monitors.AbstractMonitor;
 
 /**
  * Event handler for SWT {@link Item} component.
@@ -34,7 +35,7 @@ import org.zend.usagedata.monitors.AbstractMonitor;
 @SuppressWarnings("deprecation")
 public class ItemFilter extends AbstractFilter {
 
-	public ItemFilter(AbstractMonitor monitor, int... types) {
+	public ItemFilter(SWTUsageMonitor monitor, int... types) {
 		super(monitor, types);
 	}
 
@@ -62,8 +63,7 @@ public class ItemFilter extends AbstractFilter {
 					adapter = new ToolItemAdapter((ToolItem) item, event.type);
 				}
 				if (adapter != null) {
-					record(event.type, adapter.getMessage(),
-							adapter.getShellTitle());
+					record(new SWTUsageEvent(event.type, adapter));
 				}
 			}
 		}

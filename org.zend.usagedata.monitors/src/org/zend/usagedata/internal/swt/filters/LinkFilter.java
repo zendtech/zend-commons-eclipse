@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011 Wojciech Galanciak
+ * Copyright (c) 2011, 2012 Wojciech Galanciak
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,8 +12,9 @@ package org.zend.usagedata.internal.swt.filters;
 
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Link;
+import org.zend.usagedata.internal.swt.SWTUsageEvent;
+import org.zend.usagedata.internal.swt.SWTUsageMonitor;
 import org.zend.usagedata.internal.swt.adapters.LinkAdapter;
-import org.zend.usagedata.monitors.AbstractMonitor;
 
 /**
  * Event handler for SWT {@link Link} component.
@@ -23,7 +24,7 @@ import org.zend.usagedata.monitors.AbstractMonitor;
  */
 public class LinkFilter extends AbstractFilter {
 
-	public LinkFilter(AbstractMonitor monitor, int... types) {
+	public LinkFilter(SWTUsageMonitor monitor, int... types) {
 		super(monitor, types);
 	}
 
@@ -33,8 +34,7 @@ public class LinkFilter extends AbstractFilter {
 			if (event.widget instanceof Link) {
 				LinkAdapter adapter = new LinkAdapter((Link) event.widget,
 						event.type);
-				record(event.type, adapter.getMessage(),
-						adapter.getShellTitle());
+				record(new SWTUsageEvent(event.type, adapter));
 			}
 		}
 	}

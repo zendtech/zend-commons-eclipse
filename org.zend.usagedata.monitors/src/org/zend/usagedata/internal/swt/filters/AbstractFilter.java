@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011 Wojciech Galanciak
+ * Copyright (c) 2011, 2012 Wojciech Galanciak
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,8 @@ package org.zend.usagedata.internal.swt.filters;
 
 import org.eclipse.swt.widgets.Event;
 import org.zend.usagedata.internal.swt.IMonitor;
-import org.zend.usagedata.monitors.AbstractMonitor;
+import org.zend.usagedata.internal.swt.SWTUsageEvent;
+import org.zend.usagedata.internal.swt.SWTUsageMonitor;
 
 /**
  * Abstract class which represents a filter for handling events which have
@@ -26,7 +27,7 @@ import org.zend.usagedata.monitors.AbstractMonitor;
 public abstract class AbstractFilter {
 
 	private int[] types;
-	private final AbstractMonitor monitor;
+	private final SWTUsageMonitor monitor;
 
 	/**
 	 * Creates instance of class which extends {@link AbstractFilter}.
@@ -35,7 +36,7 @@ public abstract class AbstractFilter {
 	 * @param types
 	 *            - array of SWT events types
 	 */
-	public AbstractFilter(AbstractMonitor monitor, int... types) {
+	public AbstractFilter(SWTUsageMonitor monitor, int... types) {
 		this.types = types;
 		this.monitor = monitor;
 	}
@@ -67,8 +68,12 @@ public abstract class AbstractFilter {
 		return false;
 	}
 
-	protected void record(int kind, String description, String shellTitle) {
-		monitor.recordEvent("", String.valueOf(kind), description, shellTitle); //$NON-NLS-1$
+	protected void record(SWTUsageEvent event) {
+		monitor.recordEvent(event);
+	}
+
+	protected SWTUsageEvent getLastEvent() {
+		return monitor.getLastEvent();
 	}
 
 }

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011 Wojciech Galanciak
+ * Copyright (c) 2011, 2012 Wojciech Galanciak
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -13,8 +13,9 @@ package org.zend.usagedata.internal.swt.filters;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Event;
+import org.zend.usagedata.internal.swt.SWTUsageEvent;
+import org.zend.usagedata.internal.swt.SWTUsageMonitor;
 import org.zend.usagedata.internal.swt.adapters.ButtonAdapter;
-import org.zend.usagedata.monitors.AbstractMonitor;
 
 /**
  * Event handler for SWT {@link Button} component.
@@ -24,7 +25,7 @@ import org.zend.usagedata.monitors.AbstractMonitor;
  */
 public class ButtonFilter extends AbstractFilter {
 
-	public ButtonFilter(AbstractMonitor monitor, int... types) {
+	public ButtonFilter(SWTUsageMonitor monitor, int... types) {
 		super(monitor, types);
 	}
 
@@ -37,8 +38,7 @@ public class ButtonFilter extends AbstractFilter {
 				if (!adapter.isSelected() && adapter.getType() == SWT.RADIO) {
 					return;
 				}
-				record(event.type, adapter.getMessage(),
-						adapter.getShellTitle());
+				record(new SWTUsageEvent(event.type, adapter));
 			}
 		}
 	}

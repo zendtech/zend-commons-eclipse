@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011 Wojciech Galanciak
+ * Copyright (c) 2011, 2012 Wojciech Galanciak
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -14,10 +14,11 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
+import org.zend.usagedata.internal.swt.SWTUsageEvent;
+import org.zend.usagedata.internal.swt.SWTUsageMonitor;
 import org.zend.usagedata.internal.swt.adapters.TreeAdapter;
 import org.zend.usagedata.internal.swt.adapters.TreeItemAdapter;
 import org.zend.usagedata.internal.swt.adapters.WidgetAdapter;
-import org.zend.usagedata.monitors.AbstractMonitor;
 
 /**
  * Event handler for SWT {@link Tree} component.
@@ -27,7 +28,7 @@ import org.zend.usagedata.monitors.AbstractMonitor;
  */
 public class TreeFilter extends AbstractFilter {
 
-	public TreeFilter(AbstractMonitor monitor, int... types) {
+	public TreeFilter(SWTUsageMonitor monitor, int... types) {
 		super(monitor, types);
 	}
 
@@ -43,8 +44,7 @@ public class TreeFilter extends AbstractFilter {
 					adapter = new TreeItemAdapter((TreeItem) event.item,
 							event.type);
 				}
-				record(event.type, adapter.getMessage(),
-						adapter.getShellTitle());
+				record(new SWTUsageEvent(event.type, adapter));
 			}
 		}
 	}

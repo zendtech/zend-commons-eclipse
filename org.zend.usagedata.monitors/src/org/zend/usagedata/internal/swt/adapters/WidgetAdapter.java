@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011 Wojciech Galanciak
+ * Copyright (c) 2011, 2012 Wojciech Galanciak
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -58,10 +58,8 @@ public class WidgetAdapter extends AbstractAdapter {
 		return componentType.getName();
 	}
 
-	/**
-	 * @return shell title
-	 */
-	public String getShellTitle() {
+	@Override
+	public String getShell() {
 		Display display = widget.getDisplay();
 		if (display != null) {
 			Shell shell = display.getActiveShell();
@@ -84,7 +82,7 @@ public class WidgetAdapter extends AbstractAdapter {
 		message.addMessage(EVENT_TYPE, eventType);
 		message.addMessage(STYLE, getStyle());
 		message.addMessage(CLASS, getWidgetType());
-		message.addMessage(SHELL_TITLE, getShellTitle());
+		message.addMessage(SHELL_TITLE, getShell());
 	}
 
 }
