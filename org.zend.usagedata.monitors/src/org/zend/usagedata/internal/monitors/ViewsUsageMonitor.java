@@ -76,11 +76,9 @@ public class ViewsUsageMonitor extends AbstractMonitor {
 			unhookListener(window);
 		}
 
-		@Override
 		public void windowActivated(IWorkbenchWindow window) {
 		}
 
-		@Override
 		public void windowDeactivated(IWorkbenchWindow window) {
 		}
 

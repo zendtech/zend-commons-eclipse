@@ -55,12 +55,10 @@ public class WizardUsageMonitor extends SWTUsageMonitor {
 		public void windowClosed(IWorkbenchWindow window) {
 		}
 
-		@Override
 		public void windowActivated(IWorkbenchWindow window) {
 			monitor.unregisterMonitor();
 		}
 
-		@Override
 		public void windowDeactivated(IWorkbenchWindow window) {
 			monitor.registerMonitor(window.getShell().getDisplay());
 		}

@@ -64,7 +64,6 @@ public class ToolbarUsageMonitor extends AbstractMonitor {
 			}
 			e.display.asyncExec(new Runnable() {
 
-				@Override
 				public void run() {
 					if (e.getSource() instanceof ToolItem) {
 						ToolItem item = (ToolItem) e.getSource();
@@ -93,11 +92,9 @@ public class ToolbarUsageMonitor extends AbstractMonitor {
 			unhookListener(window);
 		}
 
-		@Override
 		public void windowActivated(IWorkbenchWindow window) {
 		}
 
-		@Override
 		public void windowDeactivated(IWorkbenchWindow window) {
 		}
 
@@ -105,48 +102,40 @@ public class ToolbarUsageMonitor extends AbstractMonitor {
 
 	private IPerspectiveListener3 perspectiveListener = new IPerspectiveListener3() {
 
-		@Override
 		public void perspectiveChanged(IWorkbenchPage page,
 				IPerspectiveDescriptor perspective, String changeId) {
 		}
 
-		@Override
 		public void perspectiveActivated(final IWorkbenchPage page,
 				IPerspectiveDescriptor perspective) {
 			page.getWorkbenchWindow().getShell().getDisplay()
 					.asyncExec(new Runnable() {
 
-						@Override
 						public void run() {
 							hookListener(page.getWorkbenchWindow());
 						}
 					});
 		}
 
-		@Override
 		public void perspectiveChanged(IWorkbenchPage page,
 				IPerspectiveDescriptor perspective,
 				IWorkbenchPartReference partRef, String changeId) {
 		}
 
-		@Override
 		public void perspectiveSavedAs(IWorkbenchPage page,
 				IPerspectiveDescriptor oldPerspective,
 				IPerspectiveDescriptor newPerspective) {
 		}
 
-		@Override
 		public void perspectiveOpened(IWorkbenchPage page,
 				IPerspectiveDescriptor perspective) {
 		}
 
-		@Override
 		public void perspectiveDeactivated(IWorkbenchPage page,
 				IPerspectiveDescriptor perspective) {
 			unhookListener(page.getWorkbenchWindow());
 		}
 
-		@Override
 		public void perspectiveClosed(IWorkbenchPage page,
 				IPerspectiveDescriptor perspective) {
 		}

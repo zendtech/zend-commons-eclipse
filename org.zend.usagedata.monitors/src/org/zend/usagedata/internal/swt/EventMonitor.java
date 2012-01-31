@@ -27,26 +27,22 @@ public class EventMonitor implements IMonitor {
 
 	private List<EventListener> listeners = new ArrayList<EventListener>();
 
-	@Override
 	public void addListener(EventListener handler) {
 		listeners.add(handler);
 	}
 
-	@Override
 	public void addFilter(AbstractFilter filter) {
 		for (EventListener handler : listeners) {
 			handler.addFilter(filter);
 		}
 	}
 
-	@Override
 	public void registerMonitor(Display display) {
 		this.root = display;
 		for (EventListener l : listeners) {
 			final EventListener listener = l;
 			root.syncExec(new Runnable() {
 
-				@Override
 				public void run() {
 					root.addFilter(listener.getType(), listener);
 				}
@@ -54,7 +50,6 @@ public class EventMonitor implements IMonitor {
 		}
 	}
 
-	@Override
 	public void unregisterMonitor() {
 		if (root == null || root.isDisposed()) {
 			return;
@@ -63,7 +58,6 @@ public class EventMonitor implements IMonitor {
 			final EventListener listener = l;
 			root.syncExec(new Runnable() {
 
-				@Override
 				public void run() {
 					root.removeFilter(listener.getType(), listener);
 				}

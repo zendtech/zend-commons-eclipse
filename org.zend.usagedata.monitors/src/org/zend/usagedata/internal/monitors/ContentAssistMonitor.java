@@ -56,7 +56,6 @@ public class ContentAssistMonitor extends AbstractMonitor {
 
 		private boolean selected = false;
 
-		@Override
 		public void handleEvent(Event event) {
 			selected = true;
 		}
@@ -66,7 +65,6 @@ public class ContentAssistMonitor extends AbstractMonitor {
 
 		private boolean cancelled = true;
 
-		@Override
 		public void handleEvent(Event e) {
 			char key = e.character;
 			switch (key) {
@@ -81,17 +79,14 @@ public class ContentAssistMonitor extends AbstractMonitor {
 
 	private IPageListener pageListener = new IPageListener() {
 
-		@Override
 		public void pageOpened(IWorkbenchPage page) {
 			hookListener(page);
 		}
 
-		@Override
 		public void pageClosed(IWorkbenchPage page) {
 			unhookListener(page);
 		}
 
-		@Override
 		public void pageActivated(IWorkbenchPage page) {
 		}
 	};
@@ -124,11 +119,9 @@ public class ContentAssistMonitor extends AbstractMonitor {
 			unhookListener(window);
 		}
 
-		@Override
 		public void windowActivated(IWorkbenchWindow window) {
 		}
 
-		@Override
 		public void windowDeactivated(IWorkbenchWindow window) {
 		}
 
@@ -142,20 +135,17 @@ public class ContentAssistMonitor extends AbstractMonitor {
 		private ContentAssistKeyListener keyListener = new ContentAssistKeyListener();
 		private ContentAssistMouseListener mouseListener = new ContentAssistMouseListener();
 
-		@Override
 		public void selectionChanged(ICompletionProposal proposal,
 				boolean smartToggle) {
 			this.proposal = proposal;
 		}
 
-		@Override
 		public void assistSessionStarted(ContentAssistEvent event) {
 			startTime = System.currentTimeMillis();
 			addFilter(SWT.KeyDown, keyListener);
 			addFilter(SWT.MouseDoubleClick, mouseListener);
 		}
 
-		@Override
 		public void assistSessionEnded(ContentAssistEvent event) {
 			endTime = System.currentTimeMillis();
 			if (proposal != null

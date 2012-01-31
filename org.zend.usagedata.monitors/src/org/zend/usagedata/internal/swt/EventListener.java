@@ -40,7 +40,6 @@ public class EventListener implements Listener {
 		this.filters.addAll(filters);
 	}
 
-	@Override
 	public void handleEvent(Event event) {
 		for (AbstractFilter filter : filters) {
 			filter.handleEvent(event);
