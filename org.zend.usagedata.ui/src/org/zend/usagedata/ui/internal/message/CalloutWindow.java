@@ -331,7 +331,6 @@ public class CalloutWindow {
 					public void widgetSelected(SelectionEvent e) {
 						shell.getDisplay().syncExec(new Runnable() {
 
-							@Override
 							public void run() {
 								WizardDialog dialog = new WizardDialog(
 										PlatformUI.getWorkbench()
@@ -368,7 +367,6 @@ public class CalloutWindow {
 							public void widgetSelected(SelectionEvent e) {
 								shell.getDisplay().syncExec(new Runnable() {
 
-									@Override
 									public void run() {
 										returnCode = CalloutWindow.OK;
 										doNotDisplay = true;
@@ -390,7 +388,6 @@ public class CalloutWindow {
 							public void widgetSelected(SelectionEvent e) {
 								shell.getDisplay().syncExec(new Runnable() {
 
-									@Override
 									public void run() {
 										returnCode = CalloutWindow.CANCEL;
 										doNotDisplay = true;

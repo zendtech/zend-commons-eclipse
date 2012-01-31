@@ -76,14 +76,12 @@ public class UsageDataButtonControl extends WorkbenchWindowControlContribution {
 		});
 
 		composite.getShell().addListener(SWT.Resize, new Listener() {
-			@Override
 			public void handleEvent(Event event) {
 				setLocation();
 			}
 		});
 
 		composite.getShell().addListener(SWT.Move, new Listener() {
-			@Override
 			public void handleEvent(Event event) {
 				setLocation();
 			}

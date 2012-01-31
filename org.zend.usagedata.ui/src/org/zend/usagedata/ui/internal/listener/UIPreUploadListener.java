@@ -43,11 +43,9 @@ public class UIPreUploadListener implements IPreUploadListener {
 	 * org.zend.usagedata.recording.IPreUploadListener#handleUpload(org.zend
 	 * .usagedata.recording.IUploader)
 	 */
-	@Override
 	public int handleUpload(final IUploader uploader) {
 		Display.getDefault().syncExec(new Runnable() {
 
-			@Override
 			public void run() {
 				if (!UsageDataActivator.getDefault().getSettings()
 						.shouldAskBeforeUploading()) {
