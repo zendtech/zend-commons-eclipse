@@ -84,7 +84,11 @@ public class UsageDataSettings implements UploadSettings, IUsageDataSettings {
 		return System.currentTimeMillis() - getLastUploadTime() > getPeriodBetweenUploads();
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.zend.usagedata.IUsageDataSettings#isTimeToAsk()
+	 */
 	public boolean isTimeToAsk() {
 		if (PlatformUI.getWorkbench().isClosing()) {
 			return false;
@@ -92,7 +96,11 @@ public class UsageDataSettings implements UploadSettings, IUsageDataSettings {
 		return System.currentTimeMillis() - startTime > ASK_TIME;
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.zend.usagedata.IUsageDataSettings#setStartTime(long)
+	 */
 	public void setStartTime(long startTime) {
 		this.startTime = startTime;
 	}
