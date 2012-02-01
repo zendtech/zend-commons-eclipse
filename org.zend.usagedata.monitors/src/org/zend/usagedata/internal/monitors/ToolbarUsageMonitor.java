@@ -73,8 +73,11 @@ public class ToolbarUsageMonitor extends AbstractMonitor {
 							ActionContributionItem actionContribution = (ActionContributionItem) data;
 							actionId = actionContribution.getId();
 						}
+						String perspectiveId = PlatformUI.getWorkbench()
+								.getActiveWorkbenchWindow().getActivePage()
+								.getPerspective().getId();
 						recordEvent(MONITOR_ID, item.getToolTipText(),
-								actionId, "SWT.Selection"); //$NON-NLS-1$
+								actionId, perspectiveId);
 					}
 				}
 			});
