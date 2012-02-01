@@ -74,7 +74,7 @@ public class WidgetAdapter extends AbstractAdapter {
 	 * @return widget style
 	 */
 	public int getStyle() {
-		return widget.getStyle();
+		return widget != null ? widget.getStyle() : -1;
 	}
 
 	@Override
