@@ -15,6 +15,9 @@
       <monitor
             class="org.zend.usagedata.internal.monitors.WizardUsageMonitor">
       </monitor>
+      <monitor
+            class="org.zend.usagedata.internal.monitors.CommandUsageMonitor">
+      </monitor>
    </extension>
 
 </plugin>
