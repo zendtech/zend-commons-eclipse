@@ -44,7 +44,10 @@ public class UsageDataRecorder implements UsageDataEventListener {
 	 * When the file holding upload data exceeds this number of bytes, it is
 	 * moved so that it can be uploaded.
 	 */
-	private static final long FILE_SIZE_THRESHOLD = 25000;
+	private static final long FILE_SIZE_THRESHOLD_DEFAULT = 25000;
+
+	private static final String FILE_SIZE_THRESHOLD_KEY = UsageDataActivator.PLUGIN_ID
+			+ ".filesize"; //$NON-NLS-1$
 
 	/**
 	 * This list holds events as they are received. Once the number of events in
@@ -131,12 +134,28 @@ public class UsageDataRecorder implements UsageDataEventListener {
 		File file = getSettings().getEventFile();
 		// If the file does not exist, then something bad has happened. Just
 		// return.
-		if (!file.exists() || file.length() < FILE_SIZE_THRESHOLD) {
+		if (!file.exists() || file.length() < getFileTreshold()) {
 			return;
 		}
 		File destination = getSettings().computeDestinationFile();
 		// TODO What if the rename fails?
 		file.renameTo(destination);
+	}
+
+	private long getFileTreshold() {
+		if (System.getProperties().containsKey(FILE_SIZE_THRESHOLD_KEY)) {
+			String value = System.getProperty(FILE_SIZE_THRESHOLD_KEY);
+			try {
+				return Long.valueOf(value);
+			} catch (NumberFormatException e) {
+				UsageDataActivator
+						.getDefault()
+						.log(IStatus.WARNING,
+								e,
+								"The UDC cannot parse the %1$s system property (\"%2$s\"", FILE_SIZE_THRESHOLD_KEY, value); //$NON-NLS-1$
+			}
+		}
+		return FILE_SIZE_THRESHOLD_DEFAULT;
 	}
 
 	private UploadManager getUploadManager() {

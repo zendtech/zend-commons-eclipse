@@ -26,13 +26,12 @@ import org.zend.usagedata.IUsageDataSettings;
 import org.zend.usagedata.UsageDataActivator;
 
 /**
- * This class provides a convenient location to find the settings
- * for this bundle. Some settings are in the preferences; others
- * are found in system properties. Still more are simply provided
- * as constant values.
+ * This class provides a convenient location to find the settings for this
+ * bundle. Some settings are in the preferences; others are found in system
+ * properties. Still more are simply provided as constant values.
  * 
  * @author Wayne Beaton
- *
+ * 
  */
 public class UsageDataSettings implements UploadSettings, IUsageDataSettings {
 
@@ -45,24 +44,46 @@ public class UsageDataSettings implements UploadSettings, IUsageDataSettings {
 	static final int UPLOAD_PERIOD_DEFAULT = 5 * 24 * 60 * 60 * 1000;
 
 	// 5 minutes
-	static final int ASK_TIME = 5 * 60 * 1000;
+	static final int ASK_TIME_DEFAULT = 5 * 60 * 1000;
 
 	static final String UPLOAD_URL_KEY = UsageDataActivator.PLUGIN_ID
 			+ ".upload-url"; //$NON-NLS-1$
+	static final String UPLOAD_PERIOD_KEY = UsageDataActivator.PLUGIN_ID
+			+ ".period"; //$NON-NLS-1$
+	static final String ASK_TIME_KEY = UsageDataActivator.PLUGIN_ID + ".ask"; //$NON-NLS-1$
 
 	static final String UPLOAD_URL_DEFAULT = "http://wojtek.my.phpcloud.com/udc/index.php"; //$NON-NLS-1$
 
 	private long startTime;
 
-	/* (non-Javadoc)
-	 * @see org.zend.usagedata.internal.settings.IUsageDataSettings#getPeriodBetweenUploads()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.zend.usagedata.internal.settings.IUsageDataSettings#
+	 * getPeriodBetweenUploads()
 	 */
 	public long getPeriodBetweenUploads() {
+		if (System.getProperties().containsKey(UPLOAD_PERIOD_KEY)) {
+			String value = System.getProperty(UPLOAD_PERIOD_KEY);
+			try {
+				return Long.valueOf(value);
+			} catch (NumberFormatException e) {
+				UsageDataActivator
+						.getDefault()
+						.log(IStatus.WARNING,
+								e,
+								"The UDC cannot parse the %1$s system property (\"%2$s\"", UPLOAD_PERIOD_KEY, value); //$NON-NLS-1$
+			}
+		}
 		return UPLOAD_PERIOD_DEFAULT;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.zend.usagedata.internal.settings.IUsageDataSettings#getLastUploadTime()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.zend.usagedata.internal.settings.IUsageDataSettings#getLastUploadTime
+	 * ()
 	 */
 	public long getLastUploadTime() {
 		if (getPreferencesStore().contains(LAST_UPLOAD_KEY)) {
@@ -75,8 +96,11 @@ public class UsageDataSettings implements UploadSettings, IUsageDataSettings {
 		return period;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.zend.usagedata.internal.settings.IUsageDataSettings#isTimeToUpload()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.zend.usagedata.internal.settings.IUsageDataSettings#isTimeToUpload()
 	 */
 	public boolean isTimeToUpload() {
 		if (PlatformUI.getWorkbench().isClosing())
@@ -93,7 +117,23 @@ public class UsageDataSettings implements UploadSettings, IUsageDataSettings {
 		if (PlatformUI.getWorkbench().isClosing()) {
 			return false;
 		}
-		return System.currentTimeMillis() - startTime > ASK_TIME;
+		return System.currentTimeMillis() - startTime > getAskTime();
+	}
+
+	public long getAskTime() {
+		if (System.getProperties().containsKey(ASK_TIME_KEY)) {
+			String value = System.getProperty(ASK_TIME_KEY);
+			try {
+				return Long.valueOf(value);
+			} catch (NumberFormatException e) {
+				UsageDataActivator
+						.getDefault()
+						.log(IStatus.WARNING,
+								e,
+								"The UDC cannot parse the %1$s system property (\"%2$s\"", ASK_TIME_KEY, value); //$NON-NLS-1$
+			}
+		}
+		return ASK_TIME_DEFAULT;
 	}
 
 	/*
@@ -105,15 +145,22 @@ public class UsageDataSettings implements UploadSettings, IUsageDataSettings {
 		this.startTime = startTime;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.zend.usagedata.internal.settings.IUsageDataSettings#getEventFile()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.zend.usagedata.internal.settings.IUsageDataSettings#getEventFile()
 	 */
 	public File getEventFile() {
-		return new File(getWorkingDirectory(), USAGEDATA_FILE_NAME + DEFAULT_FORMAT);
+		return new File(getWorkingDirectory(), USAGEDATA_FILE_NAME
+				+ DEFAULT_FORMAT);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.zend.usagedata.internal.settings.IUsageDataSettings#computeDestinationFile()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.zend.usagedata.internal.settings.IUsageDataSettings#
+	 * computeDestinationFile()
 	 */
 	public File computeDestinationFile() {
 		int index = 0;
@@ -128,33 +175,43 @@ public class UsageDataSettings implements UploadSettings, IUsageDataSettings {
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.zend.usagedata.internal.settings.IUsageDataSettings#getUserId()
 	 */
 	public String getUserId() {
 		return getExistingOrGenerateId(
 				new File(System.getProperty("user.home")), "." + UsageDataActivator.PLUGIN_ID //$NON-NLS-1$ //$NON-NLS-2$
-				+ ".userId"); //$NON-NLS-1$
+						+ ".userId"); //$NON-NLS-1$
 	}
 
-	/* (non-Javadoc)
-	 * @see org.zend.usagedata.internal.settings.IUsageDataSettings#getWorkspaceId()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.zend.usagedata.internal.settings.IUsageDataSettings#getWorkspaceId()
 	 */
 	public String getWorkspaceId() {
 		return getExistingOrGenerateId(getWorkingDirectory(), "." //$NON-NLS-1$
 				+ UsageDataActivator.PLUGIN_ID + ".workspaceId"); //$NON-NLS-1$
 	}
 
-
-	/* (non-Javadoc)
-	 * @see org.zend.usagedata.internal.settings.IUsageDataSettings#isLoggingServerActivity()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.zend.usagedata.internal.settings.IUsageDataSettings#
+	 * isLoggingServerActivity()
 	 */
 	public boolean isLoggingServerActivity() {
 		return "true".equals(System.getProperty(LOG_SERVER_ACTIVITY_KEY)); //$NON-NLS-1$
 	}
 
-	/* (non-Javadoc)
-	 * @see org.zend.usagedata.internal.settings.IUsageDataSettings#getUsageDataUploadFiles()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.zend.usagedata.internal.settings.IUsageDataSettings#
+	 * getUsageDataUploadFiles()
 	 */
 	public File[] getUsageDataUploadFiles() {
 		return getWorkingDirectory().listFiles(new FilenameFilter() {
@@ -165,14 +222,19 @@ public class UsageDataSettings implements UploadSettings, IUsageDataSettings {
 		});
 	}
 
-	/* (non-Javadoc)
-	 * @see org.zend.usagedata.internal.settings.IUsageDataSettings#setLastUploadTime()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.zend.usagedata.internal.settings.IUsageDataSettings#setLastUploadTime
+	 * ()
 	 */
 	public void setLastUploadTime() {
-		getPreferencesStore().setValue(LAST_UPLOAD_KEY, System.currentTimeMillis());
+		getPreferencesStore().setValue(LAST_UPLOAD_KEY,
+				System.currentTimeMillis());
 		UsageDataActivator.getDefault().savePluginPreferences();
 	}
-	
+
 	/**
 	 * <p>
 	 * This method either finds an existing id or generates a new one. The id is
@@ -184,13 +246,14 @@ public class UsageDataSettings implements UploadSettings, IUsageDataSettings {
 	 * </p>
 	 * 
 	 * @param directory
-	 *           the directory that will contain the stored id.
+	 *            the directory that will contain the stored id.
 	 * @param fileName
 	 *            name of the file containing the id.
 	 * @return a globally unique id.
 	 */
 	private String getExistingOrGenerateId(File directory, String fileName) {
-		if (!directory.exists()) return DEFAULT_ID;
+		if (!directory.exists())
+			return DEFAULT_ID;
 		if (!directory.isDirectory()) {
 		} // TODO Think of something else
 		File file = new File(directory, fileName);
@@ -237,11 +300,11 @@ public class UsageDataSettings implements UploadSettings, IUsageDataSettings {
 	private IPreferenceStore getPreferencesStore() {
 		return UsageDataActivator.getDefault().getPreferenceStore();
 	}
-	
+
 	private File getWorkingDirectory() {
 		return UsageDataActivator.getDefault().getStateLocation().toFile();
 	}
-	
+
 	/**
 	 * Convenience method for closing a {@link Writer} that could possibly be
 	 * <code>null</code>.
@@ -276,28 +339,39 @@ public class UsageDataSettings implements UploadSettings, IUsageDataSettings {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see org.zend.usagedata.internal.settings.IUsageDataSettings#shouldAskBeforeUploading()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.zend.usagedata.internal.settings.IUsageDataSettings#
+	 * shouldAskBeforeUploading()
 	 */
 	public boolean shouldAskBeforeUploading() {
 		return getPreferencesStore().getBoolean(ASK_TO_UPLOAD_KEY);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.zend.usagedata.internal.settings.IUsageDataSettings#hasUserAcceptedTermsOfUse()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.zend.usagedata.internal.settings.IUsageDataSettings#
+	 * hasUserAcceptedTermsOfUse()
 	 */
 	public boolean hasUserAcceptedTermsOfUse() {
 		return getPreferencesStore().getBoolean(USER_ACCEPTED_TERMS_OF_USE_KEY);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.zend.usagedata.internal.settings.IUsageDataSettings#setUserAcceptedTermsOfUse(boolean)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.zend.usagedata.internal.settings.IUsageDataSettings#
+	 * setUserAcceptedTermsOfUse(boolean)
 	 */
 	public void setUserAcceptedTermsOfUse(boolean value) {
 		getPreferencesStore().setValue(USER_ACCEPTED_TERMS_OF_USE_KEY, value);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.zend.usagedata.internal.settings.IUsageDataSettings#isEnabled()
 	 */
 	public boolean isEnabled() {
@@ -310,16 +384,24 @@ public class UsageDataSettings implements UploadSettings, IUsageDataSettings {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see org.zend.usagedata.internal.settings.IUsageDataSettings#setAskBeforeUploading(boolean)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.zend.usagedata.internal.settings.IUsageDataSettings#setAskBeforeUploading
+	 * (boolean)
 	 */
 	public void setAskBeforeUploading(boolean value) {
 		getPreferencesStore().setValue(ASK_TO_UPLOAD_KEY, value);
 		UsageDataActivator.getDefault().savePluginPreferences();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.zend.usagedata.internal.settings.IUsageDataSettings#setEnabled(boolean)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.zend.usagedata.internal.settings.IUsageDataSettings#setEnabled(boolean
+	 * )
 	 */
 	public void setEnabled(boolean value) {
 		// The preferences store actually does this for us. However, for
@@ -335,15 +417,21 @@ public class UsageDataSettings implements UploadSettings, IUsageDataSettings {
 		// the value here.
 	}
 
-	/* (non-Javadoc)
-	 * @see org.zend.usagedata.internal.settings.IUsageDataSettings#getUserAgent()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.zend.usagedata.internal.settings.IUsageDataSettings#getUserAgent()
 	 */
 	public String getUserAgent() {
 		return "Zend UDC/" + UsageDataActivator.getDefault().getBundle().getHeaders().get("Bundle-Version"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
-	/* (non-Javadoc)
-	 * @see org.zend.usagedata.internal.settings.IUsageDataSettings#getUploadUrl()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.zend.usagedata.internal.settings.IUsageDataSettings#getUploadUrl()
 	 */
 	public String getUploadUrl() {
 		if (System.getProperties().containsKey(UPLOAD_URL_KEY)) {
