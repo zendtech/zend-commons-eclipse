@@ -29,15 +29,15 @@ public class UsageDataRecorderUtils {
 	 *             if writing to the {@link Writer} fails.
 	 */
 	public static void writeHeader(Writer writer) throws IOException {
-		writer.write("what"); //$NON-NLS-1$
+		writer.write("monitorId"); //$NON-NLS-1$
 		writer.write(","); //$NON-NLS-1$
-		writer.write("kind"); //$NON-NLS-1$
+		writer.write("attribute1"); //$NON-NLS-1$
 		writer.write(","); //$NON-NLS-1$
-		writer.write("bundleId"); //$NON-NLS-1$
+		writer.write("attribute2"); //$NON-NLS-1$
 		writer.write(","); //$NON-NLS-1$
-		writer.write("bundleVersion"); //$NON-NLS-1$
+		writer.write("attribute3"); //$NON-NLS-1$
 		writer.write(","); //$NON-NLS-1$
-		writer.write("description"); //$NON-NLS-1$
+		writer.write("attribute4"); //$NON-NLS-1$
 		writer.write(","); //$NON-NLS-1$
 		writer.write("time"); //$NON-NLS-1$
 		writer.write("\n"); //$NON-NLS-1$
