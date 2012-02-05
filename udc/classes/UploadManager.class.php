@@ -365,7 +365,7 @@ class UploadManager {
 	}
 	
 	private function get_columns() {
-		return "what,kind,bundleId,bundleVersion,description,time";
+		return "monitorId,attribute1,attribute2,attribute3,attribute4,time";
 	}
 	
 	private function execute_insert($sql) {
