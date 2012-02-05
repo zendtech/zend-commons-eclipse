@@ -43,11 +43,14 @@ public class ViewsUsageMonitor extends AbstractMonitor {
 
 	public static final String MONITOR_ID = "org.zend.viewsUsageMonitor"; //$NON-NLS-1$
 
-	private static final String PERSPECTIVES_FILE = "config" + File.separator + "viewsUsageMonitor.config"; //$NON-NLS-1$ //$NON-NLS-2$
+	private static final String PERSPECTIVES_FILE = "config" + File.separator + "viewsUsageMonitor.perspectives.config"; //$NON-NLS-1$ //$NON-NLS-2$
+	private static final String VIEWS_FILE = "config" + File.separator + "viewsUsageMonitor.views.config"; //$NON-NLS-1$ //$NON-NLS-2$
+
 	private static final String ACTIVATED = "activated"; //$NON-NLS-1$
 	private static final String VIEW = "view"; //$NON-NLS-1$
 
 	private List<String> perspectives;
+	private List<String> views;
 
 	private IPartListener partListener = new IPartListener() {
 		public void partActivated(IWorkbenchPart part) {
@@ -101,6 +104,7 @@ public class ViewsUsageMonitor extends AbstractMonitor {
 	protected void doStartMonitoring() {
 		IWorkbench workbench = PlatformUI.getWorkbench();
 		perspectives = MonitorUtils.getValues(PERSPECTIVES_FILE);
+		views = MonitorUtils.getValues(VIEWS_FILE);
 		if (perspectives != null && perspectives.size() > 0) {
 			hookListeners(workbench);
 		}
@@ -156,11 +160,13 @@ public class ViewsUsageMonitor extends AbstractMonitor {
 	private void recordEvent(String event, IWorkbenchPart part) {
 		IWorkbenchPartSite site = part.getSite();
 		if (site instanceof IViewSite) {
-			IPerspectiveDescriptor perspective = site.getPage()
-					.getPerspective();
-			if (perspectives.contains(perspective.getId())) {
-				recordEvent(MONITOR_ID, event, VIEW, site.getId(),
-						perspective.getId());
+			if (!views.contains(site.getId())) {
+				IPerspectiveDescriptor perspective = site.getPage()
+						.getPerspective();
+				if (perspectives.contains(perspective.getId())) {
+					recordEvent(MONITOR_ID, event, VIEW, site.getId(),
+							perspective.getId());
+				}
 			}
 		}
 	}
