@@ -17,7 +17,6 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.IExecutionListener;
 import org.eclipse.core.commands.NotHandledException;
-import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
@@ -120,7 +119,7 @@ public class CommandUsageMonitor extends AbstractMonitor {
 				IWorkbenchPage activePage = activeWindow.getActivePage();
 				if (activePage != null) {
 					IWorkbenchPart activePart = activePage.getActivePart();
-					String id = ((IEditorPart) activePart).getSite().getId();
+					String id = activePart.getSite().getId();
 					if (parts.contains(id)) {
 						recordEvent(MONITOR_ID, result, commandId, id,
 								exceptionMessage);
