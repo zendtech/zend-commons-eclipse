@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.zend.usagedata.internal.monitors;
 
-import java.io.File;
 import java.util.List;
 
 import org.eclipse.swt.SWT;
@@ -44,7 +43,7 @@ public class WizardUsageMonitor extends SWTUsageMonitor {
 
 	public static final String MONITOR_ID = "org.zend.wizardUsageMonitor"; //$NON-NLS-1$
 
-	private static final String WIZARDS_FILE = "config" + File.separator + "wizardUsageMonitor.config"; //$NON-NLS-1$ //$NON-NLS-2$
+	private static final String WIZARDS_FILE = "config/wizardUsageMonitor.config"; //$NON-NLS-1$
 
 	private List<String> titles;
 

@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.zend.usagedata.internal.monitors;
 
-import java.io.File;
 import java.util.List;
 
 import org.eclipse.ui.IPartListener;
@@ -43,8 +42,8 @@ public class ViewsUsageMonitor extends AbstractMonitor {
 
 	public static final String MONITOR_ID = "org.zend.viewsUsageMonitor"; //$NON-NLS-1$
 
-	private static final String PERSPECTIVES_FILE = "config" + File.separator + "viewsUsageMonitor.perspectives.config"; //$NON-NLS-1$ //$NON-NLS-2$
-	private static final String VIEWS_FILE = "config" + File.separator + "viewsUsageMonitor.views.config"; //$NON-NLS-1$ //$NON-NLS-2$
+	private static final String PERSPECTIVES_FILE = "config/viewsUsageMonitor.perspectives.config"; //$NON-NLS-1$
+	private static final String VIEWS_FILE = "config/viewsUsageMonitor.views.config"; //$NON-NLS-1$
 
 	private static final String ACTIVATED = "activated"; //$NON-NLS-1$
 	private static final String VIEW = "view"; //$NON-NLS-1$

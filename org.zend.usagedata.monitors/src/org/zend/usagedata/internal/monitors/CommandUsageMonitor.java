@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.zend.usagedata.internal.monitors;
 
-import java.io.File;
 import java.util.List;
 
 import org.eclipse.core.commands.ExecutionEvent;
@@ -44,7 +43,7 @@ public class CommandUsageMonitor extends AbstractMonitor {
 
 	public static final String MONITOR_ID = "org.zend.commandUsageMonitor"; //$NON-NLS-1$
 
-	private static final String PARTS_FILE = "config" + File.separator + "commandUsageMonitor.config"; //$NON-NLS-1$ //$NON-NLS-2$
+	private static final String PARTS_FILE = "config/commandUsageMonitor.config"; //$NON-NLS-1$
 	private static final String EXECUTED = "executed"; //$NON-NLS-1$
 	private static final String FAILED = "failed"; //$NON-NLS-1$
 	private static final String NO_HANDLER = "no handler"; //$NON-NLS-1$

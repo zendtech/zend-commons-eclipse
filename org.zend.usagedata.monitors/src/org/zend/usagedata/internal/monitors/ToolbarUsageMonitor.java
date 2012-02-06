@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.zend.usagedata.internal.monitors;
 
-import java.io.File;
 import java.util.List;
 
 import org.eclipse.jface.action.ActionContributionItem;
@@ -48,7 +47,7 @@ import org.zend.usagedata.monitors.MonitorUtils;
  */
 public class ToolbarUsageMonitor extends AbstractMonitor {
 
-	private static final String PERSPECTIVES_FILE = "config" + File.separator + "toolbarUsageMonitor.config"; //$NON-NLS-1$ //$NON-NLS-2$
+	private static final String PERSPECTIVES_FILE = "config/toolbarUsageMonitor.config"; //$NON-NLS-1$
 
 	private static final String EMPTY_ACTION = "EMPTY_ACTION"; //$NON-NLS-1$
 
