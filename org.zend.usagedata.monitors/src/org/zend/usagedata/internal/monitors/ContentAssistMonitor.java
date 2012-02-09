@@ -168,8 +168,11 @@ public class ContentAssistMonitor extends AbstractMonitor {
 		private String getReplacementLength() {
 			if (proposal instanceof AbstractScriptCompletionProposal) {
 				AbstractScriptCompletionProposal p = (AbstractScriptCompletionProposal) proposal;
+				String replacement = p.getReplacementString();
+				int index = p.getReplacementLength() > replacement.length() ? replacement
+						.length() : p.getReplacementLength();
 				return MonitorUtils.replaceCommas(p.getReplacementString()
-						.substring(0, p.getReplacementLength()));
+						.substring(0, index));
 			}
 			return ""; //$NON-NLS-1$
 		}
