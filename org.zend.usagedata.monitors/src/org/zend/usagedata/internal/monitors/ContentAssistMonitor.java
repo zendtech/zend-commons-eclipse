@@ -33,6 +33,7 @@ import org.eclipse.ui.IWorkbenchPartSite;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.zend.usagedata.monitors.AbstractMonitor;
+import org.zend.usagedata.monitors.Activator;
 import org.zend.usagedata.monitors.MonitorUtils;
 
 /**
@@ -147,22 +148,25 @@ public class ContentAssistMonitor extends AbstractMonitor {
 		}
 
 		public void assistSessionEnded(ContentAssistEvent event) {
-			endTime = System.currentTimeMillis();
-			if (proposal != null
-					&& (!keyListener.cancelled || mouseListener.selected)) {
-				recordEvent(
-						MONITOR_ID,
-						MonitorUtils.replaceCommas(proposal.getDisplayString()),
-						String.valueOf(endTime - startTime),
-						String.valueOf(event.isAutoActivated),
-						getReplacementLength());
-				proposal = null;
-				startTime = endTime = 0;
+			try {
+				endTime = System.currentTimeMillis();
+				if (proposal != null
+						&& (!keyListener.cancelled || mouseListener.selected)) {
+					recordEvent(MONITOR_ID, MonitorUtils.replaceCommas(proposal
+							.getDisplayString()), String.valueOf(endTime
+							- startTime),
+							String.valueOf(event.isAutoActivated),
+							getReplacementLength());
+					proposal = null;
+					startTime = endTime = 0;
+				}
+				keyListener.cancelled = true;
+				mouseListener.selected = false;
+				removeFilter(SWT.KeyDown, keyListener);
+				removeFilter(SWT.MouseDoubleClick, mouseListener);
+			} catch (Exception e) {
+				Activator.log(e);
 			}
-			keyListener.cancelled = true;
-			mouseListener.selected = false;
-			removeFilter(SWT.KeyDown, keyListener);
-			removeFilter(SWT.MouseDoubleClick, mouseListener);
 		}
 
 		private String getReplacementLength() {
@@ -207,7 +211,7 @@ public class ContentAssistMonitor extends AbstractMonitor {
 	 * 
 	 * @see org.zend.usagedata.monitors.AbstractMonitor#doStartMonitoring()
 	 */
-	protected void doStartMonitoring() {
+	protected void doStartMonitoring() throws Exception {
 		IWorkbench workbench = PlatformUI.getWorkbench();
 		hookListeners(workbench);
 	}
@@ -217,7 +221,7 @@ public class ContentAssistMonitor extends AbstractMonitor {
 	 * 
 	 * @see org.zend.usagedata.monitors.AbstractMonitor#doStopMonitoring()
 	 */
-	protected void doStopMonitoring() {
+	protected void doStopMonitoring() throws Exception {
 		IWorkbench workbench = PlatformUI.getWorkbench();
 		unhookListeners(workbench);
 	}
@@ -270,38 +274,50 @@ public class ContentAssistMonitor extends AbstractMonitor {
 	}
 
 	private void hookListener(IWorkbenchPart part) {
-		if (part != null) {
-			IWorkbenchPartSite site = part.getSite();
-			if (site instanceof IEditorSite) {
-				ContentAssistantFacade facade = getContentAssistantFacade(part);
-				if (facade != null) {
-					facade.addCompletionListener(completionListener);
+		try {
+			if (part != null) {
+				IWorkbenchPartSite site = part.getSite();
+				if (site instanceof IEditorSite) {
+					ContentAssistantFacade facade = getContentAssistantFacade(part);
+					if (facade != null) {
+						facade.addCompletionListener(completionListener);
+					}
 				}
 			}
+		} catch (Exception e) {
+			Activator.log(e);
 		}
 	}
 
 	private void unhookListener(IWorkbenchPart part) {
-		if (part != null) {
-			IWorkbenchPartSite site = part.getSite();
-			if (site instanceof IEditorSite) {
-				ContentAssistantFacade facade = getContentAssistantFacade(part);
-				if (facade != null) {
-					facade.removeCompletionListener(completionListener);
+		try {
+			if (part != null) {
+				IWorkbenchPartSite site = part.getSite();
+				if (site instanceof IEditorSite) {
+					ContentAssistantFacade facade = getContentAssistantFacade(part);
+					if (facade != null) {
+						facade.removeCompletionListener(completionListener);
+					}
 				}
 			}
+		} catch (Exception e) {
+			Activator.log(e);
 		}
 	}
 
 	@SuppressWarnings("restriction")
 	private ContentAssistantFacade getContentAssistantFacade(IWorkbenchPart part) {
-		if (part instanceof PHPStructuredEditor) {
-			PHPStructuredEditor editor = (PHPStructuredEditor) part;
-			ISourceViewer viewer = editor.getViewer();
-			if (viewer instanceof PHPStructuredTextViewer) {
-				return ((PHPStructuredTextViewer) viewer)
-						.getContentAssistFacade();
+		try {
+			if (part instanceof PHPStructuredEditor) {
+				PHPStructuredEditor editor = (PHPStructuredEditor) part;
+				ISourceViewer viewer = editor.getViewer();
+				if (viewer instanceof PHPStructuredTextViewer) {
+					return ((PHPStructuredTextViewer) viewer)
+							.getContentAssistFacade();
+				}
 			}
+		} catch (Exception e) {
+			Activator.log(e);
 		}
 		return null;
 	}

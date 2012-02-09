@@ -23,6 +23,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.commands.ICommandService;
 import org.zend.usagedata.monitors.AbstractMonitor;
+import org.zend.usagedata.monitors.Activator;
 import org.zend.usagedata.monitors.MonitorUtils;
 
 /**
@@ -83,7 +84,7 @@ public class CommandUsageMonitor extends AbstractMonitor {
 	 * 
 	 * @see org.zend.usagedata.monitors.AbstractMonitor#doStartMonitoring()
 	 */
-	protected void doStartMonitoring() {
+	protected void doStartMonitoring() throws Exception {
 		parts = MonitorUtils.getValues(PARTS_FILE);
 		getCommandService().addExecutionListener(executionListener);
 	}
@@ -93,7 +94,7 @@ public class CommandUsageMonitor extends AbstractMonitor {
 	 * 
 	 * @see org.zend.usagedata.monitors.AbstractMonitor#doStopMonitoring()
 	 */
-	protected void doStopMonitoring() {
+	protected void doStopMonitoring() throws Exception {
 		ICommandService commandService = getCommandService();
 		if (commandService != null)
 			commandService.removeExecutionListener(executionListener);
@@ -110,21 +111,25 @@ public class CommandUsageMonitor extends AbstractMonitor {
 
 	private void recordEvent(String result, String commandId,
 			String exceptionMessage) {
-		IWorkbench workbench = PlatformUI.getWorkbench();
-		if (workbench != null) {
-			IWorkbenchWindow activeWindow = workbench
-					.getActiveWorkbenchWindow();
-			if (activeWindow != null) {
-				IWorkbenchPage activePage = activeWindow.getActivePage();
-				if (activePage != null) {
-					IWorkbenchPart activePart = activePage.getActivePart();
-					String id = activePart.getSite().getId();
-					if (parts.contains(id)) {
-						recordEvent(MONITOR_ID, result, commandId, id,
-								exceptionMessage);
+		try {
+			IWorkbench workbench = PlatformUI.getWorkbench();
+			if (workbench != null) {
+				IWorkbenchWindow activeWindow = workbench
+						.getActiveWorkbenchWindow();
+				if (activeWindow != null) {
+					IWorkbenchPage activePage = activeWindow.getActivePage();
+					if (activePage != null) {
+						IWorkbenchPart activePart = activePage.getActivePart();
+						String id = activePart.getSite().getId();
+						if (parts.contains(id)) {
+							recordEvent(MONITOR_ID, result, commandId, id,
+									exceptionMessage);
+						}
 					}
 				}
 			}
+		} catch (Exception e) {
+			Activator.log(e);
 		}
 	}
 

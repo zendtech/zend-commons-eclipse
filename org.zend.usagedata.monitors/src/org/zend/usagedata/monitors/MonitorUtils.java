@@ -35,19 +35,23 @@ public class MonitorUtils {
 	 */
 	public static List<String> getValues(String file) {
 		List<String> result = new ArrayList<String>();
-		InputStream stream = Activator.getDefault().getStream(file);
-		if (stream != null) {
-			BufferedReader reader = new BufferedReader(new InputStreamReader(
-					stream));
-			String line = null;
-			try {
-				while ((line = reader.readLine()) != null) {
-					result.add(line.trim());
+		try {
+			InputStream stream = Activator.getDefault().getStream(file);
+			if (stream != null) {
+				BufferedReader reader = new BufferedReader(
+						new InputStreamReader(stream));
+				String line = null;
+				try {
+					while ((line = reader.readLine()) != null) {
+						result.add(line.trim());
+					}
+				} catch (IOException e) {
+					Activator.log(e);
+					return null;
 				}
-			} catch (IOException e) {
-				Activator.log(e);
-				return null;
 			}
+		} catch (Exception e) {
+			Activator.log(e);
 		}
 		return result;
 	}
@@ -59,6 +63,9 @@ public class MonitorUtils {
 	 * @return input string without commas
 	 */
 	public static String replaceCommas(String input) {
+		if (input == null) {
+			return ""; //$NON-NLS-1$
+		}
 		return input.replace(",", "|"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 

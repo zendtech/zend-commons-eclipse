@@ -33,7 +33,11 @@ public abstract class AbstractMonitor implements IUsageMonitor {
 	 */
 	public final void startMonitoring(IUsageDataService usageDataService) {
 		this.usageDataService = usageDataService;
-		doStartMonitoring();
+		try {
+			doStartMonitoring();
+		} catch (Exception e) {
+			Activator.log(e);
+		}
 	}
 
 	/*
@@ -44,7 +48,11 @@ public abstract class AbstractMonitor implements IUsageMonitor {
 	 */
 	public final void stopMonitoring() {
 		this.usageDataService = null;
-		doStopMonitoring();
+		try {
+			doStopMonitoring();
+		} catch (Exception e) {
+			Activator.log(e);
+		}
 	}
 
 	/**
@@ -61,8 +69,8 @@ public abstract class AbstractMonitor implements IUsageMonitor {
 	 * @param arg4
 	 *            - custom argument
 	 */
-	public void recordEvent(String monitorId, String arg1,
-			String arg2, String arg3, String arg4) {
+	public void recordEvent(String monitorId, String arg1, String arg2,
+			String arg3, String arg4) {
 		if (usageDataService != null) {
 			usageDataService.recordEvent(monitorId, arg1, arg2, arg3, arg4);
 		}
@@ -80,8 +88,8 @@ public abstract class AbstractMonitor implements IUsageMonitor {
 	 * @param arg3
 	 *            - custom argument
 	 */
-	public void recordEvent(String monitorId, String arg1,
-			String arg2, String arg3) {
+	public void recordEvent(String monitorId, String arg1, String arg2,
+			String arg3) {
 		recordEvent(monitorId, arg1, arg2, arg3, ""); //$NON-NLS-1$
 	}
 
@@ -93,12 +101,16 @@ public abstract class AbstractMonitor implements IUsageMonitor {
 	/**
 	 * Perform additional actions in
 	 * {@link AbstractMonitor#startMonitoring(IUsageDataService)}.
+	 * 
+	 * @throws Exception
 	 */
-	protected abstract void doStartMonitoring();
+	protected abstract void doStartMonitoring() throws Exception;
 
 	/**
 	 * Perform additional actions in {@link AbstractMonitor#stopMonitoring()}.
+	 * 
+	 * @throws Exception
 	 */
-	protected abstract void doStopMonitoring();
+	protected abstract void doStopMonitoring() throws Exception;
 
 }

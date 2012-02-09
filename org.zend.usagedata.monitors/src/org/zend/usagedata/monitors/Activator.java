@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.zend.usagedata.monitors;
 
-import java.io.IOException;
 import java.io.InputStream;
 
 import org.eclipse.core.runtime.IStatus;
@@ -53,7 +52,7 @@ public class Activator extends AbstractUIPlugin {
 
 	/**
 	 * Returns the shared instance
-	 *
+	 * 
 	 * @return the shared instance
 	 */
 	public static Activator getDefault() {
@@ -67,10 +66,10 @@ public class Activator extends AbstractUIPlugin {
 
 	public InputStream getStream(String name) {
 		InputStream result = null;
-		Bundle bundle = context.getBundle();
 		try {
+			Bundle bundle = context.getBundle();
 			result = bundle.getEntry(name).openStream();
-		} catch (IOException e) {
+		} catch (Exception e) {
 			Activator.log(e);
 		}
 		return result;

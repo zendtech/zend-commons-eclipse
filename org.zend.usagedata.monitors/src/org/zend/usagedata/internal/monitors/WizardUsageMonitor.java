@@ -91,7 +91,7 @@ public class WizardUsageMonitor extends SWTUsageMonitor {
 	 * 
 	 * @see org.zend.usagedata.monitors.AbstractMonitor#doStartMonitoring()
 	 */
-	protected void doStartMonitoring() {
+	protected void doStartMonitoring() throws Exception {
 		titles = MonitorUtils.getValues(WIZARDS_FILE);
 		IWorkbench workbench = PlatformUI.getWorkbench();
 		hookListeners(workbench);
@@ -102,7 +102,7 @@ public class WizardUsageMonitor extends SWTUsageMonitor {
 	 * 
 	 * @see org.zend.usagedata.monitors.AbstractMonitor#doStopMonitoring()
 	 */
-	protected void doStopMonitoring() {
+	protected void doStopMonitoring() throws Exception {
 		IWorkbench workbench = PlatformUI.getWorkbench();
 		unhookListeners(workbench);
 	}

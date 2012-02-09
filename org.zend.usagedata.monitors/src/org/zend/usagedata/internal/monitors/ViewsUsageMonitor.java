@@ -23,6 +23,7 @@ import org.eclipse.ui.IWorkbenchPartSite;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.zend.usagedata.monitors.AbstractMonitor;
+import org.zend.usagedata.monitors.Activator;
 import org.zend.usagedata.monitors.MonitorUtils;
 
 /**
@@ -100,7 +101,7 @@ public class ViewsUsageMonitor extends AbstractMonitor {
 	 * 
 	 * @see org.zend.usagedata.monitors.AbstractMonitor#doStartMonitoring()
 	 */
-	protected void doStartMonitoring() {
+	protected void doStartMonitoring() throws Exception {
 		IWorkbench workbench = PlatformUI.getWorkbench();
 		perspectives = MonitorUtils.getValues(PERSPECTIVES_FILE);
 		views = MonitorUtils.getValues(VIEWS_FILE);
@@ -114,7 +115,7 @@ public class ViewsUsageMonitor extends AbstractMonitor {
 	 * 
 	 * @see org.zend.usagedata.monitors.AbstractMonitor#doStopMonitoring()
 	 */
-	protected void doStopMonitoring() {
+	protected void doStopMonitoring() throws Exception {
 		if (perspectives != null && perspectives.size() > 0) {
 			IWorkbench workbench = PlatformUI.getWorkbench();
 			unhookListeners(workbench);
@@ -159,13 +160,17 @@ public class ViewsUsageMonitor extends AbstractMonitor {
 	private void recordEvent(String event, IWorkbenchPart part) {
 		IWorkbenchPartSite site = part.getSite();
 		if (site instanceof IViewSite) {
-			if (!views.contains(site.getId())) {
-				IPerspectiveDescriptor perspective = site.getPage()
-						.getPerspective();
-				if (perspectives.contains(perspective.getId())) {
-					recordEvent(MONITOR_ID, event, VIEW, site.getId(),
-							perspective.getId());
+			try {
+				if (!views.contains(site.getId())) {
+					IPerspectiveDescriptor perspective = site.getPage()
+							.getPerspective();
+					if (perspectives.contains(perspective.getId())) {
+						recordEvent(MONITOR_ID, event, VIEW, site.getId(),
+								perspective.getId());
+					}
 				}
+			} catch (Exception e) {
+				Activator.log(e);
 			}
 		}
 	}

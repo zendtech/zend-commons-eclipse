@@ -32,6 +32,7 @@ import org.eclipse.ui.IWorkbenchPartReference;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.zend.usagedata.monitors.AbstractMonitor;
+import org.zend.usagedata.monitors.Activator;
 import org.zend.usagedata.monitors.MonitorUtils;
 
 /**
@@ -65,18 +66,22 @@ public class ToolbarUsageMonitor extends AbstractMonitor {
 
 				public void run() {
 					if (e.getSource() instanceof ToolItem) {
-						ToolItem item = (ToolItem) e.getSource();
-						Object data = item.getData();
-						String actionId = EMPTY_ACTION;
-						if (data instanceof ActionContributionItem) {
-							ActionContributionItem actionContribution = (ActionContributionItem) data;
-							actionId = actionContribution.getId();
+						try {
+							ToolItem item = (ToolItem) e.getSource();
+							Object data = item.getData();
+							String actionId = EMPTY_ACTION;
+							if (data instanceof ActionContributionItem) {
+								ActionContributionItem actionContribution = (ActionContributionItem) data;
+								actionId = actionContribution.getId();
+							}
+							String perspectiveId = PlatformUI.getWorkbench()
+									.getActiveWorkbenchWindow().getActivePage()
+									.getPerspective().getId();
+							recordEvent(MONITOR_ID, item.getToolTipText(),
+									actionId, perspectiveId);
+						} catch (Exception e) {
+							Activator.log(e);
 						}
-						String perspectiveId = PlatformUI.getWorkbench()
-								.getActiveWorkbenchWindow().getActivePage()
-								.getPerspective().getId();
-						recordEvent(MONITOR_ID, item.getToolTipText(),
-								actionId, perspectiveId);
 					}
 				}
 			});
@@ -157,7 +162,7 @@ public class ToolbarUsageMonitor extends AbstractMonitor {
 	 * 
 	 * @see org.zend.usagedata.monitors.AbstractMonitor#doStartMonitoring()
 	 */
-	protected void doStartMonitoring() {
+	protected void doStartMonitoring() throws Exception {
 		IWorkbench workbench = PlatformUI.getWorkbench();
 		perspectives = MonitorUtils.getValues(PERSPECTIVES_FILE);
 		hookListeners(workbench);
@@ -168,7 +173,7 @@ public class ToolbarUsageMonitor extends AbstractMonitor {
 	 * 
 	 * @see org.zend.usagedata.monitors.AbstractMonitor#doStopMonitoring()
 	 */
-	protected void doStopMonitoring() {
+	protected void doStopMonitoring() throws Exception {
 		IWorkbench workbench = PlatformUI.getWorkbench();
 		unhookListeners(workbench);
 	}
