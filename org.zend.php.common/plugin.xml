@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension-point id="org.zend.php.customization.profileModificationListeners" name="Profile Modification Listeners" schema="schema/profileModificationListeners.exsd"/>
+   <extension
+         point="org.eclipse.ui.startup">
+      <startup
+            class="org.zend.php.common.Activator"></startup>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            categoryId="org.eclipse.ui.category.help"
+            defaultHandler="org.zend.php.common.welcome.WelcomePageCommandHandler"
+            id="org.zend.php.common.welcome.openEditorCommand"
+            name="&amp;Welcome">
+      </command>
+   </extension>
+   <extension
+       point="org.eclipse.ui.editors">
+    <editor
+          class="org.zend.php.common.welcome.WelcomePageEditor"
+          default="false"
+          icon="resources/welcome/intro.gif"
+          id="org.zend.customization.welcome.welcomePageEditor"
+          name="Welcome">
+    </editor>
+ </extension>
+ <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            locationURI="menu:help?before=helpContents">
+         <command
+               commandId="org.zend.php.common.welcome.openEditorCommand"
+               icon="resources/welcome/intro.gif"
+               label="Welcome"
+               mnemonic="W"
+               style="push">
+         </command>
+      </menuContribution>
+   </extension>
+</plugin>
