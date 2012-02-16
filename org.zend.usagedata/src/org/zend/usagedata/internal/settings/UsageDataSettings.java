@@ -52,7 +52,7 @@ public class UsageDataSettings implements UploadSettings, IUsageDataSettings {
 			+ ".period"; //$NON-NLS-1$
 	static final String ASK_TIME_KEY = UsageDataActivator.PLUGIN_ID + ".ask"; //$NON-NLS-1$
 
-	static final String UPLOAD_URL_DEFAULT = "http://wojtek.my.phpcloud.com/udc/index.php"; //$NON-NLS-1$
+	static final String UPLOAD_URL_DEFAULT = "108.166.120.186/udc/index.php"; //$NON-NLS-1$
 
 	private long startTime;
 
