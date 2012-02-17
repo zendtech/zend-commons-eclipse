@@ -45,4 +45,11 @@
           class="org.zend.php.common.welcome.PdtWelcomeModificationListener">
     </modificationListener>
  </extension>
+  <extension
+         point="org.eclipse.ui.elementFactories">
+      <factory
+            class="org.zend.php.common.welcome.WelcomePageEditorInput"
+            id="org.zend.php.common.welcome.WelcomePageEditorInput">
+      </factory>
+   </extension>
 </plugin>
