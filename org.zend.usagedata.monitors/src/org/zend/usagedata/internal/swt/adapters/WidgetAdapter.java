@@ -60,11 +60,13 @@ public class WidgetAdapter extends AbstractAdapter {
 
 	@Override
 	public String getShell() {
-		Display display = widget.getDisplay();
-		if (display != null) {
-			Shell shell = display.getActiveShell();
-			if (shell != null) {
-				return shell.getText();
+		if (widget != null) {
+			Display display = widget.getDisplay();
+			if (display != null) {
+				Shell shell = display.getActiveShell();
+				if (shell != null) {
+					return shell.getText();
+				}
 			}
 		}
 		return ""; //$NON-NLS-1$
