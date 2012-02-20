@@ -16,6 +16,7 @@ import java.util.List;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.zend.usagedata.internal.swt.filters.AbstractFilter;
+import org.zend.usagedata.monitors.Activator;
 
 /**
  * Implementation of {@link Listener}. Provide additional ability to connect one
@@ -41,8 +42,12 @@ public class EventListener implements Listener {
 	}
 
 	public void handleEvent(Event event) {
-		for (AbstractFilter filter : filters) {
-			filter.handleEvent(event);
+		try {
+			for (AbstractFilter filter : filters) {
+				filter.handleEvent(event);
+			}
+		} catch (Exception e) {
+			Activator.log(e);
 		}
 	}
 
