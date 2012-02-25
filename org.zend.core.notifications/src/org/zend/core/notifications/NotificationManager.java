@@ -23,6 +23,7 @@ import org.zend.core.notifications.ui.IActionListener;
 import org.zend.core.notifications.ui.INotification;
 import org.zend.core.notifications.ui.INotificationChangeListener;
 import org.zend.core.notifications.ui.NotificationSettings;
+import org.zend.core.notifications.ui.NotificationType;
 
 /**
  * Global notification manager is responsible for managing notification
@@ -72,12 +73,16 @@ public class NotificationManager implements INotificationChangeListener {
 		NotificationManager manager = getInstance();
 		manager.queue.add(notification);
 		if (manager.resolve()) {
-			notification.display();
-			notification.addChangeListener(manager);
-			if (manager.queue.size() > 0) {
-				INotification toAdd = manager.queue.remove(0);
-				manager.addActive(toAdd);
+			if (notification.display()) {
+				notification.addChangeListener(manager);
+				if (manager.queue.size() > 0) {
+					INotification toAdd = manager.queue.remove(0);
+					manager.addActive(toAdd);
+				}
+			} else {
+				manager.queue.remove(notification);
 			}
+
 		}
 	}
 

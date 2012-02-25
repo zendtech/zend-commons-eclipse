@@ -8,6 +8,7 @@
 package org.zend.core.notifications.internal.ui;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.swt.SWT;
@@ -52,81 +53,28 @@ public class Notification implements IActionListener, INotification {
 	private List<INotificationChangeListener> listeners;
 
 	public Notification(NotificationSettings settings) {
-		this(Display.getDefault().getActiveShell(), settings);
+		this(null, settings);
 	}
 
 	public Notification(Shell parent, NotificationSettings settings) {
 		this.parent = parent;
 		this.settings = settings;
-		this.listeners = new ArrayList<INotificationChangeListener>();
+		this.listeners = Collections
+				.synchronizedList(new ArrayList<INotificationChangeListener>());
 	}
 
 	@Override
 	public boolean display() {
-		shell = createShell();
-		if (!isAvailable(parent) || parent.getMonitor() == null) {
-			return false;
+		if (parent == null) {
+			Display.getDefault().syncExec(new Runnable() {
+
+				@Override
+				public void run() {
+					parent = Display.getDefault().getActiveShell();
+				}
+			});
 		}
-		Composite container = createContainer(shell);
-		parent.addListener(SWT.Move, new Listener() {
-
-			@Override
-			public void handleEvent(Event event) {
-				if (isAvailable()) {
-					setLocation();
-				}
-			}
-		});
-		shell.addListener(SWT.Resize, new Listener() {
-
-			@Override
-			public void handleEvent(Event e) {
-				try {
-					Rectangle rect = shell.getClientArea();
-					Image newImage = new Image(Display.getDefault(), Math.max(
-							1, rect.width), rect.height);
-					GC gc = new GC(newImage);
-					gc.setForeground(settings.getGradientFrom());
-					gc.setBackground(settings.getGradientTo());
-					gc.fillRoundRectangle(rect.x, rect.y, rect.width,
-							rect.height, 20, 20);
-					ImageData imageData = newImage.getImageData();
-					if (settings.isGradient()) {
-						gc.fillGradientRectangle(rect.x, rect.y, rect.width,
-								rect.height, true);
-					}
-					if (settings.hasBorder()) {
-						gc.setLineWidth(2);
-						gc.setForeground(settings.getBorderColor());
-						gc.drawRoundRectangle(rect.x + 1, rect.y + 1,
-								rect.width - 2, rect.height - 2, 20, 20);
-					}
-					gc.dispose();
-					Region region = new Region();
-					Rectangle pixel = new Rectangle(0, 0, 1, 1);
-					for (int y = 0; y < imageData.height; y++) {
-						for (int x = 0; x < imageData.width; x++) {
-							if (imageData.getPixel(x, y) < 16000000) {
-								pixel.x = imageData.x + x;
-								pixel.y = imageData.y + y;
-								region.add(pixel);
-							}
-						}
-					}
-					shell.setRegion(region);
-					shell.setBackgroundImage(newImage);
-				} catch (Exception err) {
-					err.printStackTrace();
-				}
-			}
-		});
-		createImage(container);
-		createTitle(container);
-		createClose(container);
-		createDefaultBody(container);
-		initShell();
-		show();
-		return true;
+		return doDisplay();
 	}
 
 	@Override
@@ -182,6 +130,76 @@ public class Notification implements IActionListener, INotification {
 		}
 	}
 
+	private boolean doDisplay() {
+		shell = createShell();
+		if (shell == null) {
+			return false;
+		}
+		if (!isAvailable(parent) || parent.getMonitor() == null) {
+			return false;
+		}
+		Composite container = createContainer(shell);
+		parent.addListener(SWT.Move, new Listener() {
+	
+			@Override
+			public void handleEvent(Event event) {
+				if (isAvailable()) {
+					setLocation();
+				}
+			}
+		});
+		shell.addListener(SWT.Resize, new Listener() {
+	
+			@Override
+			public void handleEvent(Event e) {
+				try {
+					Rectangle rect = shell.getClientArea();
+					Image newImage = new Image(Display.getDefault(), Math.max(
+							1, rect.width), rect.height);
+					GC gc = new GC(newImage);
+					gc.setForeground(settings.getGradientFrom());
+					gc.setBackground(settings.getGradientTo());
+					gc.fillRoundRectangle(rect.x, rect.y, rect.width,
+							rect.height, 20, 20);
+					ImageData imageData = newImage.getImageData();
+					if (settings.isGradient()) {
+						gc.fillGradientRectangle(rect.x, rect.y, rect.width,
+								rect.height, true);
+					}
+					if (settings.hasBorder()) {
+						gc.setLineWidth(2);
+						gc.setForeground(settings.getBorderColor());
+						gc.drawRoundRectangle(rect.x + 1, rect.y + 1,
+								rect.width - 2, rect.height - 2, 20, 20);
+					}
+					gc.dispose();
+					Region region = new Region();
+					Rectangle pixel = new Rectangle(0, 0, 1, 1);
+					for (int y = 0; y < imageData.height; y++) {
+						for (int x = 0; x < imageData.width; x++) {
+							if (imageData.getPixel(x, y) < 16000000) {
+								pixel.x = imageData.x + x;
+								pixel.y = imageData.y + y;
+								region.add(pixel);
+							}
+						}
+					}
+					shell.setRegion(region);
+					shell.setBackgroundImage(newImage);
+				} catch (Exception err) {
+					err.printStackTrace();
+				}
+			}
+		});
+		createImage(container);
+		createTitle(container);
+		createClose(container);
+		createDefaultBody(container);
+		initShell();
+		show();
+		return true;
+	}
+
 	private void initShell() {
 		shell.setMinimumSize(settings.getWidth(), settings.getHeight());
 		shell.setSize(settings.getWidth(), settings.getHeight());
@@ -199,9 +217,6 @@ public class Notification implements IActionListener, INotification {
 	}
 
 	private Shell createShell() {
-		if (parent == null) {
-			parent = Display.getDefault().getActiveShell();
-		}
 		if (parent != null) {
 			Shell shell = new Shell(parent, SWT.NO_FOCUS | SWT.NO_TRIM);
 			shell.setLayout(new FillLayout());
@@ -290,7 +305,7 @@ public class Notification implements IActionListener, INotification {
 	}
 
 	private void show() {
-		Runnable run = new Runnable() {
+		final Runnable run = new Runnable() {
 
 			@Override
 			public void run() {
