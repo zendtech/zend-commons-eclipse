@@ -110,6 +110,99 @@ public class NotificationManager implements INotificationChangeListener {
 		return new Notification(parent, settings);
 	}
 
+	/**
+	 * Create and register new {@link INotification} instance using default
+	 * configuration with following features:
+	 * <ul>
+	 * <li>type is {@link NotificationType#INFO},</li>
+	 * <li>no close button,</li>
+	 * <li>title, message and delat are set according to provided arguments as
+	 * parameters.</li>
+	 * <li>gradient background with default colors.</li>
+	 * </ul>
+	 * 
+	 * It is equivalent to following separate calls:
+	 * <ul>
+	 * <li>{@link NotificationManager#createNotification(NotificationSettings)}</li>
+	 * <li>{@link NotificationManager#registerNotification(INotification)}</li>
+	 * </ul>
+	 * 
+	 * @param title
+	 *            notification title
+	 * @param message
+	 *            notification message
+	 * @param delay
+	 *            displaying delay
+	 */
+	public static void registerInfo(String title, String message, int delay) {
+		NotificationSettings settings = new NotificationSettings();
+		settings.setTitle(title).setDelay(delay).setMessage(message)
+				.setType(NotificationType.INFO);
+		registerNotification(createNotification(settings));
+	}
+
+	/**
+	 * Create and register new {@link INotification} instance using default
+	 * configuration with following features:
+	 * <ul>
+	 * <li>type is {@link NotificationType#WARNING},</li>
+	 * <li>no close button,</li>
+	 * <li>title, message and delat are set according to provided arguments as
+	 * parameters.</li>
+	 * <li>gradient background with default colors.</li>
+	 * </ul>
+	 * 
+	 * It is equivalent to following separate calls:
+	 * <ul>
+	 * <li>{@link NotificationManager#createNotification(NotificationSettings)}</li>
+	 * <li>{@link NotificationManager#registerNotification(INotification)}</li>
+	 * </ul>
+	 * 
+	 * @param title
+	 *            notification title
+	 * @param message
+	 *            notification message
+	 * @param delay
+	 *            displaying delay
+	 */
+	public static void registerWarning(String title, String message, int delay) {
+		NotificationSettings settings = new NotificationSettings();
+		settings.setTitle(title).setDelay(delay).setMessage(message)
+				.setType(NotificationType.WARNING);
+		registerNotification(createNotification(settings));
+	}
+
+	/**
+	 * Create and register new {@link INotification} instance using default
+	 * configuration with following features:
+	 * <ul>
+	 * <li>type is {@link NotificationType#ERROR},</li>
+	 * <li>no close button,</li>
+	 * <li>title, message and delat are set according to provided arguments as
+	 * parameters.</li>
+	 * <li>gradient background with default colors.</li>
+	 * </ul>
+	 * 
+	 * It is equivalent to following separate calls:
+	 * <ul>
+	 * <li>{@link NotificationManager#createNotification(NotificationSettings)}</li>
+	 * <li>{@link NotificationManager#registerNotification(INotification)}</li>
+	 * </ul>
+	 * 
+	 * @param title
+	 *            notification title
+	 * @param message
+	 *            notification message
+	 * @param delay
+	 *            displaying delay
+	 */
+	public static void registerError(String title, String message, int delay) {
+		NotificationSettings settings = new NotificationSettings();
+		settings.setTitle(title).setDelay(delay).setMessage(message)
+				.setType(NotificationType.WARNING);
+		registerNotification(createNotification(settings));
+	}
+
 	@Override
 	public void statusChanged(INotification notification) {
 		removeActive(notification);
@@ -128,7 +221,7 @@ public class NotificationManager implements INotificationChangeListener {
 	/**
 	 * @return number of notifications which are displayed now
 	 */
-	public static int getActiveSize() {
+	public static int getNotificationNumber() {
 		return getInstance().active.size();
 	}
 
