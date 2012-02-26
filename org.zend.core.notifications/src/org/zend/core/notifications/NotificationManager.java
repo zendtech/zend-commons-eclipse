@@ -16,6 +16,7 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.InstanceScope;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.zend.core.notifications.internal.ui.Notification;
 import org.zend.core.notifications.ui.ActionType;
@@ -69,21 +70,27 @@ public class NotificationManager implements INotificationChangeListener {
 	 * 
 	 * @param notification
 	 */
-	public static void registerNotification(INotification notification) {
-		NotificationManager manager = getInstance();
+	public static void registerNotification(final INotification notification) {
+		final NotificationManager manager = getInstance();
 		manager.queue.add(notification);
-		if (manager.resolve()) {
-			if (notification.display()) {
-				notification.addChangeListener(manager);
-				if (manager.queue.size() > 0) {
-					INotification toAdd = manager.queue.remove(0);
-					manager.addActive(toAdd);
-				}
-			} else {
-				manager.queue.remove(notification);
-			}
+		Display.getDefault().asyncExec(new Runnable() {
 
-		}
+			@Override
+			public void run() {
+				if (manager.resolve()) {
+					if (notification.display()) {
+						notification.addChangeListener(manager);
+						if (manager.queue.size() > 0) {
+							INotification toAdd = manager.queue.remove(0);
+							manager.addActive(toAdd);
+						}
+					} else {
+						manager.queue.remove(notification);
+					}
+
+				}
+			}
+		});
 	}
 
 	/**

@@ -125,78 +125,94 @@ public class Notification implements IActionListener, INotification {
 	}
 
 	private void statusChanged() {
-		for (INotificationChangeListener listener : listeners) {
-			listener.statusChanged(this);
-		}
+		Display.getDefault().asyncExec(new Runnable() {
+
+			@Override
+			public void run() {
+				for (INotificationChangeListener listener : listeners) {
+					listener.statusChanged(Notification.this);
+				}
+			}
+		});
 	}
 
 	private boolean doDisplay() {
-		shell = createShell();
-		if (shell == null) {
-			return false;
-		}
-		if (!isAvailable(parent) || parent.getMonitor() == null) {
-			return false;
-		}
-		Composite container = createContainer(shell);
-		parent.addListener(SWT.Move, new Listener() {
-	
+		parent.getDisplay().syncExec(new Runnable() {
+
 			@Override
-			public void handleEvent(Event event) {
-				if (isAvailable()) {
-					setLocation();
-				}
-			}
-		});
-		shell.addListener(SWT.Resize, new Listener() {
-	
-			@Override
-			public void handleEvent(Event e) {
-				try {
-					Rectangle rect = shell.getClientArea();
-					Image newImage = new Image(Display.getDefault(), Math.max(
-							1, rect.width), rect.height);
-					GC gc = new GC(newImage);
-					gc.setForeground(settings.getGradientFrom());
-					gc.setBackground(settings.getGradientTo());
-					gc.fillRoundRectangle(rect.x, rect.y, rect.width,
-							rect.height, 20, 20);
-					ImageData imageData = newImage.getImageData();
-					if (settings.isGradient()) {
-						gc.fillGradientRectangle(rect.x, rect.y, rect.width,
-								rect.height, true);
-					}
-					if (settings.hasBorder()) {
-						gc.setLineWidth(2);
-						gc.setForeground(settings.getBorderColor());
-						gc.drawRoundRectangle(rect.x + 1, rect.y + 1,
-								rect.width - 2, rect.height - 2, 20, 20);
-					}
-					gc.dispose();
-					Region region = new Region();
-					Rectangle pixel = new Rectangle(0, 0, 1, 1);
-					for (int y = 0; y < imageData.height; y++) {
-						for (int x = 0; x < imageData.width; x++) {
-							if (imageData.getPixel(x, y) < 16000000) {
-								pixel.x = imageData.x + x;
-								pixel.y = imageData.y + y;
-								region.add(pixel);
+			public void run() {
+				shell = createShell();
+				if (isAvailable() && isAvailable(parent)
+						&& parent.getMonitor() != null) {
+					parent.addListener(SWT.Move, new Listener() {
+
+						@Override
+						public void handleEvent(Event event) {
+							if (isAvailable()) {
+								setLocation();
 							}
 						}
-					}
-					shell.setRegion(region);
-					shell.setBackgroundImage(newImage);
-				} catch (Exception err) {
-					err.printStackTrace();
+					});
+					shell.addListener(SWT.Resize, new Listener() {
+
+						@Override
+						public void handleEvent(Event e) {
+							try {
+								Rectangle rect = shell.getClientArea();
+								Image newImage = new Image(
+										Display.getDefault(), Math.max(1,
+												rect.width), rect.height);
+								GC gc = new GC(newImage);
+								gc.setForeground(settings.getGradientFrom());
+								gc.setBackground(settings.getGradientTo());
+								gc.fillRoundRectangle(rect.x, rect.y,
+										rect.width, rect.height, 20, 20);
+								ImageData imageData = newImage.getImageData();
+								if (settings.isGradient()) {
+									gc.fillGradientRectangle(rect.x, rect.y,
+											rect.width, rect.height, true);
+								}
+								if (settings.hasBorder()) {
+									gc.setLineWidth(2);
+									gc.setForeground(settings.getBorderColor());
+									gc.drawRoundRectangle(rect.x + 1,
+											rect.y + 1, rect.width - 2,
+											rect.height - 2, 20, 20);
+								}
+								gc.dispose();
+								Region region = new Region();
+								Rectangle pixel = new Rectangle(0, 0, 1, 1);
+								for (int y = 0; y < imageData.height; y++) {
+									for (int x = 0; x < imageData.width; x++) {
+										if (imageData.getPixel(x, y) < 16000000) {
+											pixel.x = imageData.x + x;
+											pixel.y = imageData.y + y;
+											region.add(pixel);
+										}
+									}
+								}
+								shell.setRegion(region);
+								shell.setBackgroundImage(newImage);
+							} catch (Exception exception) {
+								Activator.log(exception);
+							}
+						}
+					});
+					Composite container = createContainer(shell);
+					createImage(container);
+					createTitle(container);
+					createClose(container);
+					createDefaultBody(container);
+					initShell();
+					show();
+				} else {
+					parent = null;
 				}
 			}
 		});
-		createImage(container);
-		createTitle(container);
-		createClose(container);
-		createDefaultBody(container);
-		initShell();
-		show();
+		if (shell == null || parent == null) {
+			return false;
+		}
 		return true;
 	}
 
