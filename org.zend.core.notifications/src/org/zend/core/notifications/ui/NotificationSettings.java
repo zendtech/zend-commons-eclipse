@@ -43,7 +43,7 @@ public class NotificationSettings {
 
 	private String title;
 	private String message;
-	private boolean isGradient;
+	private boolean isGradient = true;
 	private int delay = -1;
 	private int alpha = -1;
 	private NotificationType type;
@@ -168,66 +168,150 @@ public class NotificationSettings {
 		return message;
 	}
 
+	/**
+	 * Returns gradient status. Default value is <code>true</code>.
+	 * 
+	 * @return <code>true</code> if background has gradient; otherwise return
+	 *         <code>false</code>
+	 */
 	public boolean isGradient() {
 		return isGradient;
 	}
 
+	/**
+	 * Returns delay value. If there is no preference value set for this
+	 * attribute, default is <code>-1</code> which means that notification is
+	 * displayed permanently.
+	 * 
+	 * @return delay value
+	 */
 	public int getDelay() {
 		return delay > -1 ? delay : prefs.getInt(Activator.PLUGIN_ID
 				+ DELAY_KEY, DEFAULT_DELAY);
 	}
 
+	/**
+	 * Returns alpha value. If there is no preference value set for this
+	 * attribute, default is <code>225</code>.
+	 * 
+	 * @return delay value
+	 */
 	public int getAlpha() {
 		return alpha > -1 ? alpha : prefs.getInt(Activator.PLUGIN_ID
 				+ ALPHA_KEY, DEFAULT_ALPHA);
 	}
 
+	/**
+	 * @return notification type
+	 * @see NotificationType
+	 */
 	public NotificationType getType() {
 		return type;
 	}
 
+	/**
+	 * Returns value which defines period of time between fading cycles.
+	 * 
+	 * @return fade timer value
+	 */
 	public int getFadeTimer() {
 		return prefs.getInt(Activator.PLUGIN_ID + FADE_TIMER_KEY,
 				DEFAULT_FADE_TIMER);
 	}
 
+	/**
+	 * Returns fading in step value which determines speed of increase of alpha
+	 * value for notification's shell.
+	 * 
+	 * @return fade in step value
+	 */
 	public int getFadeInStep() {
 		return prefs.getInt(Activator.PLUGIN_ID + FADE_IN_KEY, DEFAULT_FADE_IN);
 	}
 
+	/**
+	 * Returns fading out step value which determines speed of decrease of alpha
+	 * value for notification's shell.
+	 * 
+	 * @return fade out step value
+	 */
 	public int getFadeOutStep() {
 		return prefs.getInt(Activator.PLUGIN_ID + FADE_OUT_KEY,
 				DEFAULT_FADE_OUT);
 	}
 
+	/**
+	 * @return notification height
+	 */
 	public int getHeight() {
 		return prefs.getInt(Activator.PLUGIN_ID + HEIGHT_KEY, DEFAULT_HEIGHT);
 	}
 
+	/**
+	 * @return notification width
+	 */
 	public int getWidth() {
 		return prefs.getInt(Activator.PLUGIN_ID + WIDTH_KEY, DEFAULT_WIDTH);
 	}
 
+	/**
+	 * Returns custom body for the notification.
+	 * 
+	 * @return custom body
+	 */
 	public IBody getBody() {
 		return body;
 	}
 
+	/**
+	 * Returns border status. Default value is <code>false</code> which means
+	 * that border is not displayed.
+	 * 
+	 * @return <code>true</code> if border is displayed; otherwise return
+	 *         <code>false</code>
+	 */
 	public boolean hasBorder() {
 		return hasBorder;
 	}
 
+	/**
+	 * Returns gradient end color. If {@link NotificationSettings#isGradient()}
+	 * returns <code>false</code> this value is used as a notification backgroud
+	 * color.
+	 * 
+	 * @return color which is used as a end of a gradient
+	 */
 	public Color getGradientTo() {
 		return ColorCache.getColor(113, 149, 174);
 	}
 
+	/**
+	 * Returns gradient start color. If
+	 * {@link NotificationSettings#isGradient()} returns <code>false</code> this
+	 * value is ignored.
+	 * 
+	 * @return color from which gradient is started.
+	 */
 	public Color getGradientFrom() {
 		return ColorCache.getColor(154, 194, 224);
 	}
 
+	/**
+	 * Returns border color. If {@link NotificationSettings#hasBorder()} returns
+	 * <code>false</code> this value is ignored.
+	 * 
+	 * @return border color
+	 */
 	public Color getBorderColor() {
 		return ColorCache.getColor(77, 92, 100);
 	}
 
+	/**
+	 * Returns value which determines that close button is displayed.
+	 * 
+	 * @return <code>true</code> if close button is displayed; otherwise return
+	 *         <code>false</code>
+	 */
 	public boolean isClosable() {
 		return closable;
 	}
