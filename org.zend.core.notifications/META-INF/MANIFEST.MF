@@ -10,4 +10,5 @@ Require-Bundle: org.eclipse.ui,
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Export-Package: org.zend.core.notifications,
- org.zend.core.notifications.ui
+ org.zend.core.notifications.ui,
+ org.zend.core.notifications.util

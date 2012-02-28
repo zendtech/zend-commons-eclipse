@@ -5,7 +5,7 @@
  * which accompanies this distribution, and is available at 
  * http://www.eclipse.org/legal/epl-v10.html  
  *******************************************************************************/
-package org.zend.core.notifications.internal.util;
+package org.zend.core.notifications.util;
 
 import java.util.ArrayList;
 import java.util.List;

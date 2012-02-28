@@ -34,8 +34,6 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Monitor;
 import org.eclipse.swt.widgets.Shell;
 import org.zend.core.notifications.Activator;
-import org.zend.core.notifications.internal.util.FontCache;
-import org.zend.core.notifications.internal.util.ImageCache;
 import org.zend.core.notifications.ui.ActionType;
 import org.zend.core.notifications.ui.IActionListener;
 import org.zend.core.notifications.ui.IBody;
@@ -43,6 +41,8 @@ import org.zend.core.notifications.ui.INotification;
 import org.zend.core.notifications.ui.INotificationChangeListener;
 import org.zend.core.notifications.ui.NotificationSettings;
 import org.zend.core.notifications.ui.NotificationType;
+import org.zend.core.notifications.util.FontCache;
+import org.zend.core.notifications.util.ImageCache;
 
 public class Notification implements IActionListener, INotification {
 
@@ -137,7 +137,7 @@ public class Notification implements IActionListener, INotification {
 	}
 
 	private boolean doDisplay() {
-		parent.getDisplay().syncExec(new Runnable() {
+		Display.getDefault().syncExec(new Runnable() {
 
 			@Override
 			public void run() {
@@ -283,7 +283,7 @@ public class Notification implements IActionListener, INotification {
 		Font f = titleLabel.getFont();
 		FontData fd = f.getFontData()[0];
 		fd.setStyle(SWT.BOLD);
-		fd.height = 13;
+		fd.height = 12;
 		titleLabel.setFont(FontCache.getFont(fd));
 	}
 

@@ -12,9 +12,9 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
-import org.zend.core.notifications.internal.util.ColorCache;
-import org.zend.core.notifications.internal.util.FontCache;
-import org.zend.core.notifications.internal.util.ImageCache;
+import org.zend.core.notifications.util.ColorCache;
+import org.zend.core.notifications.util.FontCache;
+import org.zend.core.notifications.util.ImageCache;
 
 /**
  * The activator class controls the plug-in life cycle

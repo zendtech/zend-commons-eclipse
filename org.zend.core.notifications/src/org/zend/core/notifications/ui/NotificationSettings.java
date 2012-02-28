@@ -11,7 +11,7 @@ import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.swt.graphics.Color;
 import org.zend.core.notifications.Activator;
-import org.zend.core.notifications.internal.util.ColorCache;
+import org.zend.core.notifications.util.ColorCache;
 
 /**
  * 

@@ -8,7 +8,7 @@
 package org.zend.core.notifications.ui;
 
 import org.eclipse.swt.graphics.Image;
-import org.zend.core.notifications.internal.util.ImageCache;
+import org.zend.core.notifications.util.ImageCache;
 
 /**
  * Represents notification type.
