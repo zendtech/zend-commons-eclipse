@@ -26,7 +26,7 @@ public class MacOSXActionListener implements IActionListener {
 
 	@Override
 	public void performAction(ActionType type) {
-		int size = NotificationManager.getActiveSize();
+		int size = NotificationManager.getNotificationsNumber();
 		NSApplication app = NSApplication.sharedApplication();
 		NSDockTile dock = app.dockTile();
 		String value = size > 0 ? String.valueOf(size) : ""; //$NON-NLS-1$
