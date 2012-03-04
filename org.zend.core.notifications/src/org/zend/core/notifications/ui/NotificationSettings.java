@@ -31,8 +31,8 @@ public class NotificationSettings {
 	public static final String FADE_IN_KEY = ".fade.in"; //$NON-NLS-1$
 	public static final String FADE_OUT_KEY = ".fade.out"; //$NON-NLS-1$
 
-	private static final int DEFAULT_HEIGHT = 90;
-	private static final int DEFAULT_WIDTH = 200;
+	private static final int DEFAULT_HEIGHT = 100;
+	private static final int DEFAULT_WIDTH = 230;
 
 	private static final int DEFAULT_ALPHA = 225;
 	private static final int DEFAULT_DELAY = -1;
@@ -51,6 +51,7 @@ public class NotificationSettings {
 	private boolean hasBorder;
 	private boolean closable;
 	private IEclipsePreferences prefs;
+	private int height = -1;
 
 	public NotificationSettings() {
 		this.prefs = InstanceScope.INSTANCE.getNode(Activator.PLUGIN_ID);
@@ -160,6 +161,17 @@ public class NotificationSettings {
 		return this;
 	}
 
+	/**
+	 * Set notification height if it should be different then default one.
+	 * 
+	 * @param height
+	 * @return settings
+	 */
+	public NotificationSettings setHeight(int height) {
+		this.height = height;
+		return this;
+	}
+
 	public String getTitle() {
 		return title;
 	}
@@ -244,7 +256,8 @@ public class NotificationSettings {
 	 * @return notification height
 	 */
 	public int getHeight() {
-		return prefs.getInt(Activator.PLUGIN_ID + HEIGHT_KEY, DEFAULT_HEIGHT);
+		return height != -1 ? height : prefs.getInt(Activator.PLUGIN_ID
+				+ HEIGHT_KEY, DEFAULT_HEIGHT);
 	}
 
 	/**

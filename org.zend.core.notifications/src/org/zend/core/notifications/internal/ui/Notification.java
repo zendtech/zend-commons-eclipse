@@ -95,15 +95,15 @@ public class Notification implements IActionListener, INotification {
 	}
 
 	@Override
-	public void moveUp() {
+	public void moveUp(int value) {
 		Point curLoc = shell.getLocation();
-		shell.setLocation(curLoc.x, curLoc.y - settings.getHeight());
+		shell.setLocation(curLoc.x, curLoc.y - value);
 	}
 
 	@Override
-	public void moveDown() {
+	public void moveDown(int value) {
 		Point curLoc = shell.getLocation();
-		shell.setLocation(curLoc.x, curLoc.y + settings.getHeight());
+		shell.setLocation(curLoc.x, curLoc.y + value);
 	}
 
 	@Override
@@ -123,6 +123,11 @@ public class Notification implements IActionListener, INotification {
 	@Override
 	public boolean isAvailable() {
 		return isAvailable(shell);
+	}
+
+	@Override
+	public int getHeight() {
+		return settings.getHeight();
 	}
 
 	private void statusChanged() {
@@ -177,8 +182,8 @@ public class Notification implements IActionListener, INotification {
 									gc.setLineWidth(1);
 									gc.setForeground(settings.getBorderColor());
 									gc.drawRoundRectangle(rect.x, rect.y,
-											rect.width - 1,
-											rect.height - 1, 20, 20);
+											rect.width - 1, rect.height - 1,
+											20, 20);
 								}
 								gc.dispose();
 								Region region = new Region();
@@ -218,8 +223,10 @@ public class Notification implements IActionListener, INotification {
 	}
 
 	private void initShell() {
-		shell.setMinimumSize(settings.getWidth(), settings.getHeight());
-		shell.setSize(settings.getWidth(), settings.getHeight());
+		shell.pack();
+		Point size = shell.computeSize(settings.getWidth(), shell.getSize().y);
+		settings.setHeight(size.y + 15);
+		shell.setSize(size.x, settings.getHeight());
 		setLocation();
 		shell.setAlpha(0);
 		shell.setVisible(true);
@@ -250,7 +257,6 @@ public class Notification implements IActionListener, INotification {
 		final Composite container = new Composite(shell, SWT.NONE);
 		GridLayout layout = new GridLayout(3, false);
 		layout.verticalSpacing = layout.horizontalSpacing = 0;
-		layout.marginLeft = layout.marginRight = layout.marginBottom = 5;
 		container.setLayout(layout);
 		return container;
 	}
@@ -258,7 +264,10 @@ public class Notification implements IActionListener, INotification {
 	private void createDefaultBody(Composite container) {
 		IBody customBody = settings.getBody();
 		if (customBody != null) {
-			customBody.createContent(container);
+			Composite body = customBody.createContent(container);
+			body.setLayoutData(
+					new GridData(SWT.FILL, SWT.FILL, true, true, 3, 1));
+			body.pack(true);
 			customBody.addActionListener(this);
 		} else {
 			Label text = new Label(container, SWT.WRAP);

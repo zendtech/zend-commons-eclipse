@@ -77,17 +77,14 @@ public class NotificationManager implements INotificationChangeListener {
 
 			@Override
 			public void run() {
-				if (manager.resolve()) {
-					if (notification.display()) {
-						notification.addChangeListener(manager);
-						if (manager.queue.size() > 0) {
-							INotification toAdd = manager.queue.remove(0);
-							manager.addActive(toAdd);
-						}
+				if (manager.resolve(notification)) {
+					notification.addChangeListener(manager);
+					if (manager.queue.size() > 0) {
+						INotification toAdd = manager.queue.remove(0);
+						manager.addActive(toAdd);
 					} else {
 						manager.queue.remove(notification);
 					}
-
 				}
 			}
 		});
@@ -251,7 +248,7 @@ public class NotificationManager implements INotificationChangeListener {
 			return;
 		}
 		INotification n = queue.get(queue.size() - 1);
-		if (manager.resolve()) {
+		if (manager.resolve(n)) {
 			n.display();
 			n.addChangeListener(manager);
 			manager.queue.remove(n);
@@ -273,16 +270,19 @@ public class NotificationManager implements INotificationChangeListener {
 		return manager;
 	}
 
-	private boolean resolve() {
+	private boolean resolve(INotification added) {
 		if (!active.isEmpty()) {
 			List<INotification> modifiable = new ArrayList<INotification>(
 					active);
 			Collections.reverse(modifiable);
 			int limit = prefs.getInt(LIMIT_KEY, LIMIT_DEFAULT);
 			if (active.size() < limit && !isOverflow(modifiable)) {
+				if (!added.display()) {
+					return false;
+				}
 				for (INotification notification : modifiable) {
 					if (notification.isAvailable()) {
-						notification.moveUp();
+						notification.moveUp(added.getHeight());
 					} else {
 						removeActive(notification);
 					}
@@ -290,15 +290,19 @@ public class NotificationManager implements INotificationChangeListener {
 			} else {
 				return false;
 			}
+		} else {
+			if (!added.display()) {
+				return false;
+			}
 		}
 		return true;
 	}
 
-	private void moveDown(int index) {
+	private void moveDown(int index, INotification removed) {
 		for (int i = 0; i < index; i++) {
 			INotification notification = active.get(i);
 			if (notification.isAvailable()) {
-				notification.moveDown();
+				notification.moveDown(removed.getHeight());
 			}
 		}
 	}
@@ -311,7 +315,7 @@ public class NotificationManager implements INotificationChangeListener {
 	private void removeActive(INotification notification) {
 		int index = active.indexOf(notification);
 		if (index != 0) {
-			moveDown(index);
+			moveDown(index, notification);
 		}
 		active.remove(notification);
 		actionPerformed(ActionType.HIDE);

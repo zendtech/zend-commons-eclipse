@@ -43,12 +43,23 @@ public interface INotification {
 
 	/**
 	 * Move notification up in notifications stack.
+	 * 
+	 * @param value
+	 *            - number of pixels which notification should be moved up
 	 */
-	void moveUp();
+	void moveUp(int value);
 
 	/**
 	 * Move notification down in notifications stack.
+	 * 
+	 * @param value
+	 *            - number of pixels which notification should be moved down
 	 */
-	void moveDown();
+	void moveDown(int value);
+
+	/**
+	 * @return notification height
+	 */
+	int getHeight();
 
 }
