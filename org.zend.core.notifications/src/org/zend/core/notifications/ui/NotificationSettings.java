@@ -31,8 +31,8 @@ public class NotificationSettings {
 	public static final String FADE_IN_KEY = ".fade.in"; //$NON-NLS-1$
 	public static final String FADE_OUT_KEY = ".fade.out"; //$NON-NLS-1$
 
-	private static final int DEFAULT_HEIGHT = 100;
-	private static final int DEFAULT_WIDTH = 280;
+	private static final int DEFAULT_HEIGHT = 90;
+	private static final int DEFAULT_WIDTH = 200;
 
 	private static final int DEFAULT_ALPHA = 225;
 	private static final int DEFAULT_DELAY = -1;
@@ -282,7 +282,7 @@ public class NotificationSettings {
 	 * @return color which is used as a end of a gradient
 	 */
 	public Color getGradientTo() {
-		return ColorCache.getColor(113, 149, 174);
+		return ColorCache.getColor(235, 242, 251);
 	}
 
 	/**
@@ -293,7 +293,7 @@ public class NotificationSettings {
 	 * @return color from which gradient is started.
 	 */
 	public Color getGradientFrom() {
-		return ColorCache.getColor(154, 194, 224);
+		return ColorCache.getColor(254, 255, 254);
 	}
 
 	/**
@@ -303,7 +303,7 @@ public class NotificationSettings {
 	 * @return border color
 	 */
 	public Color getBorderColor() {
-		return ColorCache.getColor(77, 92, 100);
+		return ColorCache.getColor(177, 177, 177);
 	}
 
 	/**

@@ -41,6 +41,7 @@ import org.zend.core.notifications.ui.INotification;
 import org.zend.core.notifications.ui.INotificationChangeListener;
 import org.zend.core.notifications.ui.NotificationSettings;
 import org.zend.core.notifications.ui.NotificationType;
+import org.zend.core.notifications.util.ColorCache;
 import org.zend.core.notifications.util.FontCache;
 import org.zend.core.notifications.util.ImageCache;
 
@@ -173,11 +174,11 @@ public class Notification implements IActionListener, INotification {
 											rect.width, rect.height, true);
 								}
 								if (settings.hasBorder()) {
-									gc.setLineWidth(2);
+									gc.setLineWidth(1);
 									gc.setForeground(settings.getBorderColor());
-									gc.drawRoundRectangle(rect.x + 1,
-											rect.y + 1, rect.width - 2,
-											rect.height - 2, 20, 20);
+									gc.drawRoundRectangle(rect.x, rect.y,
+											rect.width - 1,
+											rect.height - 1, 20, 20);
 								}
 								gc.dispose();
 								Region region = new Region();
@@ -248,6 +249,7 @@ public class Notification implements IActionListener, INotification {
 	private Composite createContainer(Shell shell) {
 		final Composite container = new Composite(shell, SWT.NONE);
 		GridLayout layout = new GridLayout(3, false);
+		layout.verticalSpacing = layout.horizontalSpacing = 0;
 		layout.marginLeft = layout.marginRight = layout.marginBottom = 5;
 		container.setLayout(layout);
 		return container;
@@ -278,12 +280,11 @@ public class Notification implements IActionListener, INotification {
 		titleLabel.setLayoutData(new GridData(GridData.FILL_HORIZONTAL
 				| GridData.VERTICAL_ALIGN_CENTER));
 		titleLabel.setText(settings.getTitle());
-		titleLabel.setForeground(Display.getDefault().getSystemColor(
-				SWT.COLOR_BLACK));
+		titleLabel.setForeground(ColorCache.getColor(74, 94, 116));
 		Font f = titleLabel.getFont();
 		FontData fd = f.getFontData()[0];
 		fd.setStyle(SWT.BOLD);
-		fd.height = 12;
+		fd.height = 11;
 		titleLabel.setFont(FontCache.getFont(fd));
 	}
 
