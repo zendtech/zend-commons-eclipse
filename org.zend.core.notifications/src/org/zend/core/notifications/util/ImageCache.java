@@ -49,7 +49,7 @@ public class ImageCache {
 	 * @return {@link Image} or null if image was not found
 	 */
 	public static Image getCloseImage() {
-		return getImage("icons/close.png"); //$NON-NLS-1$
+		return getImage("icons/close.gif"); //$NON-NLS-1$
 	}
 
 	/**
@@ -58,7 +58,7 @@ public class ImageCache {
 	 * @return {@link Image} or null if image was not found
 	 */
 	public static Image getCloseImagePressed() {
-		return getImage("icons/close_p.png"); //$NON-NLS-1$
+		return getImage("icons/close_active.gif"); //$NON-NLS-1$
 	}
 
 	public static void dispose() {
