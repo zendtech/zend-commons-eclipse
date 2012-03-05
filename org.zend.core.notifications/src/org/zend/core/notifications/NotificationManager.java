@@ -97,6 +97,10 @@ public class NotificationManager implements INotificationChangeListener {
 	 * @return new {@link INotification} instance
 	 */
 	public static INotification createNotification(NotificationSettings settings) {
+		Shell parent = Activator.getDefault().getParent();
+		if (parent != null) {
+			return new Notification(parent, settings);
+		}
 		return new Notification(settings);
 	}
 
@@ -141,7 +145,7 @@ public class NotificationManager implements INotificationChangeListener {
 	public static void registerInfo(String title, String message, int delay) {
 		NotificationSettings settings = new NotificationSettings();
 		settings.setTitle(title).setDelay(delay).setMessage(message)
-				.setType(NotificationType.INFO);
+				.setType(NotificationType.INFO).setBorder(true);
 		registerNotification(createNotification(settings));
 	}
 
@@ -175,7 +179,8 @@ public class NotificationManager implements INotificationChangeListener {
 			int delay) {
 		NotificationSettings settings = new NotificationSettings();
 		settings.setTitle(title).setDelay(delay).setMessage(message)
-				.setClosable(true).setType(NotificationType.INFO);
+				.setClosable(true).setType(NotificationType.INFO)
+				.setBorder(true);
 		registerNotification(createNotification(parent, settings));
 	}
 
@@ -206,7 +211,7 @@ public class NotificationManager implements INotificationChangeListener {
 	public static void registerWarning(String title, String message, int delay) {
 		NotificationSettings settings = new NotificationSettings();
 		settings.setTitle(title).setDelay(delay).setMessage(message)
-				.setType(NotificationType.WARNING);
+				.setType(NotificationType.WARNING).setBorder(true);
 		registerNotification(createNotification(settings));
 	}
 
@@ -237,7 +242,7 @@ public class NotificationManager implements INotificationChangeListener {
 	public static void registerError(String title, String message, int delay) {
 		NotificationSettings settings = new NotificationSettings();
 		settings.setTitle(title).setDelay(delay).setMessage(message)
-				.setType(NotificationType.WARNING);
+				.setType(NotificationType.WARNING).setBorder(true);
 		registerNotification(createNotification(settings));
 	}
 

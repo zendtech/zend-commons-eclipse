@@ -10,6 +10,8 @@ package org.zend.core.notifications;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 import org.zend.core.notifications.util.ColorCache;
@@ -27,6 +29,8 @@ public class Activator extends AbstractUIPlugin {
 	// The shared instance
 	private static Activator plugin;
 
+	private Shell parent;
+
 	/**
 	 * The constructor
 	 */
@@ -43,6 +47,10 @@ public class Activator extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
+		Shell[] shells = PlatformUI.getWorkbench().getDisplay().getShells();
+		if (shells != null && shells.length > 0) {
+			parent = shells[0];
+		}
 	}
 
 	/*
@@ -67,6 +75,10 @@ public class Activator extends AbstractUIPlugin {
 	 */
 	public static Activator getDefault() {
 		return plugin;
+	}
+
+	public Shell getParent() {
+		return parent;
 	}
 
 	/**
