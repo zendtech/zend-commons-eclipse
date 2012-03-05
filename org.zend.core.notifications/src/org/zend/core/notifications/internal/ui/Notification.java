@@ -270,14 +270,18 @@ public class Notification implements IActionListener, INotification {
 			body.pack(true);
 			customBody.addActionListener(this);
 		} else {
-			Label text = new Label(container, SWT.WRAP);
+			Composite composite = new Composite(container, SWT.NONE);
+			composite.setLayoutData(
+					new GridData(SWT.FILL, SWT.FILL, true, true, 3, 1));
+			GridLayout layout = new GridLayout(1, true);
+			layout.horizontalSpacing = layout.verticalSpacing = 2;
+			composite.setLayout(layout);
+			Label text = new Label(composite, SWT.WRAP);
 			Font tf = text.getFont();
 			FontData tfd = tf.getFontData()[0];
 			tfd.height = 11;
 			text.setFont(FontCache.getFont(tfd));
-			GridData gd = new GridData(GridData.FILL_BOTH);
-			gd.horizontalSpan = 2;
-			text.setLayoutData(gd);
+			text.setLayoutData(new GridData(GridData.FILL_BOTH));
 			text.setForeground(Display.getDefault().getSystemColor(
 					SWT.COLOR_BLACK));
 			text.setText(settings.getMessage());
