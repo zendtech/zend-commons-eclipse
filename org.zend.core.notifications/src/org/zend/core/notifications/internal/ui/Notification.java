@@ -223,10 +223,9 @@ public class Notification implements IActionListener, INotification {
 	}
 
 	private void initShell() {
-		shell.pack();
-		Point size = shell.computeSize(settings.getWidth(), shell.getSize().y);
-		settings.setHeight(size.y + 15);
-		shell.setSize(size.x, settings.getHeight());
+		Point size = shell.computeSize(settings.getWidth(), SWT.DEFAULT);
+		settings.setHeight(size.y);
+		shell.setSize(size.x, size.y);
 		setLocation();
 		shell.setAlpha(0);
 		shell.setVisible(true);
