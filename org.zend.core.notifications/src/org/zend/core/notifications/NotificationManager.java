@@ -281,6 +281,11 @@ public class NotificationManager implements INotificationChangeListener {
 					active);
 			Collections.reverse(modifiable);
 			int limit = prefs.getInt(LIMIT_KEY, LIMIT_DEFAULT);
+			for (INotification notification : modifiable) {
+				if (!notification.isAvailable()) {
+					removeActive(notification);
+				}
+			}
 			if (active.size() < limit && !isOverflow(modifiable)) {
 				if (!added.display()) {
 					return false;
@@ -288,8 +293,6 @@ public class NotificationManager implements INotificationChangeListener {
 				for (INotification notification : modifiable) {
 					if (notification.isAvailable()) {
 						notification.moveUp(added.getHeight());
-					} else {
-						removeActive(notification);
 					}
 				}
 			} else {

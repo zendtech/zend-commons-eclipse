@@ -10,7 +10,10 @@ package org.zend.core.notifications;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
@@ -47,10 +50,7 @@ public class Activator extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
-		Shell[] shells = PlatformUI.getWorkbench().getDisplay().getShells();
-		if (shells != null && shells.length > 0) {
-			parent = shells[0];
-		}
+		parent = getWorkbenchShell(null);
 	}
 
 	/*
@@ -102,6 +102,33 @@ public class Activator extends AbstractUIPlugin {
 	 */
 	public static ImageDescriptor getImageDescriptor(String path) {
 		return imageDescriptorFromPlugin(PLUGIN_ID, path);
+	}
+
+	private Shell getWorkbenchShell(Shell previousShell) {
+		IWorkbenchWindow[] windows = PlatformUI.getWorkbench()
+				.getWorkbenchWindows();
+		if (windows != null && windows.length > 0) {
+			for (IWorkbenchWindow window : windows) {
+				Shell shell = window.getShell();
+				if (shell != null && !shell.isDisposed()
+						&& shell != previousShell) {
+					if (shell.getText() != null
+							&& shell.getText().length() != 0) {
+						shell.addDisposeListener(new DisposeListener() {
+
+							@Override
+							public void widgetDisposed(DisposeEvent e) {
+								if (e.widget instanceof Shell) {
+									parent = getWorkbenchShell((Shell) e.widget);
+								}
+							}
+						});
+						return shell;
+					}
+				}
+			}
+		}
+		return null;
 	}
 
 }
