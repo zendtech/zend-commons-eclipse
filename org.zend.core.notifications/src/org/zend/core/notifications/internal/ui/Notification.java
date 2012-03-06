@@ -49,6 +49,7 @@ public class Notification implements IActionListener, INotification {
 
 	private Shell shell;
 	private Shell parent;
+	private Point currentLocation;
 
 	private NotificationSettings settings;
 	private List<INotificationChangeListener> listeners;
@@ -98,12 +99,14 @@ public class Notification implements IActionListener, INotification {
 	public void moveUp(int value) {
 		Point curLoc = shell.getLocation();
 		shell.setLocation(curLoc.x, curLoc.y - value);
+		currentLocation = shell.getLocation();
 	}
 
 	@Override
 	public void moveDown(int value) {
 		Point curLoc = shell.getLocation();
 		shell.setLocation(curLoc.x, curLoc.y + value);
+		currentLocation = shell.getLocation();
 	}
 
 	@Override
@@ -155,7 +158,7 @@ public class Notification implements IActionListener, INotification {
 						@Override
 						public void handleEvent(Event event) {
 							if (isAvailable()) {
-								setLocation();
+								shell.setLocation(currentLocation);
 							}
 						}
 					});
@@ -211,6 +214,7 @@ public class Notification implements IActionListener, INotification {
 					createDefaultBody(container);
 					initShell();
 					show();
+					currentLocation = shell.getLocation();
 				} else {
 					parent = null;
 				}
