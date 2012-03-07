@@ -12,6 +12,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
@@ -109,22 +110,25 @@ public class Activator extends AbstractUIPlugin {
 				.getWorkbenchWindows();
 		if (windows != null && windows.length > 0) {
 			for (IWorkbenchWindow window : windows) {
-				Shell shell = window.getShell();
+				final Shell shell = window.getShell();
 				if (shell != null && !shell.isDisposed()
 						&& shell != previousShell) {
-					if (shell.getText() != null
-							&& shell.getText().length() != 0) {
-						shell.addDisposeListener(new DisposeListener() {
+					Display.getDefault().asyncExec(new Runnable() {
 
-							@Override
-							public void widgetDisposed(DisposeEvent e) {
-								if (e.widget instanceof Shell) {
-									parent = getWorkbenchShell((Shell) e.widget);
+						@Override
+						public void run() {
+							shell.addDisposeListener(new DisposeListener() {
+
+								@Override
+								public void widgetDisposed(DisposeEvent e) {
+									if (e.widget instanceof Shell) {
+										parent = getWorkbenchShell((Shell) e.widget);
+									}
 								}
-							}
-						});
-						return shell;
-					}
+							});
+						}
+					});
+					return shell;
 				}
 			}
 		}

@@ -213,7 +213,7 @@ public class Notification implements IActionListener, INotification {
 					createImage(container);
 					createTitle(container);
 					createClose(container);
-					createDefaultBody(container);
+					createBody(container);
 					initShell();
 					show();
 					currentLocation = shell.getLocation();
@@ -267,7 +267,7 @@ public class Notification implements IActionListener, INotification {
 		return container;
 	}
 
-	protected void createDefaultBody(Composite container) {
+	protected void createBody(Composite container) {
 		IBody customBody = settings.getBody();
 		if (customBody != null) {
 			Composite body = customBody.createContent(container);
@@ -290,7 +290,10 @@ public class Notification implements IActionListener, INotification {
 			text.setLayoutData(new GridData(GridData.FILL_BOTH));
 			text.setForeground(Display.getDefault().getSystemColor(
 					SWT.COLOR_BLACK));
-			text.setText(settings.getMessage());
+			String message = settings.getMessage();
+			if (message != null) {
+				text.setText(settings.getMessage());
+			}
 		}
 	}
 

@@ -16,9 +16,11 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.InstanceScope;
+import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.zend.core.notifications.internal.ui.Notification;
+import org.zend.core.notifications.internal.ui.progress.ProgressNotification;
 import org.zend.core.notifications.ui.ActionType;
 import org.zend.core.notifications.ui.IActionListener;
 import org.zend.core.notifications.ui.INotification;
@@ -124,7 +126,8 @@ public class NotificationManager implements INotificationChangeListener {
 	 * <ul>
 	 * <li>type is {@link NotificationType#INFO},</li>
 	 * <li>no close button,</li>
-	 * <li>title, message and delat are set according to provided arguments as
+	 * <li>border visible,</li>
+	 * <li>title, message and delay are set according to provided arguments as
 	 * parameters.</li>
 	 * <li>gradient background with default colors.</li>
 	 * </ul>
@@ -155,6 +158,7 @@ public class NotificationManager implements INotificationChangeListener {
 	 * <ul>
 	 * <li>type is {@link NotificationType#INFO},</li>
 	 * <li>no close button,</li>
+	 * <li>border visible,</li>
 	 * <li>title, message and delat are set according to provided arguments as
 	 * parameters.</li>
 	 * <li>gradient background with default colors.</li>
@@ -190,6 +194,7 @@ public class NotificationManager implements INotificationChangeListener {
 	 * <ul>
 	 * <li>type is {@link NotificationType#WARNING},</li>
 	 * <li>no close button,</li>
+	 * <li>border visible,</li>
 	 * <li>title, message and delat are set according to provided arguments as
 	 * parameters.</li>
 	 * <li>gradient background with default colors.</li>
@@ -221,6 +226,7 @@ public class NotificationManager implements INotificationChangeListener {
 	 * <ul>
 	 * <li>type is {@link NotificationType#ERROR},</li>
 	 * <li>no close button,</li>
+	 * <li>border visible,</li>
 	 * <li>title, message and delat are set according to provided arguments as
 	 * parameters.</li>
 	 * <li>gradient background with default colors.</li>
@@ -244,6 +250,42 @@ public class NotificationManager implements INotificationChangeListener {
 		settings.setTitle(title).setDelay(delay).setMessage(message)
 				.setType(NotificationType.WARNING).setBorder(true);
 		registerNotification(createNotification(settings));
+	}
+
+	/**
+	 * Create and register new {@link INotification} instance which support
+	 * progress monitoring using default configuration with following features:
+	 * <ul>
+	 * <li>type is {@link NotificationType#INFO},</li>
+	 * <li>close button,</li>
+	 * <li>border visible,</li>
+	 * <li>title and height are set according to provided arguments as
+	 * parameters.</li>
+	 * <li>gradient background with default colors.</li>
+	 * </ul>
+	 * This notification provide ability to show progress of a process which is
+	 * performed. It has fixed height so it is not calculated based on
+	 * notification body content.
+	 * 
+	 * @param title
+	 *            notification title
+	 * @param height
+	 *            notification height
+	 * @param runnable
+	 *            process which should be run
+	 */
+	public static void registerProgress(String title, int height,
+			IRunnableWithProgress runnable) {
+		NotificationSettings settings = new NotificationSettings();
+		settings.setTitle(title).setType(NotificationType.INFO).setBorder(true)
+				.setClosable(true).setHeight(height);
+		Shell parent = Activator.getDefault().getParent();
+		if (parent != null) {
+			registerNotification(new ProgressNotification(parent, settings,
+					runnable));
+		} else {
+			registerNotification(new ProgressNotification(settings, runnable));
+		}
 	}
 
 	@Override
