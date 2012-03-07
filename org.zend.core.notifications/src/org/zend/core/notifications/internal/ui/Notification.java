@@ -47,12 +47,14 @@ import org.zend.core.notifications.util.ImageCache;
 
 public class Notification implements IActionListener, INotification {
 
-	private Shell shell;
-	private Shell parent;
-	private Point currentLocation;
+	private static final int DEFAULT_WIDTH = 230;
 
-	private NotificationSettings settings;
-	private List<INotificationChangeListener> listeners;
+	protected Shell shell;
+	protected Shell parent;
+	protected Point currentLocation;
+
+	protected NotificationSettings settings;
+	protected List<INotificationChangeListener> listeners;
 
 	public Notification(NotificationSettings settings) {
 		this(null, settings);
@@ -133,7 +135,7 @@ public class Notification implements IActionListener, INotification {
 		return settings.getHeight();
 	}
 
-	private void statusChanged() {
+	protected void statusChanged() {
 		Display.getDefault().asyncExec(new Runnable() {
 
 			@Override
@@ -145,7 +147,7 @@ public class Notification implements IActionListener, INotification {
 		});
 	}
 
-	private boolean doDisplay() {
+	protected boolean doDisplay() {
 		Display.getDefault().syncExec(new Runnable() {
 
 			@Override
@@ -226,16 +228,17 @@ public class Notification implements IActionListener, INotification {
 		return true;
 	}
 
-	private void initShell() {
-		Point size = shell.computeSize(settings.getWidth(), SWT.DEFAULT);
-		settings.setHeight(size.y);
-		shell.setSize(size.x, size.y);
+	protected void initShell() {
+		int width = Math.max(settings.getWidth(), DEFAULT_WIDTH);
+		Point size = shell.computeSize(width, SWT.DEFAULT);
+		settings.setHeight(Math.max(size.y, settings.getHeight()));
+		shell.setSize(width, settings.getHeight());
 		setLocation();
 		shell.setAlpha(0);
 		shell.setVisible(true);
 	}
 
-	private void setLocation() {
+	protected void setLocation() {
 		Point size = shell.getSize();
 		Rectangle clientArea = parent.getMonitor().getClientArea();
 		int startX = clientArea.x + clientArea.width - size.x - 2;
@@ -243,7 +246,7 @@ public class Notification implements IActionListener, INotification {
 		shell.setLocation(startX, startY);
 	}
 
-	private Shell createShell() {
+	protected Shell createShell() {
 		if (parent != null) {
 			Shell shell = new Shell(parent, SWT.NO_FOCUS | SWT.NO_TRIM);
 			shell.setLayout(new FillLayout());
@@ -256,7 +259,7 @@ public class Notification implements IActionListener, INotification {
 		return null;
 	}
 
-	private Composite createContainer(Shell shell) {
+	protected Composite createContainer(Shell shell) {
 		final Composite container = new Composite(shell, SWT.NONE);
 		GridLayout layout = new GridLayout(3, false);
 		layout.verticalSpacing = layout.horizontalSpacing = 0;
@@ -264,18 +267,18 @@ public class Notification implements IActionListener, INotification {
 		return container;
 	}
 
-	private void createDefaultBody(Composite container) {
+	protected void createDefaultBody(Composite container) {
 		IBody customBody = settings.getBody();
 		if (customBody != null) {
 			Composite body = customBody.createContent(container);
-			body.setLayoutData(
-					new GridData(SWT.FILL, SWT.FILL, true, true, 3, 1));
+			body.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3,
+					1));
 			body.pack(true);
 			customBody.addActionListener(this);
 		} else {
 			Composite composite = new Composite(container, SWT.NONE);
-			composite.setLayoutData(
-					new GridData(SWT.FILL, SWT.FILL, true, true, 3, 1));
+			composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true,
+					true, 3, 1));
 			GridLayout layout = new GridLayout(1, true);
 			layout.horizontalSpacing = layout.verticalSpacing = 2;
 			composite.setLayout(layout);
@@ -291,7 +294,7 @@ public class Notification implements IActionListener, INotification {
 		}
 	}
 
-	private void createTitle(Composite container) {
+	protected void createTitle(Composite container) {
 		CLabel titleLabel = new CLabel(container, SWT.NONE);
 		titleLabel.setLayoutData(new GridData(GridData.FILL_HORIZONTAL
 				| GridData.VERTICAL_ALIGN_CENTER));
@@ -304,7 +307,7 @@ public class Notification implements IActionListener, INotification {
 		titleLabel.setFont(FontCache.getFont(fd));
 	}
 
-	private void createImage(Composite container) {
+	protected void createImage(Composite container) {
 		NotificationType type = settings.getType();
 		if (type != null) {
 			CLabel imgLabel = new CLabel(container, SWT.NONE);
@@ -315,7 +318,7 @@ public class Notification implements IActionListener, INotification {
 		}
 	}
 
-	private void createClose(Composite container) {
+	protected void createClose(Composite container) {
 		if (settings.isClosable()) {
 			final CLabel button = new CLabel(container, SWT.NONE);
 			button.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_BEGINNING
@@ -337,7 +340,7 @@ public class Notification implements IActionListener, INotification {
 		}
 	}
 
-	private void show() {
+	protected void show() {
 		final Runnable run = new Runnable() {
 
 			@Override
@@ -347,9 +350,7 @@ public class Notification implements IActionListener, INotification {
 						int cur = shell.getAlpha() + settings.getFadeInStep();
 						if (cur > settings.getAlpha()) {
 							shell.setAlpha(settings.getAlpha());
-							if (settings.getDelay() != -1) {
-								startTimer();
-							}
+							startTimer();
 							return;
 						}
 						shell.setAlpha(cur);
@@ -366,7 +367,7 @@ public class Notification implements IActionListener, INotification {
 		}
 	}
 
-	private void hide() {
+	protected void hide() {
 		final Runnable run = new Runnable() {
 
 			@Override
@@ -395,25 +396,27 @@ public class Notification implements IActionListener, INotification {
 		}
 	}
 
-	private void startTimer() {
-		Runnable run = new Runnable() {
+	protected void startTimer() {
+		if (settings.getDelay() != -1) {
+			Runnable run = new Runnable() {
 
-			@Override
-			public void run() {
-				try {
-					if (shell == null || shell.isDisposed()) {
-						return;
+				@Override
+				public void run() {
+					try {
+						if (shell == null || shell.isDisposed()) {
+							return;
+						}
+						hide();
+					} catch (Exception e) {
+						Activator.log(e);
 					}
-					hide();
-				} catch (Exception e) {
-					Activator.log(e);
 				}
-			}
-		};
-		shell.getDisplay().timerExec(settings.getDelay(), run);
+			};
+			shell.getDisplay().timerExec(settings.getDelay(), run);
+		}
 	}
 
-	private boolean isAvailable(Shell shell) {
+	protected boolean isAvailable(Shell shell) {
 		if (shell == null || shell.isDisposed()) {
 			return false;
 		}

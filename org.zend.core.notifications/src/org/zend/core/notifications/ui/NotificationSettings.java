@@ -31,9 +31,6 @@ public class NotificationSettings {
 	public static final String FADE_IN_KEY = ".fade.in"; //$NON-NLS-1$
 	public static final String FADE_OUT_KEY = ".fade.out"; //$NON-NLS-1$
 
-	private static final int DEFAULT_HEIGHT = 100;
-	private static final int DEFAULT_WIDTH = 230;
-
 	private static final int DEFAULT_ALPHA = 225;
 	private static final int DEFAULT_DELAY = -1;
 
@@ -257,14 +254,14 @@ public class NotificationSettings {
 	 */
 	public int getHeight() {
 		return height != -1 ? height : prefs.getInt(Activator.PLUGIN_ID
-				+ HEIGHT_KEY, DEFAULT_HEIGHT);
+				+ HEIGHT_KEY, -1);
 	}
 
 	/**
 	 * @return notification width
 	 */
 	public int getWidth() {
-		return prefs.getInt(Activator.PLUGIN_ID + WIDTH_KEY, DEFAULT_WIDTH);
+		return prefs.getInt(Activator.PLUGIN_ID + WIDTH_KEY, -1);
 	}
 
 	/**
