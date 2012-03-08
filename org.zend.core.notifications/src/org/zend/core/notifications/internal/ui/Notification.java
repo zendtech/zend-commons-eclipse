@@ -19,7 +19,6 @@ import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.graphics.Region;
@@ -176,12 +175,12 @@ public class Notification implements IActionListener, INotification {
 								GC gc = new GC(newImage);
 								gc.setForeground(settings.getGradientFrom());
 								gc.setBackground(settings.getGradientTo());
-								gc.fillRoundRectangle(rect.x, rect.y,
-										rect.width, rect.height, 20, 20);
-								ImageData imageData = newImage.getImageData();
 								if (settings.isGradient()) {
 									gc.fillGradientRectangle(rect.x, rect.y,
 											rect.width, rect.height, true);
+								} else {
+									gc.fillRectangle(rect.x, rect.y,
+											rect.width, rect.height);
 								}
 								if (settings.hasBorder()) {
 									gc.setLineWidth(1);
@@ -191,18 +190,7 @@ public class Notification implements IActionListener, INotification {
 											20, 20);
 								}
 								gc.dispose();
-								Region region = new Region();
-								Rectangle pixel = new Rectangle(0, 0, 1, 1);
-								for (int y = 0; y < imageData.height; y++) {
-									for (int x = 0; x < imageData.width; x++) {
-										if (imageData.getPixel(x, y) < 16000000) {
-											pixel.x = imageData.x + x;
-											pixel.y = imageData.y + y;
-											region.add(pixel);
-										}
-									}
-								}
-								shell.setRegion(region);
+								shell.setRegion(createRoundedCorners());
 								shell.setBackgroundImage(newImage);
 							} catch (Exception exception) {
 								Activator.log(exception);
@@ -424,6 +412,46 @@ public class Notification implements IActionListener, INotification {
 			return false;
 		}
 		return true;
+	}
+
+	protected Region createRoundedCorners() {
+		Region region = new Region();
+		Point point = shell.getSize();
+		region.add(0, 0, point.x, point.y);
+
+		region.subtract(0, 0, 7, 1);
+		region.subtract(0, 1, 5, 1);
+		region.subtract(0, 2, 4, 1);
+		region.subtract(0, 3, 3, 1);
+		region.subtract(0, 4, 2, 1);
+		region.subtract(0, 5, 1, 1);
+		region.subtract(0, 6, 1, 1);
+
+		region.subtract(point.x - 7, 0, 7, 1);
+		region.subtract(point.x - 5, 1, 5, 1);
+		region.subtract(point.x - 4, 2, 4, 1);
+		region.subtract(point.x - 3, 3, 3, 1);
+		region.subtract(point.x - 2, 4, 2, 1);
+		region.subtract(point.x - 1, 5, 1, 1);
+		region.subtract(point.x - 1, 6, 1, 1);
+
+		region.subtract(point.x - 7, point.y - 1, 7, 1);
+		region.subtract(point.x - 5, point.y - 2, 5, 1);
+		region.subtract(point.x - 4, point.y - 3, 4, 1);
+		region.subtract(point.x - 3, point.y - 4, 3, 1);
+		region.subtract(point.x - 2, point.y - 5, 2, 1);
+		region.subtract(point.x - 1, point.y - 6, 1, 1);
+		region.subtract(point.x - 1, point.y - 7, 1, 1);
+
+		region.subtract(0, point.y - 1, 7, 1);
+		region.subtract(0, point.y - 2, 5, 1);
+		region.subtract(0, point.y - 3, 4, 1);
+		region.subtract(0, point.y - 4, 3, 1);
+		region.subtract(0, point.y - 5, 2, 1);
+		region.subtract(0, point.y - 6, 1, 1);
+		region.subtract(0, point.y - 7, 1, 1);
+
+		return region;
 	}
 
 }
