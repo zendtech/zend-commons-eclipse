@@ -11,18 +11,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.TaskBar;
+import org.eclipse.swt.widgets.TaskItem;
 import org.zend.core.notifications.internal.ui.Notification;
 import org.zend.core.notifications.internal.ui.progress.ProgressNotification;
-import org.zend.core.notifications.ui.ActionType;
-import org.zend.core.notifications.ui.IActionListener;
 import org.zend.core.notifications.ui.INotification;
 import org.zend.core.notifications.ui.INotificationChangeListener;
 import org.zend.core.notifications.ui.NotificationSettings;
@@ -37,7 +34,6 @@ import org.zend.core.notifications.ui.NotificationType;
  */
 public class NotificationManager implements INotificationChangeListener {
 
-	private static final String EXTENSION = "org.zend.core.notifications.platformSpecific"; //$NON-NLS-1$
 	private static final String LIMIT_KEY = ".limit"; //$NON-NLS-1$
 	private static final int LIMIT_DEFAULT = 5;
 
@@ -45,7 +41,6 @@ public class NotificationManager implements INotificationChangeListener {
 
 	private List<INotification> queue;
 	private List<INotification> active;
-	private List<IActionListener> listeners;
 	private IEclipsePreferences prefs;
 
 	private NotificationManager() {
@@ -54,7 +49,6 @@ public class NotificationManager implements INotificationChangeListener {
 		this.active = Collections
 				.synchronizedList(new ArrayList<INotification>());
 		this.prefs = InstanceScope.INSTANCE.getNode(Activator.PLUGIN_ID);
-		initializePlatfromListeners();
 	}
 
 	/**
@@ -359,7 +353,7 @@ public class NotificationManager implements INotificationChangeListener {
 
 	private void addActive(INotification notification) {
 		active.add(notification);
-		actionPerformed(ActionType.SHOW);
+		updateOverlayText();
 	}
 
 	private void removeActive(INotification notification) {
@@ -368,7 +362,7 @@ public class NotificationManager implements INotificationChangeListener {
 			moveDown(index, notification);
 		}
 		active.remove(notification);
-		actionPerformed(ActionType.HIDE);
+		updateOverlayText();
 	}
 
 	private boolean isOverflow(List<INotification> list) {
@@ -381,28 +375,19 @@ public class NotificationManager implements INotificationChangeListener {
 		return false;
 	}
 
-	private void actionPerformed(ActionType type) {
-		for (IActionListener listener : listeners) {
-			listener.performAction(type);
+	private void updateOverlayText() {
+		TaskBar bar = Display.getDefault().getSystemTaskBar();
+		if (bar == null) {
+			return;
 		}
-	}
-
-	private void initializePlatfromListeners() {
-		listeners = new ArrayList<IActionListener>();
-		IConfigurationElement[] elements = Platform.getExtensionRegistry()
-				.getConfigurationElementsFor(EXTENSION);
-		for (IConfigurationElement element : elements) {
-			if ("behavior".equals(element.getName())) { //$NON-NLS-1$
-				try {
-					Object listener = element
-							.createExecutableExtension("class"); //$NON-NLS-1$
-					if (listener instanceof IActionListener) {
-						listeners.add((IActionListener) listener);
-					}
-				} catch (CoreException e) {
-					Activator.log(e);
-				}
-			}
+		TaskItem item = bar.getItem(Activator.getDefault().getParent());
+		if (item == null) {
+			item = bar.getItem(null);
+		}
+		if (item != null) {
+			int size = NotificationManager.getNotificationsNumber();
+			String value = size > 0 ? String.valueOf(size) : ""; //$NON-NLS-1$
+			item.setOverlayText(value);
 		}
 	}
 

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
-   <extension-point id="platformSpecific" name="Platform Specific" schema="schema/platformSpecific.exsd"/>
 
 
 </plugin>
