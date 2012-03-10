@@ -366,14 +366,20 @@ public class Notification implements IActionListener, INotification {
 				try {
 					if (isAvailable(shell)) {
 						int cur = shell.getAlpha();
-						cur -= settings.getFadeOutStep();
-						if (cur <= 0) {
+						int next = cur - settings.getFadeOutStep();
+						if (next <= 0) {
 							shell.setAlpha(0);
 							shell.dispose();
 							statusChanged();
 							return;
 						}
-						shell.setAlpha(cur);
+						shell.setAlpha(next);
+						if (shell.getAlpha() == cur) {
+							shell.setAlpha(0);
+							shell.dispose();
+							statusChanged();
+							return;
+						}
 						shell.getDisplay().timerExec(settings.getFadeTimer(),
 								this);
 					}
