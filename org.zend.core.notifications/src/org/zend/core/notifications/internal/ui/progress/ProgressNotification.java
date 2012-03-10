@@ -15,8 +15,6 @@ import org.eclipse.jface.operation.ModalContext;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
-import org.eclipse.swt.graphics.Font;
-import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -26,7 +24,8 @@ import org.eclipse.swt.widgets.Shell;
 import org.zend.core.notifications.Activator;
 import org.zend.core.notifications.internal.ui.Notification;
 import org.zend.core.notifications.ui.NotificationSettings;
-import org.zend.core.notifications.util.FontCache;
+import org.zend.core.notifications.util.FontName;
+import org.zend.core.notifications.util.Fonts;
 
 /**
  * Extension of {@link Notification} class which has ability to show progress of
@@ -90,10 +89,7 @@ public class ProgressNotification extends Notification {
 		layout.horizontalSpacing = layout.verticalSpacing = 2;
 		composite.setLayout(layout);
 		message = new Label(composite, SWT.WRAP);
-		Font tf = message.getFont();
-		FontData tfd = tf.getFontData()[0];
-		tfd.height = 11;
-		message.setFont(FontCache.getFont(tfd));
+		message.setFont(Fonts.get(FontName.DEFAULT));
 		message.setLayoutData(new GridData(GridData.FILL_BOTH));
 		message.setForeground(Display.getDefault().getSystemColor(
 				SWT.COLOR_BLACK));

@@ -15,8 +15,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.graphics.Font;
-import org.eclipse.swt.graphics.FontData;
+import org.eclipse.swt.events.MouseTrackAdapter;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
@@ -41,7 +40,8 @@ import org.zend.core.notifications.ui.INotificationChangeListener;
 import org.zend.core.notifications.ui.NotificationSettings;
 import org.zend.core.notifications.ui.NotificationType;
 import org.zend.core.notifications.util.ColorCache;
-import org.zend.core.notifications.util.FontCache;
+import org.zend.core.notifications.util.FontName;
+import org.zend.core.notifications.util.Fonts;
 import org.zend.core.notifications.util.ImageCache;
 
 public class Notification implements IActionListener, INotification {
@@ -236,7 +236,8 @@ public class Notification implements IActionListener, INotification {
 
 	protected Shell createShell() {
 		if (parent != null) {
-			Shell shell = new Shell(parent, SWT.NO_FOCUS | SWT.NO_TRIM);
+			Shell shell = new Shell(parent, SWT.NO_TRIM | SWT.ON_TOP
+					| SWT.NO_FOCUS | SWT.TOOL);
 			shell.setLayout(new FillLayout());
 			shell.setForeground(Display.getDefault().getSystemColor(
 					SWT.COLOR_BLACK));
@@ -248,7 +249,7 @@ public class Notification implements IActionListener, INotification {
 	}
 
 	protected Composite createContainer(Shell shell) {
-		final Composite container = new Composite(shell, SWT.NONE);
+		final Composite container = new Composite(shell, SWT.NO_FOCUS);
 		GridLayout layout = new GridLayout(3, false);
 		layout.verticalSpacing = layout.horizontalSpacing = 0;
 		container.setLayout(layout);
@@ -271,10 +272,7 @@ public class Notification implements IActionListener, INotification {
 			layout.horizontalSpacing = layout.verticalSpacing = 2;
 			composite.setLayout(layout);
 			Label text = new Label(composite, SWT.WRAP);
-			Font tf = text.getFont();
-			FontData tfd = tf.getFontData()[0];
-			tfd.height = 11;
-			text.setFont(FontCache.getFont(tfd));
+			text.setFont(Fonts.get(FontName.DEFAULT));
 			text.setLayoutData(new GridData(GridData.FILL_BOTH));
 			text.setForeground(Display.getDefault().getSystemColor(
 					SWT.COLOR_BLACK));
@@ -291,11 +289,7 @@ public class Notification implements IActionListener, INotification {
 				| GridData.VERTICAL_ALIGN_CENTER));
 		titleLabel.setText(settings.getTitle());
 		titleLabel.setForeground(ColorCache.getColor(74, 94, 116));
-		Font f = titleLabel.getFont();
-		FontData fd = f.getFontData()[0];
-		fd.setStyle(SWT.BOLD);
-		fd.height = 11;
-		titleLabel.setFont(FontCache.getFont(fd));
+		titleLabel.setFont(Fonts.get(FontName.BOLD));
 	}
 
 	protected void createImage(Composite container) {
@@ -314,16 +308,22 @@ public class Notification implements IActionListener, INotification {
 			final CLabel button = new CLabel(container, SWT.NONE);
 			button.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_BEGINNING
 					| GridData.HORIZONTAL_ALIGN_BEGINNING));
-			button.setImage(ImageCache.getCloseImage());
-			button.addMouseListener(new MouseAdapter() {
+			button.setImage(ImageCache.getCloseOut());
+			button.addMouseTrackListener(new MouseTrackAdapter() {
 				@Override
-				public void mouseDown(MouseEvent e) {
-					button.setImage(ImageCache.getCloseImagePressed());
+				public void mouseEnter(MouseEvent e) {
+					button.setImage(ImageCache.getCloseIn());
 				}
 
 				@Override
+				public void mouseExit(MouseEvent e) {
+					button.setImage(ImageCache.getCloseOut());
+				}
+			});
+			button.addMouseListener(new MouseAdapter() {
+				@Override
 				public void mouseUp(MouseEvent e) {
-					button.setImage(ImageCache.getCloseImage());
+					button.setImage(ImageCache.getCloseOut());
 					hide();
 					statusChanged();
 				}

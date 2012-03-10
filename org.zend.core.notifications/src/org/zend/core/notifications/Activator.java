@@ -19,7 +19,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 import org.zend.core.notifications.util.ColorCache;
-import org.zend.core.notifications.util.FontCache;
+import org.zend.core.notifications.util.Fonts;
 import org.zend.core.notifications.util.ImageCache;
 
 /**
@@ -66,7 +66,7 @@ public class Activator extends AbstractUIPlugin {
 		super.stop(context);
 		ImageCache.dispose();
 		ColorCache.dispose();
-		FontCache.dispose();
+		Fonts.dispose();
 	}
 
 	/**

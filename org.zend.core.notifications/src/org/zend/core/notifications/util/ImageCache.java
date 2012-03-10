@@ -44,20 +44,20 @@ public class ImageCache {
 	}
 
 	/**
-	 * Returns an image for notification close button.
+	 * Returns an image for notification close button focused out.
 	 * 
 	 * @return {@link Image} or null if image was not found
 	 */
-	public static Image getCloseImage() {
+	public static Image getCloseOut() {
 		return getImage("icons/close.gif"); //$NON-NLS-1$
 	}
 
 	/**
-	 * Returns an image for notification close pressed button.
+	 * Returns an image for notification close button focused in.
 	 * 
 	 * @return {@link Image} or null if image was not found
 	 */
-	public static Image getCloseImagePressed() {
+	public static Image getCloseIn() {
 		return getImage("icons/close_active.gif"); //$NON-NLS-1$
 	}
 
