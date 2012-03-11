@@ -22,9 +22,10 @@ public interface IBody {
 	 * Create custom user interface for a notification.
 	 * 
 	 * @param container
+	 * @param notification settings
 	 * @return created content
 	 */
-	Composite createContent(Composite container);
+	Composite createContent(Composite container, NotificationSettings settings);
 
 	/**
 	 * Add action listener to be able to communcate with notification and be

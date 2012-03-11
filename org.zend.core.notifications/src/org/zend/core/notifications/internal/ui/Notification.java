@@ -259,7 +259,7 @@ public class Notification implements IActionListener, INotification {
 	protected void createBody(Composite container) {
 		IBody customBody = settings.getBody();
 		if (customBody != null) {
-			Composite body = customBody.createContent(container);
+			Composite body = customBody.createContent(container, settings);
 			body.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3,
 					1));
 			body.pack(true);

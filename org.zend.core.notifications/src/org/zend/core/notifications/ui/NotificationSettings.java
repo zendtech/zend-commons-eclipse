@@ -31,6 +31,8 @@ public class NotificationSettings {
 	public static final String FADE_IN_KEY = ".fade.in"; //$NON-NLS-1$
 	public static final String FADE_OUT_KEY = ".fade.out"; //$NON-NLS-1$
 
+	public static final int DEFAULT_WIDTH = 230;
+
 	private static final int DEFAULT_ALPHA = 225;
 	private static final int DEFAULT_DELAY = -1;
 
