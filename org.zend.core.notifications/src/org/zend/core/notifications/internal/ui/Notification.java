@@ -236,8 +236,8 @@ public class Notification implements IActionListener, INotification {
 
 	protected Shell createShell() {
 		if (parent != null) {
-			Shell shell = new Shell(parent, SWT.NO_TRIM | SWT.ON_TOP
-					| SWT.NO_FOCUS | SWT.TOOL);
+			Shell shell = new Shell(parent, SWT.NO_TRIM | SWT.NO_FOCUS
+					| SWT.TOOL);
 			shell.setLayout(new FillLayout());
 			shell.setForeground(Display.getDefault().getSystemColor(
 					SWT.COLOR_BLACK));
