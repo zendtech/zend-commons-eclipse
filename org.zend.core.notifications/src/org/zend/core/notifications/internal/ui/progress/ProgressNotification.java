@@ -9,6 +9,9 @@ package org.zend.core.notifications.internal.ui.progress;
 
 import java.lang.reflect.InvocationTargetException;
 
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.ProgressIndicator;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.operation.ModalContext;
@@ -112,10 +115,25 @@ public class ProgressNotification extends Notification {
 		try {
 			ModalContext.run(runnable, true, monitor, parent.getDisplay());
 		} catch (InvocationTargetException e) {
+			showErrorDialog(e.getTargetException());
 			Activator.log(e);
 		} catch (InterruptedException e) {
 			Activator.log(e);
+		} finally {
+			monitor.done();
 		}
+	}
+
+	private void showErrorDialog(final Throwable e) {
+		Display.getDefault().asyncExec(new Runnable() {
+
+			@Override
+			public void run() {
+				ErrorDialog.openError(Activator.getDefault().getParent(),
+						"Notification Error", null, new Status(IStatus.ERROR, //$NON-NLS-1$
+								Activator.PLUGIN_ID, e.getMessage()));
+			}
+		});
 	}
 
 }
