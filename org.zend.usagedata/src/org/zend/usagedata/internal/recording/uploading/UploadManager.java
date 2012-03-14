@@ -11,6 +11,8 @@
 package org.zend.usagedata.internal.recording.uploading;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -41,6 +43,7 @@ public class UploadManager {
 	private Object lock = new Object();
 	private IUploader uploader;
 	private ListenerList uploadListeners = new ListenerList();
+	private boolean askedAboutUpload;
 
 	/**
 	 * This method starts the upload. The first thing it does is find the files
@@ -76,8 +79,11 @@ public class UploadManager {
 		
 		File[] usageDataUploadFiles;
 		synchronized (lock) {
-			if (!shouldUpload) {
-				handlePreUploadListeners();
+			if (shouldUpload) {
+				if (!handlePreUploadListeners()) {
+					return UPLOAD_STARTED_OK;
+				}
+			} else {
 				return UPLOAD_STARTED_OK;
 			}
 
@@ -115,28 +121,39 @@ public class UploadManager {
 			}
 		});
 		
-		if (handlePreUploadListeners() && shouldUpload) {
-			uploader.startUpload();
-		}
+		uploader.startUpload();
 		return UPLOAD_STARTED_OK;
 	}
 
 	private boolean handlePreUploadListeners() {
+		if (UsageDataActivator.getDefault().getSettings().isEnabled()) {
+			if (UsageDataActivator.getDefault().getSettings()
+					.shouldAskBeforeUploading()) {
+				if (!askedAboutUpload) {
+					List<IPreUploadListener> listeners = getListeners();
+					for (IPreUploadListener listener : listeners) {
+						listener.handleUpload();
+						askedAboutUpload = true;
+					}
+				}
+				return false;
+			}
+			return true;
+		}
+		return false;
+	}
+
+	private List<IPreUploadListener> getListeners() {
 		IConfigurationElement[] elements = Platform.getExtensionRegistry()
 				.getConfigurationElementsFor(PREUPLOAD_LISTENERS);
+		List<IPreUploadListener> result = new ArrayList<IPreUploadListener>();
 		for (IConfigurationElement element : elements) {
 			if ("preUploadListener".equals(element.getName())) { //$NON-NLS-1$
 				try {
 					Object listener = element
 							.createExecutableExtension("class"); //$NON-NLS-1$
 					if (listener instanceof IPreUploadListener) {
-						int result  = ((IPreUploadListener) listener).handleUpload(uploader);
-						if (result == IPreUploadListener.CANCEL
-								&& uploader != null) {
-							uploader.fireUploadComplete(new UploadResult(
-									UploadResult.CANCELLED));
-							return false;
-						}
+						result.add((IPreUploadListener) listener);
 					}
 				} catch (CoreException e) {
 					UsageDataActivator.getDefault().log(
@@ -146,7 +163,7 @@ public class UploadManager {
 				}
 			}
 		}
-		return true;
+		return result;
 	}
 
 	private File[] findUsageDataUploadFiles() {

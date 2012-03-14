@@ -25,10 +25,7 @@ public interface IPreUploadListener {
 	 * Method called before data upload will be performed. If any of registered
 	 * pre-upload listeners returns null, upload will be cancelled. Uploading
 	 * will be stopped until all listeners end their execution.
-	 * 
-	 * @param uploader
-	 * @return
 	 */
-	int handleUpload(IUploader uploader);
+	void handleUpload();
 
 }
