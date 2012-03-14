@@ -10,17 +10,13 @@
  *******************************************************************************/
 package org.zend.usagedata.ui.internal.listener;
 
-import java.text.MessageFormat;
-
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.widgets.Display;
-import org.zend.usagedata.UsageDataActivator;
+import org.zend.core.notifications.NotificationManager;
+import org.zend.core.notifications.ui.IBody;
+import org.zend.core.notifications.ui.NotificationSettings;
+import org.zend.core.notifications.ui.NotificationType;
 import org.zend.usagedata.recording.IPreUploadListener;
-import org.zend.usagedata.recording.IUploader;
 import org.zend.usagedata.ui.internal.Messages;
-import org.zend.usagedata.ui.internal.UIUsageDataActivator;
-import org.zend.usagedata.ui.internal.message.CalloutWindow;
+import org.zend.usagedata.ui.internal.notification.UsageNotificationBody;
 
 /**
  * Implementation of {@link IPreUploadListener}. When usage data is collected it
@@ -32,74 +28,19 @@ import org.zend.usagedata.ui.internal.message.CalloutWindow;
  */
 public class UIPreUploadListener implements IPreUploadListener {
 
-	private static Point hintLocation;
-	private static CalloutWindow calloutWindow;
-	private int status;
-
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.zend.usagedata.recording.IPreUploadListener#handleUpload(org.zend
-	 * .usagedata.recording.IUploader)
+	 * @see org.zend.usagedata.recording.IPreUploadListener#handleUpload()
 	 */
-	public int handleUpload(final IUploader uploader) {
-		Display.getDefault().syncExec(new Runnable() {
-
-			public void run() {
-				if (!UsageDataActivator.getDefault().getSettings()
-						.shouldAskBeforeUploading()) {
-					status = OK;
-				} else {
-					CalloutWindow callout = createCallout(uploader);
-					callout.setBlockOnOpen(true);
-					status = callout.open();
-					if (callout.isDoNotDisplay()) {
-						UsageDataActivator.getDefault().getSettings()
-								.setAskBeforeUploading(false);
-						if (status == CANCEL) {
-							UsageDataActivator.getDefault().getSettings()
-									.setEnabled(false);
-						}
-					}
-				}
-			}
-		});
-		return status;
+	public void handleUpload() {
+		IBody body = new UsageNotificationBody();
+		NotificationSettings settings = new NotificationSettings();
+		settings.setTitle(Messages.UIPreUploadListener_Title)
+				.setType(NotificationType.INFO).setBody(body).setBorder(true);
+		NotificationManager.registerNotification(NotificationManager
+				.createNotification(settings));
 	}
 
-	/**
-	 * Set hint location for a message about collected data.
-	 * 
-	 * @param hint
-	 *            position is which message should be displayed
-	 */
-	public static void setHintMessageLocation(Point hint) {
-		hintLocation = hint;
-	}
-
-	private CalloutWindow createCallout(IUploader uploader) {
-		if (hintLocation == null) {
-			throw new IllegalStateException();
-		}
-
-		final Display display = Display.getDefault();
-
-		if (calloutWindow != null) {
-			calloutWindow.close();
-		}
-		calloutWindow = new CalloutWindow(display, SWT.TITLE);
-		calloutWindow.setLocation(hintLocation);
-		calloutWindow.setMargins(10, 10, 10, 10);
-		calloutWindow.setText(Messages.UIPreUploadListener_Title);
-		calloutWindow.setDescription(MessageFormat.format(
-				Messages.UIPreUploadListener_Description, UIUsageDataActivator
-						.getDefault().getProductName()));
-		calloutWindow.setIsShowMessage(false);
-
-		calloutWindow.setAnchor(SWT.RIGHT | SWT.BOTTOM);
-
-		return calloutWindow;
-	}
 
 }
