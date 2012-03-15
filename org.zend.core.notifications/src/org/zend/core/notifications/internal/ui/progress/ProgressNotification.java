@@ -46,23 +46,19 @@ public class ProgressNotification extends Notification {
 
 	private class TaskChangeListener implements ITaskListener {
 
-		@Override
 		public void taskChanged(final String text) {
 			Display.getDefault().asyncExec(new Runnable() {
 
-				@Override
 				public void run() {
 					message.setText(text);
 				}
 			});
 		}
 
-		@Override
 		public void subTaskChanged(String text) {
 			// TODO add support for subtasks
 		}
 
-		@Override
 		public void done() {
 			hide();
 		}
@@ -107,7 +103,6 @@ public class ProgressNotification extends Notification {
 				taskChangeListener);
 		shell.addDisposeListener(new DisposeListener() {
 
-			@Override
 			public void widgetDisposed(DisposeEvent e) {
 				monitor.setCanceled(true);
 			}
@@ -127,7 +122,6 @@ public class ProgressNotification extends Notification {
 	private void showErrorDialog(final Throwable e) {
 		Display.getDefault().asyncExec(new Runnable() {
 
-			@Override
 			public void run() {
 				ErrorDialog.openError(Activator.getDefault().getParent(),
 						"Notification Error", null, new Status(IStatus.ERROR, //$NON-NLS-1$

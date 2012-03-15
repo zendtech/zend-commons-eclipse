@@ -115,11 +115,9 @@ public class Activator extends AbstractUIPlugin {
 						&& shell != previousShell) {
 					Display.getDefault().asyncExec(new Runnable() {
 
-						@Override
 						public void run() {
 							shell.addDisposeListener(new DisposeListener() {
 
-								@Override
 								public void widgetDisposed(DisposeEvent e) {
 									if (e.widget instanceof Shell) {
 										parent = getWorkbenchShell((Shell) e.widget);

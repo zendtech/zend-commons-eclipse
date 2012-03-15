@@ -71,7 +71,6 @@ public class NotificationManager implements INotificationChangeListener {
 		manager.queue.add(notification);
 		Display.getDefault().asyncExec(new Runnable() {
 
-			@Override
 			public void run() {
 				if (manager.resolve(notification)) {
 					notification.addChangeListener(manager);
@@ -282,7 +281,6 @@ public class NotificationManager implements INotificationChangeListener {
 		}
 	}
 
-	@Override
 	public void statusChanged(INotification notification) {
 		removeActive(notification);
 		if (queue.size() == 0) {

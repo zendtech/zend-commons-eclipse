@@ -66,12 +66,10 @@ public class Notification implements IActionListener, INotification {
 				.synchronizedList(new ArrayList<INotificationChangeListener>());
 	}
 
-	@Override
 	public boolean display() {
 		if (parent == null) {
 			Display.getDefault().syncExec(new Runnable() {
 
-				@Override
 				public void run() {
 					parent = Display.getDefault().getActiveShell();
 				}
@@ -80,7 +78,6 @@ public class Notification implements IActionListener, INotification {
 		return doDisplay();
 	}
 
-	@Override
 	public void performAction(ActionType type) {
 		switch (type) {
 		case HIDE:
@@ -91,26 +88,22 @@ public class Notification implements IActionListener, INotification {
 		}
 	}
 
-	@Override
 	public void addChangeListener(INotificationChangeListener listener) {
 		listeners.add(listener);
 	}
 
-	@Override
 	public void moveUp(int value) {
 		Point curLoc = shell.getLocation();
 		shell.setLocation(curLoc.x, curLoc.y - value);
 		currentLocation = shell.getLocation();
 	}
 
-	@Override
 	public void moveDown(int value) {
 		Point curLoc = shell.getLocation();
 		shell.setLocation(curLoc.x, curLoc.y + value);
 		currentLocation = shell.getLocation();
 	}
 
-	@Override
 	public boolean isLast() {
 		if (shell != null && !shell.isDisposed()) {
 			Monitor monitor = shell.getMonitor();
@@ -124,12 +117,10 @@ public class Notification implements IActionListener, INotification {
 		return false;
 	}
 
-	@Override
 	public boolean isAvailable() {
 		return isAvailable(shell);
 	}
 
-	@Override
 	public int getHeight() {
 		return settings.getHeight();
 	}
@@ -137,7 +128,6 @@ public class Notification implements IActionListener, INotification {
 	protected void statusChanged() {
 		Display.getDefault().asyncExec(new Runnable() {
 
-			@Override
 			public void run() {
 				for (INotificationChangeListener listener : listeners) {
 					listener.statusChanged(Notification.this);
@@ -149,14 +139,12 @@ public class Notification implements IActionListener, INotification {
 	protected boolean doDisplay() {
 		Display.getDefault().syncExec(new Runnable() {
 
-			@Override
 			public void run() {
 				shell = createShell();
 				if (isAvailable() && isAvailable(parent)
 						&& parent.getMonitor() != null) {
 					parent.addListener(SWT.Move, new Listener() {
 
-						@Override
 						public void handleEvent(Event event) {
 							if (isAvailable()) {
 								shell.setLocation(currentLocation);
@@ -165,7 +153,6 @@ public class Notification implements IActionListener, INotification {
 					});
 					shell.addListener(SWT.Resize, new Listener() {
 
-						@Override
 						public void handleEvent(Event e) {
 							try {
 								Rectangle rect = shell.getClientArea();
@@ -334,7 +321,6 @@ public class Notification implements IActionListener, INotification {
 	protected void show() {
 		final Runnable run = new Runnable() {
 
-			@Override
 			public void run() {
 				try {
 					if (isAvailable(shell)) {
@@ -361,7 +347,6 @@ public class Notification implements IActionListener, INotification {
 	protected void hide() {
 		final Runnable run = new Runnable() {
 
-			@Override
 			public void run() {
 				try {
 					if (isAvailable(shell)) {
@@ -397,7 +382,6 @@ public class Notification implements IActionListener, INotification {
 		if (settings.getDelay() != -1) {
 			Runnable run = new Runnable() {
 
-				@Override
 				public void run() {
 					try {
 						if (shell == null || shell.isDisposed()) {
