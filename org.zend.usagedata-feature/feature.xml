@@ -13,10 +13,6 @@
       %license
    </license>
 
-   <requires>
-      <import plugin="org.zend.core.notifications"/>
-   </requires>
-
    <plugin
          id="org.zend.usagedata"
          download-size="0"
