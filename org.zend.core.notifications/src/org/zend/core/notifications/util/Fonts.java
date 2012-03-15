@@ -34,17 +34,24 @@ public class Fonts {
 	private static Map<String, Font> cache = new HashMap<String, Font>();
 
 	static {
-		Font defaultFont = JFaceResources.getFontRegistry().defaultFont();
-		cache.put(DEFAULT.getName(), defaultFont);
-		Font boldFont = JFaceResources.getFontRegistry().getBold(
-				JFaceResources.DEFAULT_FONT);
-		cache.put(BOLD.getName(), boldFont);
-		Font italicFont = JFaceResources.getFontRegistry().getItalic(
-				JFaceResources.DEFAULT_FONT);
-		cache.put(ITALIC.getName(), italicFont);
-		Font italicBold = new Font(Display.getCurrent(), getModifiedFontData(
-				get(ITALIC).getFontData(), SWT.BOLD | SWT.ITALIC));
-		cache.put(ITALIC_BOLD.getName(), italicBold);
+		Display.getDefault().syncExec(new Runnable() {
+
+			public void run() {
+				Font defaultFont = JFaceResources.getFontRegistry()
+						.defaultFont();
+				cache.put(DEFAULT.getName(), defaultFont);
+				Font boldFont = JFaceResources.getFontRegistry().getBold(
+						JFaceResources.DEFAULT_FONT);
+				cache.put(BOLD.getName(), boldFont);
+				Font italicFont = JFaceResources.getFontRegistry().getItalic(
+						JFaceResources.DEFAULT_FONT);
+				cache.put(ITALIC.getName(), italicFont);
+				Font italicBold = new Font(Display.getCurrent(),
+						getModifiedFontData(get(ITALIC).getFontData(), SWT.BOLD
+								| SWT.ITALIC));
+				cache.put(ITALIC_BOLD.getName(), italicBold);
+			}
+		});
 	}
 
 	/**
