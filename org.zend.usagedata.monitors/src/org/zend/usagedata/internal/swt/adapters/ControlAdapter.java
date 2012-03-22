@@ -38,15 +38,15 @@ public class ControlAdapter extends WidgetAdapter {
 	 * @return <code>true</code> if control is selected; otherwise return
 	 *         <code>false</code>
 	 */
-	public boolean isEnabled() {
-		return control.getEnabled();
+	public Boolean isEnabled() {
+		return control != null ? control.getEnabled() : null;
 	}
 
 	/**
 	 * @return control tooltip
 	 */
 	public String getTooltip() {
-		return control.getToolTipText();
+		return control != null ? control.getToolTipText() : null;
 	}
 
 	@Override

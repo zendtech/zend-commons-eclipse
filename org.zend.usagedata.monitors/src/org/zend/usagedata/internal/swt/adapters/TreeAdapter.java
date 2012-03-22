@@ -38,6 +38,9 @@ public class TreeAdapter extends ControlAdapter {
 	 * @return tree selection
 	 */
 	private String getSelection() {
+		if (tree == null) {
+			return null;
+		}
 		TreeItem[] items = tree.getSelection();
 		StringBuilder result = new StringBuilder();
 		for (TreeItem treeItem : items) {
@@ -51,7 +54,9 @@ public class TreeAdapter extends ControlAdapter {
 	protected void buildMessage() {
 		super.buildMessage();
 		String selecton = getSelection();
-		if (selecton.length() > 0) {
+		if (selecton == null) {
+			message.addMessage(SELECTION, selecton);
+		} else if (selecton.length() > 0) {
 			message.addMessage(SELECTION, getSelection());
 		}
 	}

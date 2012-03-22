@@ -40,15 +40,15 @@ public class ButtonAdapter extends ControlAdapter {
 	 * @return button text
 	 */
 	public String getText() {
-		return button.getText();
+		return button != null ? button.getText() : null;
 	}
 
 	/**
 	 * @return <code>true</code> if button is selected; otherwise return
 	 *         <code>false</code>
 	 */
-	public boolean isSelected() {
-		return button.getSelection();
+	public Boolean isSelected() {
+		return button != null ? button.getSelection() : null;
 	}
 
 	public int getType() {

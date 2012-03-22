@@ -37,8 +37,8 @@ public class ExpandItemAdapter extends ItemAdapter {
 	 * @return <code>true</code> if expand item is expanded; otherwise return
 	 *         <code>false</code>
 	 */
-	public boolean isExpanded() {
-		return expandItem.getExpanded();
+	public Boolean isExpanded() {
+		return expandItem != null ? expandItem.getExpanded() : null;
 	}
 
 	@Override

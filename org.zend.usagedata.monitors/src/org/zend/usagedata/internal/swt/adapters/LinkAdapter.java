@@ -38,7 +38,7 @@ public class LinkAdapter extends ControlAdapter {
 	 * @return link text
 	 */
 	public String getText() {
-		return link.getText();
+		return link != null ? link.getText() : null;
 	}
 
 	@Override

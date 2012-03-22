@@ -38,13 +38,16 @@ public class ListAdapter extends ControlAdapter {
 	 * @return selection index
 	 */
 	public int getSelectionIndex() {
-		return list.getSelectionIndex();
+		return list != null ? list.getSelectionIndex() : -1;
 	}
 
 	/**
 	 * @return selection
 	 */
 	public String getSelection() {
+		if (list == null) {
+			return null;
+		}
 		StringBuilder result = new StringBuilder();
 		result.append("\""); //$NON-NLS-1$
 		String[] selection = list.getSelection();

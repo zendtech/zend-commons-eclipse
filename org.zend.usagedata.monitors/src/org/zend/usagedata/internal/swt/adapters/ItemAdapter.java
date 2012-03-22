@@ -37,7 +37,7 @@ public class ItemAdapter extends WidgetAdapter {
 	 * @return item text
 	 */
 	public String getText() {
-		return item.getText();
+		return item != null ? item.getText() : null;
 	}
 
 	@Override

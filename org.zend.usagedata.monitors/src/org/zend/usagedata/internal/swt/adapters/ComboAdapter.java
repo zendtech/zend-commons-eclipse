@@ -40,22 +40,25 @@ public class ComboAdapter extends ControlAdapter {
 	 * @return combo text
 	 */
 	public String getText() {
-		return combo.getText();
+		return combo != null ? combo.getText() : null;
+
 	}
 
 	/**
 	 * @return label which describes this combo
 	 */
 	public String getLabel() {
-		Control[] children = combo.getParent().getChildren();
-		Control previous = null;
-		for (int j = 0; j < children.length; j++) {
-			if (children[j] == combo && j > 0) {
-				previous = children[j - 1];
+		if (combo != null) {
+			Control[] children = combo.getParent().getChildren();
+			Control previous = null;
+			for (int j = 0; j < children.length; j++) {
+				if (children[j] == combo && j > 0) {
+					previous = children[j - 1];
+				}
 			}
-		}
-		if (previous != null && previous instanceof Label) {
-			return ((Label) previous).getText();
+			if (previous != null && previous instanceof Label) {
+				return ((Label) previous).getText();
+			}
 		}
 		return null;
 	}
@@ -64,10 +67,7 @@ public class ComboAdapter extends ControlAdapter {
 	protected void buildMessage() {
 		super.buildMessage();
 		message.addMessage(TEXT, getText());
-		String label = getLabel();
-		if (label != null) {
-			message.addMessage(LABEL, label);
-		}
+		message.addMessage(LABEL, getLabel());
 	}
 
 }

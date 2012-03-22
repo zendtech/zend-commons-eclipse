@@ -39,12 +39,14 @@ public class CoolItemAdapter extends ItemAdapter {
 	 * @return name of the action associated with this cool item
 	 */
 	public String getAction() {
-		Object data = coolItem.getData();
-		if (data instanceof ActionContributionItem) {
-			ActionContributionItem actionContribution = (ActionContributionItem) data;
-			IAction action = actionContribution.getAction();
-			if (action != null) {
-				return action.getClass().getName();
+		if (coolItem != null) {
+			Object data = coolItem.getData();
+			if (data instanceof ActionContributionItem) {
+				ActionContributionItem actionContribution = (ActionContributionItem) data;
+				IAction action = actionContribution.getAction();
+				if (action != null) {
+					return action.getClass().getName();
+				}
 			}
 		}
 		return null;
@@ -53,10 +55,7 @@ public class CoolItemAdapter extends ItemAdapter {
 	@Override
 	protected void buildMessage() {
 		super.buildMessage();
-		String action = getAction();
-		if (action != null) {
-			message.addMessage(ACTION, action);
-		}
+		message.addMessage(ACTION, getAction());
 	}
 
 }

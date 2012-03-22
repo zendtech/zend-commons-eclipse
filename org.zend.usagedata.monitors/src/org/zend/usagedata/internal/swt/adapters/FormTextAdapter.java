@@ -37,7 +37,7 @@ public class FormTextAdapter extends ControlAdapter {
 	 * @return selected link text
 	 */
 	public String getSelectedLinkText() {
-		return formText.getSelectedLinkText();
+		return formText != null ? formText.getSelectedLinkText() : null;
 	}
 
 	@Override

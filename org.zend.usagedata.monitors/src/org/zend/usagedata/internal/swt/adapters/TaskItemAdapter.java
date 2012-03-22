@@ -39,21 +39,21 @@ public class TaskItemAdapter extends ItemAdapter {
 	 * @return overlay text
 	 */
 	public String getOverlayText() {
-		return taskItem.getOverlayText();
+		return taskItem != null ? taskItem.getOverlayText() : null;
 	}
 
 	/**
 	 * @return task item progress
 	 */
-	public int getProgress() {
-		return taskItem.getProgress();
+	public Integer getProgress() {
+		return taskItem != null ? taskItem.getProgress() : null;
 	}
 
 	/**
 	 * @return task item progress state
 	 */
-	public int getProgressState() {
-		return taskItem.getProgressState();
+	public Integer getProgressState() {
+		return taskItem != null ? taskItem.getProgressState() : null;
 	}
 
 	@Override

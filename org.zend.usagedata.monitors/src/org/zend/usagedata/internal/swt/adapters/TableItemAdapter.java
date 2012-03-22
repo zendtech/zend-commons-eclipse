@@ -37,8 +37,8 @@ public class TableItemAdapter extends ItemAdapter {
 	 * @return <code>true</code> if table item is checked; otherwise return
 	 *         <code>false</code>
 	 */
-	public boolean isChecked() {
-		return tableItem.getChecked();
+	public Boolean isChecked() {
+		return tableItem != null ? tableItem.getChecked() : null;
 	}
 
 	@Override

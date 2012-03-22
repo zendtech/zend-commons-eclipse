@@ -24,6 +24,8 @@ import java.util.TreeMap;
  */
 public class EventMessage {
 
+	private static final String INVALID = "__invalid__"; //$NON-NLS-1$
+
 	private Map<String, String> map;
 
 	private char separator = ';';
@@ -44,7 +46,11 @@ public class EventMessage {
 	 * @param value
 	 */
 	public void addMessage(String key, String value) {
-		map.put(key, value);
+		if (value != null) {
+			map.put(key, value);
+		} else {
+			map.put(key, INVALID);
+		}
 	}
 
 	/**
@@ -53,8 +59,12 @@ public class EventMessage {
 	 * @param key
 	 * @param value
 	 */
-	public void addMessage(String key, int value) {
-		addMessage(key, String.valueOf(value));
+	public void addMessage(String key, Integer value) {
+		if (value == null) {
+			addMessage(key, value);
+		} else {
+			addMessage(key, String.valueOf(value));
+		}
 	}
 
 	/**
@@ -63,8 +73,12 @@ public class EventMessage {
 	 * @param key
 	 * @param value
 	 */
-	public void addMessage(String key, boolean value) {
-		addMessage(key, String.valueOf(value));
+	public void addMessage(String key, Boolean value) {
+		if (value == null) {
+			addMessage(key, value);
+		} else {
+			addMessage(key, String.valueOf(value));
+		}
 	}
 
 	/**

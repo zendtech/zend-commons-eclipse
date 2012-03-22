@@ -39,23 +39,23 @@ public class ToolItemAdapter extends ItemAdapter {
 	 * @return <code>true</code> if tool item is enabled; otherwise return
 	 *         <code>false</code>
 	 */
-	public boolean isEnabled() {
-		return toolItem.getEnabled();
+	public Boolean isEnabled() {
+		return toolItem != null ? toolItem.getEnabled() : null;
 	}
 
 	/**
 	 * @return <code>true</code> if tool item is selected; otherwise return
 	 *         <code>false</code>
 	 */
-	public boolean isSelected() {
-		return toolItem.getSelection();
+	public Boolean isSelected() {
+		return toolItem != null ? toolItem.getSelection() : null;
 	}
 
 	/**
 	 * @return tool item tooltip text
 	 */
 	public String getTooltip() {
-		return toolItem.getToolTipText();
+		return toolItem != null ? toolItem.getToolTipText() : null;
 	}
 
 	@Override

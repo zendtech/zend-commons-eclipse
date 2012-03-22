@@ -43,22 +43,25 @@ public class MenuItemAdapter extends ItemAdapter {
 	 * @return <code>true</code> if menu item is enabled; otherwise return
 	 *         <code>false</code>
 	 */
-	public boolean isEnabled() {
-		return menuItem.getEnabled();
+	public Boolean isEnabled() {
+		return menuItem != null ? menuItem.getEnabled() : null;
 	}
 
 	/**
 	 * @return <code>true</code> if menu item is selected; otherwise return
 	 *         <code>false</code>
 	 */
-	public boolean isSelected() {
-		return menuItem.getSelection();
+	public Boolean isSelected() {
+		return menuItem != null ? menuItem.getSelection() : null;
 	}
 
 	/**
 	 * @return menu path
 	 */
 	public String getMenuPath() {
+		if (menuItem == null) {
+			return null;
+		}
 		String path = menuItem.getText();
 		Menu parent = menuItem.getParent();
 		while (parent != null) {
@@ -77,12 +80,14 @@ public class MenuItemAdapter extends ItemAdapter {
 	 * @return action name associated with this menu item
 	 */
 	public String getAction() {
-		Object data = menuItem.getData();
-		if (data instanceof ActionContributionItem) {
-			ActionContributionItem actionContribution = (ActionContributionItem) data;
-			IAction action = actionContribution.getAction();
-			if (action != null) {
-				return action.getClass().getName();
+		if (menuItem != null) {
+			Object data = menuItem.getData();
+			if (data instanceof ActionContributionItem) {
+				ActionContributionItem actionContribution = (ActionContributionItem) data;
+				IAction action = actionContribution.getAction();
+				if (action != null) {
+					return action.getClass().getName();
+				}
 			}
 		}
 		return null;
@@ -93,14 +98,8 @@ public class MenuItemAdapter extends ItemAdapter {
 		super.buildMessage();
 		message.addMessage(ENABLED, isEnabled());
 		message.addMessage(SELECTION, isSelected());
-		String action = getAction();
-		if (action != null) {
-			message.addMessage(ACTION, action);
-		}
-		String path = getMenuPath();
-		if (path != null) {
-			message.addMessage(PATH, path);
-		}
+		message.addMessage(ACTION, getAction());
+		message.addMessage(PATH, getMenuPath());
 	}
 
 }

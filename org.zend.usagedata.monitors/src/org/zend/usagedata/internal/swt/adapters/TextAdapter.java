@@ -42,32 +42,43 @@ public class TextAdapter extends ControlAdapter {
 	 * @return <code>true</code> if text has content; otherwise return
 	 *         <code>false</code>
 	 */
-	public boolean hasContent() {
+	public Boolean hasContent() {
+		if (text == null) {
+			return null;
+		}
 		return text.getCharCount() > 0 ? true : false;
 	}
 
 	/**
-	 * To avoid collecting personal data text value is replaced by string of 'X'
-	 * with the same length.
+	 * To avoid collecting personal data text value is replaced by 'NOT_EMPTY'
+	 * if text is not empty, otherwise it is replaced by 'EMPTY'.
 	 * 
 	 * @return text value
 	 */
 	public String getTextValue() {
-		return text.getText().replaceAll(".", "X"); //$NON-NLS-1$ //$NON-NLS-2$
+		if (text == null) {
+			return null;
+		}
+		;
+		String val = text.getText();
+		return val.length() > 0 ? "NOT_EMPTY" : "EMPTY"; //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	/**
 	 * @return <code>true</code> if text is editable; otherwise return
 	 *         <code>false</code>
 	 */
-	public boolean isEditable() {
-		return text.getEditable();
+	public Boolean isEditable() {
+		return text != null ? text.getEditable() : null;
 	}
 
 	/**
 	 * @return label text which describes this text
 	 */
 	public String getLabel() {
+		if (text == null) {
+			return null;
+		}
 		Control[] children = text.getParent().getChildren();
 		Control previous = null;
 		for (int j = 0; j < children.length; j++) {
@@ -87,10 +98,7 @@ public class TextAdapter extends ControlAdapter {
 		message.addMessage(EDITABLE, isEditable());
 		message.addMessage(HAS_CONTENT, hasContent());
 		message.addMessage(TEXT, getTextValue());
-		String label = getLabel();
-		if (label != null) {
-			message.addMessage(LABEL, label);
-		}
+		message.addMessage(LABEL, getLabel());
 	}
 
 }

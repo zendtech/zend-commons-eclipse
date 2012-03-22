@@ -42,6 +42,9 @@ public class TreeItemAdapter extends ItemAdapter {
 	 * @return tree item row text
 	 */
 	public String getRowText() {
+		if (treeItem == null) {
+			return null;
+		}
 		String result = ""; //$NON-NLS-1$
 		int count = treeItem.getItemCount();
 		for (int i = 0; i < count; i++) {
@@ -58,7 +61,7 @@ public class TreeItemAdapter extends ItemAdapter {
 	 *         <code>false</code>
 	 */
 	public boolean isChecked() {
-		return treeItem.getChecked();
+		return treeItem != null ? treeItem.getChecked() : null;
 	}
 
 	/**
@@ -66,19 +69,21 @@ public class TreeItemAdapter extends ItemAdapter {
 	 *         <code>false</code>
 	 */
 	public boolean isExpanded() {
-		return treeItem.getExpanded();
+		return treeItem != null ? treeItem.getExpanded() : null;
 	}
 
 	/**
 	 * @return action name associated with this tree item
 	 */
 	public String getAction() {
-		Object data = treeItem.getData();
-		if (data instanceof ActionContributionItem) {
-			ActionContributionItem actionContribution = (ActionContributionItem) data;
-			IAction action = actionContribution.getAction();
-			if (action != null) {
-				return action.getClass().getName();
+		if (treeItem != null) {
+			Object data = treeItem.getData();
+			if (data instanceof ActionContributionItem) {
+				ActionContributionItem actionContribution = (ActionContributionItem) data;
+				IAction action = actionContribution.getAction();
+				if (action != null) {
+					return action.getClass().getName();
+				}
 			}
 		}
 		return null;
@@ -89,12 +94,9 @@ public class TreeItemAdapter extends ItemAdapter {
 		super.buildMessage();
 		message.addMessage(CHECKED, isChecked());
 		message.addMessage(EXPANDED, isExpanded());
-		String action = getAction();
-		if (action != null) {
-			message.addMessage(ACTION, action);
-		}
+		message.addMessage(ACTION, getAction());
 		String row = getRowText();
-		if (!row.equals("")) { //$NON-NLS-1$
+		if (row == null || !row.equals("")) { //$NON-NLS-1$
 			message.addMessage(ROW_TEXT, row);
 		}
 	}

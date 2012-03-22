@@ -39,8 +39,8 @@ public class TableTreeItemAdapter extends ItemAdapter {
 	 * @return <code>true</code> if table tree item is expanded; otherwise
 	 *         return <code>false</code>
 	 */
-	public boolean isExpanded() {
-		return tableTreeItem.getExpanded();
+	public Boolean isExpanded() {
+		return tableTreeItem != null ? tableTreeItem.getExpanded() : null;
 	}
 
 	@Override
