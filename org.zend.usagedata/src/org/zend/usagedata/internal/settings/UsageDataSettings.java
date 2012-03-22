@@ -411,7 +411,7 @@ public class UsageDataSettings implements UploadSettings, IUsageDataSettings {
 			return;
 
 		getPreferencesStore().setValue(CAPTURE_ENABLED_KEY, value);
-
+		UsageDataActivator.getDefault().savePluginPreferences();
 		// The activator should be listening to changes in the preferences store
 		// and will change the state of the service as a result of us setting
 		// the value here.
