@@ -241,7 +241,7 @@ public class NotificationManager implements INotificationChangeListener {
 	public static void registerError(String title, String message, int delay) {
 		NotificationSettings settings = new NotificationSettings();
 		settings.setTitle(title).setDelay(delay).setMessage(message)
-				.setType(NotificationType.WARNING).setBorder(true);
+				.setType(NotificationType.ERROR).setBorder(true);
 		registerNotification(createNotification(settings));
 	}
 
