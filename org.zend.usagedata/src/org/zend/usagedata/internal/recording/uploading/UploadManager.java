@@ -79,11 +79,7 @@ public class UploadManager {
 		
 		File[] usageDataUploadFiles;
 		synchronized (lock) {
-			if (shouldUpload) {
-				if (!handlePreUploadListeners()) {
-					return UPLOAD_STARTED_OK;
-				}
-			} else {
+			if (!handlePreUploadListeners() || !shouldUpload) {
 				return UPLOAD_STARTED_OK;
 			}
 
