@@ -58,14 +58,15 @@ public class UsageNotificationBody implements IBody {
 
 	private Composite createEntryComposite(Composite container) {
 		Composite composite = new Composite(container, SWT.NONE);
-		GridLayout layout = new GridLayout(3, true);
-		layout.horizontalSpacing = layout.verticalSpacing = 2;
+		GridLayout layout = new GridLayout(3, false);
+		layout.horizontalSpacing = 10;
+		layout.verticalSpacing = 5;
 		composite.setLayout(layout);
 		return composite;
 	}
 
 	private void createDescription(Composite composite) {
-		Link label = new Link(composite, SWT.WRAP);
+		Link label = new Link(composite, SWT.NONE);
 		label.setFont(Fonts.get(FontName.DEFAULT));
 		label.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, true, true, 3, 1));
 		label.setText(MessageFormat.format(
@@ -84,8 +85,10 @@ public class UsageNotificationBody implements IBody {
 	}
 
 	private void createOkLink(Composite composite) {
-		Link repeatLink = createLink(composite, Messages.CalloutWindow_Agree, 2);
-		repeatLink.addSelectionListener(new SelectionAdapter() {
+		Link okLink = new Link(composite, SWT.NO_FOCUS);
+		okLink.setText(Messages.CalloutWindow_Agree);
+		okLink.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, true, true, 2, 1));
+		okLink.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent selectionEvent) {
 				UsageDataActivator.getDefault().getSettings()
@@ -99,9 +102,11 @@ public class UsageNotificationBody implements IBody {
 	}
 
 	private void createCancelLink(Composite composite) {
-		Link repeatLink = createLink(composite,
-				Messages.CalloutWindow_DoNotAgree, 1);
-		repeatLink.addSelectionListener(new SelectionAdapter() {
+		Link cancelLink = new Link(composite, SWT.NO_FOCUS);
+		cancelLink.setText(Messages.CalloutWindow_DoNotAgree);
+		cancelLink.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, true,
+				1, 1));
+		cancelLink.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent selectionEvent) {
 				UsageDataActivator.getDefault().getSettings()
@@ -112,14 +117,6 @@ public class UsageNotificationBody implements IBody {
 				listener.performAction(ActionType.HIDE);
 			}
 		});
-	}
-
-	private Link createLink(Composite parent, String text, int hspan) {
-		Link link = new Link(parent, SWT.NO_FOCUS);
-		link.setText(text);
-		link.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, true, true,
-				hspan, 1));
-		return link;
 	}
 
 	private void showUploadWizard() {
