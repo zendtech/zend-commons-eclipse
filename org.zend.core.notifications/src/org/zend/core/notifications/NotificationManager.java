@@ -274,7 +274,7 @@ public class NotificationManager implements INotificationChangeListener {
 			IRunnableWithProgress runnable, boolean closable) {
 		NotificationSettings settings = new NotificationSettings();
 		settings.setTitle(title).setType(NotificationType.INFO).setBorder(true)
-				.setClosable(true).setHeight(height);
+				.setClosable(closable).setHeight(height);
 		Shell parent = Activator.getDefault().getParent();
 		if (parent != null) {
 			registerNotification(new ProgressNotification(parent, settings,
