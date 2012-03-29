@@ -266,9 +266,12 @@ public class NotificationManager implements INotificationChangeListener {
 	 *            notification height
 	 * @param runnable
 	 *            process which should be run
+	 * @param closable
+	 *            if <code>true</code> then it will be possible to close
+	 *            notification manually
 	 */
 	public static void registerProgress(String title, int height,
-			IRunnableWithProgress runnable) {
+			IRunnableWithProgress runnable, boolean closable) {
 		NotificationSettings settings = new NotificationSettings();
 		settings.setTitle(title).setType(NotificationType.INFO).setBorder(true)
 				.setClosable(true).setHeight(height);
