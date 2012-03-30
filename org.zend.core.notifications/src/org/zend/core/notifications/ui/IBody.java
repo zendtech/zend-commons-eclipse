@@ -8,6 +8,7 @@
 package org.zend.core.notifications.ui;
 
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Menu;
 
 /**
  * Represents notification body. It allows to define custom body and communicate
@@ -26,6 +27,13 @@ public interface IBody {
 	 * @return created content
 	 */
 	Composite createContent(Composite container, NotificationSettings settings);
+
+	/**
+	 * Provide custom menu items for a notification.
+	 * 
+	 * @param menu
+	 */
+	void addMenuItems(Menu menu);
 
 	/**
 	 * Add action listener to be able to communcate with notification and be

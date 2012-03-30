@@ -20,6 +20,7 @@ import org.eclipse.swt.widgets.TaskBar;
 import org.eclipse.swt.widgets.TaskItem;
 import org.zend.core.notifications.internal.ui.Notification;
 import org.zend.core.notifications.internal.ui.progress.ProgressNotification;
+import org.zend.core.notifications.ui.ActionType;
 import org.zend.core.notifications.ui.INotification;
 import org.zend.core.notifications.ui.INotificationChangeListener;
 import org.zend.core.notifications.ui.NotificationSettings;
@@ -94,9 +95,9 @@ public class NotificationManager implements INotificationChangeListener {
 	public static INotification createNotification(NotificationSettings settings) {
 		Shell parent = Activator.getDefault().getParent();
 		if (parent != null) {
-			return new Notification(parent, settings);
+			return new Notification(parent, settings, getInstance());
 		}
-		return new Notification(settings);
+		return new Notification(settings, getInstance());
 	}
 
 	/**
@@ -110,7 +111,7 @@ public class NotificationManager implements INotificationChangeListener {
 	 */
 	public static INotification createNotification(Shell parent,
 			NotificationSettings settings) {
-		return new Notification(parent, settings);
+		return new Notification(parent, settings, getInstance());
 	}
 
 	/**
@@ -278,9 +279,10 @@ public class NotificationManager implements INotificationChangeListener {
 		Shell parent = Activator.getDefault().getParent();
 		if (parent != null) {
 			registerNotification(new ProgressNotification(parent, settings,
-					runnable));
+					runnable, getInstance()));
 		} else {
-			registerNotification(new ProgressNotification(settings, runnable));
+			registerNotification(new ProgressNotification(settings, runnable,
+					getInstance()));
 		}
 	}
 
@@ -303,6 +305,16 @@ public class NotificationManager implements INotificationChangeListener {
 	 */
 	public static int getNotificationsNumber() {
 		return getInstance().active.size();
+	}
+
+	/**
+	 * Hide all active notifications.
+	 */
+	public void hideAll() {
+		List<INotification> toRemove = new ArrayList<INotification>(active);
+		for (INotification notification : toRemove) {
+			((Notification) notification).performAction(ActionType.HIDE);
+		}
 	}
 
 	private static NotificationManager getInstance() {

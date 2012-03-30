@@ -16,6 +16,8 @@ import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseTrackAdapter;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
@@ -25,13 +27,17 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Monitor;
 import org.eclipse.swt.widgets.Shell;
 import org.zend.core.notifications.Activator;
+import org.zend.core.notifications.NotificationManager;
 import org.zend.core.notifications.ui.ActionType;
 import org.zend.core.notifications.ui.IActionListener;
 import org.zend.core.notifications.ui.IBody;
@@ -55,13 +61,18 @@ public class Notification implements IActionListener, INotification {
 	protected NotificationSettings settings;
 	protected List<INotificationChangeListener> listeners;
 
-	public Notification(NotificationSettings settings) {
-		this(null, settings);
+	private NotificationManager manager;
+
+	public Notification(NotificationSettings settings,
+			NotificationManager manager) {
+		this(null, settings, manager);
 	}
 
-	public Notification(Shell parent, NotificationSettings settings) {
+	public Notification(Shell parent, NotificationSettings settings,
+			NotificationManager manager) {
 		this.parent = parent;
 		this.settings = settings;
+		this.manager = manager;
 		this.listeners = Collections
 				.synchronizedList(new ArrayList<INotificationChangeListener>());
 	}
@@ -189,6 +200,7 @@ public class Notification implements IActionListener, INotification {
 					createTitle(container);
 					createClose(container);
 					createBody(container);
+					createMenu();
 					initShell();
 					show();
 					currentLocation = shell.getLocation();
@@ -245,20 +257,21 @@ public class Notification implements IActionListener, INotification {
 
 	protected void createBody(Composite container) {
 		IBody customBody = settings.getBody();
+		Composite body = null;
 		if (customBody != null) {
-			Composite body = customBody.createContent(container, settings);
+			body = customBody.createContent(container, settings);
 			body.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3,
 					1));
 			body.pack(true);
 			customBody.addActionListener(this);
 		} else {
-			Composite composite = new Composite(container, SWT.NONE);
-			composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true,
-					true, 3, 1));
+			body = new Composite(container, SWT.NONE);
+			body.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3,
+					1));
 			GridLayout layout = new GridLayout(1, true);
 			layout.horizontalSpacing = layout.verticalSpacing = 2;
-			composite.setLayout(layout);
-			Label text = new Label(composite, SWT.WRAP);
+			body.setLayout(layout);
+			Label text = new Label(body, SWT.WRAP);
 			text.setFont(Fonts.get(FontName.DEFAULT));
 			text.setLayoutData(new GridData(GridData.FILL_BOTH));
 			text.setForeground(Display.getDefault().getSystemColor(
@@ -267,6 +280,43 @@ public class Notification implements IActionListener, INotification {
 			if (message != null) {
 				text.setText(settings.getMessage());
 			}
+		}
+	}
+
+	protected void createMenu() {
+		Menu menu = new Menu(shell);
+		MenuItem closeItem = new MenuItem(menu, SWT.PUSH);
+		closeItem.setText(Messages.Notification_ContextMenuClose);
+		closeItem.addSelectionListener(new SelectionAdapter() {
+
+			public void widgetSelected(SelectionEvent e) {
+				hide();
+			}
+		});
+		MenuItem closeAllItem = new MenuItem(menu, SWT.PUSH);
+		closeAllItem.setText(Messages.Notification_ContextMenuCloseAll);
+		closeAllItem.addSelectionListener(new SelectionAdapter() {
+
+			public void widgetSelected(SelectionEvent e) {
+				manager.hideAll();
+			}
+		});
+		IBody customBody = settings.getBody();
+		if (customBody != null) {
+			customBody.addMenuItems(menu);
+		}
+		setMenu(shell, menu);
+	}
+
+	protected void setMenu(Control parent, Menu menu) {
+		if (parent != null) {
+			if (parent instanceof Composite) {
+				Control[] children = ((Composite) parent).getChildren();
+				for (Control control : children) {
+					setMenu(control, menu);
+				}
+			}
+			parent.setMenu(menu);
 		}
 	}
 

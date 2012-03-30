@@ -25,6 +25,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.zend.core.notifications.Activator;
+import org.zend.core.notifications.NotificationManager;
 import org.zend.core.notifications.internal.ui.Notification;
 import org.zend.core.notifications.ui.NotificationSettings;
 import org.zend.core.notifications.util.FontName;
@@ -66,15 +67,15 @@ public class ProgressNotification extends Notification {
 	}
 
 	public ProgressNotification(Shell parent, NotificationSettings settings,
-			IRunnableWithProgress runnable) {
-		super(parent, settings);
+			IRunnableWithProgress runnable, NotificationManager manager) {
+		super(parent, settings, manager);
 		this.taskChangeListener = new TaskChangeListener();
 		this.runnable = runnable;
 	}
 
 	public ProgressNotification(NotificationSettings settings,
-			IRunnableWithProgress runnable) {
-		super(settings);
+			IRunnableWithProgress runnable, NotificationManager manager) {
+		super(settings, manager);
 		this.taskChangeListener = new TaskChangeListener();
 		this.runnable = runnable;
 	}
