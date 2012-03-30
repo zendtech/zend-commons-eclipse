@@ -21,6 +21,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Link;
+import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.PlatformUI;
 import org.zend.core.notifications.ui.ActionType;
 import org.zend.core.notifications.ui.IActionListener;
@@ -54,6 +55,9 @@ public class UsageNotificationBody implements IBody {
 
 	public void addActionListener(IActionListener listener) {
 		this.listener = listener;
+	}
+
+	public void addMenuItems(Menu menu) {
 	}
 
 	private Composite createEntryComposite(Composite container) {
