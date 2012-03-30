@@ -11,7 +11,6 @@
          point="org.eclipse.ui.commands">
       <command
             categoryId="org.eclipse.ui.category.help"
-            defaultHandler="org.zend.php.common.welcome.WelcomePageCommandHandler"
             id="org.zend.php.common.welcome.openEditorCommand"
             name="&amp;Welcome">
       </command>
@@ -52,4 +51,17 @@
             id="org.zend.php.common.welcome.WelcomePageEditorInput">
       </factory>
    </extension>
+  <extension
+        point="org.eclipse.ui.handlers">
+     <handler
+           class="org.zend.php.common.welcome.WelcomePageCommandHandler"
+           commandId="org.zend.php.common.welcome.openEditorCommand">
+        <activeWhen>
+           <systemTest
+                 property="eclipse.product"
+                 value="org.zend.php.product">
+           </systemTest>
+        </activeWhen>
+     </handler>
+  </extension>
 </plugin>
