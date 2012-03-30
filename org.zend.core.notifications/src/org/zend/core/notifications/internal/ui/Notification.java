@@ -46,6 +46,7 @@ import org.zend.core.notifications.ui.INotificationChangeListener;
 import org.zend.core.notifications.ui.NotificationSettings;
 import org.zend.core.notifications.ui.NotificationType;
 import org.zend.core.notifications.util.ColorCache;
+import org.zend.core.notifications.util.EnvironmentUtils;
 import org.zend.core.notifications.util.FontName;
 import org.zend.core.notifications.util.Fonts;
 import org.zend.core.notifications.util.ImageCache;
@@ -221,7 +222,12 @@ public class Notification implements IActionListener, INotification {
 		settings.setHeight(Math.max(size.y, settings.getHeight()));
 		shell.setSize(width, settings.getHeight());
 		setLocation();
-		shell.setAlpha(0);
+		if (EnvironmentUtils.isUnderWindows()
+				|| EnvironmentUtils.isUnderMacOSX()) {
+			shell.setAlpha(0);
+		} else {
+			shell.setAlpha(255);
+		}
 		shell.setVisible(true);
 	}
 
