@@ -13,6 +13,8 @@ public class Messages extends NLS {
 	private static final String BUNDLE_NAME = "org.zend.core.notifications.internal.ui.messages"; //$NON-NLS-1$
 	public static String Notification_ContextMenuClose;
 	public static String Notification_ContextMenuCloseAll;
+	public static String ReadMoreDialog_CloseLabel;
+	public static String ReadMoreDialog_HelpTooltip;
 	static {
 		// initialize resource bundle
 		NLS.initializeMessages(BUNDLE_NAME, Messages.class);
