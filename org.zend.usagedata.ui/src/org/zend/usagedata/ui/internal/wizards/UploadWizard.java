@@ -14,6 +14,7 @@ import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.widgets.Composite;
 import org.zend.usagedata.UsageDataActivator;
 import org.zend.usagedata.ui.internal.Messages;
+import org.zend.usagedata.ui.internal.UIUsageDataActivator;
 
 /**
  * Upload Wizard which allows to upload collected data to the server.
@@ -28,7 +29,8 @@ public class UploadWizard extends Wizard {
 	public UploadWizard() {
 		setNeedsProgressMonitor(false);
 		setWindowTitle(Messages.UploadDetailsWizard_Title);
-		// TODO add setDefaultPageImageDescriptor();
+		setDefaultPageImageDescriptor(UIUsageDataActivator
+				.getImageDescriptor(UIUsageDataActivator.UDC_DIALOG_ICON));
 	}
 
 	/*

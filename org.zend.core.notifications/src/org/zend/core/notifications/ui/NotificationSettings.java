@@ -10,6 +10,7 @@ package org.zend.core.notifications.ui;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Image;
 import org.zend.core.notifications.Activator;
 import org.zend.core.notifications.util.ColorCache;
 
@@ -51,6 +52,7 @@ public class NotificationSettings {
 	private boolean closable;
 	private IEclipsePreferences prefs;
 	private int height = -1;
+	private Image icon;
 
 	public NotificationSettings() {
 		this.prefs = InstanceScope.INSTANCE.getNode(Activator.PLUGIN_ID);
@@ -168,6 +170,19 @@ public class NotificationSettings {
 	 */
 	public NotificationSettings setHeight(int height) {
 		this.height = height;
+		return this;
+	}
+
+	/**
+	 * Set notification icon. This icon will be used only if
+	 * {@link NotificationSettings#getType()} returns
+	 * {@link NotificationType#CUSTOM}.
+	 * 
+	 * @param icon
+	 * @return settings
+	 */
+	public NotificationSettings setIcon(Image icon) {
+		this.icon = icon;
 		return this;
 	}
 
@@ -326,6 +341,18 @@ public class NotificationSettings {
 	 */
 	public boolean isClosable() {
 		return closable;
+	}
+
+	/**
+	 * Returns notification icon.
+	 * 
+	 * @return icon
+	 */
+	public Image getIcon() {
+		if (getType() != NotificationType.CUSTOM) {
+			return getType().getImage();
+		}
+		return icon;
 	}
 
 }

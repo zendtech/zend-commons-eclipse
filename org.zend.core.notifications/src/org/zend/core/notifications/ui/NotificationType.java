@@ -22,7 +22,9 @@ public enum NotificationType {
 
 	WARNING(ImageCache.getImage("icons/warn.png")), //$NON-NLS-1$
 
-	INFO(ImageCache.getImage("icons/info.png")); //$NON-NLS-1$
+	INFO(ImageCache.getImage("icons/info.png")), //$NON-NLS-1$
+
+	CUSTOM(null);
 
 	private Image image;
 

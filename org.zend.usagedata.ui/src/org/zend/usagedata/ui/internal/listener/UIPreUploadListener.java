@@ -10,12 +10,14 @@
  *******************************************************************************/
 package org.zend.usagedata.ui.internal.listener;
 
+import org.eclipse.swt.graphics.Image;
 import org.zend.core.notifications.NotificationManager;
 import org.zend.core.notifications.ui.IBody;
 import org.zend.core.notifications.ui.NotificationSettings;
 import org.zend.core.notifications.ui.NotificationType;
 import org.zend.usagedata.recording.IPreUploadListener;
 import org.zend.usagedata.ui.internal.Messages;
+import org.zend.usagedata.ui.internal.UIUsageDataActivator;
 import org.zend.usagedata.ui.internal.notification.UsageNotificationBody;
 
 /**
@@ -35,9 +37,12 @@ public class UIPreUploadListener implements IPreUploadListener {
 	 */
 	public void handleUpload() {
 		IBody body = new UsageNotificationBody();
+		Image icon = UIUsageDataActivator.getImageDescriptor(
+				UIUsageDataActivator.UDC_MESSAGE_ICON).createImage();
 		NotificationSettings settings = new NotificationSettings();
 		settings.setTitle(Messages.UIPreUploadListener_Title)
-				.setType(NotificationType.INFO).setBody(body).setBorder(true);
+				.setType(NotificationType.INFO).setBody(body).setBorder(true)
+				.setType(NotificationType.CUSTOM).setIcon(icon);
 		NotificationManager.registerNotification(NotificationManager
 				.createNotification(settings));
 	}

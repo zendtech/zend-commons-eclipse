@@ -44,7 +44,6 @@ import org.zend.core.notifications.ui.IBody;
 import org.zend.core.notifications.ui.INotification;
 import org.zend.core.notifications.ui.INotificationChangeListener;
 import org.zend.core.notifications.ui.NotificationSettings;
-import org.zend.core.notifications.ui.NotificationType;
 import org.zend.core.notifications.util.ColorCache;
 import org.zend.core.notifications.util.EnvironmentUtils;
 import org.zend.core.notifications.util.FontName;
@@ -336,13 +335,13 @@ public class Notification implements IActionListener, INotification {
 	}
 
 	protected void createImage(Composite container) {
-		NotificationType type = settings.getType();
-		if (type != null) {
+		Image icon = settings.getIcon();
+		if (icon != null) {
 			CLabel imgLabel = new CLabel(container, SWT.NONE);
 			imgLabel.setLayoutData(new GridData(
 					GridData.VERTICAL_ALIGN_BEGINNING
 							| GridData.HORIZONTAL_ALIGN_BEGINNING));
-			imgLabel.setImage(type.getImage());
+			imgLabel.setImage(icon);
 		}
 	}
 
