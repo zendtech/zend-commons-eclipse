@@ -31,7 +31,7 @@ public class UIUsageDataActivator extends AbstractUIPlugin {
 	public static final String PLUGIN_ID = "org.zend.usagedata.ui"; //$NON-NLS-1$
 	
 	public static final String UDC_MESSAGE_ICON = "icons/udc_message.png"; //$NON-NLS-1$
-	public static final String UDC_DIALOG_ICON = "icons/udc_dialog1.png"; //$NON-NLS-1$
+	public static final String UDC_DIALOG_ICON = "icons/udc_dialog.png"; //$NON-NLS-1$
 	
 	// The shared instance
 	private static UIUsageDataActivator plugin;
