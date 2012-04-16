@@ -12,6 +12,7 @@ import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.zend.core.notifications.Activator;
+import org.zend.core.notifications.internal.ui.Notification;
 import org.zend.core.notifications.util.ColorCache;
 
 /**
@@ -53,6 +54,7 @@ public class NotificationSettings {
 	private IEclipsePreferences prefs;
 	private int height = -1;
 	private Image icon;
+	private IComparator comparator;
 
 	public NotificationSettings() {
 		this.prefs = InstanceScope.INSTANCE.getNode(Activator.PLUGIN_ID);
@@ -183,6 +185,18 @@ public class NotificationSettings {
 	 */
 	public NotificationSettings setIcon(Image icon) {
 		this.icon = icon;
+		return this;
+	}
+
+	/**
+	 * Set notification comparator. It is used in
+	 * {@link Notification#equals(Object)} to compare two notifications.
+	 * 
+	 * @param comparator
+	 * @return settings
+	 */
+	public NotificationSettings setComparator(IComparator comparator) {
+		this.comparator = comparator;
 		return this;
 	}
 
@@ -353,6 +367,15 @@ public class NotificationSettings {
 			return getType().getImage();
 		}
 		return icon;
+	}
+
+	/**
+	 * @return comparator associated with notification. If returns
+	 *         <code>null</code>, it means that notification is compared using
+	 *         its reference.
+	 */
+	public IComparator getComparator() {
+		return comparator;
 	}
 
 }

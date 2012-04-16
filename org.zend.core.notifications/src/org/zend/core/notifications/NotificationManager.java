@@ -333,6 +333,9 @@ public class NotificationManager implements INotificationChangeListener {
 			for (INotification notification : modifiable) {
 				if (!notification.isAvailable()) {
 					removeActive(notification);
+				} else if (added.equals(notification)) {
+					((Notification) notification)
+							.performAction(ActionType.HIDE);
 				}
 			}
 			if (active.size() < limit && !isOverflow(modifiable)) {

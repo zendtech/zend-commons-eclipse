@@ -41,6 +41,7 @@ import org.zend.core.notifications.NotificationManager;
 import org.zend.core.notifications.ui.ActionType;
 import org.zend.core.notifications.ui.IActionListener;
 import org.zend.core.notifications.ui.IBody;
+import org.zend.core.notifications.ui.IComparator;
 import org.zend.core.notifications.ui.INotification;
 import org.zend.core.notifications.ui.INotificationChangeListener;
 import org.zend.core.notifications.ui.NotificationSettings;
@@ -134,6 +135,18 @@ public class Notification implements IActionListener, INotification {
 
 	public int getHeight() {
 		return settings.getHeight();
+	}
+
+	public boolean equals(Object obj) {
+		if (super.equals(obj)) {
+			return true;
+		}
+		if (this.settings != null && obj instanceof Notification) {
+			Notification n = (Notification) obj;
+			IComparator c = this.settings.getComparator();
+			return c != null && c.equals((n.settings.getComparator()));
+		}
+		return false;
 	}
 
 	protected void statusChanged() {
