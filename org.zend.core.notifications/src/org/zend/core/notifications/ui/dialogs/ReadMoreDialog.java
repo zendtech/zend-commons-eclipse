@@ -77,7 +77,9 @@ public class ReadMoreDialog extends Dialog {
 						SWT.DEFAULT));
 			}
 		});
-		parent.getShell().setText(title);
+		if (title != null) {
+			parent.getShell().setText(title);
+		}
 		return control;
 	}
 
