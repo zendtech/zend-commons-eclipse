@@ -142,7 +142,8 @@ public class NotificationManager implements INotificationChangeListener {
 	public static void registerInfo(String title, String message, int delay) {
 		NotificationSettings settings = new NotificationSettings();
 		settings.setTitle(title).setDelay(delay).setMessage(message)
-				.setType(NotificationType.INFO).setBorder(true);
+				.setType(NotificationType.INFO).setBorder(true)
+				.setClosable(true);
 		registerNotification(createNotification(settings));
 	}
 
@@ -210,7 +211,8 @@ public class NotificationManager implements INotificationChangeListener {
 	public static void registerWarning(String title, String message, int delay) {
 		NotificationSettings settings = new NotificationSettings();
 		settings.setTitle(title).setDelay(delay).setMessage(message)
-				.setType(NotificationType.WARNING).setBorder(true);
+				.setType(NotificationType.WARNING).setBorder(true)
+				.setClosable(true);
 		registerNotification(createNotification(settings));
 	}
 
@@ -242,7 +244,8 @@ public class NotificationManager implements INotificationChangeListener {
 	public static void registerError(String title, String message, int delay) {
 		NotificationSettings settings = new NotificationSettings();
 		settings.setTitle(title).setDelay(delay).setMessage(message)
-				.setType(NotificationType.ERROR).setBorder(true);
+				.setType(NotificationType.ERROR).setBorder(true)
+				.setClosable(true);
 		registerNotification(createNotification(settings));
 	}
 
