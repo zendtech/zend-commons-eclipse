@@ -296,7 +296,6 @@ public class NotificationManager implements INotificationChangeListener {
 		}
 		INotification n = queue.get(queue.size() - 1);
 		if (manager.resolve(n)) {
-			n.display();
 			n.addChangeListener(manager);
 			manager.queue.remove(n);
 			manager.addActive(n);
@@ -328,44 +327,46 @@ public class NotificationManager implements INotificationChangeListener {
 	}
 
 	private boolean resolve(INotification added) {
-		if (!active.isEmpty()) {
-			List<INotification> modifiable = new ArrayList<INotification>(
-					active);
-			Collections.reverse(modifiable);
-			int limit = prefs.getInt(LIMIT_KEY, LIMIT_DEFAULT);
-			for (INotification notification : modifiable) {
-				if (!notification.isAvailable()) {
-					removeActive(notification);
-				} else if (added.equals(notification)) {
-					((Notification) notification)
-							.performAction(ActionType.HIDE);
-				}
-			}
-			if (active.size() < limit && !isOverflow(modifiable)) {
-				if (!added.display()) {
-					return false;
-				}
+		synchronized (active) {
+			if (!active.isEmpty()) {
+				List<INotification> modifiable = new ArrayList<INotification>(
+						active);
+				Collections.reverse(modifiable);
+				int limit = prefs.getInt(LIMIT_KEY, LIMIT_DEFAULT);
 				for (INotification notification : modifiable) {
-					if (notification.isAvailable()) {
-						notification.moveUp(added.getHeight());
+					if (!notification.isAvailable()) {
+						removeActive(notification);
+					} else if (added.equals(notification)) {
+						((Notification) notification)
+								.performAction(ActionType.HIDE);
 					}
 				}
+				if (active.size() < limit && !isOverflow(modifiable)) {
+					if (!added.display()) {
+						return false;
+					}
+					for (INotification notification : modifiable) {
+						if (notification.isAvailable()) {
+							notification.moveUp(added.getHeight());
+						}
+					}
+				} else {
+					return false;
+				}
 			} else {
-				return false;
-			}
-		} else {
-			if (!added.display()) {
-				return false;
+				return added.display();
 			}
 		}
 		return true;
 	}
 
 	private void moveDown(int index, INotification removed) {
-		for (int i = 0; i < index; i++) {
-			INotification notification = active.get(i);
-			if (notification.isAvailable()) {
-				notification.moveDown(removed.getHeight());
+		synchronized (active) {
+			for (int i = 0; i < index; i++) {
+				INotification notification = active.get(i);
+				if (notification.isAvailable()) {
+					notification.moveDown(removed.getHeight());
+				}
 			}
 		}
 	}
