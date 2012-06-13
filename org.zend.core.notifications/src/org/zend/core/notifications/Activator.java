@@ -64,9 +64,17 @@ public class Activator extends AbstractUIPlugin {
 	public void stop(BundleContext context) throws Exception {
 		plugin = null;
 		super.stop(context);
-		ImageCache.dispose();
-		ColorCache.dispose();
-		Fonts.dispose();
+		
+		Display d = Display.getDefault();
+		if (! d.isDisposed()) {
+			d.asyncExec(new Runnable() {
+				public void run() {
+					ImageCache.dispose();
+					ColorCache.dispose();
+					Fonts.dispose();
+				}
+			});
+		}
 	}
 
 	/**
