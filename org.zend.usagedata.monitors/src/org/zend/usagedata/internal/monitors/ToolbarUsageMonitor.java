@@ -224,19 +224,19 @@ public class ToolbarUsageMonitor extends AbstractMonitor {
 	}
 
 	private void addButtonsListener(CoolBar coolBar) {
-		CoolItem[] items = coolBar.getItems();
-		for (CoolItem coolItem : items) {
-			if (coolItem.getControl() instanceof ToolBar) {
-				ToolBar bar = (ToolBar) coolItem.getControl();
-				ToolItem[] toolItems = bar.getItems();
-				for (final ToolItem toolItem : toolItems) {
-					if (toolItem.getData() instanceof Separator) {
-						continue;
-					}
-					toolItem.addSelectionListener(listener);
-				}
-			}
-		}
+//		CoolItem[] items = coolBar.getItems();
+//		for (CoolItem coolItem : items) {
+//			if (coolItem.getControl() instanceof ToolBar) {
+//				ToolBar bar = (ToolBar) coolItem.getControl();
+//				ToolItem[] toolItems = bar.getItems();
+//				for (final ToolItem toolItem : toolItems) {
+//					if (toolItem.getData() instanceof Separator) {
+//						continue;
+//					}
+//					toolItem.addSelectionListener(listener);
+//				}
+//			}
+//		}
 	}
 
 	private void removeButtonsListener(CoolBar coolBar) {
