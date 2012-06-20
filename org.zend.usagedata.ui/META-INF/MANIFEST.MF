@@ -8,8 +8,6 @@ Bundle-Vendor: Zend Technologies Ltd.
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.zend.usagedata;bundle-version="1.0.0",
- org.eclipse.help.ui;bundle-version="3.5.100",
- org.eclipse.ui.forms;bundle-version="3.5.100",
  org.zend.core.notifications;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
