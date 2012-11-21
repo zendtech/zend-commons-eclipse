@@ -201,8 +201,10 @@ public class ToolbarUsageMonitor extends AbstractMonitor {
 		if (perspectives.contains(window.getActivePage().getPerspective()
 				.getId())) {
 			Shell shell = window.getShell();
-			CoolBar coolBar = getFirstCoolBar(shell.getChildren());
-			addButtonsListener(coolBar);
+			if (shell != null) {
+				CoolBar coolBar = getFirstCoolBar(shell.getChildren());
+				addButtonsListener(coolBar);
+			}
 		}
 	}
 
@@ -215,8 +217,11 @@ public class ToolbarUsageMonitor extends AbstractMonitor {
 					if (perspectives.contains(window.getActivePage()
 							.getPerspective().getId())) {
 						Shell shell = window.getShell();
-						CoolBar coolBar = getFirstCoolBar(shell.getChildren());
-						removeButtonsListener(coolBar);
+						if (shell != null) {
+							CoolBar coolBar = getFirstCoolBar(shell
+									.getChildren());
+							removeButtonsListener(coolBar);
+						}
 					}
 				}
 			}
