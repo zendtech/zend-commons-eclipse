@@ -93,6 +93,9 @@ public class ProgressNotification extends Notification {
 		message.setLayoutData(new GridData(GridData.FILL_BOTH));
 		message.setForeground(Display.getDefault().getSystemColor(
 				SWT.COLOR_BLACK));
+		if (settings.getMessage() != null) {
+			message.setText(settings.getMessage());
+		}
 		indicator = new ProgressIndicator(composite, SWT.NONE);
 		indicator
 				.setLayoutData(new GridData(SWT.FILL, SWT.BOTTOM, true, false));

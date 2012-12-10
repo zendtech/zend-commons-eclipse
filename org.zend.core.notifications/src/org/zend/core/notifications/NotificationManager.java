@@ -255,8 +255,8 @@ public class NotificationManager implements INotificationChangeListener {
 	 * <ul>
 	 * <li>type is {@link NotificationType#INFO},</li>
 	 * <li>close button,</li>
-	 * <li>border visible,</li>
-	 * <li>title and height are set according to provided arguments as
+	 * <li>border is visible,</li>
+	 * <li>title and message are set according to provided arguments as
 	 * parameters.</li>
 	 * <li>gradient background with default colors.</li>
 	 * </ul>
@@ -266,19 +266,19 @@ public class NotificationManager implements INotificationChangeListener {
 	 * 
 	 * @param title
 	 *            notification title
-	 * @param height
-	 *            notification height
+	 * @param message
+	 *            notification message
 	 * @param runnable
 	 *            process which should be run
 	 * @param closable
 	 *            if <code>true</code> then it will be possible to close
 	 *            notification manually
 	 */
-	public static void registerProgress(String title, int height,
+	public static void registerProgress(String title, String message,
 			IRunnableWithProgress runnable, boolean closable) {
 		NotificationSettings settings = new NotificationSettings();
 		settings.setTitle(title).setType(NotificationType.INFO).setBorder(true)
-				.setClosable(closable).setHeight(height);
+				.setClosable(closable).setMessage(message);
 		Shell parent = Activator.getDefault().getParent();
 		if (parent != null) {
 			registerNotification(new ProgressNotification(parent, settings,
