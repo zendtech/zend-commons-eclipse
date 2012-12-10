@@ -52,6 +52,9 @@ public class ProgressNotification extends Notification {
 
 				public void run() {
 					message.setText(text);
+					if (!message.isVisible()) {
+						message.setVisible(true);
+					}
 				}
 			});
 		}
@@ -95,6 +98,7 @@ public class ProgressNotification extends Notification {
 				SWT.COLOR_BLACK));
 		if (settings.getMessage() != null) {
 			message.setText(settings.getMessage());
+			message.setVisible(false);
 		}
 		indicator = new ProgressIndicator(composite, SWT.NONE);
 		indicator
