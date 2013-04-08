@@ -1,9 +1,0 @@
-Manifest-Version: 1.0
-Bundle-ManifestVersion: 2
-Bundle-Name: Notifications extension for Mac OS X
-Bundle-SymbolicName: org.zend.core.notifications.macosx;singleton:=true
-Bundle-Version: 1.0.0.qualifier
-Bundle-Vendor: Zend Technologies Ltd.
-Fragment-Host: org.zend.core.notifications;bundle-version="1.0.0"
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Eclipse-PlatformFilter: (& (osgi.ws=cocoa) (osgi.os=macosx)  )
