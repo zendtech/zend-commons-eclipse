@@ -13,7 +13,7 @@
              category="org.eclipse.php.ui.preferences.PHPBasePreferencePage"
              class="org.zend.usagedata.ui.internal.preferences.UsageDataPreferencesPage"
              id="org.zend.usagedata.ui.dataCapturePage"
-             name="Usage Reporting">
+             name="%page.name">
        </page>
     </extension>
 
