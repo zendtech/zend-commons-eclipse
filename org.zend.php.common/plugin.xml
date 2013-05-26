@@ -2,6 +2,10 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension-point id="org.zend.php.customization.profileModificationListeners" name="Profile Modification Listeners" schema="schema/profileModificationListeners.exsd"/>
+    	<extension-point id="org.zend.php.ui.welcomeLinkListener" 
+ 					 name="%extension-point.name.1" 
+ 					 schema="schema/org.zend.php.ui.welcomeLinkListener.exsd"/>
+     <extension-point id="org.zend.php.common.callout" name="%extension-point.name.0" schema="schema/org.zend.php.common.callout.exsd"/>
    <extension
          point="org.eclipse.ui.startup">
       <startup
@@ -65,4 +69,20 @@
         </activeWhen>
      </handler>
   </extension>
+  <extension
+        point="org.zend.php.ui.welcomeLinkListener">
+     <listener
+           class="org.zend.php.common.welcome.OpenCodeFormatterPreferencePage"
+           id="org.zend.php.common.welcome.OpenCodeFormatterPreferencePage.listener"
+           name="formatter">
+     </listener>
+  </extension>
+  <extension
+        point="org.zend.php.ui.welcomeLinkListener">
+     <listener
+           class="org.zend.php.common.welcome.LaunchTargetWizard"
+           id="org.zend.php.common.welcome.LaunchTargetWizard.listener"
+           name="target">
+     </listener>
+  </extension>>
 </plugin>

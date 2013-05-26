@@ -2,91 +2,266 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Welcome to Welcome to Eclipse PDT!</title>
+<title>Welcome to Eclipse PDT!</title>
 <style>
-body {background-color:#5fa630;margin: 0 !important;}
-table {margin:0px auto;}
-body,td, p {font-size:12px;color:#000000;line-height:120%;font-family: Arial, sans-serif;}
-ul { padding: 0; margin: 5px auto; list-style-image: url(http://static.zend.com/topics/green-bullet.gif); }
-ul li{ margin-left:15px; padding: 0 0 3px 0; list-style-image: url(http://static.zend.com/topics/green-bullet.gif); }
-a:link { color:#000000; text-decoration: none; }
-a:visited {color:#000000;text-decoration: none;}
-a:hover {color:#000000; text-decoration: none;}
-#sideCol {background-color:#edeff0;text-align:left;}
-.sideColText {font-family:'Trebuchet MS', Arial, Helvetica, sans-serif; font-size:11px; color:#394852;}
 
+html {
+	height: 100%;
+}
 
-div.butNav  { vertical-align:middle;
-			  width:185px;
-			  height:16px;
-			  padding:5px;
-			  border: 1px solid white;}
+body {
+	background-color: #5fa630;
+	margin: 0 !important;
+}
 
-div.butNav:hover {font-family:Arial, Helvetica, sans-serif;
-			  font-size:12px;
-			  background-color:#e6e6e6;
-			  vertical-align:middle;
-			  height:16px;
-			  padding:5px;
-			  border:1px solid #696969}
+table {
+	margin: 0px auto;
+}
 
-div.butResources {vertical-align:middle;
-				  width:145px;
-				  height:15px;
-				  padding-left:5px;
-				  font-size:11px;
-				  border: 1px solid white;}
+body,td,p {
+	font-size: 12px;
+	color: #000000;
+	line-height: 120%;
+	font-family: Arial, sans-serif;
+}
 
-div.butResources:hover { font-family:Arial, Helvetica, sans-serif;
-			  font-size:11px;
-			  background-color:#e6e6e6;
-			  vertical-align:middle;
-			  height:15px;
-			  padding-left:5px;
-			  border:1px solid #696969;
-			  vertical-align:middle}
+ul {
+	padding: 0;
+	margin: 5px auto;
+	list-style-image: url(http://static.zend.com/topics/green-bullet.gif);
+}
+
+ul li {
+	margin-left: 15px;
+	padding: 0 0 3px 0;
+	list-style-image: url(http://static.zend.com/topics/green-bullet.gif);
+}
+
+a {
+	border: 0px;
+	color: #000000;
+	text-decoration: none;
+}
+
+a:link {
+	border: 0px;
+	color: #000000;
+	text-decoration: none;
+}
+
+a:visited {
+	border: 0px;
+	color: #000000;
+	text-decoration: none;
+}
+
+a:hover {
+	border: 0px;
+	color: #000000;
+	text-decoration: none;
+}
+
+#sideCol {
+	background-color: #edeff0;
+	text-align: left;
+}
+
+.sideColText {
+	font-family: 'Trebuchet MS', Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	color: #394852;
+}
+
+div.butNav {
+	vertical-align: middle;
+	width: 185px;
+	height: 16px;
+	padding: 5px;
+	border: 1px solid white;
+}
+
+div.butNav:hover {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	background-color: #e6e6e6;
+	vertical-align: middle;
+	height: 16px;
+	padding: 5px;
+	border: 1px solid #696969
+}
+
+div.butResources {
+	vertical-align: middle;
+	width: 145px;
+	height: 15px;
+	padding-left: 5px;
+	font-size: 11px;
+	border: 1px solid white;
+}
+
+div.butResources:hover {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	background-color: #e6e6e6;
+	vertical-align: middle;
+	height: 15px;
+	padding-left: 5px;
+	border: 1px solid #696969;
+	vertical-align: middle
+}
+
+img  {
+	border: 0px;
+}
+
+img.screen {
+	border: 1px solid #cccccc;
+}
 </style>
+
+<script type="text/javascript">
+	function btn_newzf2prj() {
+		window.status = 'zf2';
+		window.status = '';
+		return false;
+	}
+	function btn_formatter() {
+		window.status = 'formatter';
+		window.status = '';
+		return false;
+	}
+	function btn_target() {
+		window.status = 'target';
+		window.status = '';
+		return false;
+	}
+</script>
 </head>
 
-<body>
-<table width="634" height="559" border="0" cellspacing="0" cellpadding="0" bgcolor="#FFFFFF">
-  <tr>
-    <td height="47" colspan="3"><img src="PDT-header-634x47px.png" width="634" height="47" border="0" /></td>
-  </tr>
-  <tr>
-    <td width="210" valign="top" style="padding-left:15px; padding-right:8px;"><p><strong><a href="http://www.zend.com/en/products/studio/features">PHP Editor and File Management</a></strong><br />
-    Code Analysis &amp; Quick Fix,Quick New File Creation, Code Formatter...</p>
-    <p><a href="http://www.zend.com/en/products/studio/features"><img src="PHP-Editor-code-assist-thumb.gif" width="178" height="125" border="0" /></a></p></td>
-    <td width="217" valign="top"  style="padding-left:0px;"><p><strong><a href="http://www.zend.com/en/products/studio/features">PHP Debugging</a></strong><br />
-    Integrated PHP/JavaScript, Debugging, Firefox / IE Toolbars, Profiler...</p>
-    <p><a href="http://www.zend.com/en/products/studio/features"><img src="PHP-Debugging-debug-thumb.gif" width="178" height="125" border="0" /></a></p></td>
-    <td width="194" valign="bottom"><table width="0" border="0" cellspacing="0" cellpadding="0">
-  <tr>
-    <td style="padding-bottom:25px;"><a href="http://www.eclipse.org/pdt"><img src="more-info-eclipse-pdt-site-192x88px.png" width="192" height="88" border="0" /></a></td>
-  </tr>
-</table>
-</td>
-  </tr>
-  <tr>
-    <td height="41" colspan="3"><img src="title-extra-features-634x41px.png" width="634" height="41" border="0" /></td>
-  </tr>
-  <tr>
-    <td valign="top" style="padding-left:15px; padding-right:8px;"><p><strong><a href="http://www.zend.com/en/products/studio/features">PHP Refactoring</a></strong><br />
-    In-place Refactoring (Smart Rename), Extract Variable / Method, Move Files and Folders...</p>
-    <p><a href="http://www.zend.com/en/products/studio/features"><img src="PHP-Refactoring-code-refactoring-thumb.gif" width="178" height="125" border="0"/></a></p></td>
-    <td valign="top"  style="padding-left:0px;"><p><strong><a href="http://www.zend.com/en/products/studio/features">PHP Unit Testing</a></strong><br />
-    Code Assist, Test Case / Suite Code Generation, Test Results Visual Support, PHP Unit Reports...</p>
-    <p><a href="http://www.zend.com/en/products/studio/features"><img src="PHP-Unit-Testing-zse-unit-testing-code-coverage-thumb.gif" width="178" height="125" border="0" /></a></p></td>
-    <td valign="top" ><p><strong><a href="http://www.zend.com/en/products/studio/features">Remote and Virtual Systems</a></strong><br />
-      VMware Workstation integration, SSH, FTP, SFTP...</p>
-      <p><a href="http://www.zend.com/en/products/studio/features"><img src="Remote-and-Virtual-Systems-remote-systems-thumb.gif" width="178" height="125" border="0" /></a></p>
-      <table width="0" border="0" cellspacing="0" cellpadding="0">
-        <tr>
-          <td><a href="http://www.zend.com/en/products/studio/"><img src="try-zend-studio-192x41px.png" width="192" height="41" border="0" /></a></td>
-        </tr>
-      </table>
-   </td>
-  </tr>
-</table>
+<body style="height: 100%;">
+	<table width="634" border="0" cellspacing="0"
+		cellpadding="0" bgcolor="#FFFFFF" style="height: 100%;">
+		<tr>
+			<td height="41" colspan="3"><img
+				src="WelcomeToZendEclipsePDT-634x41px.png" width="634" height="41"
+				border="0" /></td>
+		</tr>
+		<tr>
+			<td height="31" colspan="3"
+				style="background-image: url(subtitle.png); padding-left: 15px; padding-right: 15px;">
+				<table style="width: 100%;">
+					<tr>
+						<td style="text-align: left;"><img src="TryNewFeatures.png"
+							style="vertical-align: middle; padding-top: 5px;" /></td>
+						<td style="text-align: right;"><a
+							href="http://www.eclipse.org/pdt" target="_blank"><img
+								src="VisitEclipsePDT.png"
+								style="vertical-align: middle; padding-top: 5px;" />&nbsp;<img
+								src="arrow.png" style="vertical-align: middle;" /> </a></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr
+			style="background-image: url(zend_logo.png); padding: 5px; background-repeat: no-repeat; background-position: top right;">
+			<td>
+				<table>
+					<tr>
+						<td width="210" valign="top"
+							style="padding-left: 15px; padding-right: 8px;"><p>
+								<a
+									href="http://www.zend.com/en/products/studio/features" onclick="return btn_formatter();"><strong>Code
+										Formatter</strong><br /> 3 built-in profiles, import/export options,
+								on/off tags, easy editing & code preview</a>
+							</p>
+							<p>
+								<a href="http://www.zend.com/en/products/studio/features" onclick="return btn_formatter();"><img
+									src="CodeFormatter.gif" width="178" height="125" class="screen" /></a>
+							</p></td>
+						<td width="217" valign="top" style="padding-left: 0px;"><p>
+								<a
+									href="http://www.zend.com" onclick="return btn_newzf2prj();"><strong>Zend
+										Framework Support</strong><br /> Projects, modules, view helpers,
+								controllers, content assist, MVC Outline</a>
+							</p>
+							<p>
+								<a href="http://www.zend.com" onclick="return btn_newzf2prj();"><img
+									src="ZF2.gif" width="178" height="125" class="screen" /></a>
+							</p></td>
+						<td width="217" valign="top" class="screen"><p>
+								<a
+									href="http://www.zend.com/en/products/studio/features" onclick="return btn_target();"><strong>Zend
+										Server Integration</strong><br /> Deployment, PHPCloud.com and
+								OpenShift integration, application monitoring, easy debugging</a>
+							</p>
+							<p>
+								<a href="http://www.zend.com/en/products/studio/features" onclick="return btn_target();"><img
+									src="ZendServer.gif" width="178" height="125" class="screen" /></a>
+							</p></td>
+
+					</tr>
+				</table>
+			</td>
+		</tr>
+
+		<tr>
+			<td height="31" colspan="3"
+				style="background-image: url(subtitle.png); padding-left: 15px; padding-right: 15px;">
+				<table style="width: 100%;">
+					<tr>
+						<td style="text-align: left;"><img src="DiscoverMore.png"
+							style="vertical-align: middle; padding-top: 5px;" /></td>
+						<td style="text-align: right;"><a
+							href="http://www.zend.com/en/products/studio/features" target="_blank"><img
+								src="TryZendStudio.png"
+								style="vertical-align: middle; padding-top: 5px;" />&nbsp;<img
+								src="arrow.png" style="vertical-align: middle;" /> </a></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr
+			style="background-image: url(studio_logo.png); padding: 5px; background-repeat: no-repeat; background-position: left;">
+			<td>
+				<table>
+					<tr>
+						<td valign="top" style="padding-left: 15px; padding-right: 8px;"
+							width="210"><p>
+								<a
+									href="http://www.zend.com/en/products/studio/features"><strong>Cloud
+										Connected Mobile</strong><br /> Multi-platform Web Mobile apps,
+								drag-and-drop interface prototyping and PHP Web Service creation</a>
+							</p>
+							<p>
+								<a href="http://www.zend.com/en/products/studio/features"><img
+									src="MobileEditor.gif" width="178" height="125" class="screen" /></a>
+							</p></td>
+						<td valign="top" width="217"><p>
+								<a
+									href="http://www.zend.com/en/products/studio/features"><strong>Developer
+										Productivity</strong><br /> Streamlined project wizards, code
+								generation, advanced code analysis, refactoring and more...</a>
+							</p>
+							<p>
+								<a href="http://www.zend.com/en/products/studio/features"><img
+									src="DevProductivity.gif" width="178" height="125"
+									class="screen" /></a>
+							</p></td>
+						<td valign="top" width="217"><p>
+								<a
+									href="http://www.zend.com/en/products/studio/features"><strong>PHP
+										Unit Testing</strong><br /> Code Assist, Test Case / Suite Code
+								Generation, Test Results Visual Support, PHP Unit Reports</a>
+							</p>
+							<p>
+								<a href="http://www.zend.com/en/products/studio/features"><img
+									src="PHP-Unit-Testing.gif" width="178" height="125"
+									class="screen" /></a>
+							</p></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
 </body>
 </html>
