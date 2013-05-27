@@ -33,4 +33,3 @@ Export-Package: org.zend.php.common,
  org.zend.php.common.core.utils.crypto,
  org.zend.php.common.core.utils.json,
  org.zend.php.common.welcome
-Import-Package: org.zend.sdklib.target
