@@ -77,12 +77,4 @@
            name="formatter">
      </listener>
   </extension>
-  <extension
-        point="org.zend.php.ui.welcomeLinkListener">
-     <listener
-           class="org.zend.php.common.welcome.LaunchTargetWizard"
-           id="org.zend.php.common.welcome.LaunchTargetWizard.listener"
-           name="target">
-     </listener>
-  </extension>>
 </plugin>
