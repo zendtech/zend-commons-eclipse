@@ -3,7 +3,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.zend</groupId>
-  <artifactId>zend-sdk</artifactId>
+  <artifactId>commons-releng</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
 
@@ -13,21 +13,6 @@
 			<id>kepler</id>
 			<layout>p2</layout>
 			<url>http://download.eclipse.org/releases/kepler</url>
-		</repository>
-		<repository>
-			<id>dltk</id>
-			<layout>p2</layout>
-			<url>http://il-studiodev2.zend.net/targets/dltk</url>
-		</repository>
-		<repository>
-			<id>webapi</id>
-			<layout>p2</layout>
-			<url>http://il-studiodev2.zend.net/targets/webapi</url>
-		</repository>
-		<repository>
-			<id>sdk</id>
-			<layout>p2</layout>
-			<url>http://il-studiodev2.zend.net/targets/sdk</url>
 		</repository>
 		<repository>
 			<id>nebula</id>
