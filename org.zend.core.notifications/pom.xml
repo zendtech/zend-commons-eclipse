@@ -7,7 +7,7 @@
 		<groupId>org.zend</groupId>
 		<artifactId>commons-releng</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
-		<relativePath>../sdk-releng/pom.xml</relativePath>
+		<relativePath>../commons-releng/pom.xml</relativePath>
 	</parent>
 	<groupId>org.zend</groupId>
 	<artifactId>org.zend.core.notifications</artifactId>
