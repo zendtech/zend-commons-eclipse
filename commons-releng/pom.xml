@@ -41,7 +41,7 @@
 		<module>../org.zend.usagedata-feature</module>
 		<module>../org.zend.usagedata.monitors</module>
 		<module>../org.zend.usagedata.ui</module>
-		<module>../org.zend.commons.update-site</module>
+		<module>../org.zend.commons-updatesite</module>
 	</modules>
 	<build>
 		<plugins>
