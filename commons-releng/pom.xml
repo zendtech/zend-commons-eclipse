@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>org.zend</groupId>
-  <artifactId>commons-releng</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <packaging>pom</packaging>
-
-
-  <repositories>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.zend</groupId>
+	<artifactId>commons-releng</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<repositories>
 		<repository>
 			<id>kepler</id>
 			<layout>p2</layout>
@@ -34,27 +33,25 @@
 			<layout>p2</layout>
 			<url>http://download.eclipse.org/eclipse/updates/3.8</url>
 		</repository>
-  </repositories>
-
-  <modules>
-    <module>../org.zend.core.notifications</module>
-    <module>../org.zend.php.common</module>
-    <module>../org.zend.php.common-feature</module>
-    <module>../org.zend.usagedata</module>
-    <module>../org.zend.usagedata-feature</module>
-    <module>../org.zend.usagedata.monitors</module>
-    <module>../org.zend.usagedata.ui</module>
-    <module>../org.zend.commons.update-site</module>
-  </modules>
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.eclipse.tycho</groupId>
-        <artifactId>tycho-maven-plugin</artifactId>
-        <version>0.17.0</version>
-        <extensions>true</extensions>
-      </plugin>
-	<plugin>
+	</repositories>
+	<modules>
+		<module>../org.zend.core.notifications</module>
+		<module>../org.zend.notifications.feature</module>
+		<module>../org.zend.usagedata</module>
+		<module>../org.zend.usagedata-feature</module>
+		<module>../org.zend.usagedata.monitors</module>
+		<module>../org.zend.usagedata.ui</module>
+		<module>../org.zend.commons.update-site</module>
+	</modules>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-maven-plugin</artifactId>
+				<version>0.17.0</version>
+				<extensions>true</extensions>
+			</plugin>
+			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
 				<artifactId>target-platform-configuration</artifactId>
 				<version>0.17.0</version>
@@ -88,6 +85,6 @@
 					</environments>
 				</configuration>
 			</plugin>
-    </plugins>
-  </build>
+		</plugins>
+	</build>
 </project>
