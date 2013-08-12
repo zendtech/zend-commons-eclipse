@@ -9,25 +9,25 @@
 	<packaging>pom</packaging>
 	<repositories>
 		<repository>
-			<id>nebula</id>
+			<id>zend-dltk</id>
 			<layout>p2</layout>
-			<url>http://download.eclipse.org/technology/nebula/snapshot</url>
+			<url>http://il-studiodev2.zend.net/targets/zend-dltk</url>
 		</repository>
 		<repository>
-			<id>pdt-dev</id>
+			<id>zend-pdt</id>
 			<layout>p2</layout>
-			<url>http://il-studiodev2.zend.net/targets/pdt</url>
+			<url>http://il-studiodev2.zend.net/targets/zend-pdt</url>
 		</repository>
-		<repository>
-			<id>orbit</id>
-			<layout>p2</layout>
-			<url>http://il-studiodev2.zend.net:8080/job/MirrorOrbit/lastSuccessfulBuild/artifact/mirrors/orbit/target/repository</url>
-		</repository>
-		<repository>
-			<id>kepler</id>
-			<layout>p2</layout>
-			<url>http://il-studiodev2.zend.net:8080/job/MirrorKepler/lastSuccessfulBuild/artifact/mirrors/kepler/target/repository</url>
-		</repository>
+		<!-- <repository> -->
+		<!-- <id>orbit</id> -->
+		<!-- <layout>p2</layout> -->
+		<!-- <url>http://il-studiodev2.zend.net:8080/job/MirrorOrbit/lastSuccessfulBuild/artifact/mirrors/orbit/target/repository</url> -->
+		<!-- </repository> -->
+		<!-- <repository> -->
+		<!-- <id>kepler</id> -->
+		<!-- <layout>p2</layout> -->
+		<!-- <url>http://il-studiodev2.zend.net:8080/job/MirrorKepler/lastSuccessfulBuild/artifact/mirrors/kepler/target/repository</url> -->
+		<!-- </repository> -->
 		<repository>
 			<id>3x</id>
 			<layout>p2</layout>
@@ -72,11 +72,11 @@
 							<ws>win32</ws>
 							<arch>x86</arch>
 						</environment>
-						<environment>
-							<os>win32</os>
-							<ws>win32</ws>
-							<arch>x86_64</arch>
-						</environment>
+						<!-- <environment> -->
+						<!-- <os>win32</os> -->
+						<!-- <ws>win32</ws> -->
+						<!-- <arch>x86_64</arch> -->
+						<!-- </environment> -->
 						<environment>
 							<os>macosx</os>
 							<ws>cocoa</ws>
