@@ -36,7 +36,7 @@
 	</repositories>
 	<modules>
 		<module>../org.zend.core.notifications</module>
-		<module>../org.zend.notifications.feature</module>
+		<module>../org.zend.notifications-feature</module>
 		<module>../org.zend.usagedata</module>
 		<module>../org.zend.usagedata-feature</module>
 		<module>../org.zend.usagedata.monitors</module>
