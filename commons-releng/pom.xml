@@ -18,20 +18,20 @@
 			<layout>p2</layout>
 			<url>http://il-studiodev2.zend.net/targets/zend-pdt</url>
 		</repository>
-		<!-- <repository> -->
-		<!-- <id>orbit</id> -->
-		<!-- <layout>p2</layout> -->
-		<!-- <url>http://il-studiodev2.zend.net:8080/job/MirrorOrbit/lastSuccessfulBuild/artifact/mirrors/orbit/target/repository</url> -->
-		<!-- </repository> -->
-		<!-- <repository> -->
-		<!-- <id>kepler</id> -->
-		<!-- <layout>p2</layout> -->
-		<!-- <url>http://il-studiodev2.zend.net:8080/job/MirrorKepler/lastSuccessfulBuild/artifact/mirrors/kepler/target/repository</url> -->
-		<!-- </repository> -->
 		<repository>
-			<id>3x</id>
+			<id>orbit</id>
 			<layout>p2</layout>
-			<url>http://il-studiodev2.zend.net:8080/job/MirrorEclipseUpdates38/lastSuccessfulBuild/artifact/mirrors/eclipseupdates38/target/repository</url>
+			<url>http://il-studiodev2.zend.net:8080/job/MirrorOrbit/lastSuccessfulBuild/artifact/mirrors/orbit/target/repository</url>
+		</repository>
+		<repository>
+			<id>kepler</id>
+			<layout>p2</layout>
+			<url>http://il-studiodev2.zend.net:8080/job/MirrorKepler/lastSuccessfulBuild/artifact/mirrors/kepler/target/repository</url>
+		</repository>
+		<repository>
+			<id>4x</id>
+			<layout>p2</layout>
+			<url>http://il-studiodev2.zend.net:8080/view/Mirrors/job/MirrorEclipseUpdates43/lastSuccessfulBuild/artifact/mirrors/eclipseupdates43/target/repository</url>
 		</repository>
 	</repositories>
 	<modules>
