@@ -16,7 +16,7 @@
 		<repository>
 			<id>zend-pdt</id>
 			<layout>p2</layout>
-			<url>http://il-studiodev2.zend.net:8080/job/zend-dltk/lastSuccessfulBuild/artifact/result</url>
+			<url>http://il-studiodev2.zend.net:8080/job/zend-pdt/lastSuccessfulBuild/artifact/result/</url>
 		</repository>
 		<repository>
 			<id>orbit</id>
