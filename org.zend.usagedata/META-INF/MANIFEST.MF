@@ -7,7 +7,7 @@ Bundle-Activator: org.zend.usagedata.UsageDataActivator
 Bundle-Vendor: Zend Technologies Ltd.
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui;bundle-version="3.7.0",
- org.apache.commons.httpclient;bundle-version="3.1.0"
+ org.apache.commons.httpclient
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Export-Package: org.zend.usagedata,
