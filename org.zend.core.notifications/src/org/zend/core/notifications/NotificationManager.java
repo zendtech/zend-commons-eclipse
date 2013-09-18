@@ -87,6 +87,45 @@ public class NotificationManager implements INotificationChangeListener {
 	}
 
 	/**
+	 * Register new notification in global notification manager. In result it
+	 * will be added to waiting queue and be there until it will be possible to
+	 * display it. Waiting time is determined by maximal number of notifications
+	 * which can be displayed in the same time on the screen. There are two
+	 * possible limitations:
+	 * <ul>
+	 * <li>height of a screen - new notifications are displayed until they can
+	 * fit on the screen,</li>
+	 * <li>limit is defined - plug-in preference define limit of the number of
+	 * notifications which can be displayed at once.</li>
+	 * </ul>
+	 * 
+	 * @param notification
+	 * @param listener
+	 *            it should be added if some actions should be performed after
+	 *            progress is completed
+	 */
+	public static void registerNotification(final INotification notification,
+			final INotificationChangeListener listener) {
+		final NotificationManager manager = getInstance();
+		manager.queue.add(notification);
+		Display.getDefault().asyncExec(new Runnable() {
+
+			public void run() {
+				if (manager.resolve(notification)) {
+					notification.addChangeListener(manager);
+					notification.addChangeListener(listener);
+					if (manager.queue.size() > 0) {
+						INotification toAdd = manager.queue.remove(0);
+						manager.addActive(toAdd);
+					} else {
+						manager.queue.remove(notification);
+					}
+				}
+			}
+		});
+	}
+
+	/**
 	 * Create new {@link INotification} instance with provided settings.
 	 * 
 	 * @param settings
@@ -287,6 +326,51 @@ public class NotificationManager implements INotificationChangeListener {
 			registerNotification(new ProgressNotification(settings, runnable,
 					getInstance()));
 		}
+	}
+
+	/**
+	 * Create and register new {@link INotification} instance which support
+	 * progress monitoring using default configuration with following features:
+	 * <ul>
+	 * <li>type is {@link NotificationType#INFO},</li>
+	 * <li>close button,</li>
+	 * <li>border is visible,</li>
+	 * <li>title and message are set according to provided arguments as
+	 * parameters.</li>
+	 * <li>gradient background with default colors.</li>
+	 * </ul>
+	 * This notification provide ability to show progress of a process which is
+	 * performed. It has fixed height so it is not calculated based on
+	 * notification body content.
+	 * 
+	 * @param title
+	 *            notification title
+	 * @param message
+	 *            notification message
+	 * @param runnable
+	 *            process which should be run
+	 * @param closable
+	 *            if <code>true</code> then it will be possible to close
+	 *            notification manually
+	 * @param listener
+	 *            it should be added if some actions should be performed after
+	 *            progress is completed
+	 */
+	public static void registerProgress(String title, String message,
+			IRunnableWithProgress runnable, boolean closable,
+			INotificationChangeListener listener) {
+		NotificationSettings settings = new NotificationSettings();
+		settings.setTitle(title).setType(NotificationType.INFO).setBorder(true)
+				.setClosable(closable).setMessage(message);
+		Shell parent = Activator.getDefault().getParent();
+		INotification n = null;
+		if (parent != null) {
+			n = new ProgressNotification(parent, settings, runnable,
+					getInstance());
+		} else {
+			n = new ProgressNotification(settings, runnable, getInstance());
+		}
+		registerNotification(n, listener);
 	}
 
 	public void statusChanged(INotification notification) {
