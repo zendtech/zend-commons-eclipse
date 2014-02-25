@@ -7,7 +7,7 @@ Bundle-Activator: org.zend.usagedata.ui.internal.UIUsageDataActivator
 Bundle-Vendor: Zend Technologies Ltd.
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- org.zend.usagedata;bundle-version="1.0.0",
- org.zend.core.notifications;bundle-version="1.0.0"
+ org.zend.usagedata,
+ org.zend.core.notifications
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
