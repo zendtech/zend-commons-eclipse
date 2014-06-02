@@ -18,6 +18,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TaskBar;
 import org.eclipse.swt.widgets.TaskItem;
+import org.zend.core.notifications.internal.ui.MessageWithHelpBody;
 import org.zend.core.notifications.internal.ui.Notification;
 import org.zend.core.notifications.internal.ui.progress.ProgressNotification;
 import org.zend.core.notifications.ui.ActionType;
@@ -373,6 +374,87 @@ public class NotificationManager implements INotificationChangeListener {
 		registerNotification(n, listener);
 	}
 
+	/**
+	 * Show info notification which contains a message with one link to help.
+	 * 
+	 * @param title
+	 *            notification title
+	 * @param message
+	 *            notification message
+	 * @param helpContextId
+	 *            help context id
+	 * @param delay
+	 *            time in ms after which notification should be hidden
+	 */
+	public static void showInfoWithHelp(String title, String message,
+			String helpContextId, int delay) {
+		showMessageWithHelp(title, message, helpContextId, delay,
+				NotificationType.INFO, false, null);
+	}
+
+	/**
+	 * Show info notification which contains a message with one link to help and
+	 * "Do not show this message again" checkbox.
+	 * 
+	 * @param title
+	 *            notification title
+	 * @param message
+	 *            notification message
+	 * @param helpContextId
+	 *            help context id
+	 * @param delay
+	 *            time in ms after which notification should be hidden
+	 * @param messageId
+	 *            id which will be used as a preference key to store
+	 *            "do not show again" checkbox selection
+	 * 
+	 */
+	public static void showInfoWithHelp(String title, String message,
+			String helpContextId, int delay, String messageId) {
+		showMessageWithHelp(title, message, helpContextId, delay,
+				NotificationType.INFO, true, messageId);
+	}
+
+	/**
+	 * Show warning notification which contains a message with one link to help.
+	 * 
+	 * @param title
+	 *            notification title
+	 * @param message
+	 *            notification message
+	 * @param helpContextId
+	 *            help context id
+	 * @param delay
+	 *            time in ms after which notification should be hidden
+	 */
+	public static void showWarningWithHelp(String title, String message,
+			String helpContextId, int delay) {
+		showMessageWithHelp(title, message, helpContextId, delay,
+				NotificationType.WARNING, false, null);
+	}
+
+	/**
+	 * Show warning notification which contains a message with one link to help
+	 * and "Do not show this message again" checkbox.
+	 * 
+	 * @param title
+	 *            notification title
+	 * @param message
+	 *            notification message
+	 * @param helpContextId
+	 *            help context id
+	 * @param delay
+	 *            time in ms after which notification should be hidden
+	 * @param messageId
+	 *            id which will be used as a preference key to store
+	 *            "do not show again" checkbox selection
+	 */
+	public static void showWarningWithHelp(String title, String message,
+			String helpContextId, int delay, String messageId) {
+		showMessageWithHelp(title, message, helpContextId, delay,
+				NotificationType.WARNING, true, messageId);
+	}
+
 	public void statusChanged(INotification notification) {
 		removeActive(notification);
 		if (queue.size() == 0) {
@@ -493,6 +575,60 @@ public class NotificationManager implements INotificationChangeListener {
 			String value = size > 0 ? String.valueOf(size) : ""; //$NON-NLS-1$
 			item.setOverlayText(value);
 		}
+	}
+
+	/**
+	 * Show notification of specified type which contains a message with one
+	 * link to help.
+	 * 
+	 * @param title
+	 *            notification title
+	 * @param message
+	 *            notification message
+	 * @param helpContextId
+	 *            help context id
+	 * @param delay
+	 *            time in ms after which notification should be hidden
+	 * @param type
+	 *            notification type
+	 * @param doNotShow
+	 *            if <code>true</code> then "do not show" checkbox is added to
+	 *            the notification
+	 * @param messageId
+	 *            it is requited if doNotShow parameter is true
+	 */
+	private static void showMessageWithHelp(String title, String message,
+			String helpContextId, int delay, NotificationType type,
+			boolean doNotShow, String messageId) {
+		MessageWithHelpBody body = new MessageWithHelpBody(message,
+				helpContextId);
+		if (doNotShow && messageId != null) {
+			body.doNotShowCheckbox(true, messageId);
+		}
+		NotificationSettings settings = new NotificationSettings();
+		settings.setTitle(title).setType(NotificationType.INFO).setBody(body)
+				.setBorder(true).setDelay(delay).setClosable(true)
+				.setType(type);
+		if (shouldShow(messageId)) {
+			NotificationManager.registerNotification(NotificationManager
+					.createNotification(settings));
+		}
+	}
+
+	/**
+	 * Check if message should be displayed again.
+	 * 
+	 * @param messageId
+	 * @return <code>true</code> if message should be displayed; otherwise
+	 *         return <code>false</code>
+	 */
+	private static boolean shouldShow(String messageId) {
+		if (messageId != null) {
+			IEclipsePreferences prefs = InstanceScope.INSTANCE
+					.getNode(Activator.PLUGIN_ID);
+			return prefs.getBoolean(messageId, false);
+		}
+		return true;
 	}
 
 }
