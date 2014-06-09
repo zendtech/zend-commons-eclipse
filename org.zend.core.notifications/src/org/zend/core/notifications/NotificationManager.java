@@ -626,7 +626,7 @@ public class NotificationManager implements INotificationChangeListener {
 		if (messageId != null) {
 			IEclipsePreferences prefs = InstanceScope.INSTANCE
 					.getNode(Activator.PLUGIN_ID);
-			return prefs.getBoolean(messageId, false);
+			return prefs.getBoolean(messageId, true);
 		}
 		return true;
 	}
