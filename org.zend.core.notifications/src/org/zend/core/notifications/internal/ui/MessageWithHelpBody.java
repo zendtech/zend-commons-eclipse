@@ -60,9 +60,8 @@ public class MessageWithHelpBody implements IBody {
 		if (helpContextId != null) {
 			text.addSelectionListener(new SelectionAdapter() {
 				@Override
-				public void widgetSelected(SelectionEvent selectionEvent) {
-					PlatformUI.getWorkbench().getHelpSystem()
-							.displayHelp(helpContextId);
+				public void widgetSelected(SelectionEvent selectionEvent) {				
+					org.eclipse.swt.program.Program.launch(helpContextId);
 				}
 			});
 		}
