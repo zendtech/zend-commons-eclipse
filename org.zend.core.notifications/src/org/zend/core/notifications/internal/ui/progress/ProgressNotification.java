@@ -28,7 +28,6 @@ import org.zend.core.notifications.Activator;
 import org.zend.core.notifications.NotificationManager;
 import org.zend.core.notifications.internal.ui.Notification;
 import org.zend.core.notifications.ui.NotificationSettings;
-import org.zend.core.notifications.util.FontName;
 import org.zend.core.notifications.util.Fonts;
 
 /**
@@ -92,7 +91,7 @@ public class ProgressNotification extends Notification {
 		layout.horizontalSpacing = layout.verticalSpacing = 2;
 		composite.setLayout(layout);
 		message = new Label(composite, SWT.WRAP);
-		message.setFont(Fonts.get(FontName.DEFAULT));
+		message.setFont(Fonts.DEFAULT.getFont());
 		message.setLayoutData(new GridData(GridData.FILL_BOTH));
 		message.setForeground(Display.getDefault().getSystemColor(
 				SWT.COLOR_BLACK));

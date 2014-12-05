@@ -18,12 +18,10 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Link;
 import org.eclipse.swt.widgets.Menu;
-import org.eclipse.ui.PlatformUI;
 import org.zend.core.notifications.Activator;
 import org.zend.core.notifications.ui.IActionListener;
 import org.zend.core.notifications.ui.IBody;
 import org.zend.core.notifications.ui.NotificationSettings;
-import org.zend.core.notifications.util.FontName;
 import org.zend.core.notifications.util.Fonts;
 
 /**
@@ -54,13 +52,13 @@ public class MessageWithHelpBody implements IBody {
 		layout.horizontalSpacing = layout.verticalSpacing = 2;
 		composite.setLayout(layout);
 		Link text = new Link(composite, SWT.WRAP);
-		text.setFont(Fonts.get(FontName.DEFAULT));
+		text.setFont(Fonts.DEFAULT.getFont());
 		text.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, true, true));
 		text.setText(message);
 		if (helpContextId != null) {
 			text.addSelectionListener(new SelectionAdapter() {
 				@Override
-				public void widgetSelected(SelectionEvent selectionEvent) {				
+				public void widgetSelected(SelectionEvent selectionEvent) {
 					org.eclipse.swt.program.Program.launch(helpContextId);
 				}
 			});

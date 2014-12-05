@@ -47,9 +47,7 @@ import org.zend.core.notifications.ui.INotificationChangeListener;
 import org.zend.core.notifications.ui.NotificationSettings;
 import org.zend.core.notifications.util.Colors;
 import org.zend.core.notifications.util.EnvironmentUtils;
-import org.zend.core.notifications.util.FontName;
 import org.zend.core.notifications.util.Fonts;
-import org.zend.core.notifications.util.ImageCache;
 
 public class Notification implements IActionListener, INotification {
 
@@ -291,7 +289,7 @@ public class Notification implements IActionListener, INotification {
 			layout.horizontalSpacing = layout.verticalSpacing = 2;
 			body.setLayout(layout);
 			Label text = new Label(body, SWT.WRAP);
-			text.setFont(Fonts.get(FontName.DEFAULT));
+			text.setFont(Fonts.DEFAULT.getFont());
 			text.setLayoutData(new GridData(GridData.FILL_BOTH));
 			text.setForeground(Display.getDefault().getSystemColor(
 					SWT.COLOR_BLACK));
@@ -348,7 +346,7 @@ public class Notification implements IActionListener, INotification {
 		titleLabel.setText(settings.getTitle());
 		titleLabel.setForeground(Colors.getColorRegistry().get(
 				"org.eclipse.ui.workbench.INACTIVE_TAB_TEXT_COLOR")); //$NON-NLS-1$
-		titleLabel.setFont(Fonts.get(FontName.BOLD));
+		titleLabel.setFont(Fonts.BOLD.getFont());
 	}
 
 	protected void createImage(Composite container) {
@@ -367,22 +365,22 @@ public class Notification implements IActionListener, INotification {
 			final CLabel button = new CLabel(container, SWT.NONE);
 			button.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_BEGINNING
 					| GridData.HORIZONTAL_ALIGN_BEGINNING));
-			button.setImage(ImageCache.getCloseOut());
+			button.setImage(Activator.getCloseOut());
 			button.addMouseTrackListener(new MouseTrackAdapter() {
 				@Override
 				public void mouseEnter(MouseEvent e) {
-					button.setImage(ImageCache.getCloseIn());
+					button.setImage(Activator.getCloseIn());
 				}
 
 				@Override
 				public void mouseExit(MouseEvent e) {
-					button.setImage(ImageCache.getCloseOut());
+					button.setImage(Activator.getCloseOut());
 				}
 			});
 			button.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseUp(MouseEvent e) {
-					button.setImage(ImageCache.getCloseOut());
+					button.setImage(Activator.getCloseOut());
 					hide();
 					statusChanged();
 				}

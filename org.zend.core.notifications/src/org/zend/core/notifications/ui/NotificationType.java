@@ -8,7 +8,7 @@
 package org.zend.core.notifications.ui;
 
 import org.eclipse.swt.graphics.Image;
-import org.zend.core.notifications.util.ImageCache;
+import org.zend.core.notifications.Activator;
 
 /**
  * Represents notification type.
@@ -18,11 +18,11 @@ import org.zend.core.notifications.util.ImageCache;
  */
 public enum NotificationType {
 
-	ERROR(ImageCache.getImage("icons/error.png")), //$NON-NLS-1$
+	ERROR(Activator.getDefault().getImage("icons/error.png")), //$NON-NLS-1$
 
-	WARNING(ImageCache.getImage("icons/warn.png")), //$NON-NLS-1$
+	WARNING(Activator.getDefault().getImage("icons/warn.png")), //$NON-NLS-1$
 
-	INFO(ImageCache.getImage("icons/info.png")), //$NON-NLS-1$
+	INFO(Activator.getDefault().getImage("icons/info.png")), //$NON-NLS-1$
 
 	CUSTOM(null);
 
