@@ -27,7 +27,6 @@ import org.zend.core.notifications.ui.ActionType;
 import org.zend.core.notifications.ui.IActionListener;
 import org.zend.core.notifications.ui.IBody;
 import org.zend.core.notifications.ui.NotificationSettings;
-import org.zend.core.notifications.util.FontName;
 import org.zend.core.notifications.util.Fonts;
 import org.zend.usagedata.UsageDataActivator;
 import org.zend.usagedata.ui.internal.Messages;
@@ -71,12 +70,13 @@ public class UsageNotificationBody implements IBody {
 
 	private void createDescription(Composite composite) {
 		Link label = new Link(composite, SWT.NONE);
-		label.setFont(Fonts.get(FontName.DEFAULT));
+		label.setFont(Fonts.DEFAULT.getFont());
 		label.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, true, true, 3, 1));
 		label.setText(MessageFormat.format(
 				Messages.UIPreUploadListener_Description, UIUsageDataActivator
 						.getDefault().getProductName()));
 		label.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				Display.getDefault().syncExec(new Runnable() {
 
