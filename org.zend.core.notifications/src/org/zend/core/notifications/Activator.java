@@ -18,7 +18,6 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
-import org.zend.core.notifications.util.ColorCache;
 import org.zend.core.notifications.util.Fonts;
 import org.zend.core.notifications.util.ImageCache;
 
@@ -48,6 +47,7 @@ public class Activator extends AbstractUIPlugin {
 	 * org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext
 	 * )
 	 */
+	@Override
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
@@ -61,6 +61,7 @@ public class Activator extends AbstractUIPlugin {
 	 * org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext
 	 * )
 	 */
+	@Override
 	public void stop(BundleContext context) throws Exception {
 		plugin = null;
 		super.stop(context);
@@ -70,7 +71,6 @@ public class Activator extends AbstractUIPlugin {
 			d.asyncExec(new Runnable() {
 				public void run() {
 					ImageCache.dispose();
-					ColorCache.dispose();
 					Fonts.dispose();
 				}
 			});

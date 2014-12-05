@@ -13,7 +13,7 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.zend.core.notifications.Activator;
 import org.zend.core.notifications.internal.ui.Notification;
-import org.zend.core.notifications.util.ColorCache;
+import org.zend.core.notifications.util.Colors;
 
 /**
  * 
@@ -317,13 +317,14 @@ public class NotificationSettings {
 
 	/**
 	 * Returns gradient end color. If {@link NotificationSettings#isGradient()}
-	 * returns <code>false</code> this value is used as a notification backgroud
+	 * returns <code>false</code> this value is used as a notification background
 	 * color.
 	 * 
 	 * @return color which is used as a end of a gradient
 	 */
 	public Color getGradientTo() {
-		return ColorCache.getColor(235, 242, 251);
+		return Colors.getColorRegistry().get(
+				"org.eclipse.ui.workbench.INACTIVE_TAB_BG_START"); //$NON-NLS-1$
 	}
 
 	/**
@@ -334,7 +335,8 @@ public class NotificationSettings {
 	 * @return color from which gradient is started.
 	 */
 	public Color getGradientFrom() {
-		return ColorCache.getColor(254, 255, 254);
+		return Colors.getColorRegistry()
+				.get("org.eclipse.ui.workbench.INACTIVE_TAB_BG_END"); //$NON-NLS-1$
 	}
 
 	/**
@@ -344,7 +346,8 @@ public class NotificationSettings {
 	 * @return border color
 	 */
 	public Color getBorderColor() {
-		return ColorCache.getColor(177, 177, 177);
+		return Colors.getColorRegistry()
+				.get("org.eclipse.ui.workbench.INACTIVE_TAB_TEXT_COLOR"); //$NON-NLS-1$
 	}
 
 	/**

@@ -45,7 +45,7 @@ import org.zend.core.notifications.ui.IComparator;
 import org.zend.core.notifications.ui.INotification;
 import org.zend.core.notifications.ui.INotificationChangeListener;
 import org.zend.core.notifications.ui.NotificationSettings;
-import org.zend.core.notifications.util.ColorCache;
+import org.zend.core.notifications.util.Colors;
 import org.zend.core.notifications.util.EnvironmentUtils;
 import org.zend.core.notifications.util.FontName;
 import org.zend.core.notifications.util.Fonts;
@@ -137,6 +137,7 @@ public class Notification implements IActionListener, INotification {
 		return settings.getHeight();
 	}
 
+	@Override
 	public boolean equals(Object obj) {
 		if (super.equals(obj)) {
 			return true;
@@ -307,6 +308,7 @@ public class Notification implements IActionListener, INotification {
 		closeItem.setText(Messages.Notification_ContextMenuClose);
 		closeItem.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				hide();
 			}
@@ -315,6 +317,7 @@ public class Notification implements IActionListener, INotification {
 		closeAllItem.setText(Messages.Notification_ContextMenuCloseAll);
 		closeAllItem.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				manager.hideAll();
 			}
@@ -343,7 +346,8 @@ public class Notification implements IActionListener, INotification {
 		titleLabel.setLayoutData(new GridData(GridData.FILL_HORIZONTAL
 				| GridData.VERTICAL_ALIGN_CENTER));
 		titleLabel.setText(settings.getTitle());
-		titleLabel.setForeground(ColorCache.getColor(74, 94, 116));
+		titleLabel.setForeground(Colors.getColorRegistry().get(
+				"org.eclipse.ui.workbench.INACTIVE_TAB_TEXT_COLOR")); //$NON-NLS-1$
 		titleLabel.setFont(Fonts.get(FontName.BOLD));
 	}
 
