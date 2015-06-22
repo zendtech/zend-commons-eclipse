@@ -3,8 +3,8 @@
    <feature url="features/org.zend.notifications.feature_1.0.0.qualifier.jar" id="org.zend.notifications.feature" version="1.0.0.qualifier">
       <category name="org.zend.commons"/>
    </feature>
-   <feature url="features/org.zend.usagedata_1.0.1.qualifier.jar" id="org.zend.usagedata" version="1.0.1.qualifier">
+   <!--feature url="features/org.zend.usagedata_1.0.1.qualifier.jar" id="org.zend.usagedata" version="1.0.1.qualifier">
       <category name="org.zend.commons"/>
-   </feature>
+   </feature-->
    <category-def name="org.zend.commons" label="Zend Commons Eclipse Features"/>
 </site>

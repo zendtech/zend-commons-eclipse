@@ -10,14 +10,14 @@
 	<modules>
 		<module>../org.zend.core.notifications</module>
 		<module>../org.zend.notifications-feature</module>
-		<module>../org.zend.usagedata</module>
+		<!-- module>../org.zend.usagedata</module>
 		<module>../org.zend.usagedata-feature</module>
 		<module>../org.zend.usagedata.monitors</module>
-		<module>../org.zend.usagedata.ui</module>
+		<module>../org.zend.usagedata.ui</module -->
 		<module>../org.zend.commons-updatesite</module>
 	</modules>
 	<properties>
-		<tycho-version>0.18.1</tycho-version>
+		<tycho-version>0.23.0</tycho-version>
 	</properties>
 	<build>
 		<plugins>
@@ -48,11 +48,11 @@
 							<ws>win32</ws>
 							<arch>x86</arch>
 						</environment>
-						<!-- <environment> -->
-						<!-- <os>win32</os> -->
-						<!-- <ws>win32</ws> -->
-						<!-- <arch>x86_64</arch> -->
-						<!-- </environment> -->
+						<environment>
+							<os>win32</os>
+							<ws>win32</ws>
+							<arch>x86_64</arch>
+						</environment>
 						<environment>
 							<os>macosx</os>
 							<ws>cocoa</ws>
@@ -84,29 +84,23 @@
 	<profiles>
 		<profile>
 			<id>sign</id>
-			<activation>
-				<property>
-					<name>sign</name>
-				</property>
-			</activation>
 			<build>
 				<plugins>
 					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-jarsigner-plugin</artifactId>
-						<version>1.2</version>
+						<version>1.4</version>
+						<configuration>
+							<tsa>https://timestamp.geotrust.com/tsa</tsa>
+						</configuration>
 						<executions>
 							<execution>
-								<phase>package</phase>
+								<id>sign</id>
 								<goals>
 									<goal>sign</goal>
 								</goals>
 							</execution>
 						</executions>
-						<configuration>
-							<keystore>${keystore}</keystore>
-							<alias>zend</alias>
-							<storepass>${password}</storepass>
-						</configuration>
 					</plugin>
 				</plugins>
 			</build>
