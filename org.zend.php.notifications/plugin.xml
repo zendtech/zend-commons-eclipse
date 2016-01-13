@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.mylyn.commons.notifications.ui.notifications">
+      <category
+                     icon="icons/obj16/zend_server.png"
+                     id="org.zend.php.notifications.studio.startup"
+                     label="%category.name.0">
+      </category>
+      <sink
+            class="org.zend.php.notifications.popup.PopupNotificationSink"
+            id="org.zend.php.notifications.sink.popup"
+            label="%sink.name.0">
+      </sink>
+   </extension>
+</plugin>

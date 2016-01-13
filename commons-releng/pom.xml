@@ -9,6 +9,7 @@
 	<packaging>pom</packaging>
 	<modules>
 		<module>../org.zend.core.notifications</module>
+		<module>../org.zend.php.notifications</module>
 		<module>../org.zend.notifications-feature</module>
 		<!-- module>../org.zend.usagedata</module>
 		<module>../org.zend.usagedata-feature</module>
