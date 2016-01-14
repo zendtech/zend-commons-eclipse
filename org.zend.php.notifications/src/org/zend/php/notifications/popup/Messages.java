@@ -10,7 +10,7 @@ package org.zend.php.notifications.popup;
 import org.eclipse.osgi.util.NLS;
 
 public class Messages extends NLS {
-	private static final String BUNDLE_NAME = "org.zend.php.zendserver.deployment.ui.notifications.base.messages"; //$NON-NLS-1$
+	private static final String BUNDLE_NAME = "org.zend.php.notifications.popup.messages"; //$NON-NLS-1$
 	public static String PopupNotificationSink_JobName;
 
 	static {
