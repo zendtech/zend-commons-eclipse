@@ -4,7 +4,7 @@ Bundle-Name: Notifications
 Bundle-SymbolicName: org.zend.core.notifications; singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.zend.core.notifications.Activator
-Bundle-Vendor: Zend Technologies Ltd.
+Bundle-Vendor: Rogue Wave Software, Inc.
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime
 Bundle-RequiredExecutionEnvironment: J2SE-1.5

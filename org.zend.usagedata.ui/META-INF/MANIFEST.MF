@@ -4,7 +4,7 @@ Bundle-Name: Ui
 Bundle-SymbolicName: org.zend.usagedata.ui;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.zend.usagedata.ui.internal.UIUsageDataActivator
-Bundle-Vendor: Zend Technologies Ltd.
+Bundle-Vendor: Rogue Wave Software, Inc.
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.zend.usagedata,

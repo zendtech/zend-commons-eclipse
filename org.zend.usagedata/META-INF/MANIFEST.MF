@@ -4,7 +4,7 @@ Bundle-Name: Zend Usage Data Collector
 Bundle-SymbolicName: org.zend.usagedata;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.zend.usagedata.UsageDataActivator
-Bundle-Vendor: Zend Technologies Ltd.
+Bundle-Vendor: Rogue Wave Software, Inc.
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui;bundle-version="3.7.0",
  org.apache.commons.httpclient
